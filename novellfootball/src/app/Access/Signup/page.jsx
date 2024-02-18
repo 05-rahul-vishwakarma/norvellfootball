@@ -45,6 +45,10 @@ const Signup = () => {
     hidden: { opacity: 0.6, y: 50 },
     visible: { opacity: 1, y: 0 },
   };
+  const itemVariants2 = {
+    hidden: { opacity: 0.6, y: -50 },
+    visible: { opacity: 1, y: 0 },
+  };
 
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
@@ -133,30 +137,31 @@ const Signup = () => {
               update={update}
             />
           </div>
-
-          <motion.div variants={itemVariants}>
-            <label
-              htmlFor="User"
-              className="block text-sm font-semibold leading-6 text-balance"
-            >
-              Invite Code
-            </label>
-            <Input
-              credentials={credentials}
-              inputType="number"
-              image="invite.png"
-              id="Invitation"
-              update={update}
-              required={false}
-            />
-          </motion.div>
-          <motion.div variants={itemVariants}>
-            <button
-              type="submit"
-              className="flex w-full justify-center rounded-md bg-blue-500 px-3 py-[0.6rem] font-semibold leading-6 text-white shadow-sm hover:bg-blue-400 "
-            >
-              Login
-            </button>
+          <motion.div variants={containerVariants}>
+            <motion.div variants={itemVariants2}>
+              <label
+                htmlFor="User"
+                className="block text-sm font-semibold leading-6 text-balance"
+              >
+                Invite Code
+              </label>
+              <Input
+                credentials={credentials}
+                inputType="number"
+                image="invite.png"
+                id="Invitation"
+                update={update}
+                required={false}
+              />
+            </motion.div>
+            <motion.div variants={itemVariants2}>
+              <button
+                type="submit"
+                className="flex w-full justify-center rounded-md bg-blue-500 px-3 py-[0.6rem] font-semibold leading-6 text-white shadow-sm hover:bg-blue-400 "
+              >
+                Login
+              </button>
+            </motion.div>
           </motion.div>
 
           <div className="inline-flex items-center">
