@@ -35,29 +35,29 @@ const Signup = () => {
       transition: {
         delay: 0.5,
         staggerChildren: 0.1,
-        type: "spring",
         damping: 15,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0.6, y: 50 },
+    hidden: { opacity: 0, y: 150 },
     visible: { opacity: 1, y: 0 },
   };
   const itemVariants2 = {
-    hidden: { opacity: 0.6, y: -50 },
+    hidden: { opacity: 0, y: -150 },
     visible: { opacity: 1, y: 0 },
   };
 
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <motion.form className="space-y-6">
+        <motion.form className="space-y-3">
           <motion.div
             initial="hidden"
             animate="visible"
             variants={containerVariants}
+            className="space-y-3"
           >
             <motion.div variants={itemVariants}>
               <label
@@ -90,54 +90,66 @@ const Signup = () => {
               />
             </motion.div>
           </motion.div>
-          <div>
-            <label
-              htmlFor="User"
-              className="block text-sm font-semibold leading-6 text-balance"
-            >
-              Email ID
-            </label>
-            <Input
-              credentials={credentials}
-              inputType="email"
-              image="email.png"
-              id="Email"
-              update={update}
-            />
-          </div>
-          <div>
-            <div className="flex items-center justify-between">
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
+            className="space-y-3"
+          >
+            <motion.div variants={itemVariants2}>
               <label
-                htmlFor="password"
-                className="block text-sm font-semibold leading-6 text-black"
+                htmlFor="User"
+                className="block text-sm font-semibold leading-6 text-balance"
               >
-                Password
+                Email ID
               </label>
-            </div>
-            <Input
-              credentials={credentials}
-              inputType="password"
-              id="Password"
-              image="lock.png"
-              update={update}
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="User"
-              className="block text-sm font-semibold leading-6 text-balance"
-            >
-              Confirm Password
-            </label>
-            <Input
-              credentials={credentials}
-              inputType="text"
-              image="lock.png"
-              id="ConfPassword"
-              update={update}
-            />
-          </div>
-          <motion.div variants={containerVariants}>
+              <Input
+                credentials={credentials}
+                inputType="email"
+                image="email.png"
+                id="Email"
+                update={update}
+              />
+            </motion.div>
+            <motion.div variants={itemVariants2}>
+              <div className="flex items-center justify-between">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-semibold leading-6 text-black"
+                >
+                  Password
+                </label>
+              </div>
+              <Input
+                credentials={credentials}
+                inputType="password"
+                id="Password"
+                image="lock.png"
+                update={update}
+              />
+            </motion.div>
+          </motion.div>
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
+            className="space-y-3"
+          >
+            <motion.div variants={itemVariants2}>
+              <label
+                htmlFor="User"
+                className="block text-sm font-semibold leading-6 text-balance"
+              >
+                Confirm Password
+              </label>
+              <Input
+                credentials={credentials}
+                inputType="text"
+                image="lock.png"
+                id="ConfPassword"
+                update={update}
+              />
+            </motion.div>
             <motion.div variants={itemVariants2}>
               <label
                 htmlFor="User"
@@ -157,21 +169,22 @@ const Signup = () => {
             <motion.div variants={itemVariants2}>
               <button
                 type="submit"
-                className="flex w-full justify-center rounded-md bg-blue-500 px-3 py-[0.6rem] font-semibold leading-6 text-white shadow-sm hover:bg-blue-400 "
+                className="flex mt-6 w-full justify-center rounded-md bg-blue-500 px-3 py-[0.6rem] font-semibold leading-6 text-white shadow-sm hover:bg-blue-400 "
               >
-                Login
+                Signup
               </button>
             </motion.div>
           </motion.div>
 
-          <div className="inline-flex items-center">
+          <div className="inline-flex mt-10 items-center">
             <label
               className="relative flex items-center p-3 rounded-full cursor-pointer"
               htmlFor="check"
             >
               <input
                 type="checkbox"
-                className="before:content[''] peer relative h-10 w-10 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-gray-300 checked:bg-gray-200 checked:before:bg-gray-100 hover:before:opacity-10"
+                required
+                className="before:content[''] peer relative h-10 w-10 cursor-pointer appearance-none rounded-md border border-gray-400 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-gray-400 checked:bg-gray-200 checked:before:bg-gray-200 hover:before:opacity-10"
                 id="check"
               />
               <span className="absolute text-green-500 transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
@@ -202,7 +215,7 @@ const Signup = () => {
           </div>
         </motion.form>
 
-        <p className="mt-10 text-center font-semibold text-sm">
+        <p className="mt-2 text-center font-semibold text-sm">
           <a
             href="/access/login"
             className="font-semibold leading-6 hover:text-blue-800"

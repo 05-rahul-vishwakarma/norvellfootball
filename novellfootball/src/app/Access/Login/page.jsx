@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Input from "@/app/components/Input";
+import { motion } from "framer-motion";
 const Login = () => {
   const [credentials, updateCredentials] = useState({
     Username: "",
@@ -20,6 +21,22 @@ const Login = () => {
     res = await res.json();
     console.log(res);
   };
+  const containerVariant = {
+    hidden: {
+      opacity: 1,
+    },
+    visible: {
+      opacity: 1,
+      transition: {
+        delay: 0.1,
+        staggerChildren: 0.1,
+      },
+    },
+  };
+  const itemVariant = {
+    hidden: { opacity: 0, y: -20 },
+    visible: { opacity: 1, y: 0 },
+  };
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -35,56 +52,62 @@ const Login = () => {
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form className="space-y-6" onSubmit={sendData}>
-          <div>
-            <label
-              htmlFor="User"
-              className="block text-sm font-semibold leading-6 text-balance"
-            >
-              Username
-            </label>
-            <Input
-              credentials={credentials}
-              inputType="text"
-              image="user.png"
-              id="Username"
-              update={update}
-            />
-          </div>
-
-          <div>
-            <div className="flex items-center justify-between">
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={containerVariant}
+            className="space-y-6"
+          >
+            <motion.div variants={itemVariant}>
               <label
-                htmlFor="password"
-                className="block text-sm font-semibold leading-6 text-black"
+                htmlFor="User"
+                className="block text-sm font-semibold leading-6 text-balance"
               >
-                Password
+                Username
               </label>
-            </div>
-            <Input
-              credentials={credentials}
-              inputType="password"
-              id="Password"
-              image="lock.png"
-              update={update}
-            />
-            <div className="mt-2">
-              <div className="text-xs flex uppercase justify-between">
-                <a
-                  href="#"
-                  className="font-semibold text-slate-500 hover:text-slate-400"
-                >
-                  Help
-                </a>
-                <a
-                  href="#"
-                  className="font-semibold text-slate-500 hover:text-slate-400"
-                >
-                  Forgot password?
-                </a>
-              </div>
-            </div>
-          </div>
+              <Input
+                credentials={credentials}
+                inputType="text"
+                image="user.png"
+                id="Username"
+                update={update}
+              />
+            </motion.div>
 
+            <motion.div variants={itemVariant}>
+              <div className="flex items-center justify-between">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-semibold leading-6 text-black"
+                >
+                  Password
+                </label>
+              </div>
+              <Input
+                credentials={credentials}
+                inputType="password"
+                id="Password"
+                image="lock.png"
+                update={update}
+              />
+              <div className="mt-2">
+                <div className="text-xs flex uppercase justify-between">
+                  <a
+                    href="#"
+                    className="font-semibold text-slate-500 hover:text-slate-400"
+                  >
+                    Help
+                  </a>
+                  <a
+                    href="#"
+                    className="font-semibold text-slate-500 hover:text-slate-400"
+                  >
+                    Forgot password?
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
           <div>
             <button
               type="submit"
