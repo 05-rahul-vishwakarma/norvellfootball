@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function page() {
-  return (
-    <div>stake page</div>
-  )
+  return <div>stakes pages and more</div>;
 }
 
-export default page
+export default page;
