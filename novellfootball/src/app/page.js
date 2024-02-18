@@ -5,7 +5,6 @@ export default function Home() {
   return (
     // demo test
     <main className="h-screen ">
-      <h2>hello teher</h2>
       <div className=" h-[10%]   ">
         <div className=" flex justify-between ">
           <div className="flex ml-[.5rem] border-2 border-black h-max w-[30%] ">
