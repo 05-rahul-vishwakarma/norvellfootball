@@ -3,13 +3,15 @@ import { FaCirclePlus } from "react-icons/fa6";
 
 export default function Home() {
   return (
+    // demo test
     <main className="h-screen ">
+      <h2>hello teher</h2>
       <div className=" h-[10%]   ">
-        <div className=" flex justify-between mt-[.5rem] ">
-          <div className="flex ml-[.5rem] border-2 border-black h-max w-[30%] place-items-center justify-between py-[.1rem] px-[.2rem] ">
-            <span className="flex " >₹<p>100000</p></span>
-            <span className="w-[1rem] ">
-              <FaCirclePlus />
+        <div className=" flex justify-between ">
+          <div className="flex ml-[.5rem] border-2 border-black h-max w-[30%] ">
+            ₹<p>100000</p>
+            <span className="w-[1rem] " >
+
             </span>
           </div>
 
