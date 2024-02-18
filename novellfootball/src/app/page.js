@@ -6,7 +6,6 @@ import BetPlaced from "./components/BetPlaced";
 
 export default function Home() {
   return (
-<<<<<<< HEAD
     <main className="h-screen bg-[url('../../public/home.png')] bg-no-repeat bg-cover bg-center  overflow-y-hidden ">
       <div className=" h-[10%]  pt-[.5rem] ">
         <div className=" flex justify-between px-[.2rem] py-[.1rem] ml-[.5rem] ">
@@ -28,15 +27,6 @@ export default function Home() {
             <h1 className=" mt-[.5rem] font-extrabold text-[1.2rem] text-white ">
               TOP EVENTS
             </h1>
-=======
-    // demo test
-    <main className="h-screen ">
-      <div className=" h-[10%]   ">
-        <div className=" flex justify-between ">
-          <div className="flex ml-[.5rem] border-2 border-black h-max w-[30%] ">
-            ₹<p>100000</p>
-            <span className="w-[1rem] "></span>
->>>>>>> 06c1c77e11feb5ac418dfcc93fc336bb190c74c8
           </div>
 
           <div className="flex mr-[.5rem] place-items-center ">
@@ -66,7 +56,7 @@ export default function Home() {
           <div
             className="w-[70px] h-[5px]  mr-auto ml-auto rounded-2xl "
             style={{
-              background: "#2785f6"
+              background: "#2785f6",
             }}
           ></div>
           <div className="flex  justify-between  ">
@@ -85,8 +75,7 @@ export default function Home() {
         </div>
       </div>
 
-      <BetPlaced/>     
-
+      <BetPlaced />
     </main>
   );
 }
