@@ -1,5 +1,5 @@
 "use client";
-import Input from "@/components/Input";
+import Input from "@/app/components/Input";
 import { useState } from "react";
 import { motion } from "framer-motion";
 
@@ -133,7 +133,8 @@ const Signup = () => {
               update={update}
             />
           </div>
-          <div>
+
+          <motion.div variants={itemVariants}>
             <label
               htmlFor="User"
               className="block text-sm font-semibold leading-6 text-balance"
@@ -148,15 +149,15 @@ const Signup = () => {
               update={update}
               required={false}
             />
-          </div>
-          <div>
+          </motion.div>
+          <motion.div variants={itemVariants}>
             <button
               type="submit"
               className="flex w-full justify-center rounded-md bg-blue-500 px-3 py-[0.6rem] font-semibold leading-6 text-white shadow-sm hover:bg-blue-400 "
             >
               Login
             </button>
-          </div>
+          </motion.div>
 
           <div className="inline-flex items-center">
             <label
@@ -198,7 +199,7 @@ const Signup = () => {
 
         <p className="mt-10 text-center font-semibold text-sm">
           <a
-            href="/Access/Login"
+            href="/access/login"
             className="font-semibold leading-6 hover:text-blue-800"
           >
             Login

@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import Input from "@/components/Input";
+import Input from "@/app/components/Input";
 const Login = () => {
   const [credentials, updateCredentials] = useState({
     Username: "",
@@ -98,7 +98,7 @@ const Login = () => {
         <p className="mt-10 text-center font-semibold text-sm">
           Signup/
           <a
-            href="/Access/Signup"
+            href="/access/signup"
             className="font-semibold leading-6 hover:text-blue-800"
           >
             Create New Account
