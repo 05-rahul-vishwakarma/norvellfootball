@@ -13,7 +13,7 @@ const containerVariants = {
     opacity: 1,
     scale: 1,
     transition: {
-      delay: 0.5,
+      delay: 0.1,
       staggerChildren: 0.1,
       damping: 15,
     },
@@ -307,7 +307,7 @@ const Signup = () => {
             </motion.div>
             <div className="inline-flex mt-10 items-center">
               <label
-                className="relative flex items-center py-3 pr-3 rounded-full cursor-pointer"
+                className="relative flex items-center py-3 mr-3 rounded-full cursor-pointer"
                 htmlFor="check"
               >
                 <input
