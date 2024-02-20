@@ -28,6 +28,7 @@ const Login = () => {
     Password: "",
   });
   const [resetPassword, toggleVerification] = useState(false);
+  
   function update(e) {
     updateCredentials((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }

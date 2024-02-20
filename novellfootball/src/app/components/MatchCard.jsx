@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import NextNProgress from "nextjs-progressbar";
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
@@ -13,7 +12,7 @@ function MatchCard() {
     <div className="  h-[100px] flex mr-auto ml-auto my-[1rem] w-[95%] shadow-md rounded-lg ">
       <div className="h-[100%] w-[30%] flex place-items-center ">
         <div className="w-[90px] h-[90px]  rounded-[100%] mr-auto ml-auto  ">
-        <CircularProgressbar className="bg-black rounded-[100%] p-[8px]  "  value={percentage} strokeWidth={15} text={`${percentage}M`} strokeColor="gren"  />;
+        <CircularProgressbar className="bg-black rounded-[100%] p-[8px]  "  value={percentage} strokeWidth={15} text={`${percentage}M`}   />;
         </div>
       </div>
 
