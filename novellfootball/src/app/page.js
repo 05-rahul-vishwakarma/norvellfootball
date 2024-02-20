@@ -2,7 +2,7 @@ import Image from "next/image";
 import { FaCirclePlus } from "react-icons/fa6";
 import logo from "../../public/logo.png";
 import MatchCard from "./components/MatchCard";
-import BetPlaced from "./components/BetPlaced";
+import PlaceBet from "./components/PlaceBet";
 
 export default function Home() {
   return (
@@ -76,7 +76,6 @@ export default function Home() {
         </div>
       </div>
 
-      <BetPlaced />
     </main>
   )
 }

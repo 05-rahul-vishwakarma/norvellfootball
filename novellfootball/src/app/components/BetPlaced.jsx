@@ -33,8 +33,8 @@ function BetPlaced() {
           </div>
 
           <div className="flex  flex-col place-items-center " >
-            <p className="text-red-950 font-[900] text-[1.3rem] " >23:30</p>
-            <p className="text-white font-[600] ">25 FEB</p>
+            <p className="text-red-600 font-[700] text-[1.2rem] " >23:30</p>
+            <p className="text-white font-[500] ">25 FEB</p>
           </div>
 
           <div className="w-[40%]  flex flex-col place-items-center ">

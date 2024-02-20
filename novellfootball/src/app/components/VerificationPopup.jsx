@@ -30,6 +30,7 @@ const VerificationPopup = ({ toggleVerification }) => {
             X
           </p>
         </div>
+        
         <div className="px-14 mt-2">
           <h3 className="font-bold text-xs  capitalize">
             select prefered method for verification
