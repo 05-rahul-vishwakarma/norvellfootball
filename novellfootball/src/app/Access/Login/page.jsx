@@ -1,12 +1,16 @@
 "use client";
 import { useState } from "react";
+
+import Image from "next/image";
 import Input from "@/app/components/Input";
 import { motion } from "framer-motion";
+import VerificationPopup from "@/app/components/VerificationPopup";
 const Login = () => {
   const [credentials, updateCredentials] = useState({
     Username: "",
     Password: "",
   });
+  const [resetPassword, toggleVerification] = useState(false);
   function update(e) {
     updateCredentials((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
@@ -38,14 +42,16 @@ const Login = () => {
     visible: { opacity: 1, y: 0 },
   };
   return (
-    <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <div className="flex relative min-h-full flex-col justify-center px-6 py-5 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img
-          className="mx-auto h-20 w-auto"
-          src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png?20220706172052"
-          alt="Your Company"
+        <Image
+          className="mx-auto w-auto"
+          src={"/logo.png"}
+          height={150}
+          width={150}
+          alt="Norvell football"
         />
-        <h2 className="mt-10 text-center text-xl font-bold leading-9 tracking-tight to-blue-500 uppercase">
+        <h2 className=" text-center text-xl font-bold leading-9 tracking-tight to-blue-500 uppercase">
           Welcome back
         </h2>
       </div>
@@ -99,7 +105,7 @@ const Login = () => {
                     Help
                   </a>
                   <a
-                    href="#"
+                    onClick={() => toggleVerification(true)}
                     className="font-semibold text-slate-500 hover:text-slate-400"
                   >
                     Forgot password?
@@ -128,6 +134,9 @@ const Login = () => {
           </a>
         </p>
       </div>
+      {resetPassword && (
+        <VerificationPopup toggleVerification={toggleVerification} />
+      )}
     </div>
   );
 };

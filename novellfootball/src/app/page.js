@@ -6,8 +6,8 @@ import BetPlaced from "./components/BetPlaced";
 
 export default function Home() {
   return (
-    <main className="h-screen bg-[url('../../public/home.png')] bg-no-repeat bg-cover bg-center  overflow-y-hidden "> 
-  
+// <<<<<<< HEAD
+    <main className="h-screen bg-[url('../../public/home.png')] bg-no-repeat bg-cover bg-center  overflow-y-hidden ">
       <div className=" h-[10%]  pt-[.5rem] ">
         <div className=" flex justify-between px-[.2rem] py-[.1rem] ml-[.5rem] ">
           <div>
