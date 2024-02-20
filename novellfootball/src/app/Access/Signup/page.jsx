@@ -138,6 +138,9 @@ const Signup = () => {
 
   return (
     <div className="flex relative min-h-[100dvh] flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="absolute top-0 left-0 z-[-1]  h-full w-full">
+        <Image layout="fill" objectFit="cover" src={"/signup_bg.png"} />
+      </div>
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <motion.form className="space-y-3">
           <motion.div
@@ -149,7 +152,7 @@ const Signup = () => {
             <motion.div variants={itemVariants}>
               <label
                 htmlFor="User"
-                className="block text-sm font-semibold leading-6 text-balance"
+                className="block text-sm font-bold leading-6 text-balance"
               >
                 Username
               </label>
@@ -165,11 +168,11 @@ const Signup = () => {
             <motion.div variants={itemVariants}>
               <label
                 htmlFor="User"
-                className="block text-sm font-semibold leading-6 text-balance"
+                className="block text-sm font-bold leading-6 text-balance"
               >
                 Phone number
               </label>
-              <div className="mt-2 flex shadow-sm relative">
+              <div className="mt-0 flex shadow-sm relative">
                 <div className="absolute top-0 flex justify-center items-center left-0 h-full aspect-square px-1.5 py-1.5 "></div>
                 <div className="absolute top-0 flex justify-center items-center right-0  h-full aspect-square px-1.5 py-1.5 ">
                   {credentials.Phone && credentials.Phone.length >= 10 ? (
@@ -189,7 +192,7 @@ const Signup = () => {
                       ) : (
                         <button
                           onClick={() => updateGetVerif(true)}
-                          className="rounded-md py-1 px-2.5 bg-slate-100 text-xs capitalize font-semibold"
+                          className="rounded-md py-1 px-2.5 bg-slate-100 text-xs capitalize fobold"
                         >
                           verify
                         </button>
@@ -224,11 +227,11 @@ const Signup = () => {
           <motion.div variants={itemVariants}>
             <label
               htmlFor="Email"
-              className="block text-sm font-semibold leading-6 text-balance"
+              className="block text-sm font-bold leading-6 text-balance"
             >
               Email ID
             </label>
-            <div className="mt-2 flex shadow-sm relative">
+            <div className="mt-0 flex shadow-sm relative">
               <div className="absolute top-0 flex justify-center items-center left-0 h-full aspect-square px-1.5 py-1.5 ">
                 <Image
                   src={`/email.png`}
@@ -264,7 +267,7 @@ const Signup = () => {
                 onChange={update}
                 minLength={3}
                 placeholder="Eg.Abcd@xyz"
-                className="block w-full px-[2.7rem] rounded-md border-0 bg-white/5 py-[0.7rem] text-slate-800 shadow-md ring-2 ring-inset outline-none focus:ring-2 ring-blue-400 focus:ring-inset  sm:text-sm sm:leading-6"
+                className="block w-full px-[2.7rem] rounded-md border-0 bg-white/50 py-[0.7rem] text-slate-800 shadow-md ring-2 ring-inset outline-none focus:ring-2 ring-blue-400 focus:ring-inset  sm:text-sm sm:leading-6"
               />
             </div>
           </motion.div>
@@ -277,7 +280,7 @@ const Signup = () => {
             <motion.div variants={itemVariants2}>
               <label
                 htmlFor="User"
-                className="block text-sm font-semibold leading-6 text-balance"
+                className="block text-sm font-bold leading-6 text-balance"
               >
                 Confirm Password
               </label>
@@ -292,7 +295,7 @@ const Signup = () => {
             <motion.div variants={itemVariants2}>
               <label
                 htmlFor="User"
-                className="block text-sm font-semibold leading-6 text-balance"
+                className="block text-sm font-bold leading-6 text-balance"
               >
                 Invite Code
               </label>
@@ -334,7 +337,7 @@ const Signup = () => {
                 </span>
               </label>
               <label
-                className="mt-px text-[0.6rem] font-medium text-gray-600 cursor-pointer select-none"
+                className="mt-px text-[0.6rem] font-medium text-gray-900 cursor-pointer select-none"
                 htmlFor="check"
               >
                 By creating an account, I hereby confirm that I am over 18 years

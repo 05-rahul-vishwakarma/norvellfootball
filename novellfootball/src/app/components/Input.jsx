@@ -8,7 +8,7 @@ const Input = ({
   required = true,
 }) => {
   return (
-    <div className="mt-2 flex shadow-sm relative">
+    <div className="mt-0 flex shadow-sm relative">
       <div className="absolute top-0 flex justify-center items-center left-0 h-full aspect-square px-1.5 py-1.5 ">
         <Image src={`/${image}`} alt="correct" width={25} height={25}></Image>
       </div>
@@ -41,7 +41,7 @@ const Input = ({
         placeholder="Eg.Abcd123"
         autoComplete="current-password"
         required={required}
-        className="block w-full px-[2.7rem] rounded-md border-0 bg-white/5 py-[0.7rem] text-slate-800 shadow-md ring-2 ring-inset outline-none focus:ring-2 ring-blue-400 focus:ring-inset  sm:text-sm sm:leading-6"
+        className="block w-full px-[2.7rem] rounded-md border-0 bg-white/50 py-[0.7rem] text-slate-800 shadow-md ring-2 ring-inset outline-none focus:ring-2 ring-blue-400 focus:ring-inset  sm:text-sm sm:leading-6"
       />
     </div>
   );

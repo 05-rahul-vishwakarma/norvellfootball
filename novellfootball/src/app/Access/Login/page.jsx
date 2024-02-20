@@ -5,6 +5,23 @@ import Image from "next/image";
 import Input from "@/app/components/Input";
 import { motion } from "framer-motion";
 import VerificationPopup from "@/app/components/VerificationPopup";
+const containerVariant = {
+  hidden: {
+    opacity: 1,
+  },
+  visible: {
+    opacity: 1,
+    transition: {
+      delay: 0.1,
+      staggerChildren: 0.1,
+    },
+  },
+};
+const itemVariant = {
+  hidden: { opacity: 0, y: -20 },
+  visible: { opacity: 1, y: 0 },
+};
+
 const Login = () => {
   const [credentials, updateCredentials] = useState({
     Username: "",
@@ -25,25 +42,13 @@ const Login = () => {
     res = await res.json();
     console.log(res);
   };
-  const containerVariant = {
-    hidden: {
-      opacity: 1,
-    },
-    visible: {
-      opacity: 1,
-      transition: {
-        delay: 0.1,
-        staggerChildren: 0.1,
-      },
-    },
-  };
-  const itemVariant = {
-    hidden: { opacity: 0, y: -20 },
-    visible: { opacity: 1, y: 0 },
-  };
+
   return (
-    <div className="flex relative min-h-full flex-col justify-center px-6 py-5 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+    <div className="flex relative min-h-screen  flex-col justify-end px-6 pb-[8rem] lg:px-8">
+      <div className="absolute top-0 left-0 z-[-1]  h-full w-full">
+        <Image layout="fill" objectFit="cover" src={"/login_bg.png"} />
+      </div>
+      <div className="sm:mx-auto pt-0 sm:w-full sm:max-w-sm">
         <Image
           className="mx-auto w-auto"
           src={"/logo.png"}
@@ -51,23 +56,23 @@ const Login = () => {
           width={150}
           alt="Norvell football"
         />
-        <h2 className=" text-center text-xl font-bold leading-9 tracking-tight to-blue-500 uppercase">
+        <h2 className=" text-center text-md font-bold leading-9 tracking-tight to-blue-500 uppercase">
           Welcome back
         </h2>
       </div>
 
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" onSubmit={sendData}>
+      <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form className="space-y-4" onSubmit={sendData}>
           <motion.div
             initial="hidden"
             animate="visible"
             variants={containerVariant}
-            className="space-y-6"
+            className="space-y-4"
           >
             <motion.div variants={itemVariant}>
               <label
                 htmlFor="User"
-                className="block text-sm font-semibold leading-6 text-balance"
+                className="block text-sm font-bold leading-0 text-balance"
               >
                 Username
               </label>
@@ -84,7 +89,7 @@ const Login = () => {
               <div className="flex items-center justify-between">
                 <label
                   htmlFor="password"
-                  className="block text-sm font-semibold leading-6 text-black"
+                  className="block text-sm font-bold leading-6 text-black"
                 >
                   Password
                 </label>

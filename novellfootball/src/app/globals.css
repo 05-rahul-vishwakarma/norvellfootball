@@ -6,10 +6,12 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Raleway", sans-serif;
+  font-optical-sizing: auto;
 }
 
 .react-tel-input {
-  background: transparent;
+  background: #ffffff80;
   padding: 0.2rem 0;
   border: 2px solid rgb(118 169 250);
   border-radius: 0.3rem;
@@ -17,6 +19,7 @@
 .react-tel-input > input {
   border: none !important;
   outline: none !important;
+  background-color: transparent !important;
   --tw-ring-color: transparent !important;
   min-width: 80%;
 }
@@ -25,4 +28,15 @@
   outline: none !important;
   border: 0px solid !important;
   --tw-ring-color: transparent !important;
+}
+
+@media screen and (max-width: 359px) {
+  html {
+    font-size: 14px;
+  }
+}
+@media screen and (max-width: 340px) {
+  html {
+    font-size: 13px;
+  }
 }

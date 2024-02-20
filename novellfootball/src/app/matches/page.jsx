@@ -2,16 +2,17 @@
 
 import Image from "next/image";
 import MatchCard2 from "../components/MatchCard2";
+import PlaceBet from "../components/PlaceBet";
 
 function page() {
   return (
-    <section className="bg-slate-100 h-[100dvh]">
+    <section className="bg-[#f7f8ff] relative h-[100dvh]">
       <div className="relative text-center py-4 h-[8%] ">
         <h2 className=" capitalize text-sm font-bold my-0">matches</h2>
       </div>
-      <main className="px-4 space-y-2 grid h-[92%] ">
+      <main className=" space-y-4 grid h-[92%] ">
         {/* search box */}
-        <div className="relative h-full flex items-center ">
+        <div className="relative px-4  h-full flex items-center ">
           <input
             type="text"
             name=""
@@ -20,11 +21,11 @@ function page() {
             placeholder="Search Matches"
             id=""
           />
-          <div className="absolute left-0 top-0 h-full flex justify-center items-center aspect-square ">
+          <div className="absolute left-4 top-0 h-full flex justify-center items-center aspect-square ">
             <Image src="/search.png" alt="logo" height={25} width={25}></Image>
           </div>
         </div>
-        <div className="w-full overflow-y-scroll pb-[5rem] max-h-[100%] space-y-3 ">
+        <div className="w-full px-4 overflow-y-scroll pb-[5rem] max-h-[100%] space-y-3 ">
           <MatchCard2 />
           <MatchCard2 />
           <MatchCard2 />
@@ -34,6 +35,8 @@ function page() {
           <MatchCard2 />
         </div>
       </main>
+      {/* popup */}
+      <PlaceBet />
     </section>
   );
 }
