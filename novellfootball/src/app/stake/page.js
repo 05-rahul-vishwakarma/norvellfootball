@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import Stake from "../components/Stake";
+import StakeHistory from "../components/StakeHistory";
 import { easeInOut, motion } from "framer-motion";
 
 // const containerVariants = {
@@ -101,9 +102,11 @@ function page() {
           animate={swipe ? "hidden" : "visible"}
           className="  absolute  top-0 left-0  w-full h-full opacity-0 "
         >
-          <Stake />
+          <StakeHistory></StakeHistory>
         </motion.div>
       </div>
+
+
     </div>
   );
 }
