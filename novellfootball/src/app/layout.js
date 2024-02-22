@@ -26,12 +26,3 @@ export default function RootLayout({ children }) {
   );
 }
 
-{/* <motion.div
-className=" h-[90%] w-[35%] flex justify-center place-items-center rounded-[50px]  "
->
-<Link href="/" className=" bg-[#eef1f2] border-2 border-black   w-[100%] flex  rounded-[100px] h-[100%] place-items-center " >
-  <BiHomeSmile className="text-[1.6rem] text-blue-900  " />
-  <p className="ml-[.3rem] font-semibold ">Home</p>
-</Link>
-</motion.div> */}
-

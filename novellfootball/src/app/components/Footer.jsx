@@ -1,12 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { BiHomeSmile } from "react-icons/bi";
 import { PiSoccerBall } from "react-icons/pi";
 import { GiNetworkBars } from "react-icons/gi";
 import { CgProfile } from "react-icons/cg";
 import { motion } from "framer-motion";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import Router from "next/router";
 
 const variants = {
   open: { width: "35%" },
@@ -14,89 +16,77 @@ const variants = {
 };
 
 function Footer() {
-  const [width, setWidth] = useState(false);
-  const refOne = useRef([]);
-  const refTwo = useRef([]);
-  const refThree = useRef([]);
-  const refFour = useRef([]);
+  const router = useRouter();
+  const pathname = usePathname();
 
-  // Function to add refs to the array
-  const animatefooter = () => {
-    refOne.current.style.width = "35%";
-    refTwo.current.style.width = "60px";
-    refThree.current.style.width = "60px";
-    refFour.current.style.width = "60px";
-  };
+  // const refOne = useRef(null);
+  // const refTwo = useRef(null);
+  // const refThree = useRef(null);
+  // const refFour = useRef(null);
+  const [home, setHome] = useState(false);
+  const [stake, setStake] = useState(false);
+  const [match, setMatch] = useState(false);
+  const [profile, setProfile] = useState(false);
 
-  const animateStake = () => {
-    refOne.current.style.width = "60px";
-    refTwo.current.style.width = "35%";
-    refThree.current.style.width = "60px";
-    refFour.current.style.width = "60px";
-  };
+  useEffect(() => {
+    if (pathname == "/") {
+      setHome(true);
+    } else {
+      setHome(false);
+    }
 
-  const animateMatch = () => {
-    refOne.current.style.width = "60px";
-    refTwo.current.style.width = "60px";
-    refThree.current.style.width = "35%";
-    refFour.current.style.width = "60px";
-  };
+    if (pathname == "/stake") {
+      setStake(true);
+    } else {
+      setStake(false);
+    }
 
-  const animateProfile = () => {
-    refOne.current.style.width = "60px";
-    refTwo.current.style.width = "60px";
-    refThree.current.style.width = "60px";
-    refFour.current.style.width = "35%";
-  };
+    if (pathname == "/matches") {
+      setMatch(true);
+    } else {
+      setMatch(false);
+    }
+
+    if (pathname == "/profile") {
+      setProfile(true);
+    } else {
+      setProfile(false);
+    }
+  });
 
   return (
-    <div className="w-[100vw] h-[60px] z-30 absolute bottom-[1.5rem] flex justify-center place-items-center ">
+    <div className="w-[100vw] h-[60px] z-30 fixed bottom-[1.5rem] flex justify-center place-items-center ">
       <div className=" bg-[#71787a] w-[80%] h-[100%] rounded-[100px] flex justify-between place-items-center pl-[.2rem] pr-[.2rem]  ">
         <motion.div
-          ref={refOne}
-          onClick={animatefooter}
-          className=" h-[90%] w-[35%] flex justify-center place-items-center rounded-[50px]  "
+          variants={variants}
+          animate={home ? "open" : "closed"}
+          className="border-2 border-black h-[90%] w-[60px] rounded-[100px] flex place-items-center justify-center "
         >
-          <Link
-            href="/"
-            className=" bg-[#eef1f2] border-2 border-black   w-[100%] flex  rounded-[100px] h-[100%] place-items-center "
-          >
-            <BiHomeSmile className="text-[1.6rem] text-blue-900  " />
-            <p className="ml-[.3rem] font-semibold ">Home</p>
-          </Link>
+          <Link href="/">home</Link>
         </motion.div>
 
         <motion.div
-          ref={refTwo}
-          onClick={animateStake}
-          className="bg-[#eef1f2] h-[90%] w-[60px]   rounded-[100px] flex justify-center place-items-center "
+          variants={variants}
+          animate={stake ? "open" : "closed"}
+          className="border-2 border-black h-[90%] w-[60px] rounded-[100px] flex place-items-center justify-center "
         >
-          <Link href="/stake">
-            <GiNetworkBars className="text-[1.6rem] text-blue-600" />
-            {/* <p>Stake</p> */}
-          </Link>
+          <Link href="/stakes">Stake</Link>
         </motion.div>
 
         <motion.div
-          ref={refThree}
-          onClick={animateMatch}
-          className="bg-[#eef1f2] h-[90%] w-[60px] rounded-[100px] flex justify-center place-items-center"
+          variants={variants}
+          animate={match ? "open" : "closed"}
+          className="border-2 border-black h-[90%] w-[60px] rounded-[100px] flex place-items-center justify-center "
         >
-          <Link href="/matches">
-            <PiSoccerBall className="text-[1.6rem] text-blue-600" />
-            {/* <p>Match</p> */}
-          </Link>
+          <Link href="/matches">Match</Link>
         </motion.div>
 
         <motion.div
-          ref={refFour}
-          onClick={animateProfile}
-          className="bg-[#eef1f2] h-[90%] w-[60px] rounded-[100px] flex justify-center place-items-center "
+          variants={variants}
+          animate={profile ? "open" : "closed"}
+          className="border-2 border-black h-[90%] w-[60px] rounded-[100px] flex place-items-center justify-center "
         >
-          <Link href="/profile">
-            <CgProfile className="text-[1.6rem] text-blue-600" />
-            {/* <p>Profile</p> */}
-          </Link>
+          <Link href="/profile">Profile</Link>
         </motion.div>
       </div>
     </div>
