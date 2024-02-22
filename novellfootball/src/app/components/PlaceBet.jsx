@@ -1,16 +1,69 @@
 "use client";
 // this component is used when the user try's to place a bet by clicking on matchCard2 -> this popup
 // this popup will allow users to select the score to bet on.
-import { motion } from "framer-motion";
+import { easeInOut, motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
 import Input from "./Input";
+import { IoIosAdd } from "react-icons/io";
+import { FaRupeeSign } from "react-icons/fa";
 
 const PlaceBet = () => {
   const [credentials, updateCredentials] = useState({
     confPassword: "",
     Password: "",
   });
+  const [scoreData, updateData] = useState([
+    {
+      score: "0-0",
+      percent: "4.5",
+      selected: false,
+    },
+    {
+      score: "0-1",
+      percent: "4.5",
+      selected: false,
+    },
+    {
+      score: "0-2",
+      percent: "4.5",
+      selected: false,
+    },
+    {
+      score: "0-3",
+      percent: "4.5",
+      selected: false,
+    },
+    {
+      score: "0-4",
+      percent: "4.5",
+      selected: false,
+    },
+    {
+      score: "0-0",
+      percent: "4.5",
+      selected: false,
+    },
+    {
+      score: "0-0",
+      percent: "4.5",
+      selected: false,
+    },
+  ]);
+
+  function setActive(idx) {
+    let newData = JSON.parse(JSON.stringify(scoreData));
+    newData.forEach((element, i) => {
+      idx === i ? (element.selected = true) : (element.selected = false);
+    });
+    updateData(newData);
+  }
+  function setDeactivated() {
+    updateData((prev) => {
+      return prev.map((ele) => ({ ...ele, selected: false }));
+    });
+  }
+
   function update(e) {
     updateCredentials((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
@@ -34,9 +87,9 @@ const PlaceBet = () => {
             &lt; Back
           </p>
         </div>
-        <div className=" px-6 mt-10 text-white">
-          <div className="rounded-2xl bg-blue-300 pt-4  h-full text-center  w-full">
-            <h2 className="capitalize text-sm font-bold text-white">
+        <div className=" px-6 mt-8 text-white">
+          <div className="rounded-2xl relative bg-blue-300 pt-4 bg-[../../public/betplace.png]  h-full  text-center  w-full">
+            <h2 className="capitalize text-sm font-bold truncate text-white">
               premier league
             </h2>
             <div className="w-full mt-3 flex px-2">
@@ -79,14 +132,14 @@ const PlaceBet = () => {
         </div>
         <div className="mt-3 px-4 space-y-4">
           {/* score cards */}
-          <ScoreCards />
-          <ScoreCards />
-          <ScoreCards />
-          <ScoreCards />
-          <ScoreCards />
-          <ScoreCards />
-          <ScoreCards />
-          <ScoreCards />
+          {scoreData.map((item, i) => (
+            <ScoreCards
+              cardDetails={{ ...item, idx: i }}
+              setActive={setActive}
+              setDeactivated={setDeactivated}
+              key={i}
+            />
+          ))}
         </div>
       </motion.div>
     </motion.div>
@@ -95,22 +148,111 @@ const PlaceBet = () => {
 
 export default PlaceBet;
 
-function ScoreCards() {
+function ScoreCards({ cardDetails, setActive, setDeactivated }) {
   return (
-    <div
-      style={{ gridTemplateColumns: "1fr 2fr 1fr" }}
-      className="rounded-xl bg-[#fff] space-x-2 grid text-xs font-bold py-2 px-2 shadow-md"
-    >
-      <span className="flex items-center justify-center">
-        Score <h2 className="ml-1 text-red-500 ">0-0</h2>
-      </span>
-      <span className="flex items-center">
-        Odds percentage -<h2 className="ml-1 text-green-400">5.45</h2>
-        <h2 className="text-green-400">%</h2>
-      </span>
-      <span className="h-full w-[90%] py-1 px-1 text-center text-[0.6rem] rounded-md bg-blue-600 text-white justify-center">
-        Place stake
-      </span>
+    <div>
+      <div
+        style={{ gridTemplateColumns: "1fr 2fr 1fr" }}
+        className="rounded-xl bg-[#fff] space-x-2 grid text-xs font-bold py-2 px-2 shadow-md"
+      >
+        <span className="flex items-center justify-center">
+          Score <h2 className="ml-1 text-red-500 ">{cardDetails.score}</h2>
+        </span>
+        <span className="flex items-center">
+          Odds percentage -
+          <h2 className="ml-1 text-green-400">{cardDetails.percent}</h2>
+          <h2 className="text-green-400">%</h2>
+        </span>
+        <span
+          onClick={() =>
+            cardDetails.selected ? setDeactivated() : setActive(cardDetails.idx)
+          }
+          className={`h-full w-[90%] py-1 px-1 text-center text-[0.6rem] rounded-md ${
+            cardDetails.selected ? " bg-gray-600 " : " bg-blue-600 "
+          }  text-white justify-center`}
+        >
+          Place stake
+        </span>
+      </div>
+      {/* settlement */}
+      {cardDetails.selected && (
+        <motion.div
+          initial={{ opacity: 0, y: -50, transitionDuration: 0.5 }}
+          animate={{ transition: easeInOut, y: 0, opacity: 1 }}
+          className="space-y-4 mt-3 px-2"
+        >
+          <div className="flex justify-between ">
+            <span className=" text-[0.65rem] text-gray-600 font-bold">
+              Handling fee 5%
+            </span>
+            <div className=" rounded-full py-0.5 ring-1 ring-gray-600/30 px-1 w-fit bg-white space-x-1 flex justify-center items-center">
+              <div className="flex pl-1 justify-center items-center h-[90%] space-x-1">
+                <span
+                  className=" h-full aspect-square rounded-full text-white 
+             bg-blue-700 flex text-[0.5rem] justify-center items-center"
+                >
+                  <FaRupeeSign />
+                </span>
+
+                <span className="text-xs font-bold pr-3">109230</span>
+              </div>
+              <span className="h-[90%] font-bolder text-white aspect-square rounded-full bg-blue-700 flex justify-center items-center">
+                <IoIosAdd />
+              </span>
+            </div>
+          </div>
+          <div className="grid px-0 ">
+            <span className="grid grid-cols-2">
+              <h2 className="text-[0.65rem]  font-bold capitalize ">
+                stake amount
+              </h2>
+              <h2 className="text-[0.65rem] pl-1 font-bold capitalize ">
+                estimated amount
+              </h2>
+            </span>
+            <div
+              className="flex ring-2 px-1 ring-blue-600
+           mt-1 py-1 rounded-md items-center"
+            >
+              <div className="flex pl-1 space-x-1 max-w-[50%] min-w-[50%]  items-center h-[90%]">
+                <span
+                  className=" h-[80%] aspect-square rounded-full text-white 
+             bg-blue-600 flex text-[0.65rem] justify-center items-center"
+                >
+                  <FaRupeeSign />
+                </span>
+                <input
+                  type="number"
+                  className="focus:outline-none h-8 w-[80%] border-none bg-transparent outline-none "
+                  placeholder="Add"
+                  name=""
+                  id=""
+                />
+              </div>
+              <div className="flex pl-1 min-w-[50%] space-x-2  items-center h-[90%] ">
+                <span
+                  className=" h-[80%] aspect-square rounded-full text-white 
+             bg-green-400 text-[0.65rem] flex justify-center items-center"
+                >
+                  <FaRupeeSign />
+                </span>
+
+                <span className="text-xs font-bold text-green-500 pr-3">
+                  109230
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="flex space-x-2">
+            <button className="py-2 px-1 font-bold w-[30%] text-sm text-white rounded-md capitalize bg-gray-900">
+              all amount
+            </button>
+            <button className="py-2 px-2 w-[70%] bg-blue-600 font-bold text-sm text-white rounded-md capitalize">
+              confirm
+            </button>
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 }

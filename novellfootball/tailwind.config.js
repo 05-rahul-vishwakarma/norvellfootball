@@ -8,6 +8,14 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontWeight: {
+        bold: 600,
+        medium: 400,
+      },
+      fontSize: {
+        sm: "0.7rem",
+        xs: "0.5rem",
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
