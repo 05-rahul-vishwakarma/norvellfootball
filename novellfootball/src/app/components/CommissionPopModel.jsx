@@ -243,6 +243,7 @@ function RegisterAcordian({ cardDetails, setActive, setDeactivated, idx }) {
   );
 }
 
+// this component can be used for new deposit and new withdrawal also
 function NewDeposit() {
   return (
     <div className="flex text-sm mb-4 bg-white text-gray-700 shadow-sm font-bold items-center capitalize justify-between px-3 py-2.5 rounded-md">
