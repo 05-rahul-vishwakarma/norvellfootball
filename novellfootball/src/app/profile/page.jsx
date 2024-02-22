@@ -6,9 +6,11 @@ import { LiaAngleLeftSolid, LiaAngleRightSolid } from "react-icons/lia";
 import { FaArrowDown, FaPlus } from "react-icons/fa6";
 import { IoIosArrowDown, IoIosArrowUp, IoMdLogOut } from "react-icons/io";
 import { useState } from "react";
+import RecordAccordians from "../components/RecordAccordian";
 
 function page() {
   const [swipe, setSwipe] = useState(1);
+  const [getRecord, updateRecord] = useState(false);
   const [scoreData, updateData] = useState([
     {
       score: "0-0",
@@ -61,7 +63,7 @@ function page() {
   }
 
   return (
-    <section className="bg-[#F8FCFF] relative h-[100dvh]">
+    <section className="bg-[#F8FCFF] overflow-hidden relative h-[100dvh]">
       <div className="relative text-center py-4 h-[8%] ">
         <h2 className=" capitalize text-[0.8rem] font-bold my-0">Profile</h2>
       </div>
@@ -118,7 +120,10 @@ function page() {
               </div>
             </div>
           </div>
-          <div className="absolute top-4 left-4 ">
+          <div
+            onClick={() => updateRecord(true)}
+            className="absolute top-4 left-4 "
+          >
             <div className="rounded-full flex justify-center items-center size-8 bg-orange-400">
               <svg
                 width="20"
@@ -204,7 +209,7 @@ function page() {
               </svg>
             </div>
             <div className="h-full w-full flex-[4] capitalize font-bold text-[0.8rem]">
-              comission center
+              commission center
             </div>
             <div className="h-full w-full flex justify-center items-center flex-[1]">
               <LiaAngleRightSolid />
@@ -345,114 +350,71 @@ function page() {
         </div>
       </div>
 
-      {/* popups */}
-      <div className="absolute top-0 left-0 h-[100dvh] w-full bg-[#F8FCFF]">
-        {/* header */}
-        <div className="h-[10%] flex justify-center relative items-center">
-          <span className="font-bold capitalize text-sm">records</span>
-          <span className="space-x-2 absolute top-[50%] translate-y-[-50%] left-2 flex justify-center items-center font-semibold text-sm">
-            <LiaAngleLeftSolid />
-            Back
-          </span>
-        </div>
-        <div className="h-[10%]">
-          <div className=" h-[60px] w-[90%] flex mr-auto ml-auto rounded-[10px] relative  bg-[#e8e8e8] ">
-            <div
-              onClick={() => setSwipe(1)}
-              className={`flex-[1] z-[3] flex justify-center items-center text-sm capitalize ${
-                swipe === 1 ? " font-bold " : "  "
-              }`}
+      {/* record popup */}
+      {getRecord && (
+        <div className="absolute top-0 left-0 h-[100dvh] w-full bg-[#F8FCFF]">
+          {/* header */}
+          <div className="h-[10%] flex justify-center relative items-center">
+            <span className="font-bold capitalize text-sm">records</span>
+            <span
+              onClick={() => updateRecord(false)}
+              className="space-x-2 absolute top-[50%] translate-y-[-50%] left-2 flex justify-center items-center font-semibold text-sm"
             >
-              Deposit
-            </div>
-            <div
-              onClick={() => setSwipe(2)}
-              className={`flex-[1] z-[3] flex justify-center items-center text-sm capitalize ${
-                swipe === 2 ? " font-bold " : "  "
-              }`}
-            >
-              withdrawal
-            </div>
-            <div
-              onClick={() => setSwipe(3)}
-              className={`flex-[1] z-[3] flex justify-center items-center text-sm capitalize ${
-                swipe === 3 ? " font-bold " : "  "
-              }`}
-            >
-              overall
-            </div>
-            {/* toggler */}
-            <div className="h-full grid grid-cols-3 justify-center w-full absolute top-0 p-1">
+              <LiaAngleLeftSolid />
+              Back
+            </span>
+          </div>
+          <div className="h-[10%]">
+            <div className=" h-[60px] w-[90%] flex mr-auto ml-auto rounded-[10px] relative  bg-[#e8e8e8] ">
               <div
-                className={`col-span-1 rounded-md col-start-${swipe}  bg-white z-[1]`}
-              ></div>
+                onClick={() => setSwipe(1)}
+                className={`flex-[1] z-[3] flex justify-center items-center text-sm capitalize ${
+                  swipe === 1 ? " font-bold " : "  "
+                }`}
+              >
+                Deposit
+              </div>
+              <div
+                onClick={() => setSwipe(2)}
+                className={`flex-[1] z-[3] flex justify-center items-center text-sm capitalize ${
+                  swipe === 2 ? " font-bold " : "  "
+                }`}
+              >
+                withdrawal
+              </div>
+              <div
+                onClick={() => setSwipe(3)}
+                className={`flex-[1] z-[3] flex justify-center items-center text-sm capitalize ${
+                  swipe === 3 ? " font-bold " : "  "
+                }`}
+              >
+                overall
+              </div>
+              {/* toggler */}
+              <div className="h-full grid grid-cols-3 justify-center w-full absolute top-0 p-1">
+                <div
+                  style={{ gridColumnStart: swipe }}
+                  className={`col-span-1 rounded-md   bg-white z-[1]`}
+                ></div>
+              </div>
             </div>
           </div>
+          {/* popup display make the same for withdrawal and overall the data will be fetched here in this file and transfered to the recordAccordian file */}
+          <section className="max-h-[80%] overflow-y-scroll pt-6 pb-40 px-4">
+            {scoreData.map((item, idx) => (
+              <RecordAccordians
+                key={idx}
+                idx={idx}
+                cardDetails={item}
+                setActive={setActive}
+                setDeactivated={setDeactivated}
+              />
+            ))}
+          </section>
         </div>
-        <section className="h-[80%] pt-6 px-4">
-          {scoreData.map((item, idx) => (
-            <Acordians
-              key={idx}
-              idx={idx}
-              cardDetails={item}
-              setActive={setActive}
-              setDeactivated={setDeactivated}
-            />
-          ))}
-        </section>
-      </div>
+      )}
     </section>
   );
 }
 
 export default page;
-
-function Acordians({ cardDetails, setActive, setDeactivated, idx }) {
-  return (
-    <div className="bg-white mb-4 w-full px-6 py-2 shadow-md rounded-md">
-      <div className="flex justify-between ">
-        <div className="space-y-0.5">
-          <h2 className="font-bold capitalize text-sm">Deposit</h2>
-          <h2 className=" text-gray-600 capitalize text-xs">
-            12/02/2023 10:00
-          </h2>
-        </div>
-        <div className="flex space-x-4">
-          <div className="text-end">
-            <h2 className="font-bold capitalize text-sm">1999</h2>
-            <h2 className=" text-[#38ff3e] font-medium capitalize text-[0.7rem]">
-              success
-            </h2>
-          </div>
-          <div
-            onClick={() =>
-              cardDetails.selected ? setDeactivated() : setActive(idx)
-            }
-            className=" flex justify-end h-fit"
-          >
-            <span className="p-[0.1rem] bg-gray-300 text-gray-600 rounded-full">
-              {cardDetails.selected ? <IoIosArrowUp /> : <IoIosArrowDown />}
-            </span>
-          </div>
-        </div>
-      </div>
-      {cardDetails.selected && (
-        <motion.div
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.2 }}
-          className="mt-5 capitalize text-[0.56rem] space-y-[1.25px] text-black font-medium"
-        >
-          <span className="flex">
-            <p>transaction Id - </p>
-            <p>2309482093840</p>
-          </span>
-          <span className="flex">
-            <p>transaction Id - </p>
-            <p>2309482093840</p>
-          </span>
-        </motion.div>
-      )}
-    </div>
-  );
-}
