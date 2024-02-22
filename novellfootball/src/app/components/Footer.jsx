@@ -19,10 +19,6 @@ function Footer() {
   const router = useRouter();
   const pathname = usePathname();
 
-  // const refOne = useRef(null);
-  // const refTwo = useRef(null);
-  // const refThree = useRef(null);
-  // const refFour = useRef(null);
   const [home, setHome] = useState(false);
   const [stake, setStake] = useState(false);
   const [match, setMatch] = useState(false);
@@ -61,7 +57,8 @@ function Footer() {
           variants={variants}
           animate={home ? "open" : "closed"}
           className="border-2 border-black h-[90%] w-[60px] rounded-[100px] flex place-items-center justify-center "
-        >
+        > 
+          <BiHomeSmile/>
           <Link href="/">home</Link>
         </motion.div>
 
@@ -70,7 +67,7 @@ function Footer() {
           animate={stake ? "open" : "closed"}
           className="border-2 border-black h-[90%] w-[60px] rounded-[100px] flex place-items-center justify-center "
         >
-          <Link href="/stakes">Stake</Link>
+          <Link href="/stake">Stake</Link>
         </motion.div>
 
         <motion.div

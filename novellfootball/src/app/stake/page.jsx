@@ -4,20 +4,8 @@ import React, { useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import Stake from "../components/Stake";
 import StakeHistory from "../components/StakeHistory";
-import { easeInOut, motion } from "framer-motion";
+import { motion } from "framer-motion";
 
-// const containerVariants = {
-//   hidden: { opacity: 1, scale: 1 },
-//   visible: {
-//     opacity: 1,
-//     scale: 1,
-//     transition: {
-//       delay: 0.1,
-//       staggerChildren: 0.1,
-//       damping: 15,
-//     },
-//   },
-// };
 
 const variantOne = {
   visible: {
@@ -36,9 +24,16 @@ const variantOne = {
 
 function page() {
   const [swipe, setSwipe] = useState(true);
+  
+  const color = "green"
+  const colorTwo = "red"
+
 
   return (
-    <div className="h-screen w-screen overflow-y-hidden bg-[#f8fcff] " >
+
+      
+    <div className="h-screen w-screen overflow-y-hidden bg-[#f8fcff] pb-[4rem] " >
+
       <div className="py-[1rem] ">
         <div className="grid grid-flow-col  place-items-center">
           <span className="flex place-items-center justify-self-start p-[.5rem]">
@@ -83,12 +78,12 @@ function page() {
           color: "#707d77"
       }}
       className="h-[38px] font-[600] w-[90%] mr-auto ml-auto rounded-[10px]   border-2 border-black flex justify-center mt-[.7rem] place-items-center ">
-        <p className="text-center flex ">
-          Total earned from stakes $<p>10000</p>
-        </p>
+        <span className="text-center flex text-[.9rem] ">
+          Total earned from stakes ₹ <p>10000</p>
+        </span>
       </div>
 
-      <div className=" h-[75%] mt-[.6rem] relative ">
+      <div className=" pb-[20rem] h-[76%] mt-[.6rem]  overflow-y-scroll relative  ">
         <motion.div
           animate={swipe ? "visible" : "hidden"}
           variants={variantOne}
@@ -102,13 +97,15 @@ function page() {
           animate={swipe ? "hidden" : "visible"}
           className="  absolute  top-0 left-0  w-full h-full opacity-0 "
         >
-          <StakeHistory></StakeHistory>
+          <StakeHistory color={color} loss = "Win"  bgColor = "#ebfff3" ></StakeHistory>
+          <StakeHistory color={colorTwo} loss = 'Loss' bgColor='#ffecec' ></StakeHistory>
         </motion.div>
       </div>
 
 
     </div>
-  );
+
+    );
 }
 
 export default page;

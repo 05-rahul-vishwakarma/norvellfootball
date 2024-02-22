@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import teamlogo from "../../../public/logo.png";
 
@@ -15,14 +15,12 @@ function stake() {
         Primere leauge
       </div>
 
-      <div className=" flex justify-between place-items-center ">
-        <div className="w-[40%]  flex flex-col place-items-start   ">
-          <div className=" w-[90%] flex justify-center " > 
-            <div className="border-2 h-[40px] w-[40px] rounded-[100%] ">
-              <Image src={teamlogo} alt="teamlogo" width={150} height={150} />
-            </div>
+      <div className=" flex justify-between place-items-center w-[95%] mr-auto ml-auto ">
+        <div className="w-[40%]  flex flex-col place-items-center   ">
+          <div className="border-2 h-[40px] w-[40px] rounded-[100%] ">
+            <Image src={teamlogo} alt="teamlogo" width={150} height={150} />
           </div>
-          <p className=" text-xs line-clamp-2 flex-[2]  font-bold capitalize w-[95%] text-center overflow-ellipsis break-words ">
+          <p className=" text-[.65rem] leading-3  line-clamp-2 flex-[2]  font-bold capitalize w-[95%] text-center overflow-ellipsis break-words ">
             team name hii sir how are you{" "}
           </p>
         </div>
@@ -31,18 +29,15 @@ function stake() {
           <p className="text-red-600 font-[700] text-[1.2rem] ">23:30</p>
           <p className="font-[600] ">25 FEB</p>
         </div>
-
-        <div className="w-[40%]  flex flex-col place-items-end   ">
-          <div className=" w-[90%] flex justify-center " > 
-            <div className="border-2 h-[40px] w-[40px] rounded-[100%] ">
-              <Image src={teamlogo} alt="teamlogo" width={150} height={150} />
-            </div>
+        
+        <div className="w-[40%]  flex flex-col place-items-center   ">
+          <div className="border-2 h-[40px] w-[40px] rounded-[100%] ">
+            <Image src={teamlogo} alt="teamlogo" width={150} height={150} />
           </div>
-          <p className=" w-[95%] text-center overflow-ellipsis break-words text-xs line-clamp-2 flex-[2]  font-bold capitalize ">
+          <p className=" text-[.65rem] leading-3  line-clamp-2 flex-[2]  font-bold capitalize w-[95%] text-center overflow-ellipsis break-words ">
             team name hii sir how are you{" "}
           </p>
         </div>
-
       </div>
 
       <hr className=" w-[88%] mr-auto ml-auto mt-[.7rem] bg-black opacity-50 " />
@@ -53,7 +48,9 @@ function stake() {
           style={{ color: "gray" }}
         >
           <p className="">Stake ID : 32100</p>
-          <p className="w-[50%] line-clamp-1 text-ellipsis ">Stake Time 12/10/12 20:00</p>
+          <p className="w-[50%] line-clamp-1 text-ellipsis ">
+            Stake Time 12/10/12 20:00
+          </p>
         </div>
 
         <div
@@ -69,7 +66,7 @@ function stake() {
           </span>
         </div>
 
-        <div className="flex  justify-between text-[.8rem] line-clamp-1  font-extrabold leading-3 ">
+        <div className="flex  justify-between text-[.8rem] line-clamp-1  font-extrabold leading-4 ">
           <span className="flex place-items-center ">
             Score FT{" "}
             <p className="text-red-600 text-[1.2rem] font-extrabold ">0-0</p>{" "}
