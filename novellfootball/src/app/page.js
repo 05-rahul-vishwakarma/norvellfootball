@@ -2,12 +2,11 @@ import Image from "next/image";
 import { FaCirclePlus } from "react-icons/fa6";
 import logo from "../../public/logo.png";
 import MatchCard from "./components/MatchCard";
-import PlaceBet from "./components/PlaceBet";
 
 export default function Home() {
   return (
 // <<<<<<< HEAD
-    <main className="h-screen bg-[url('../../public/home.png')] bg-no-repeat bg-cover bg-center  overflow-y-hidden ">
+    <main className="h-screen bg-[url('../../public/home.png')] bg-no-repeat bg-cover bg-center  overflow-y-hidden z-[-10] ">
       <div className=" h-[10%]  pt-[.5rem] ">
         <div className=" flex justify-between px-[.2rem] py-[.1rem] ml-[.5rem] ">
           <div>
@@ -15,8 +14,8 @@ export default function Home() {
               className=" flex place-items-center justify-between px-[.3rem] py-[.1rem] rounded-[100px]"
               style={{ background: "#f8fcff" }}
             >
-              <span className="flex">
-                ₹ <p>100000</p>
+              <span className="flex place-items-center pl-1 ">
+                ₹ <p className="font-bold ml-1 " >10,0000</p>
               </span>
               <FaCirclePlus
                 style={{
@@ -32,7 +31,7 @@ export default function Home() {
 
           <div className="flex mr-[.5rem] place-items-center ">
             <span className="leading-5 mt-[.5rem] mr-[.3rem] ">
-              <h1 className="font-semibold text-white ">WELCOME BACK</h1>
+              <h1 className="font-bold text-white ">WELCOME BACK</h1>
               <h3 className=" text-white text-end ">DARGON</h3>
             </span>
             <span
@@ -45,7 +44,8 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="border-2 border-black h-[30%] mt-[1rem] w-[95%] mr-auto ml-auto "></div>
+      <div className="border-2 border-black h-[30%] mt-[1rem] w-[95%] mr-auto ml-auto ">
+      </div>
 
       <div
         className="h-[55%] mt-[2rem] rounded-t-[30px] bg-#f8fcff shadow-2xl shadow-black"
@@ -75,7 +75,6 @@ export default function Home() {
           <MatchCard />
         </div>
       </div>
-
     </main>
   )
 }
