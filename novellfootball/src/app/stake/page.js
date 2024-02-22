@@ -26,10 +26,10 @@ const variantOne = {
     opacity: 0,
   },
   justifyCenter: {
-    justifyContent: 'end',
+    justifyContent: "end",
   },
   justifyCenterTwo: {
-    justifyContent: 'start',
+    justifyContent: "start",
   },
 };
 
@@ -37,10 +37,10 @@ function page() {
   const [swipe, setSwipe] = useState(true);
 
   return (
-    <div className="h-screen w-screen overflow-y-hidden bg-[#f8fcff] " >
+    <div className="h-screen w-screen overflow-y-hidden bg-[#f8fcff] ">
       <div className="py-[1rem] ">
         <div className="grid grid-flow-col  place-items-center">
-          <span className="flex place-items-center justify-self-start p-[.5rem]">
+          <span className="flex place-items-center justify-self-start p-[0.5rem]">
             <IoIosArrowBack className="text-[1.5rem]   " />
             <p className="text-[.8rem] font-medium ">Back</p>
           </span>
@@ -68,20 +68,22 @@ function page() {
         </div>
 
         <motion.div
-        variants={variantOne}
-        animate={swipe?"justifyCenterTwo":"justifyCenter"}
-        className="h-[100%] w-[100%] mr-auto ml-auto rounded-[10px] absolute top-0 left-0  flex place-items-center justify-start shadow-sm  ">
+          variants={variantOne}
+          animate={swipe ? "justifyCenterTwo" : "justifyCenter"}
+          className="h-[100%] w-[100%] mr-auto ml-auto rounded-[10px] absolute top-0 left-0  flex place-items-center justify-start shadow-sm  "
+        >
           <div className="ml-[.2rem] mr-[.2rem] w-[45%]  h-[90%] bg-white rounded-[10px] "></div>
         </motion.div>
       </div>
 
-      <div 
-      style={{
+      <div
+        style={{
           background: "#e0f9ef",
           border: "1px solid #00db58",
-          color: "#707d77"
-      }}
-      className="h-[38px] font-[600] w-[90%] mr-auto ml-auto rounded-[10px]   border-2 border-black flex justify-center mt-[.7rem] place-items-center ">
+          color: "#707d77",
+        }}
+        className="h-[38px] font-[600] w-[90%] mr-auto ml-auto rounded-[10px]   border-2 border-black flex justify-center mt-[.7rem] place-items-center "
+      >
         <p className="text-center flex ">
           Total earned from stakes $<p>10000</p>
         </p>
