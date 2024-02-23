@@ -1,33 +1,37 @@
 "use client";
 import CommissionPopModel from "@/app/components/CommissionPopModel";
 import { motion } from "framer-motion";
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { FaRupeeSign, FaShare } from "react-icons/fa";
-import { FaInfo } from "react-icons/fa6";
+import { FaCopy, FaInfo, FaLink } from "react-icons/fa6";
 import {
   LiaAngleLeftSolid,
   LiaAngleRightSolid,
   LiaAngleUpSolid,
 } from "react-icons/lia";
-import { MdOutlineShare } from "react-icons/md";
+import { MdOutlineContentCopy, MdOutlineShare } from "react-icons/md";
 
 const Page = () => {
   const [infoModel, updateInfoModel] = useState(false);
   const [claimModel, updateclaimModel] = useState(false);
+  const [isShairing, updateShairing] = useState(false);
+  const [getCommissionPop, updateCommissionPop] = useState(false);
 
   return (
     <section className=" bg-[#f8f8f8] w-full relative h-[100dvh]">
       <div className="relative text-center py-4 h-[8%] ">
-        <h2 className=" capitalize text-[0.8rem] font-bold my-0">Profile</h2>
+        <h2 className=" capitalize text-[0.8rem] font-bold my-0">
+          commission center
+        </h2>
       </div>
       <main className=" space-y-1  h-fit px-4 ">
         {/* hero section */}
         <div
           style={{
             background: "url(../../profile-bg.png) center no-repeat",
-            backgroundSize: "cover",
+            backgroundSize: "cover ",
           }}
-          className=" h-[65%] py-4 ring-[0.2px] ring-gray-600 w-full relative 
+          className=" h-[65%] py-4 pb-7 ring-[0.2px] ring-gray-600 w-full relative 
        rounded-2xl"
         >
           <div className="flex flex-col w-full mt-2 justify-center items-center py-3">
@@ -45,7 +49,10 @@ const Page = () => {
               <h2 className="capitalize  truncate font-bold ">190238</h2>
             </span>
           </div>
-          <div className="absolute flex justify-center items-center text-3xl text-white -bottom-6 rounded-full left-[50%] translate-x-[-50%] size-12 bg-blue-500">
+          <div
+            onClick={() => updateShairing((prev) => !prev)}
+            className="absolute flex justify-center items-center text-3xl text-white -bottom-6 rounded-full left-[50%] translate-x-[-50%] size-12 bg-blue-500"
+          >
             <MdOutlineShare />
           </div>
           <div className="absolute flex items-center space-x-2 top-4 left-4 ">
@@ -74,8 +81,43 @@ const Page = () => {
             )}
           </div>
         </div>
+        {isShairing && (
+          <div className="pt-8 px-2">
+            <p className="capitalize text-[0.65rem] font-bold">invite link</p>
+            <div className="flex items-center py-2 justify-center ring-blue-400  rounded-md ring-[1.7px]">
+              <span className="w-[10%] flex justify-center items-center text-blue-500">
+                <FaLink />
+              </span>
+              <p className=" w-[80%] text-gray-600 truncate text-[0.6rem] px-1 rounded-md">
+                https://hello there the name is novrvell
+              </p>
+              <span className="w-[10%] flex justify-center items-center text-blue-500">
+                <MdOutlineContentCopy />
+              </span>
+            </div>
+            <p className="capitalize text-[0.65rem] font-bold mt-3">
+              invite code
+            </p>
+            <div className="flex items-center py-2 justify-center ring-blue-400  rounded-md ring-[1.7px]">
+              <span className="w-[10%] flex justify-center items-center text-blue-500">
+                <FaLink />
+              </span>
+              <p className=" w-[80%] capitalize text-gray-600 truncate text-[0.6rem] px-1 rounded-md">
+                <span>invite code - </span>
+                <span className="text-blue-500">88689</span>
+              </p>
+              <span className="w-[10%] flex justify-center items-center text-blue-500">
+                <MdOutlineContentCopy />
+              </span>
+            </div>
+          </div>
+        )}
       </main>
-      <div className="h-[60%] pt-6 mt-10  shadow-gray-900 rounded-t-[1.5rem]">
+      <div
+        className={`${
+          isShairing ? " h-[30%] mt-3 " : " h-[60%] mt-10 "
+        } pt-2  shadow-gray-900 rounded-t-[1.5rem]`}
+      >
         <div className="h-full overflow-y-scroll pb-40 px-4">
           <div
             style={{ boxShadow: "0px 4px 10px 3px #dddee5" }}
@@ -133,6 +175,7 @@ const Page = () => {
             )}
           </div>
           <div
+            onClick={() => updateCommissionPop(true)}
             style={{ boxShadow: "0px 4px 10px 3px #dddee5" }}
             className="shadow-md flex mt-3 items-center py-2.5  rounded-full  px-2"
           >
@@ -149,6 +192,7 @@ const Page = () => {
             </div>
           </div>
           <div
+            onClick={() => updateCommissionPop(true)}
             style={{ boxShadow: "0px 4px 10px 3px #dddee5" }}
             className="shadow-md flex mt-3 items-center py-2.5  rounded-full  px-2"
           >
@@ -165,6 +209,7 @@ const Page = () => {
             </div>
           </div>
           <div
+            onClick={() => updateCommissionPop(true)}
             style={{ boxShadow: "0px 4px 10px 3px #dddee5" }}
             className="shadow-md flex mt-3 items-center py-2.5  rounded-full  px-2"
           >
@@ -181,6 +226,7 @@ const Page = () => {
             </div>
           </div>
           <div
+            onClick={() => updateCommissionPop(true)}
             style={{ boxShadow: "0px 4px 10px 3px #dddee5" }}
             className="shadow-md flex mt-3 items-center py-2.5  rounded-full  px-2"
           >
@@ -200,9 +246,11 @@ const Page = () => {
       </div>
 
       {/* commission popups */}
-      <section className="absolute top-0 left-0 h-full w-full bg-slate-50">
-        <CommissionPopModel />
-      </section>
+      {getCommissionPop && (
+        <section className="absolute top-0 left-0 h-full w-full bg-slate-50">
+          <CommissionPopModel closeModel={updateCommissionPop} />
+        </section>
+      )}
     </section>
   );
 };

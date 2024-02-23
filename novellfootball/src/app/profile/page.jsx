@@ -7,10 +7,12 @@ import { FaArrowDown, FaPlus } from "react-icons/fa6";
 import { IoIosArrowDown, IoIosArrowUp, IoMdLogOut } from "react-icons/io";
 import { useState } from "react";
 import RecordAccordians from "../components/RecordAccordian";
+import VerificationPopup from "../components/VerificationPopup";
 
 function page() {
   const [swipe, setSwipe] = useState(1);
   const [getRecord, updateRecord] = useState(false);
+  const [getWithdrawal, updateWithdrawal] = useState(false);
   const [scoreData, updateData] = useState([
     {
       score: "0-0",
@@ -115,7 +117,7 @@ function page() {
                   <LiaAngleRightSolid className="text-[0.6rem]" />
                 </span>
                 <p className="capitalize text-gray-600 font-bold text-[0.65rem]">
-                  see benifit&apos;s
+                  see benefit&apos;s
                 </p>
               </div>
             </div>
@@ -126,8 +128,8 @@ function page() {
           >
             <div className="rounded-full flex justify-center items-center size-8 bg-orange-400">
               <svg
-                width="20"
-                height="20"
+                width="15"
+                height="15"
                 viewBox="0 0 20 20"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -194,10 +196,10 @@ function page() {
             style={{ boxShadow: "0px 4px 10px 3px #dddee5" }}
             className="shadow-md flex mt-2 items-center py-2  rounded-full  px-2"
           >
-            <div className="h-full  w-full flex justify-center items-center flex-[1]">
+            <div className="h-full w-full flex justify-center items-center flex-[1]">
               <svg
-                width="30"
-                height="30"
+                width="25"
+                height="25"
                 viewBox="0 0 30 30"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -208,7 +210,7 @@ function page() {
                 />
               </svg>
             </div>
-            <div className="h-full w-full flex-[4] capitalize font-bold text-[0.8rem]">
+            <div className="h-full w-full flex-[4] capitalize font-bold text-[0.75rem]">
               commission center
             </div>
             <div className="h-full w-full flex justify-center items-center flex-[1]">
@@ -216,13 +218,14 @@ function page() {
             </div>
           </div>
           <div
+            onClick={() => updateWithdrawal(true)}
             style={{ boxShadow: "0px 4px 10px 3px #dddee5" }}
             className="shadow-md flex mt-2 items-center py-2  rounded-full px-2"
           >
             <div className="h-full w-full flex justify-center items-center flex-[1]">
               <svg
-                width="30"
-                height="30"
+                width="25"
+                height="25"
                 viewBox="0 0 30 30"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -237,7 +240,7 @@ function page() {
                 />
               </svg>
             </div>
-            <div className="h-full w-full flex-[4] capitalize font-bold text-[0.8rem]">
+            <div className="h-full w-full flex-[4] capitalize font-bold text-[0.75rem]">
               payment withdrawal
             </div>
             <div className="h-full w-full flex justify-center items-center flex-[1]">
@@ -250,8 +253,8 @@ function page() {
           >
             <div className="h-full w-full flex justify-center items-center flex-[1]">
               <svg
-                width="35"
-                height="35"
+                width="30"
+                height="30"
                 viewBox="0 0 40 40"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -266,7 +269,7 @@ function page() {
                 />
               </svg>
             </div>
-            <div className="h-full w-full flex-[4] capitalize font-bold text-[0.8rem]">
+            <div className="h-full w-full flex-[4] capitalize font-bold text-[0.75rem]">
               change password
             </div>
             <div className="h-full w-full flex justify-center items-center flex-[1]">
@@ -279,8 +282,8 @@ function page() {
           >
             <div className="h-full w-full flex justify-center items-center flex-[1]">
               <svg
-                width="30"
-                height="30"
+                width="25"
+                height="25"
                 viewBox="0 0 30 30"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -291,7 +294,7 @@ function page() {
                 />
               </svg>
             </div>
-            <div className="h-full w-full flex-[4] capitalize font-bold text-[0.8rem]">
+            <div className="h-full w-full flex-[4] capitalize font-bold text-[0.75rem]">
               get help
             </div>
             <div className="h-full w-full flex justify-center items-center flex-[1]">
@@ -304,8 +307,8 @@ function page() {
           >
             <div className="h-full w-full flex justify-center items-center flex-[1]">
               <svg
-                width="30"
-                height="25"
+                width="25"
+                height="20"
                 viewBox="0 0 30 25"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -326,7 +329,7 @@ function page() {
                 </defs>
               </svg>
             </div>
-            <div className="h-full w-full flex-[4] capitalize font-bold text-[0.8rem]">
+            <div className="h-full w-full flex-[4] capitalize font-bold text-[0.75rem]">
               app download
             </div>
             <div className="h-full w-full flex justify-center items-center flex-[1]">
@@ -340,7 +343,7 @@ function page() {
             <div className="h-full w-full flex justify-center items-center flex-[1]">
               <IoMdLogOut className="text-red-500 text-[1.7rem] " />
             </div>
-            <div className="h-full w-full flex-[4] capitalize font-bold text-[0.8rem]">
+            <div className="h-full w-full flex-[4] capitalize font-bold text-[0.75rem]">
               Logout
             </div>
             <div className="h-full w-full flex justify-center items-center flex-[1]">

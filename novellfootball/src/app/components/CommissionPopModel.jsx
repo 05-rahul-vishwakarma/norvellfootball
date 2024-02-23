@@ -4,8 +4,9 @@ import React, { useState } from "react";
 import { IoIosArrowBack, IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import RecordAccordians from "./RecordAccordian";
 
-function CommissionPopModel() {
+function CommissionPopModel({ closeModel }) {
   const [swipe, setSwipe] = useState(1);
   const [scoreData, updateData] = useState([
     {
@@ -61,7 +62,10 @@ function CommissionPopModel() {
     <div className="h-screen w-screen overflow-y-hidden bg-[#f8fcff] ">
       <div className="py-[1rem] h-[10%] ">
         <div className="grid grid-flow-col  place-items-center">
-          <span className="flex place-items-center justify-self-start p-[0.5rem]">
+          <span
+            onClick={() => closeModel(false)}
+            className="flex place-items-center justify-self-start p-[0.5rem]"
+          >
             <IoIosArrowBack className="text-[0.8rem]   " />
             <p className="text-[.7rem] font-medium ">Back</p>
           </span>
@@ -150,7 +154,7 @@ function CommissionPopModel() {
         </div>
         <div className="h-[80%] overflow-y-auto px-6 pb-[15rem] w-full">
           {scoreData.map((item, idx) => (
-            <NewDeposit
+            <RegisterAcordian
               key={idx}
               idx={idx}
               cardDetails={item}
