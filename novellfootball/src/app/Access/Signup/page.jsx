@@ -94,7 +94,7 @@ function VerificationPopup({ toggleVerification }) {
             >
               Resend
             </a>
-            <Image src={"/play.png"} width={12} height={12}></Image>
+            <Image src={"/play.png"} alt="play" width={12} height={12}></Image>
           </div>
 
           <div className="flex flex-col space-y-5">
@@ -139,7 +139,12 @@ const Signup = () => {
   return (
     <div className="flex relative min-h-[100dvh] flex-col justify-center px-6 py-12 lg:px-8">
       <div className="absolute top-0 left-0 z-[-1]  h-full w-full">
-        <Image layout="fill" objectFit="cover" src={"/signup_bg.png"} />
+        <Image
+          fill
+          style={{ objectFit: "cover" }}
+          alt="background"
+          src={"/signup_bg.png"}
+        />
       </div>
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <motion.form className="space-y-3">
@@ -201,10 +206,10 @@ const Signup = () => {
                   ) : (
                     <Image
                       src={`/wrong.png`}
-                      alt="correct"
-                      width={25}
+                      alt="wrong"
+                      width={20}
                       className="z-[10]"
-                      height={25}
+                      height={20}
                     ></Image>
                   )}
                 </div>
@@ -215,6 +220,7 @@ const Signup = () => {
                     name: "Phone",
                   }}
                   onChange={(phone, country, e) => {
+                    console.log(country);
                     country?.dialCode !== "91"
                       ? updtInternational(true)
                       : updtInternational(false);
@@ -236,8 +242,8 @@ const Signup = () => {
                 <Image
                   src={`/email.png`}
                   alt="correct"
-                  width={25}
-                  height={25}
+                  width={20}
+                  height={20}
                 ></Image>
               </div>
               <div className="absolute top-0 flex justify-center items-center right-0  h-full aspect-square px-1.5 py-1.5 ">
@@ -254,8 +260,8 @@ const Signup = () => {
                   <Image
                     src={`/wrong.png`}
                     alt="correct"
-                    width={25}
-                    height={25}
+                    width={20}
+                    height={20}
                   ></Image>
                 )}
               </div>

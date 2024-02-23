@@ -28,7 +28,7 @@ const Login = () => {
     Password: "",
   });
   const [resetPassword, toggleVerification] = useState(false);
-  
+
   function update(e) {
     updateCredentials((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
@@ -47,7 +47,7 @@ const Login = () => {
   return (
     <div className="flex relative min-h-screen  flex-col justify-end px-6 pb-[8rem] lg:px-8">
       <div className="absolute top-0 left-0 z-[-1]  h-full w-full">
-        <Image layout="fill" objectFit="cover" src={"/login_bg.png"} />
+        <Image fill alt="company logo" src={"/login_bg.png"} />
       </div>
       <div className="sm:mx-auto pt-0 sm:w-full sm:max-w-sm">
         <Image
@@ -103,7 +103,7 @@ const Login = () => {
                 update={update}
               />
               <div className="mt-2">
-                <div className="text-xs flex uppercase justify-between">
+                <div className="text-sm flex uppercase justify-between">
                   <a
                     href="#"
                     className="font-semibold text-slate-500 hover:text-slate-400"

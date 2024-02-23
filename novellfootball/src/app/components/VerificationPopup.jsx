@@ -19,7 +19,7 @@ const VerificationPopup = ({ toggleVerification }) => {
       <motion.div
         initial={{ y: 100 }}
         animate={{ y: 0 }}
-        className=" h-[80%] py-8 pb-12  bg-slate-200 overflow-y-auto rounded-t-[2rem] w-[98%]"
+        className=" h-[80%] py-8 pb-40  bg-slate-50 overflow-y-auto rounded-t-[2rem] w-[98%]"
       >
         <div className="flex  relative px-2  justify-center">
           <h4 className="uppercase text-center font-bold">otp verification</h4>
@@ -30,7 +30,7 @@ const VerificationPopup = ({ toggleVerification }) => {
             X
           </p>
         </div>
-        
+
         <div className="px-14 mt-2">
           <h3 className="font-bold text-xs  capitalize">
             select prefered method for verification
