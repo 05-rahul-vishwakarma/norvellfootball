@@ -4,7 +4,7 @@ import teamlogo from "../../../public/logo.png";
 
 function stake() {
   return (
-    <div className="border-2 border-gray-[#e2dbd3] h-[50%] w-[90%] mr-auto ml-auto rounded-[10px] mt-[.5rem] bg-[#fbf3eb] shadow-sm ">
+    <div className="border-2 border-gray-[#e2dbd3] h-[60%] w-[90%] mr-auto ml-auto rounded-[10px] mt-[.5rem] bg-[#fbf3eb] shadow-sm relative">
       <div
         // style={{ color }}
         className="w-max mr-auto ml-auto px-[1rem] py-[.1rem] rounded-b-lg font-semibold bg-[#ec8220] text-white "
@@ -81,9 +81,10 @@ function stake() {
         </div>
       </div>
 
-      <button className=" bg-[#2885f6]  w-[85%] h-[50px] mr-auto ml-auto block  mt-[1rem] rounded-[5px] font-bold text-white ">
+      <button className=" bg-[#2885f6]  w-[85%] h-[3.1rem] mr-auto ml-auto block  mt-[1rem] rounded-[5px] font-bold text-white ">
         Cancel Stake
       </button>
+
     </div>
   );
 }
