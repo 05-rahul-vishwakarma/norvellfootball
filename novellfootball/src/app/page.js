@@ -2,10 +2,11 @@ import Image from "next/image";
 import { FaCirclePlus } from "react-icons/fa6";
 import logo from "../../public/logo.png";
 import MatchCard from "./components/MatchCard";
+import Slider from "./components/Slider";
 
 export default function Home() {
   return (
-// <<<<<<< HEAD
+    // <<<<<<< HEAD
     <main className="h-screen bg-[url('../../public/home.png')] bg-no-repeat bg-cover bg-center  overflow-y-hidden z-[-10] ">
       <div className=" h-[10%]  pt-[.5rem] ">
         <div className=" flex justify-between px-[.2rem] py-[.1rem] ml-[.5rem] ">
@@ -15,7 +16,7 @@ export default function Home() {
               style={{ background: "#f8fcff" }}
             >
               <span className="flex place-items-center pl-1 ">
-                ₹ <p className="font-bold ml-1 " >10,0000</p>
+                ₹ <p className="font-bold ml-1 ">10,0000</p>
               </span>
               <FaCirclePlus
                 style={{
@@ -44,7 +45,8 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="border-2 border-black h-[30%] mt-[1rem] w-[95%] mr-auto ml-auto ">
+      <div className=" h-[30%] mt-[1rem] w-[95%] mr-auto ml-auto ">
+        <Slider />
       </div>
 
       <div
@@ -76,5 +78,5 @@ export default function Home() {
         </div>
       </div>
     </main>
-  )
+  );
 }
