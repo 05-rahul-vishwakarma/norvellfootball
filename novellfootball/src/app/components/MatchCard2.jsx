@@ -50,6 +50,7 @@ const MatchCard2 = () => {
           </span>
         </div>
       </div>
+      
       <div className="text-center py-[0.1rem] pb-1 capitalize text-[0.7rem] font-bold">
         <h2>lets say league</h2>
       </div>

@@ -7,7 +7,7 @@ function StakeHistory({ color, loss ,bgColor }) {
   return (
     <div
      style={{background:bgColor}}
-    className="border-2 border-gray-[#e2dbd3] h-[65%] w-[90%] mr-auto ml-auto rounded-[10px] mt-[.5rem] bg-[#fbf3eb] shadow-sm  ">
+    className="border-2 border-gray-[#e2dbd3] h-[48%] w-[90%] mr-auto ml-auto rounded-[10px] mt-[.5rem] bg-[#fbf3eb] shadow-sm  ">
       <div
         style={{ background: color }}
         className="w-max mr-auto ml-auto px-[1rem] py-[.1rem] rounded-b-lg font-semibold  text-white "
@@ -19,7 +19,7 @@ function StakeHistory({ color, loss ,bgColor }) {
       </div>
 
       <div className=" flex justify-between place-items-center w-[95%] mr-auto ml-auto ">
-        <div className="w-[40%]  flex flex-col place-items-center   ">
+        <div className="w-[35%]  flex flex-col place-items-center   ">
           <div className="border-2 h-[40px] w-[40px] rounded-[100%] ">
             <Image src={teamlogo} alt="teamlogo" width={150} height={150} />
           </div>
@@ -33,7 +33,7 @@ function StakeHistory({ color, loss ,bgColor }) {
           <p className="font-[600] ">25 FEB</p>
         </div>
         
-        <div className="w-[40%]  flex flex-col place-items-center   ">
+        <div className="w-[35%]  flex flex-col place-items-center   ">
           <div className="border-2 h-[40px] w-[40px] rounded-[100%] ">
             <Image src={teamlogo} alt="teamlogo" width={150} height={150} />
           </div>
@@ -51,17 +51,17 @@ function StakeHistory({ color, loss ,bgColor }) {
           style={{ color: "gray" }}
         >
           <p className="">Stake ID : 32100</p>
-          <p className="w-[50%] line-clamp-1 text-ellipsis ">
-            Stake Time 12/10/12 20:00
-          </p>
+          <span className="w-[50%] line-clamp-1 text-ellipsis  flex  ">
+            Stake Time 12/10/12 <p className="ml-2" >20:20</p>
+          </span>
         </div>
 
         <div
-          className="flex  justify-between text-[.65rem] line-clamp-1 font-[600] "
+          className="flex  justify-between text-[.65rem] line-clamp-1 font-[600]   "
           style={{ color: "gray" }}
         >
           <p className="line-clamp-1 text-ellipsis">Stake Amount 100000</p>
-          <span className="w-[50%]  h-[20px] text-nowrap flex line-clamp-1 text-ellipsis ">
+          <span className="w-[50%]  text-nowrap flex line-clamp-1 text-ellipsis ">
             Estimated Income
             <p className="text-nowrap ml-[.4rem] " style={{ color: "#00db58" }}>
               1029938
