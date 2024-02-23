@@ -81,7 +81,7 @@ function Footer() {
     <div className=" w-[100vw] h-[68px] z-30 fixed bottom-[1.5rem] flex justify-center place-items-center  ">
       <div
         className="w-[340px] h-[68px]   shadow-[0 4px 28% rgba(0, 0, 0, 0.2)]
-         backdrop-blur-sm  flex bg-[#c6cacc91]  justify-evenly h-[80%] rounded-full place-items-center  "
+         backdrop-blur-sm  flex bg-[#c6cacc91]  justify-evenly  rounded-full place-items-center  "
       >
         <motion.div
           variants={variants}
