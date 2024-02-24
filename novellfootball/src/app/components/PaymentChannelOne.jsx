@@ -3,9 +3,30 @@ import React, { useState } from "react";
 import { Dropdown } from "flowbite-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import {
+  MdOutlineKeyboardArrowDown,
+  MdOutlineKeyboardArrowRight,
+} from "react-icons/md";
+
 // import { LiaAngleDownSolid, LiaAngleRightSolid } from "react-icons/lia";
 
+const accorodient = {
+  show: {
+    height: "28%",
+  },
+  hide: {
+    height: "5%",
+  },
+  showBarCode: {
+    opacity: 1,
+  },
+  hideBarCode: {
+    opacity: 0,
+  },
+};
+
 function PaymentChannelOne() {
+  const [BarCode, setBarCode] = useState(true);
   return (
     <div className="bg-white w-full h-full absolute top-0 left-0 flex justify-center ">
       <div className="w-[90%]  h-full flex flex-col place-items-center0 ">
@@ -13,7 +34,7 @@ function PaymentChannelOne() {
           style={{
             boxShadow: "0 0 5px 0 #c0cad9",
           }}
-          className="border-2 border-white shadow-md my-[2rem] w-[100%] h-[15%] flex  justify-center place-items-center flex-col rounded-lg "
+          className="border-2 border-white shadow-md my-[2rem] w-[100%] py-3 flex  justify-center place-items-center flex-col rounded-lg "
         >
           <h1 className="flex">
             $<p>10000</p>
@@ -133,29 +154,43 @@ function PaymentChannelOne() {
           </div>
         </div>
 
-        <div
+        <motion.div
+          variants={accorodient}
+          animate={BarCode ? "show" : "hide"}
           style={{ boxShadow: "0 0 5px 0 #c0cad9" }}
-          className="mt-[1rem] rounded-lg h-[28%] "
+          className="mt-[1rem] rounded-lg h-[5%]  "
+          onClick={() => setBarCode(!BarCode)}
+
         >
-          <div className="py-3 flex justify-between mr-2 ml-2  ">
+          <div
+            className="py-1 flex justify-between mr-2 ml-2 place-items-center "
+          >
             <p className="font-bold text-[#000000b2] ">Click to show QRcode</p>
-            <p>&gt;</p>
+            <p>
+              {BarCode?<MdOutlineKeyboardArrowDown />:<MdOutlineKeyboardArrowRight/>}
+            </p>
           </div>
 
-          <div className=" h-[50%] flex justify-center place-items-center  my-2 ">
-            <Image
-              src=""
-              alt=""
-              width={100}
-              height={100}
-              className="border-2 border-black "
-            />
-          </div>
+          <motion.div 
+          variants={accorodient}
+          animate={BarCode?"showBarCode":"hideBarCode"}
+          className="h-[50%] opacity-0 ">
+            <div className="flex justify-center place-items-center h-full my-2 h-  ">
+              <Image
+                src=""
+                alt=""
+                width={90}
+                height={90}
+                objectFit="contain"
+                className="border-2 border-black "
+              />
+            </div>
 
-          <p className="uppercase text-center font-semibold text-[#b93939] text-[.9rem] ">
-            One qr code for single payment only
-          </p>
-        </div>
+            <p className="uppercase text-center font-semibold text-[#b93939] text-[.9rem] ">
+              One qr code for single payment only
+            </p>
+          </motion.div>
+        </motion.div>
 
         <div
           style={{ boxShadow: "0 0 5px 0 #c0cad9" }}
@@ -170,6 +205,7 @@ function PaymentChannelOne() {
         >
           Payment Failed
         </div>
+        
       </div>
     </div>
   );

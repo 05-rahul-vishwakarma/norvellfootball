@@ -36,18 +36,23 @@ function Footer() {
   const router = useRouter();
   const pathname = usePathname();
 
+  const [isVisible, setIsVisible] = useState(true);
+
   const [home, setHome] = useState(false);
   const [stake, setStake] = useState(false);
   const [match, setMatch] = useState(false);
   const [profile, setProfile] = useState(false);
 
   useEffect(() => {
-    if (!router.isReady) {
-      setHome(true);
-      setStake(true);
-      setMatch(true);
-      setProfile(true);
-      console.log("works");
+    if (
+      pathname == "/" ||
+      pathname == "/home" ||
+      pathname == "/stake" ||
+      pathname == "/profile"
+    ) {
+      setIsVisible(true);
+    } else {
+      setIsVisible(false);
     }
 
     if (pathname == "/") {
@@ -68,7 +73,7 @@ function Footer() {
       setMatch(false);
     }
 
-    if (pathname == "/profile") {
+    if (pathname == "/profile" || pathname == "/profile/recharge" ) {
       setProfile(true);
     } else {
       setProfile(false);
@@ -78,10 +83,10 @@ function Footer() {
   return (
     <div className=" w-[100vw] h-[68px] z-30 fixed bottom-[1.5rem] flex justify-center place-items-center  ">
       <div
-          style={{
-            boxShadow: "0px 5px 5px 0px rgba(0,0,0,0.15)",
-            border:"1px solid lightgray"
-          }}
+        style={{
+          boxShadow: "0px 5px 5px 0px rgba(0,0,0,0.15)",
+          border: "1px solid lightgray",
+        }}
         className="w-[340px] h-[68px]   shadow-[0 4px 28% rgba(0, 0, 0, 0.2)]
          backdrop-blur-sm  flex bg-[#c6cacc91]  justify-evenly  rounded-full place-items-center  "
       >

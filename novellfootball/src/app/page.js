@@ -9,10 +9,13 @@ import { useState } from "react";
 import { IoIosAdd } from "react-icons/io";
 import { FaRupeeSign } from "react-icons/fa";
 import PaymentChannelOne from "./components/PaymentChannelOne";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+
 
 export default function Home() {
   const bgColor =
     "linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(216,242,227,1) 0%, rgba(254,255,254,1) 0%, rgba(240,233,231,1) 46%, rgba(249,230,233,1) 100%)";
+    const router = useRouter()
 
   return (
     <main className="h-screen bg-[url('../../public/home.png')] bg-no-repeat bg- bg-center   ">
@@ -20,10 +23,11 @@ export default function Home() {
         <div className=" flex justify-between px-[.2rem] py-[.1rem] ml-[.5rem] ">
           <div>
             <div
+              onClick={() => router.push('/profile/recharge')}
               className=" flex place-items-center justify-between px-[.3rem] py-[.1rem] rounded-[100px]"
               style={{ background: "#f8fcff" }}
             >
-              <span className="flex place-items-center pl-1 ">
+              <span className="flex place-items-center pl-1">
                 ₹ <p className="font-bold ml-1 ">10,0000</p>
               </span>
               <FaCirclePlus
