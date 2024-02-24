@@ -13,6 +13,7 @@ const PlaceBet = () => {
     confPassword: "",
     Password: "",
   });
+  
   const [scoreData, updateData] = useState([
     {
       score: "0-0",
@@ -67,6 +68,8 @@ const PlaceBet = () => {
   function update(e) {
     updateCredentials((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
+
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -87,6 +90,7 @@ const PlaceBet = () => {
             &lt; Back
           </p>
         </div>
+
         <div className=" px-6 mt-8 text-white">
           <div className="rounded-2xl relative bg-blue-300 pt-4 bg-[../../public/betplace.png]  h-full  text-center  w-full">
             <h2 className="capitalize text-sm font-bold truncate text-white">
@@ -125,11 +129,13 @@ const PlaceBet = () => {
             </div>
           </div>
         </div>
+
         <div className="px-5">
           <h2 className="text-[0.7rem] mt-3 font-semibold text-slate-500">
             Please choose a match score to place your stake.
           </h2>
         </div>
+        
         <div className="mt-3 px-4 space-y-4">
           {/* score cards */}
           {scoreData.map((item, i) => (

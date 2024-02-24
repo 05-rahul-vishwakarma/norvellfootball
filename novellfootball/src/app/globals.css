@@ -10,7 +10,9 @@
   font-optical-sizing: auto;
 }
 
-
+body{
+  background: white;
+}
 
 .react-tel-input {
   background: #ffffff80;
