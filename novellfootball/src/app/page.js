@@ -8,6 +8,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { useState } from "react";
 import { IoIosAdd } from "react-icons/io";
 import { FaRupeeSign } from "react-icons/fa";
+import PaymentChannelOne from "./components/PaymentChannelOne";
 
 export default function Home() {
   const bgColor =
@@ -74,6 +75,11 @@ export default function Home() {
           <MatchCard bgColor="linear-gradient(90deg, rgba(224,235,229,1) 0%, rgba(226,235,228,0.9528186274509804) 7%, rgba(243,231,221,1) 100%)" />
         </div>
       </div>
+
+
+      {/* <PaymentChannelOne/> */}
+
+
 
       {/* <div className="h-full absolute  top-0 left-0 flex justify-center items-end bg-black/70 w-full  ">
         <div className=" h-[80%] pt-[2rem] pb-[6rem]  bg-slate-100 overflow-y-scroll rounded-t-[2rem] w-[98%]">
