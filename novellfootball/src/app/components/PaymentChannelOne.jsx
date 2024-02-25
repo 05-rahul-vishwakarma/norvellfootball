@@ -201,7 +201,7 @@ function PaymentChannelOne() {
 
         <div
           style={{ boxShadow: "0 0 5px 0 #c0cad9" }}
-          className="bg-white text-center p-3 mt-4 flex justify-center place-items-center text-[#9fa8b8] "
+          className="bg-white text-center p-3 mt-4 flex justify-center place-items-center text-[#9fa8b8] rounded-lg "
         >
           Payment Failed
         </div>
