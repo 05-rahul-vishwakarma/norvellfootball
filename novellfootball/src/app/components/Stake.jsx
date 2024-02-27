@@ -4,11 +4,10 @@ import Image from "next/image";
 import teamlogo from "../../../public/logo.png";
 
 function stake({ handleClick }) {
+
   return (
     <div className="border-2 border-gray-[#e2dbd3] min-h-min w-[90%] mr-auto ml-auto rounded-[10px] mt-[.5rem] bg-[#fbf3eb] shadow-sm relative pb-4 ">
       <div
-        // style={{ color }}
-        // onClick={handleClick}
         className="w-max mr-auto ml-auto px-[1rem] py-[.1rem] rounded-b-lg font-semibold bg-[#ec8220] text-white "
       >
         Pending
@@ -85,8 +84,7 @@ function stake({ handleClick }) {
       </div>
 
       <button
-        // onClick={()=>handleClick}
-        onClick={()=>alert('working')}
+       onClick={handleClick}
         className=" bg-[#2885f6] z-10 w-[85%] h-[3.1rem] mr-auto ml-auto block  mt-[1rem] rounded-[5px] font-bold text-white "
       >
         Cancel Stake

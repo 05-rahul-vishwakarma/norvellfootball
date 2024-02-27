@@ -30,14 +30,12 @@ const variantOne = {
 
 function page() {
   const [swipe, setSwipe] = useState(true);
-  const [isShow,setShow]  = useState(false);
 
   const color = "green";
   const colorTwo = "red";
-
-  function handleClick() {
-    alert('working')
-  }
+  const handleClick = () => {
+   console.log("yes workig");
+  };
 
   return (
     <div className="h-screen w-screen  bg-[#f8fcff]   ">
@@ -98,7 +96,7 @@ function page() {
           variants={variantOne}
           className=" absolute top-0 left-0 w-full h-full opacity-[1] "
         >
-          <Stake handleClick = {handleClick} />
+          <Stake handleClick={handleClick} />
         </motion.div>
 
         <motion.div
@@ -119,9 +117,9 @@ function page() {
         </motion.div>
       </div>
 
-      <motion.div className="bg-white h-screen w-screen absolute top-0 left-0 scale-0 ">
+      <div className="bg-white h-screen w-screen absolute top-0 left-0 scale-0 ">
         <Popup image="/success.svg" condtions="Success!" />
-      </motion.div>
+      </div>
     </div>
   );
 }
