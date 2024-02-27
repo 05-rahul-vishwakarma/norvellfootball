@@ -14,7 +14,7 @@ module.exports = {
       },
       fontSize: {
         sm: "0.7rem",
-        xs: "0.5rem",
+        xs: "0.58rem",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

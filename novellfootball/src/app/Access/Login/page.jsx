@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-
 import Image from "next/image";
 import Input from "@/app/components/Input";
 import { motion } from "framer-motion";
@@ -21,7 +20,6 @@ const itemVariant = {
   hidden: { opacity: 0, y: -20 },
   visible: { opacity: 1, y: 0 },
 };
-
 const Login = () => {
   const [credentials, updateCredentials] = useState({
     Username: "",
