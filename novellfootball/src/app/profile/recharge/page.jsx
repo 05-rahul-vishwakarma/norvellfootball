@@ -1,16 +1,18 @@
+"use client"
 
 import BackButton from "@/app/components/BackButton";
 import { TbCoinRupeeFilled } from "react-icons/tb";
 import React from "react";
-
+import { useRouter } from "next/navigation";
 
 
 function page() {
+  const router = useRouter();
   return (
     <div className="h-screen w-screen bg-[#F8FCFF] pb-[7rem] overflow-y-scroll ">
       <div className="h-screen w-screen ">
         <div className="pt-2 ">
-          <BackButton />
+          <BackButton pageName="Recharge" />
         </div>
 
         <div className=" w-[90%] h-[30%] mr-auto ml-auto mt-4  "></div>
@@ -72,6 +74,7 @@ function page() {
               <input type="radio" name="link" id="" />
             </div>
             <div
+              onClick={()=>router.push('/profile/recharge/usdt')}
               style={{ boxShadow: "0 10px 5px rgb(0,0,0,0.08)" }}
               className="flex justify-between px-2 py-3 place-items-center mt-2 w-[98%] mr-auto ml-auto rounded-lg  "
             >
@@ -85,6 +88,7 @@ function page() {
             >
               Recharge
             </div>
+            
           </div>
         </div>
       </div>
@@ -93,4 +97,5 @@ function page() {
 }
 
 export default page;
+
 

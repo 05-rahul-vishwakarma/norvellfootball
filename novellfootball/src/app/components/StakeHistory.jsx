@@ -7,7 +7,7 @@ function StakeHistory({ color, loss ,bgColor }) {
   return (
     <div
      style={{background:bgColor}}
-    className="border-2 border-gray-[#e2dbd3] h-[60%] w-[90%] mr-auto ml-auto rounded-[10px] mt-[.5rem] bg-[#fbf3eb] shadow-sm  ">
+    className="border-2 border-gray-[#e2dbd3] min-h-min  w-[90%] mr-auto ml-auto rounded-[10px] mt-[.5rem] bg-[#fbf3eb] shadow-sm pb-2  ">
       <div
         style={{ background: color }}
         className="w-max mr-auto ml-auto px-[1rem] py-[.1rem] rounded-b-lg font-semibold  text-white "

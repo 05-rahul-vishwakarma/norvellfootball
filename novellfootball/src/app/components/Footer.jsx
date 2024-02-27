@@ -81,7 +81,7 @@ function Footer() {
   });
 
   return (
-    <div className=" w-[100vw] h-[68px] z-30 fixed bottom-[1.5rem] flex justify-center place-items-center  ">
+    <div className=" w-[100vw] h-[68px]  fixed bottom-[1.5rem] flex justify-center place-items-center  ">
       <div
         style={{
           boxShadow: "0px 5px 5px 0px rgba(0,0,0,0.15)",

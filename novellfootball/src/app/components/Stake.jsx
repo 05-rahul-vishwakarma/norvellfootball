@@ -1,12 +1,14 @@
+"use client"
 import React, { useEffect } from "react";
 import Image from "next/image";
 import teamlogo from "../../../public/logo.png";
 
-function stake() {
+function stake({ handleClick }) {
   return (
-    <div className="border-2 border-gray-[#e2dbd3] h-[60%] w-[90%] mr-auto ml-auto rounded-[10px] mt-[.5rem] bg-[#fbf3eb] shadow-sm relative">
+    <div className="border-2 border-gray-[#e2dbd3] min-h-min w-[90%] mr-auto ml-auto rounded-[10px] mt-[.5rem] bg-[#fbf3eb] shadow-sm relative pb-4 ">
       <div
         // style={{ color }}
+        // onClick={handleClick}
         className="w-max mr-auto ml-auto px-[1rem] py-[.1rem] rounded-b-lg font-semibold bg-[#ec8220] text-white "
       >
         Pending
@@ -29,7 +31,8 @@ function stake() {
           <p className="text-red-600 font-[700] text-[1.2rem] ">23:30</p>
           <p className="font-[600] ">25 FEB</p>
         </div>
-        
+
+
         <div className="w-[35%]  flex flex-col place-items-center   ">
           <div className="border-2 h-[40px] w-[40px] rounded-[100%] ">
             <Image src={teamlogo} alt="teamlogo" width={150} height={150} />
@@ -49,7 +52,7 @@ function stake() {
         >
           <p className="">Stake ID : 32100</p>
           <span className="w-[50%] line-clamp-1 text-ellipsis  flex  ">
-            Stake Time 12/10/12 <p className="ml-2" >20:20</p>
+            Stake Time 12/10/12 <p className="ml-2">20:20</p>
           </span>
         </div>
 
@@ -81,10 +84,13 @@ function stake() {
         </div>
       </div>
 
-      <button className=" bg-[#2885f6]  w-[85%] h-[3.1rem] mr-auto ml-auto block  mt-[1rem] rounded-[5px] font-bold text-white ">
+      <button
+        // onClick={()=>handleClick}
+        onClick={()=>alert('working')}
+        className=" bg-[#2885f6] z-10 w-[85%] h-[3.1rem] mr-auto ml-auto block  mt-[1rem] rounded-[5px] font-bold text-white "
+      >
         Cancel Stake
       </button>
-
     </div>
   );
 }
