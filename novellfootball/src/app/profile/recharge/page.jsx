@@ -4,7 +4,7 @@ import BackButton from "@/app/components/BackButton";
 import { TbCoinRupeeFilled } from "react-icons/tb";
 import React from "react";
 import { useRouter } from "next/navigation";
-
+import Image from "next/image";
 
 function page() {
   const router = useRouter();
@@ -15,7 +15,9 @@ function page() {
           <BackButton pageName="Recharge" />
         </div>
 
-        <div className=" w-[90%] h-[30%] mr-auto ml-auto mt-4  "></div>
+        <div className=" w-[90%] h-[30%] mr-auto ml-auto mt-4  ">
+          <Image src={'/recharge.png'} alt="recharge" width={100} height={100} className="w-full h-full " />
+        </div>
         <div className="w-[90%]   mr-auto ml-auto my-3  ">
           <p className="text-[.8rem] ">
             Please Select Or Enter The Desired Amount{" "}
@@ -64,14 +66,14 @@ function page() {
               className="flex justify-between px-2 py-3 place-items-center mt-2 w-[98%] mr-auto ml-auto rounded-lg   "
             >
               <p>Payment link 1</p>
-              <input type="radio" name="link" id="" />
+              <input type="radio" name="link" id="" onClick={()=>router.push('/profile/recharge/paymentChannelOne')} />
             </div>
             <div
               style={{ boxShadow: "0 10px 5px rgb(0,0,0,0.08)" }}
               className="flex justify-between  px-2 py-3 place-items-center mt-2 w-[98%] mr-auto ml-auto rounded-lg  "
             >
               <p>Payment link 2</p>
-              <input type="radio" name="link" id="" />
+              <input type="radio" name="link" id="" onClick={()=>router.push('/profile/recharge/paymentChannelTwo')} />
             </div>
             <div
               onClick={()=>router.push('/profile/recharge/usdt')}
@@ -84,7 +86,7 @@ function page() {
 
             <div
               style={{ boxShadow: "0 0 5px 0 #c0cad9" }}
-              className="bg-[#2885F6] text-center p-3 mt-4 rounded-lg flex justify-center place-items-center text-[#fff] "
+              className="bg-[#2885F6] text-center p-3 mt-[2rem] rounded-lg flex justify-center place-items-center text-[#fff] "
             >
               Recharge
             </div>

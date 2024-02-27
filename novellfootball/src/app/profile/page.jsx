@@ -7,9 +7,13 @@ import { FaArrowDown, FaPlus } from "react-icons/fa6";
 import { IoIosArrowDown, IoIosArrowUp, IoMdLogOut } from "react-icons/io";
 import { useState } from "react";
 import RecordAccordians from "../components/RecordAccordian";
+import { useRouter } from "next/navigation";
+
 import VerificationPopup from "../components/VerificationPopup";
 
 function page() {
+  const router = useRouter();
+
   const [swipe, setSwipe] = useState(1);
   const [getRecord, updateRecord] = useState(false);
   const [getWithdrawal, updateWithdrawal] = useState(false);
@@ -184,6 +188,7 @@ function page() {
           </div>
         </div>
       </main>
+
       <div
         style={{ boxShadow: "0px -1px 20px 4px #dddee5" }}
         className="h-[52%]  shadow-gray-900 rounded-t-[1.5rem]"
@@ -210,7 +215,10 @@ function page() {
                 />
               </svg>
             </div>
-            <div className="h-full w-full flex-[4] capitalize font-bold text-[0.75rem]">
+            <div
+              onClick={() => router.push("/profile/commission")}
+              className="h-full w-full flex-[4] capitalize font-bold text-[0.75rem]"
+            >
               commission center
             </div>
             <div className="h-full w-full flex justify-center items-center flex-[1]">
@@ -240,7 +248,10 @@ function page() {
                 />
               </svg>
             </div>
-            <div className="h-full w-full flex-[4] capitalize font-bold text-[0.75rem]">
+            <div
+              onClick={() => router.push("/profile/withdrawal")}
+              className="h-full w-full flex-[4] capitalize font-bold text-[0.75rem]"
+            >
               payment withdrawal
             </div>
             <div className="h-full w-full flex justify-center items-center flex-[1]">
@@ -269,7 +280,10 @@ function page() {
                 />
               </svg>
             </div>
-            <div className="h-full w-full flex-[4] capitalize font-bold text-[0.75rem]">
+            <div
+              onClick={() => router.push("/profile/editpassword")}
+              className="h-full w-full flex-[4] capitalize font-bold text-[0.75rem]"
+            >
               change password
             </div>
             <div className="h-full w-full flex justify-center items-center flex-[1]">
@@ -294,7 +308,10 @@ function page() {
                 />
               </svg>
             </div>
-            <div className="h-full w-full flex-[4] capitalize font-bold text-[0.75rem]">
+            <div
+              onClick={() => router.push("/profile/help")}
+              className="h-full w-full flex-[4] capitalize font-bold text-[0.75rem]"
+            >
               get help
             </div>
             <div className="h-full w-full flex justify-center items-center flex-[1]">

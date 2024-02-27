@@ -84,7 +84,7 @@ export default function Home() {
 
 
 
-      <div className="h-full absolute  top-0 left-0 flex justify-center items-end bg-black/70 w-full hidden ">
+      {/* <div className="h-full absolute  top-0 left-0 flex justify-center items-end bg-black/70 w-full  ">
         <div className=" h-[80%] pt-[2rem] pb-[6rem]  bg-slate-100 overflow-y-scroll rounded-t-[2rem] w-[98%]">
           <div className="flex  relative px-2  justify-center">
             <h4 className="border-2 border-solid border-blue-700 min-w-[20%] rounded-full"></h4>
@@ -143,7 +143,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      
+       */}
     </main>
   );
 }
