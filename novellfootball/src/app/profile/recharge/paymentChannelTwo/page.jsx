@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { FaRegCopy } from "react-icons/fa6";
 
-function page() {
+function Page() {
   return (
     <div className='className="bg-white w-screen h-screen overflow-y-scroll pb-[12rem]'>
       <div className="flex place-items-center w-[90%] mr-auto ml-auto border-b-2 border-[lightgray] mt-2 py-3 px-2 ">
@@ -116,11 +116,9 @@ function page() {
         </div>
       </div>
 
-      <div className="h-[1rem] w-full bg-[#e0dfdf] " >
+      <div className="h-[1rem] w-full bg-[#e0dfdf] "></div>
 
-      </div>
-
-      <div className="w-[90%] h-[100%]  mr-auto ml-auto mt-2 " >
+      <div className="w-[90%] h-[100%]  mr-auto ml-auto mt-2 ">
         <Image
           src={"/channelTwoInst.png"}
           alt="paytm"
@@ -133,4 +131,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

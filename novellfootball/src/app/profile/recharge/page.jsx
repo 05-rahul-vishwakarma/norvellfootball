@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import BackButton from "@/app/components/BackButton";
 import { TbCoinRupeeFilled } from "react-icons/tb";
@@ -6,7 +6,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-function page() {
+function Page() {
   const router = useRouter();
   return (
     <div className="h-screen w-screen bg-[#F8FCFF] pb-[7rem] overflow-y-scroll ">
@@ -16,7 +16,13 @@ function page() {
         </div>
 
         <div className=" w-[90%] h-[30%] mr-auto ml-auto mt-4  ">
-          <Image src={'/recharge.png'} alt="recharge" width={100} height={100} className="w-full h-full " />
+          <Image
+            src={"/recharge.png"}
+            alt="recharge"
+            width={100}
+            height={100}
+            className="w-full h-full "
+          />
         </div>
         <div className="w-[90%]   mr-auto ml-auto my-3  ">
           <p className="text-[.8rem] ">
@@ -66,17 +72,31 @@ function page() {
               className="flex justify-between px-2 py-3 place-items-center mt-2 w-[98%] mr-auto ml-auto rounded-lg   "
             >
               <p>Payment link 1</p>
-              <input type="radio" name="link" id="" onClick={()=>router.push('/profile/recharge/paymentChannelOne')} />
+              <input
+                type="radio"
+                name="link"
+                id=""
+                onClick={() =>
+                  router.push("/profile/recharge/paymentChannelOne")
+                }
+              />
             </div>
             <div
               style={{ boxShadow: "0 10px 5px rgb(0,0,0,0.08)" }}
               className="flex justify-between  px-2 py-3 place-items-center mt-2 w-[98%] mr-auto ml-auto rounded-lg  "
             >
               <p>Payment link 2</p>
-              <input type="radio" name="link" id="" onClick={()=>router.push('/profile/recharge/paymentChannelTwo')} />
+              <input
+                type="radio"
+                name="link"
+                id=""
+                onClick={() =>
+                  router.push("/profile/recharge/paymentChannelTwo")
+                }
+              />
             </div>
             <div
-              onClick={()=>router.push('/profile/recharge/usdt')}
+              onClick={() => router.push("/profile/recharge/usdt")}
               style={{ boxShadow: "0 10px 5px rgb(0,0,0,0.08)" }}
               className="flex justify-between px-2 py-3 place-items-center mt-2 w-[98%] mr-auto ml-auto rounded-lg  "
             >
@@ -90,7 +110,6 @@ function page() {
             >
               Recharge
             </div>
-            
           </div>
         </div>
       </div>
@@ -98,6 +117,4 @@ function page() {
   );
 }
 
-export default page;
-
-
+export default Page;

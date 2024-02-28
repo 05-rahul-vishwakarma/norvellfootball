@@ -13,7 +13,7 @@ const PlaceBet = () => {
     confPassword: "",
     Password: "",
   });
-  
+
   const [scoreData, updateData] = useState([
     {
       score: "0-0",
@@ -69,7 +69,6 @@ const PlaceBet = () => {
     updateCredentials((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -99,7 +98,12 @@ const PlaceBet = () => {
             <div className="w-full mt-3 flex px-2">
               <div className="flex-[2] flex-col flex w-full items-center h-full ">
                 <span className="h-[60px] w-[60px] rounded-full relative ">
-                  <Image src={"/logo.png"} objectFit="cover" layout="fill" />
+                  <Image
+                    src={"/logo.png"}
+                    alt={"logo"}
+                    objectFit="cover"
+                    layout="fill"
+                  />
                 </span>
                 <span className="line-clamp-2 w-[80%] text-xs capitalize font-bold">
                   team a and here am i
@@ -113,7 +117,12 @@ const PlaceBet = () => {
               </div>
               <div className="flex-[2] flex-col flex w-full items-center h-full ">
                 <span className="h-[60px] w-[60px] rounded-full relative ">
-                  <Image src={"/logo.png"} objectFit="cover" layout="fill" />
+                  <Image
+                    src={"/logo.png"}
+                    alt={"logo"}
+                    objectFit="cover"
+                    layout="fill"
+                  />
                 </span>
                 <span className="line-clamp-2 w-[80%] text-xs capitalize font-bold">
                   team a and here am i
@@ -135,7 +144,7 @@ const PlaceBet = () => {
             Please choose a match score to place your stake.
           </h2>
         </div>
-        
+
         <div className="mt-3 px-4 space-y-4">
           {/* score cards */}
           {scoreData.map((item, i) => (

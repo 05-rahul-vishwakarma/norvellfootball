@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 
 import VerificationPopup from "../components/VerificationPopup";
 
-function page() {
+function Page() {
   const router = useRouter();
 
   const [swipe, setSwipe] = useState(1);
@@ -437,4 +437,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

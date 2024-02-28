@@ -23,15 +23,15 @@ const variantOne = {
   },
   showPopup: {
     scale: 1,
-    opacity:1,
+    opacity: 1,
   },
   hidePopup: {
     scale: 0,
-    opacity:0,
+    opacity: 0,
   },
 };
 
-function page() {
+function Page() {
   const [swipe, setSwipe] = useState(true);
   const [iShow, setShow] = useState(false);
 
@@ -42,9 +42,9 @@ function page() {
     setShow(true);
   };
 
-  const backBtn = () =>{
+  const backBtn = () => {
     setShow(false);
-  }
+  };
 
   return (
     <div className="h-screen w-screen  bg-[#f8fcff]   ">
@@ -132,13 +132,17 @@ function page() {
         transition={{ duration: 0.5 }}
         className="bg-white h-screen w-screen absolute top-0 left-0 opacity-0 scale-0 z-[6] "
       >
-        <Popup image="/cancel.svg" condtions="Cancelled Success!" onClick={backBtn} />
+        <Popup
+          image="/cancel.svg"
+          condtions="Cancelled Success!"
+          onClick={backBtn}
+        />
       </motion.div>
     </div>
   );
 }
 
-export default page;
+export default Page;
 
 function Stake({ onClick }) {
   return (

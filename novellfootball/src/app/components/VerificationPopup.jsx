@@ -105,7 +105,7 @@ const VerificationPopup = ({ toggleVerification }) => {
           >
             Resend
           </a>
-          <Image src={"/play.png"} width={12} height={12}></Image>
+          <Image src={"/play.png"} alt={"play"} width={12} height={12}></Image>
         </div>
         <div className="px-14 mt-2">
           <div className=" bg-gradient-to-r p-[2px] rounded-md from-blue-700 to-slate-950">

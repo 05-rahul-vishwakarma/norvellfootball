@@ -4,7 +4,7 @@ import { RiSecurePaymentLine } from "react-icons/ri";
 import { IoQrCodeOutline } from "react-icons/io5";
 import { FaRegCopy } from "react-icons/fa6";
 
-function page() {
+function Page() {
   return (
     <div className="w-screen h-screen bg-[#F8FCFF]  pb-[12rem] overflow-y-scroll  flex flex-col place-items-center  ">
       <div className=" w-screen mt-4 ">
@@ -50,7 +50,7 @@ function page() {
               <span className="text-[rgb(0,0,0,0.5)] ">Network</span>
               <button className="border-2 border-[#808080]  py-1 flex place-items-center justify-evenly w-[90%] rounded-md ">
                 <IoQrCodeOutline />
-                <p className="text-[rgb(0,0,0,0.5)] " >TRC20</p>
+                <p className="text-[rgb(0,0,0,0.5)] ">TRC20</p>
               </button>
             </div>
 
@@ -99,4 +99,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

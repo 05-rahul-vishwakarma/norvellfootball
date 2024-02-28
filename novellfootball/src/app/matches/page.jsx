@@ -4,7 +4,7 @@ import Image from "next/image";
 import MatchCard2 from "../components/MatchCard2";
 import PlaceBet from "../components/PlaceBet";
 
-function page() {
+function Page() {
   return (
     <section className="bg-[#f7f8ff] relative h-[100dvh]">
       <div className="relative text-center py-4 h-[8%] ">
@@ -41,4 +41,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

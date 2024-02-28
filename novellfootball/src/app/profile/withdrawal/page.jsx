@@ -14,7 +14,7 @@ import { useState } from "react";
 import { IoIosClose } from "react-icons/io";
 import AddBank from "@/app/components/AddBank";
 
-function page({ closePopup }) {
+function Page({ closePopup }) {
   const [getVerification, updateGetVerif] = useState(false);
   const [editBank, updateEditBank] = useState(true);
 
@@ -400,7 +400,7 @@ function page({ closePopup }) {
   );
 }
 
-export default page;
+export default Page;
 
 function VerificationPopup({ toggleVerification }) {
   const [phone, updateVerificationMethod] = useState(true);
