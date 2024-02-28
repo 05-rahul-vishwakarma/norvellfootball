@@ -2,24 +2,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useRef, useEffect } from "react";
-import { BiHomeSmile } from "react-icons/bi";
-import { PiSoccerBall } from "react-icons/pi";
-import { GiNetworkBars } from "react-icons/gi";
-import { CgProfile } from "react-icons/cg";
 import { motion } from "framer-motion";
 
-import Home from "../../../public/Home.svg";
-import StakeImgTwo from "../../../public/vector.svg";
-import Football from "../../../public/Football.svg";
-import profileImg from "../../../public/profile.svg";
-
-import HomeTwo from "../../../public/homeTwo.svg";
-import StakeImg from "../../../public/vectorTwo.svg";
-import FootballTwo from "../../../public/footballTwo.svg";
-import profileImgTwo from "../../../public/profileTwo.svg";
-
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import Router from "next/router";
 
 const variants = {
   open: { width: "140px" },
@@ -73,7 +58,7 @@ function Footer() {
       setMatch(false);
     }
 
-    if (pathname == "/profile" || pathname == "/profile/recharge" ) {
+    if (pathname == "/profile" || pathname == "/profile/recharge") {
       setProfile(true);
     } else {
       setProfile(false);
@@ -102,7 +87,12 @@ function Footer() {
                 animate={home ? "visible" : "hidden"}
               >
                 <p className="flex place-items-center text-[14px] w-[83px] h-[35px] justify-around font-semibold">
-                  <Image src={HomeTwo} alt="teamlogo" width={28} height={28} />
+                  <Image
+                    src={"homeTwo.svg"}
+                    alt="teamlogo"
+                    width={28}
+                    height={28}
+                  />
                   Home
                 </p>
               </motion.div>
@@ -113,7 +103,12 @@ function Footer() {
                 className=" w-[100%] h-[100%] absolute top-0 left-0 flex justify-center place-items-center  "
               >
                 <div className="flex justify-center place-items-center   ">
-                  <Image src={Home} alt="teamlogo" width={28} height={28} />
+                  <Image
+                    src={"/home.svg"}
+                    alt="teamlogo"
+                    width={28}
+                    height={28}
+                  />
                 </div>
               </motion.div>
             </div>
@@ -133,7 +128,7 @@ function Footer() {
               >
                 <p className="  flex place-items-center  text-[14px] w-[130px] h-[35px] justify-center font-semibold ">
                   <Image
-                    src={StakeImgTwo}
+                    src={"/vector.svg"}
                     alt="teamlogo"
                     width={28}
                     height={28}
@@ -149,7 +144,12 @@ function Footer() {
                 className="w-[100%] h-[100%] absolute top-0 left-0 flex justify-center place-items-center "
               >
                 <div className="flex justify-center place-items-center ">
-                  <Image src={StakeImg} alt="teamlogo" width={28} height={28} />
+                  <Image
+                    src={"/vectorTwo.svg"}
+                    alt="teamlogo"
+                    width={28}
+                    height={28}
+                  />
                 </div>
               </motion.div>
             </div>
@@ -169,7 +169,7 @@ function Footer() {
               >
                 <p className="flex place-items-center  text-[14px] w-[83px] h-[35px] justify-around font-semibold">
                   <Image
-                    src={FootballTwo}
+                    src={"/footballTwo.svg"}
                     alt="teamlogo"
                     width={28}
                     height={28}
@@ -185,7 +185,12 @@ function Footer() {
                 className="w-[100%] h-[100%] absolute top-0 left-0 flex justify-center place-items-center "
               >
                 <div className="flex justify-center place-items-center ">
-                  <Image src={Football} alt="teamlogo" width={28} height={28} />
+                  <Image
+                    src={"/Football.svg"}
+                    alt="teamlogo"
+                    width={28}
+                    height={28}
+                  />
                 </div>
               </motion.div>
             </div>
@@ -205,7 +210,7 @@ function Footer() {
               >
                 <p className="flex place-items-center text-[14px] w-[83px] h-[35px] justify-around font-semibold ">
                   <Image
-                    src={profileImgTwo}
+                    src={"/profileTwo.svg"}
                     alt="teamlogo"
                     width={28}
                     height={28}
@@ -221,7 +226,7 @@ function Footer() {
               >
                 <div className="flex justify-center place-items-center ">
                   <Image
-                    src={profileImg}
+                    src={"/profile.svg"}
                     alt="teamlogo"
                     width={28}
                     height={28}
