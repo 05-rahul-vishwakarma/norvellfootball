@@ -1,0 +1,25 @@
+.circularBar {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .svg {
+    transform: rotate(-90deg);
+  }
+  
+  .circle {
+    fill: none;
+  }
+  
+  .background {
+    stroke: #ddd;
+    stroke-width: 6;
+  }
+  
+  .progress {
+    stroke: url(#gradient);
+    stroke-width: 6;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.3s;
+  }
+  

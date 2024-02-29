@@ -7,8 +7,11 @@ import { motion } from "framer-motion";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 const variants = {
-  open: { width: "140px" },
-  closed: { width: "58px" },
+  open: {
+    width: "8.75rem",
+    transition: 1,
+  },
+  closed: { width: "58px", transition: 1 },
   visible: {
     scale: 1,
   },
@@ -18,6 +21,12 @@ const variants = {
 };
 
 function Footer() {
+  return <SecondFooter />;
+}
+
+export default Footer;
+
+function SecondFooter() {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -29,17 +38,6 @@ function Footer() {
   const [profile, setProfile] = useState(false);
 
   useEffect(() => {
-    if (
-      pathname == "/" ||
-      pathname == "/home" ||
-      pathname == "/stake" ||
-      pathname == "/profile"
-    ) {
-      setIsVisible(true);
-    } else {
-      setIsVisible(false);
-    }
-
     if (pathname == "/") {
       setHome(true);
     } else {
@@ -66,179 +64,95 @@ function Footer() {
   });
 
   return (
-    <div className=" w-[100vw] h-[68px] z-[4] fixed bottom-[1.5rem] flex justify-center place-items-center  ">
+    <div className=" w-[100vw] h-[4.25rem] z-[4] fixed bottom-[1.5rem] flex justify-center place-items-center  ">
       <div
         style={{
           boxShadow: "0px 5px 5px 0px rgba(0,0,0,0.15)",
           border: "1px solid lightgray",
         }}
-        className="w-[340px] h-[68px]   shadow-[0 4px 28% rgba(0, 0, 0, 0.2)]
-         backdrop-blur-sm  flex bg-[#c6cacc91]  justify-evenly  rounded-full place-items-center  "
+        className="w-[21.25rem] h-[4.25rem]   shadow-[0 4px 28% rgba(0, 0, 0, 0.2)]
+             backdrop-blur-sm  flex bg-[#c6cacc91]  justify-evenly  rounded-full place-items-center   "
       >
+        {/* ---------- home------------- */}
         <motion.div
           variants={variants}
           animate={home ? "open" : "closed"}
-          className=" bg-[#00000036] h-[58px] w-[140px] rounded-[100px] flex place-items-center justify-center "
+          className="bg-[#00000036] h-[3.62rem] rounded-[100px] flex place-items-center justify-center "
         >
-          <Link href="/" className="text-white  ">
-            <div className="relative flex place-items-center">
-              <motion.div
-                variants={variants}
-                animate={home ? "visible" : "hidden"}
-              >
-                <p className="flex place-items-center text-[14px] w-[83px] h-[35px] justify-around font-semibold">
-                  <Image
-                    src={"homeTwo.svg"}
-                    alt="teamlogo"
-                    width={28}
-                    height={28}
-                  />
-                  Home
-                </p>
-              </motion.div>
-
-              <motion.div
-                variants={variants}
-                animate={home ? "hidden" : "visible"}
-                className=" w-[100%] h-[100%] absolute top-0 left-0 flex justify-center place-items-center  "
-              >
-                <div className="flex justify-center place-items-center   ">
-                  <Image
-                    src={"/home.svg"}
-                    alt="teamlogo"
-                    width={28}
-                    height={28}
-                  />
-                </div>
-              </motion.div>
-            </div>
+          <Link
+            href="/"
+            className="flex place-items-center  w-full justify-center h-full "
+          >
+            <Image
+              src={home ? "/homeTwo.svg" : "home.svg"}
+              alt="home"
+              width={28}
+              height={28}
+            />
+            {home ? <p className="ml-2 text-white ">Home</p> : <p></p>}
           </Link>
         </motion.div>
 
+        {/*------------stake-----------*/}
         <motion.div
           variants={variants}
           animate={stake ? "open" : "closed"}
-          className=" bg-[#00000036]  w-[58px] h-[58px]   rounded-[100px] flex place-items-center justify-center "
+          className="bg-[#00000036] h-[3.62rem] w-[3.62rem] rounded-[100px] flex place-items-center justify-center "
         >
-          <Link href="/stake" className="text-white  ">
-            <div className="relative ">
-              <motion.div
-                variants={variants}
-                animate={stake ? "visible" : "hidden"}
-              >
-                <p className="  flex place-items-center  text-[14px] w-[130px] h-[35px] justify-center font-semibold ">
-                  <Image
-                    src={"/vector.svg"}
-                    alt="teamlogo"
-                    width={28}
-                    height={28}
-                    className="mr-2"
-                  />
-                  Stake List
-                </p>
-              </motion.div>
-
-              <motion.div
-                variants={variants}
-                animate={stake ? "hidden" : "visible"}
-                className="w-[100%] h-[100%] absolute top-0 left-0 flex justify-center place-items-center "
-              >
-                <div className="flex justify-center place-items-center ">
-                  <Image
-                    src={"/vectorTwo.svg"}
-                    alt="teamlogo"
-                    width={28}
-                    height={28}
-                  />
-                </div>
-              </motion.div>
-            </div>
+          <Link
+            href="/stake"
+            className="flex place-items-center  w-full justify-center h-full "
+          >
+            <Image
+              src={stake ? "/stake.svg" : "/stakeTwo.svg"}
+              alt="home"
+              width={28}
+              height={28}
+            />
+            {stake ? <p className="ml-2 text-white ">Stake</p> : <p></p>}
           </Link>
         </motion.div>
 
+        {/*------------match-----------*/}
         <motion.div
           variants={variants}
           animate={match ? "open" : "closed"}
-          className=" bg-[#00000036]  h-[58px]   rounded-[100px] flex place-items-center justify-center "
+          className="bg-[#00000036] h-[3.62rem] w-[3.62rem] rounded-[100px] flex place-items-center justify-center "
         >
-          <Link href="/matches" className="text-white  ">
-            <div className="relative ">
-              <motion.div
-                variants={variants}
-                animate={match ? "visible" : "hidden"}
-              >
-                <p className="flex place-items-center  text-[14px] w-[83px] h-[35px] justify-around font-semibold">
-                  <Image
-                    src={"/footballTwo.svg"}
-                    alt="teamlogo"
-                    width={28}
-                    height={28}
-                    className="mr-2 "
-                  />
-                  Match
-                </p>
-              </motion.div>
-
-              <motion.div
-                variants={variants}
-                animate={match ? "hidden" : "visible"}
-                className="w-[100%] h-[100%] absolute top-0 left-0 flex justify-center place-items-center "
-              >
-                <div className="flex justify-center place-items-center ">
-                  <Image
-                    src={"/Football.svg"}
-                    alt="teamlogo"
-                    width={28}
-                    height={28}
-                  />
-                </div>
-              </motion.div>
-            </div>
+          <Link
+            href="/matches"
+            className="flex place-items-center  w-full justify-center h-full "
+          >
+            <Image
+              src={match ? "/footballTwo.svg" : "/football.svg"}
+              alt="matches"
+              width={28}
+              height={28}
+            />
+            {match ? <p className="ml-2 text-white ">Match</p> : <p></p>}
           </Link>
         </motion.div>
 
+        {/*------------profile-----------*/}
         <motion.div
           variants={variants}
           animate={profile ? "open" : "closed"}
-          className=" bg-[#00000036]  h-[58px]   rounded-[100px] flex place-items-center justify-center "
+          className="bg-[#00000036] h-[3.62rem] w-[3.62rem] rounded-[100px] flex place-items-center justify-center "
         >
-          <Link href="/profile" className="text-white  ">
-            <div className="relative ">
-              <motion.div
-                variants={variants}
-                animate={profile ? "visible" : "hidden"}
-              >
-                <p className="flex place-items-center text-[14px] w-[83px] h-[35px] justify-around font-semibold ">
-                  <Image
-                    src={"/profileTwo.svg"}
-                    alt="teamlogo"
-                    width={28}
-                    height={28}
-                  />
-                  Profile
-                </p>
-              </motion.div>
-
-              <motion.div
-                variants={variants}
-                animate={profile ? "hidden" : "visible"}
-                className="w-[100%] h-[100%] absolute top-0 left-0 flex justify-center place-items-cente "
-              >
-                <div className="flex justify-center place-items-center ">
-                  <Image
-                    src={"/profile.svg"}
-                    alt="teamlogo"
-                    width={28}
-                    height={28}
-                  />
-                </div>
-              </motion.div>
-            </div>
+          <Link
+            href="/profile"
+            className="flex place-items-center  w-full justify-center h-full "
+          >
+            <Image
+              src={profile ? "/profileTwo.svg" : "/profile.svg"}
+              alt="Profile"
+              width={28}
+              height={28}
+            />
+            {profile ? <p className="ml-2 text-white ">Profile</p> : <p></p>}
           </Link>
         </motion.div>
       </div>
     </div>
   );
 }
-
-export default Footer;

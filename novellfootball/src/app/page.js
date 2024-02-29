@@ -8,7 +8,6 @@ import { IoIosArrowBack } from "react-icons/io";
 import { useState } from "react";
 import { IoIosAdd } from "react-icons/io";
 import { FaRupeeSign } from "react-icons/fa";
-import PaymentChannelOne from "./components/PaymentChannelOne";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 
@@ -144,6 +143,7 @@ export default function Home() {
         </div>
       </div>
        */}
+       
     </main>
   );
 }

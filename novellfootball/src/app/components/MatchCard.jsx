@@ -2,29 +2,47 @@
 
 import React from "react";
 
-import { CircularProgressbar } from "react-circular-progressbar";
+import {
+  CircularProgressbar,
+  CircularProgressbarWithChildren,
+  buildStyles,
+} from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
-function MatchCard({bgColor}) {
-  const percentage = 66;
+function MatchCard({ bgColor }) {
+  const percentage = 60;
+  let rang = "green";
+
+  const progressPercent = 50;
+  const barColor = "#00FF00"; // Change to your desired color
 
   return (
     <div
       style={{
         boxShadow: "0px 5px 5px 0px rgba(0,0,0,0.1)",
-        background:bgColor
+        background: bgColor,
       }}
       className=" bg-[#FFD1D1]  h-[100px] flex mr-auto ml-auto my-[1rem] w-[95%]  rounded-xl place-items-center justify-around"
     >
       <div className="w-[27%] flex place-items-center h-[90%] justify-center ">
-        <div className="h-[90%] w-[90%] flex place-items-center justify-center ">
-          <CircularProgressbar
-            styles={{ fontSize: "10px" }}
-            className="bg-black rounded-[100%] p-[8px] text-[.2rem]    "
-            value={percentage}
-            strokeWidth={20}
-            text={`${percentage}M`}
-          />
+        <div className="h-[95%] w-[95%] flex place-items-center justify-center ">
+          <div
+            style={{ width: "100%" }}
+            className="border-2 border-black bg-black    rounded-[200px] p-1 "
+          >
+            <CircularProgressbar
+              value={percentage}
+              text={`${percentage}M`}
+              counterClockwise
+              strokeWidth={14}
+              styles={buildStyles({
+                trailColor: "transparent",
+                pathColor: { rang },
+              })}
+              className="text-[#fff] "
+            />
+
+          </div>
         </div>
       </div>
 
