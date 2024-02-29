@@ -4,27 +4,46 @@ import React from "react";
 
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import HomeGradient from "./HomeGradient";
 
-function MatchCard({bgColor}) {
+function MatchCard({ bgColor, id }) {
   const percentage = 66;
-
+  const colorArr = [
+    { start: "#FFBFBF", stop: "#EC2020" },
+    { start: "#F0FFF6", stop: "#00DB58" },
+    { start: "#DFFAFE", stop: "#1FE4FF" },
+    { start: "#FFEBC9", stop: "#F7A928" },
+  ];
+  const rand = Math.floor(Math.random() * colorArr.length);
   return (
     <div
       style={{
         boxShadow: "0px 5px 5px 0px rgba(0,0,0,0.1)",
-        background:bgColor
+        background: bgColor,
       }}
       className=" bg-[#FFD1D1]  h-[100px] flex mr-auto ml-auto my-[1rem] w-[95%]  rounded-xl place-items-center justify-around"
     >
       <div className="w-[27%] flex place-items-center h-[90%] justify-center ">
-        <div className="h-[90%] w-[90%] flex place-items-center justify-center ">
-          <CircularProgressbar
-            styles={{ fontSize: "10px" }}
-            className="bg-black rounded-[100%] p-[8px] text-[.2rem]    "
-            value={percentage}
-            strokeWidth={20}
-            text={`${percentage}M`}
-          />
+        <div className="h-[100%] aspect-square relative rounded-full bg-[#000000] w-[95%] flex place-items-center justify-center ">
+          <div className="h-[90%] flex justify-center items-center text-white ">
+            <div style={{ lineHeight: 1 }} className="capitalize text-center">
+              <p
+                style={{ color: `${colorArr[rand].stop}` }}
+                className="text-md font-bold"
+              >
+                77M
+              </p>
+              <p className="text-[0.5rem] ">total </p>
+              <p className="text-[0.5rem] ">quantity</p>
+            </div>
+          </div>
+          <div className="absolute flex justify-center items-center h-full w-full">
+            <HomeGradient
+              id={id}
+              percentage={Math.random() * 105}
+              colors={colorArr[rand]}
+            />
+          </div>
         </div>
       </div>
 
