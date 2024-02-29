@@ -24,7 +24,7 @@ function MatchCard({ bgColor, id }) {
       className=" bg-[#FFD1D1]  h-[100px] flex mr-auto ml-auto my-[1rem] w-[95%]  rounded-xl place-items-center justify-around"
     >
       <div className="w-[27%] flex place-items-center h-[90%] justify-center ">
-        <div className="h-[100%] aspect-square relative rounded-full bg-[#000000] w-[95%] flex place-items-center justify-center ">
+        <div className="h-[100%] aspect-square relative rounded-full bg-[#000000] flex place-items-center justify-center ">
           <div className="h-[90%] flex justify-center items-center text-white ">
             <div style={{ lineHeight: 1 }} className="capitalize text-center">
               <p
