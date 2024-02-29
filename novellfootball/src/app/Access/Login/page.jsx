@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Input from "@/app/components/Input";
 import { motion } from "framer-motion";
@@ -22,7 +22,7 @@ const itemVariant = {
 };
 const Login = () => {
   const [credentials, updateCredentials] = useState({
-    Username: "",
+    UserName: "",
     Password: "",
   });
   const [resetPassword, toggleVerification] = useState(false);
@@ -79,7 +79,7 @@ const Login = () => {
                 credentials={credentials}
                 inputType="text"
                 image="user.png"
-                id="Username"
+                id="UserName"
                 update={update}
               />
             </motion.div>

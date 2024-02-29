@@ -1,32 +1,20 @@
 "use client";
-
-import React from "react";
-
-import {
-  CircularProgressbar,
-  CircularProgressbarWithChildren,
-  buildStyles,
-} from "react-circular-progressbar";
-import "react-circular-progressbar/dist/styles.css";
+import { useEffect, useState } from "react";
 import HomeGradient from "./HomeGradient";
 
-function MatchCard({ bgColor }) {
-  const percentage = 60;
-
-  const progressPercent = 50;
-  const barColor = "#00FF00"; // Change to your desired color
-
-// =======
 function MatchCard({ bgColor, id }) {
-  const percentage = 66;
   const colorArr = [
     { start: "#FFBFBF", stop: "#EC2020" },
     { start: "#F0FFF6", stop: "#00DB58" },
     { start: "#DFFAFE", stop: "#1FE4FF" },
     { start: "#FFEBC9", stop: "#F7A928" },
   ];
-  const rand = Math.floor(Math.random() * colorArr.length);
-// >>>>>>> 532bbd5cb716b3da7271dabc66ecf05b5a480dcd
+  let [percentage, updatePercentage] = useState(0);
+  let [rand, updaterand] = useState(0);
+  useEffect(() => {
+    updatePercentage(Math.random() * 105);
+    updaterand(Math.floor(Math.random() * (colorArr.length - 1)));
+  }, []);
   return (
     <div
       style={{
@@ -36,31 +24,12 @@ function MatchCard({ bgColor, id }) {
       className=" bg-[#FFD1D1]  h-[100px] flex mr-auto ml-auto my-[1rem] w-[95%]  rounded-xl place-items-center justify-around"
     >
       <div className="w-[27%] flex place-items-center h-[90%] justify-center ">
-{/* <<<<<<< HEAD */}
-        <div className="h-[95%] w-[95%] flex place-items-center justify-center ">
-          <div
-            style={{ width: "100%" }}
-            className="border-2 border-black bg-black    rounded-[200px] p-1 "
-          >
-            <CircularProgressbar
-              value={percentage}
-              text={`${percentage}M`}
-              counterClockwise
-              strokeWidth={14}
-              styles={buildStyles({
-                trailColor: "transparent",
-                pathColor: { rang },
-              })}
-              className="text-[#fff] "
-            />
-
-{/* ======= */}
         <div className="h-[100%] aspect-square relative rounded-full bg-[#000000] flex place-items-center justify-center ">
           <div className="h-[90%] flex justify-center items-center text-white ">
             <div style={{ lineHeight: 1 }} className="capitalize text-center">
               <p
-                style={{ color: `${colorArr[rand].stop}` }}
-                className="text-md font-bold"
+                // style={{ color: `${colorArr[rand].stop}` }}
+                className={`text-md font-bold text-[${colorArr[rand].stop}]`}
               >
                 77M
               </p>
@@ -71,10 +40,9 @@ function MatchCard({ bgColor, id }) {
           <div className="absolute flex justify-center items-center h-full w-full">
             <HomeGradient
               id={id}
-              percentage={Math.random() * 105}
+              percentage={percentage}
               colors={colorArr[rand]}
             />
-{/* >>>>>>> 532bbd5cb716b3da7271dabc66ecf05b5a480dcd */}
           </div>
         </div>
       </div>

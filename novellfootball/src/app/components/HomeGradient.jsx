@@ -1,4 +1,4 @@
-import React from "react";
+"use client";
 
 function HomeGradient({ colors, id, percentage }) {
   const percent = percentage;

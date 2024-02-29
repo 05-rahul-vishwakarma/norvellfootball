@@ -69,10 +69,15 @@ const RewardsSchema = new Schema({
   Status: { type: Number, default: 0 }, //0->pending , 1->done
 });
 
-const USER = mongoose.model("users", UserSchema);
-const BET = mongoose.model("bets", BetSchema);
-const COMMISSION = mongoose.model("commissions", CommissionSchema);
-const TRANSACTION = mongoose.model("transactions", TransactionSchema);
-const REWARD = mongoose.model("rewards", RewardsSchema);
+const USER = mongoose.models.users || mongoose.model("users", UserSchema);
+const BET = mongoose.models.bets || mongoose.model("bets", BetSchema);
+const COMMISSION =
+  mongoose.models.commissions ||
+  mongoose.model("commissions", CommissionSchema);
+const TRANSACTION =
+  mongoose.models.transactions ||
+  mongoose.model("transactions", TransactionSchema);
+const REWARD =
+  mongoose.models.rewards || mongoose.model("rewards", RewardsSchema);
 
 module.exports = { USER, BET, COMMISSION, TRANSACTION, REWARD };
