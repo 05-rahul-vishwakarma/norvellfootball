@@ -10,11 +10,10 @@ import { IoIosAdd } from "react-icons/io";
 import { FaRupeeSign } from "react-icons/fa";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
-
 export default function Home() {
   const bgColor =
     "linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(216,242,227,1) 0%, rgba(254,255,254,1) 0%, rgba(240,233,231,1) 46%, rgba(249,230,233,1) 100%)";
-    const router = useRouter()
+  const router = useRouter();
 
   return (
     <main className="h-screen bg-[url('../../public/home.png')] bg-no-repeat bg- bg-center   ">
@@ -22,7 +21,7 @@ export default function Home() {
         <div className=" flex justify-between px-[.2rem] py-[.1rem] ml-[.5rem] ">
           <div>
             <div
-              onClick={() => router.push('/profile/recharge')}
+              onClick={() => router.push("/profile/recharge")}
               className=" flex place-items-center justify-between px-[.3rem] py-[.1rem] rounded-[100px]"
               style={{ background: "#f8fcff" }}
             >
@@ -71,17 +70,28 @@ export default function Home() {
           </div>
         </div>
         <div className=" overflow-y-scroll h-[80%] pb-[6rem] ">
-          <MatchCard bgColor="linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(216,242,227,1) 0%, rgba(254,255,254,1) 0%, rgba(240,233,231,1) 46%, rgba(249,230,233,1) 100%)" />
-          <MatchCard bgColor="linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(216,242,227,1) 0%, rgba(140,236,249,0.8911939775910365) 100%)" />
-          <MatchCard bgColor="linear-gradient(90deg, rgba(227,251,240,1) 0%, rgba(223,221,243,1) 47%, rgba(219,192,246,1) 100%)" />
-          <MatchCard bgColor="linear-gradient(90deg, rgba(224,235,229,1) 0%, rgba(226,235,228,0.9528186274509804) 7%, rgba(243,231,221,1) 100%)" />
-          <MatchCard bgColor="linear-gradient(90deg, rgba(224,235,229,1) 0%, rgba(226,235,228,0.9528186274509804) 7%, rgba(243,231,221,1) 100%)" />
+          <MatchCard
+            id={1}
+            bgColor="linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(216,242,227,1) 0%, rgba(254,255,254,1) 0%, rgba(240,233,231,1) 46%, rgba(249,230,233,1) 100%)"
+          />
+          <MatchCard
+            id={2}
+            bgColor="linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(216,242,227,1) 0%, rgba(140,236,249,0.8911939775910365) 100%)"
+          />
+          <MatchCard
+            id={3}
+            bgColor="linear-gradient(90deg, rgba(227,251,240,1) 0%, rgba(223,221,243,1) 47%, rgba(219,192,246,1) 100%)"
+          />
+          <MatchCard
+            id={4}
+            bgColor="linear-gradient(90deg, rgba(224,235,229,1) 0%, rgba(226,235,228,0.9528186274509804) 7%, rgba(243,231,221,1) 100%)"
+          />
+          <MatchCard
+            id={5}
+            bgColor="linear-gradient(90deg, rgba(224,235,229,1) 0%, rgba(226,235,228,0.9528186274509804) 7%, rgba(243,231,221,1) 100%)"
+          />
         </div>
       </div>
-
-
-
-
 
       {/* <div className="h-full absolute  top-0 left-0 flex justify-center items-end bg-black/70 w-full  ">
         <div className=" h-[80%] pt-[2rem] pb-[6rem]  bg-slate-100 overflow-y-scroll rounded-t-[2rem] w-[98%]">

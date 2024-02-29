@@ -8,14 +8,25 @@ import {
   buildStyles,
 } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import HomeGradient from "./HomeGradient";
 
 function MatchCard({ bgColor }) {
   const percentage = 60;
-  let rang = "green";
 
   const progressPercent = 50;
   const barColor = "#00FF00"; // Change to your desired color
 
+// =======
+function MatchCard({ bgColor, id }) {
+  const percentage = 66;
+  const colorArr = [
+    { start: "#FFBFBF", stop: "#EC2020" },
+    { start: "#F0FFF6", stop: "#00DB58" },
+    { start: "#DFFAFE", stop: "#1FE4FF" },
+    { start: "#FFEBC9", stop: "#F7A928" },
+  ];
+  const rand = Math.floor(Math.random() * colorArr.length);
+// >>>>>>> 532bbd5cb716b3da7271dabc66ecf05b5a480dcd
   return (
     <div
       style={{
@@ -25,6 +36,7 @@ function MatchCard({ bgColor }) {
       className=" bg-[#FFD1D1]  h-[100px] flex mr-auto ml-auto my-[1rem] w-[95%]  rounded-xl place-items-center justify-around"
     >
       <div className="w-[27%] flex place-items-center h-[90%] justify-center ">
+{/* <<<<<<< HEAD */}
         <div className="h-[95%] w-[95%] flex place-items-center justify-center ">
           <div
             style={{ width: "100%" }}
@@ -42,6 +54,27 @@ function MatchCard({ bgColor }) {
               className="text-[#fff] "
             />
 
+{/* ======= */}
+        <div className="h-[100%] aspect-square relative rounded-full bg-[#000000] flex place-items-center justify-center ">
+          <div className="h-[90%] flex justify-center items-center text-white ">
+            <div style={{ lineHeight: 1 }} className="capitalize text-center">
+              <p
+                style={{ color: `${colorArr[rand].stop}` }}
+                className="text-md font-bold"
+              >
+                77M
+              </p>
+              <p className="text-[0.5rem] ">total </p>
+              <p className="text-[0.5rem] ">quantity</p>
+            </div>
+          </div>
+          <div className="absolute flex justify-center items-center h-full w-full">
+            <HomeGradient
+              id={id}
+              percentage={Math.random() * 105}
+              colors={colorArr[rand]}
+            />
+{/* >>>>>>> 532bbd5cb716b3da7271dabc66ecf05b5a480dcd */}
           </div>
         </div>
       </div>
