@@ -9,6 +9,7 @@ import { useState } from "react";
 import { IoIosAdd } from "react-icons/io";
 import { FaRupeeSign } from "react-icons/fa";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import Layout from "./components/Layout";
 
 export default function Home() {
   const bgColor =
@@ -16,84 +17,85 @@ export default function Home() {
   const router = useRouter();
 
   return (
-    <main className="h-screen bg-[url('../../public/home.png')] bg-no-repeat bg- bg-center   ">
-      <div className=" h-[10%]  pt-[.5rem] ">
-        <div className=" flex justify-between px-[.2rem] py-[.1rem] ml-[.5rem] ">
-          <div>
-            <div
-              onClick={() => router.push("/profile/recharge")}
-              className=" flex place-items-center justify-between px-[.3rem] py-[.1rem] rounded-[100px]"
-              style={{ background: "#f8fcff" }}
-            >
-              <span className="flex place-items-center pl-1">
-                ₹ <p className="font-bold ml-1 ">10,0000</p>
-              </span>
-              <FaCirclePlus
-                style={{
-                  color: "#2785f6",
-                }}
-              />
+    <Layout>
+      <main className="h-screen bg-[url('../../public/home.png')] bg-no-repeat bg- bg-center   ">
+        <div className=" h-[10%]  pt-[.5rem] ">
+          <div className=" flex justify-between px-[.2rem] py-[.1rem] ml-[.5rem] ">
+            <div>
+              <div
+                onClick={() => router.push("/profile/recharge")}
+                className=" flex place-items-center justify-between px-[.3rem] py-[.1rem] rounded-[100px]"
+                style={{ background: "#f8fcff" }}
+              >
+                <span className="flex place-items-center pl-1">
+                  ₹ <p className="font-bold ml-1 ">10,0000</p>
+                </span>
+                <FaCirclePlus
+                  style={{
+                    color: "#2785f6",
+                  }}
+                />
+              </div>
+
+              <h1 className=" mt-[.5rem] font-extrabold text-[1.2rem] text-white ">
+                TOP EVENTS
+              </h1>
             </div>
 
-            <h1 className=" mt-[.5rem] font-extrabold text-[1.2rem] text-white ">
-              TOP EVENTS
-            </h1>
-          </div>
-
-          <div className="flex mr-[.5rem] place-items-center ">
-            <span className="leading-5 mt-[.5rem] mr-[.3rem] ">
-              <h1 className="font-bold text-white ">WELCOME BACK</h1>
-              <h3 className=" text-white text-end ">DARGON</h3>
-            </span>
-            <span
-              className="h-[4rem] w-[4rem] rounded-[100%] "
-              style={{ background: "#f8fcff" }}
-            >
-              <Image src={logo} alt="logo" width={100} height={100} />
-            </span>
+            <div className="flex mr-[.5rem] place-items-center ">
+              <span className="leading-5 mt-[.5rem] mr-[.3rem] ">
+                <h1 className="font-bold text-white ">WELCOME BACK</h1>
+                <h3 className=" text-white text-end ">DARGON</h3>
+              </span>
+              <span
+                className="h-[4rem] w-[4rem] rounded-[100%] "
+                style={{ background: "#f8fcff" }}
+              >
+                <Image src={logo} alt="logo" width={100} height={100} />
+              </span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="h-[28%] mt-[1rem] w-[95%] mr-auto ml-auto ">
-        <Slider />
-      </div>
+        <div className="h-[28%] mt-[1rem] w-[95%] mr-auto ml-auto ">
+          <Slider />
+        </div>
 
-      <div className="h-[65%] mt-[1rem] rounded-t-[30px]  shadow-2xl shadow-black  bg-[#F8FCFF]">
-        <div className="h-[70px] rounded-t-[30px] flex flex-col justify-around  ">
-          <div className="w-[70px] h-[5px]  mr-auto ml-auto rounded-2xl "></div>
-          <div className="flex  justify-between w-[90%] mr-auto ml-auto  ">
-            <h1 className="ml-[.5rem] font-bold ">Hot Matches</h1>
-            <h1 className="flex mr-[.5rem] text-[12px] font-light text-[#989898] line-clamp-1 text-ellipsis ">
-              Online Users : <p>10000000</p>{" "}
-            </h1>
+        <div className="h-[65%] mt-[1rem] rounded-t-[30px]  shadow-2xl shadow-black  bg-[#F8FCFF]">
+          <div className="h-[70px] rounded-t-[30px] flex flex-col justify-around  ">
+            <div className="w-[70px] h-[5px]  mr-auto ml-auto rounded-2xl "></div>
+            <div className="flex  justify-between w-[90%] mr-auto ml-auto  ">
+              <h1 className="ml-[.5rem] font-bold ">Hot Matches</h1>
+              <h1 className="flex mr-[.5rem] text-[12px] font-light text-[#989898] line-clamp-1 text-ellipsis ">
+                Online Users : <p>10000000</p>{" "}
+              </h1>
+            </div>
+          </div>
+          <div className=" overflow-y-scroll h-[80%] pb-[6rem] ">
+            <MatchCard
+              id={1}
+              bgColor="linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(216,242,227,1) 0%, rgba(254,255,254,1) 0%, rgba(240,233,231,1) 46%, rgba(249,230,233,1) 100%)"
+            />
+            <MatchCard
+              id={2}
+              bgColor="linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(216,242,227,1) 0%, rgba(140,236,249,0.8911939775910365) 100%)"
+            />
+            <MatchCard
+              id={3}
+              bgColor="linear-gradient(90deg, rgba(227,251,240,1) 0%, rgba(223,221,243,1) 47%, rgba(219,192,246,1) 100%)"
+            />
+            <MatchCard
+              id={4}
+              bgColor="linear-gradient(90deg, rgba(224,235,229,1) 0%, rgba(226,235,228,0.9528186274509804) 7%, rgba(243,231,221,1) 100%)"
+            />
+            <MatchCard
+              id={5}
+              bgColor="linear-gradient(90deg, rgba(224,235,229,1) 0%, rgba(226,235,228,0.9528186274509804) 7%, rgba(243,231,221,1) 100%)"
+            />
           </div>
         </div>
-        <div className=" overflow-y-scroll h-[80%] pb-[6rem] ">
-          <MatchCard
-            id={1}
-            bgColor="linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(216,242,227,1) 0%, rgba(254,255,254,1) 0%, rgba(240,233,231,1) 46%, rgba(249,230,233,1) 100%)"
-          />
-          <MatchCard
-            id={2}
-            bgColor="linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(216,242,227,1) 0%, rgba(140,236,249,0.8911939775910365) 100%)"
-          />
-          <MatchCard
-            id={3}
-            bgColor="linear-gradient(90deg, rgba(227,251,240,1) 0%, rgba(223,221,243,1) 47%, rgba(219,192,246,1) 100%)"
-          />
-          <MatchCard
-            id={4}
-            bgColor="linear-gradient(90deg, rgba(224,235,229,1) 0%, rgba(226,235,228,0.9528186274509804) 7%, rgba(243,231,221,1) 100%)"
-          />
-          <MatchCard
-            id={5}
-            bgColor="linear-gradient(90deg, rgba(224,235,229,1) 0%, rgba(226,235,228,0.9528186274509804) 7%, rgba(243,231,221,1) 100%)"
-          />
-        </div>
-      </div>
 
-      {/* <div className="h-full absolute  top-0 left-0 flex justify-center items-end bg-black/70 w-full  ">
+        {/* <div className="h-full absolute  top-0 left-0 flex justify-center items-end bg-black/70 w-full  ">
         <div className=" h-[80%] pt-[2rem] pb-[6rem]  bg-slate-100 overflow-y-scroll rounded-t-[2rem] w-[98%]">
           <div className="flex  relative px-2  justify-center">
             <h4 className="border-2 border-solid border-blue-700 min-w-[20%] rounded-full"></h4>
@@ -153,7 +155,8 @@ export default function Home() {
         </div>
       </div>
        */}
-    </main>
+      </main>
+    </Layout>
   );
 }
 

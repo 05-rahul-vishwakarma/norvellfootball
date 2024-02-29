@@ -56,7 +56,7 @@ function SecondFooter() {
       setMatch(false);
     }
 
-    if (pathname == "/profile" || pathname == "/profile/recharge") {
+    if (pathname == "/profile" || pathname == "/profile/recharge" || pathname == "/profile/commission" || pathname == "/profile/editpassword" || pathname == "/profile/help" || pathname == "/profile/recharge" || pathname == "/profile/withdrawal" ) {
       setProfile(true);
     } else {
       setProfile(false);
@@ -77,7 +77,7 @@ function SecondFooter() {
         <motion.div
           variants={variants}
           animate={home ? "open" : "closed"}
-          className="bg-[#00000036] h-[3.62rem] rounded-[100px] flex place-items-center justify-center "
+          className="bg-[#00000036] h-[3.62rem] w-[3.62rem] rounded-[100px] flex place-items-center justify-center "
         >
           <Link
             href="/"
