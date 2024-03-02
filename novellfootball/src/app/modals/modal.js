@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema(
   {
+    Session: { type: String, required: true },
     UserName: { type: String, required: true },
     Password: { type: String, required: true },
     PhoneNumber: { type: String },
@@ -15,6 +16,7 @@ const UserSchema = new Schema(
     ValidAmount: { type: Number, default: 0 },
     ValidDeposit: { type: Number, default: 0 },
     Deposited: { type: Number, default: 0 },
+    Members: { type: Number, default: 0 },
   },
   { timestamps: true }
 );
@@ -69,15 +71,15 @@ const RewardsSchema = new Schema({
   Status: { type: Number, default: 0 }, //0->pending , 1->done
 });
 
-const USER = mongoose.models.users || mongoose.model("users", UserSchema);
-const BET = mongoose.models.bets || mongoose.model("bets", BetSchema);
+const USER = mongoose?.models?.users || mongoose?.model("users", UserSchema);
+const BET = mongoose?.models?.bets || mongoose.model("bets", BetSchema);
 const COMMISSION =
-  mongoose.models.commissions ||
-  mongoose.model("commissions", CommissionSchema);
+  mongoose?.models?.commissions ||
+  mongoose?.model("commissions", CommissionSchema);
 const TRANSACTION =
-  mongoose.models.transactions ||
-  mongoose.model("transactions", TransactionSchema);
+  mongoose?.models?.transactions ||
+  mongoose?.model("transactions", TransactionSchema);
 const REWARD =
-  mongoose.models.rewards || mongoose.model("rewards", RewardsSchema);
+  mongoose?.models?.rewards || mongoose.model("rewards", RewardsSchema);
 
 module.exports = { USER, BET, COMMISSION, TRANSACTION, REWARD };

@@ -16,7 +16,23 @@ const Input = ({
         <Image src={`/${image}`} alt="correct" width={20} height={20}></Image>
       </div>
       <div className="absolute top-0 flex justify-center items-center right-0  h-full aspect-square px-1.5 py-1.5 ">
-        {credentials[id] && credentials[id].length > 2 ? (
+        {id === "ConfPassword" ? (
+          credentials[id] === credentials["Password"] ? (
+            <Image
+              src={`/tick_mark.png`}
+              alt="correct"
+              width={20}
+              height={20}
+            ></Image>
+          ) : (
+            <Image
+              src={`/wrong.png`}
+              alt="correct"
+              width={20}
+              height={20}
+            ></Image>
+          )
+        ) : credentials[id] && credentials[id].length > 2 ? (
           <Image
             src={`/tick_mark.png`}
             alt="correct"

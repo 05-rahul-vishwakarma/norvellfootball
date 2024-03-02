@@ -4,7 +4,6 @@ import "react-phone-input-2/lib/style.css";
 import Input from "@/app/components/Input";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Alert, Button } from "flowbite-react";
 import Image from "next/image";
 
 const containerVariants = {
@@ -112,7 +111,7 @@ function VerificationPopup({ toggleVerification }) {
 
 const Signup = () => {
   const [credentials, updateCredentials] = useState({
-    Username: "",
+    UserName: "",
     Phone: "",
     Email: "",
     ConfPassword: "",
@@ -126,10 +125,33 @@ const Signup = () => {
   }
   const sendData = async (e) => {
     e.preventDefault();
+    if (
+      !credentials.UserName ||
+      !credentials.ConfPassword ||
+      !credentials.Password ||
+      credentials.ConfPassword !== credentials.Password
+    ) {
+      alert("get error some fields are not filled");
+      return;
+    }
+    if (isInternational && !credentials.Email) {
+      // also validate that this user has validated the email after otp;
+      alert("email is required for international");
+      return;
+    }
+    if (!isInternational && credentials.Email) {
+      alert("If you want to have a email please verify it first");
+      return;
+    }
+    if (!isInternational && !credentials.Phone) {
+      // also validate that this user has validated the phone after otp;
+      alert("phone is required for indian");
+      return;
+    }
     let config = {
-      method: "POST",
+      method: "PUT",
       contentType: "application/json",
-      body: JSON.stringify(credentials),
+      body: JSON.stringify({ ...credentials }),
     };
     let res = await fetch("http://localhost:3000/api/Access", config);
     res = await res.json();
@@ -147,7 +169,7 @@ const Signup = () => {
         />
       </div>
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <motion.form className="space-y-3">
+        <motion.form onSubmit={sendData} className="space-y-3">
           <motion.div
             initial="hidden"
             animate="visible"
@@ -165,7 +187,7 @@ const Signup = () => {
                 credentials={credentials}
                 inputType="text"
                 image="user.png"
-                id="Username"
+                id="UserName"
                 update={update}
               />
             </motion.div>
@@ -218,9 +240,9 @@ const Signup = () => {
                   value={credentials.Phone}
                   inputProps={{
                     name: "Phone",
+                    required: !isInternational,
                   }}
                   onChange={(phone, country, e) => {
-                    console.log(country);
                     country?.dialCode !== "91"
                       ? updtInternational(true)
                       : updtInternational(false);
@@ -285,7 +307,22 @@ const Signup = () => {
           >
             <motion.div variants={itemVariants2}>
               <label
-                htmlFor="User"
+                htmlFor="Password"
+                className="block text-sm font-bold leading-6 text-balance"
+              >
+                Password
+              </label>
+              <Input
+                credentials={credentials}
+                inputType="password"
+                image="lock.png"
+                id="Password"
+                update={update}
+              />
+            </motion.div>
+            <motion.div variants={itemVariants2}>
+              <label
+                htmlFor="ConfirmPassword"
                 className="block text-sm font-bold leading-6 text-balance"
               >
                 Confirm Password

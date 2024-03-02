@@ -1,18 +1,49 @@
-const jwt = require("jsonwebtoken");
+import { v4 as uuid } from "uuid";
+import { jwtVerify, SignJWT } from "jose";
+import { USER } from "@/app/modals/modal";
+import { connect } from "../modals/dbConfig";
 
 const secretKey = process.env.NEXT_PUBLIC_JWT_SECRET; // Replace with your secret key
 
-const generateToken = (payload) => {
-  return jwt.sign(payload, secretKey, { expiresIn: "1h" });
+const generateToken = async (payload) => {
+  const token = await new SignJWT(payload)
+    .setProtectedHeader({ alg: "HS256" })
+    .setJti(uuid())
+    .setIssuedAt()
+    .setExpirationTime("1d")
+    .sign(new TextEncoder().encode(secretKey));
+  return token;
 };
 
-const verifyToken = (token) => {
+const isAuthenticated = async (token, sessionToken) => {
+  connect();
   try {
-    const decoded = jwt.verify(token, secretKey);
-    return { success: true, decoded };
+    const decoded = await jwtVerify(token, new TextEncoder().encode(secretKey));
+    if (!decoded) {
+      return false;
+    } else {
+      let user = await USER.findOne({
+        Session: sessionToken,
+        UserName: decoded?.payload?.UserName || "",
+      });
+      if (!user) {
+        return false;
+      }
+      return decoded?.payload?.UserName;
+    }
   } catch (error) {
+    return false;
+  }
+};
+
+const verifyToken = async (token) => {
+  try {
+    const decoded = await jwtVerify(token, new TextEncoder().encode(secretKey));
+    return { success: true, decoded: decoded?.payload || "" };
+  } catch (error) {
+    console.log(error);
     return { success: false, error: "Invalid token" };
   }
 };
 
-module.exports = { generateToken, verifyToken };
+module.exports = { generateToken, verifyToken, isAuthenticated };
