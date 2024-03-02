@@ -29,13 +29,11 @@ export async function POST(NextRequest) {
       UserName,
       InvitationCode: res.InvitationCode,
     });
-    console.log(sessionToken);
     let isUpdated = await USER.findOneAndUpdate(
       { UserName },
       { Session: sessionToken },
       { new: true }
     );
-    console.log(isUpdated);
     const response = NextResponse.json({ status: 200, message: "logged in" });
     response.cookies.set("token", `${token}`, {
       httpOnly: true,

@@ -71,6 +71,16 @@ const RewardsSchema = new Schema({
   Status: { type: Number, default: 0 }, //0->pending , 1->done
 });
 
+const MatchSchema = new Schema({
+  data: { type: String, default: "0" },
+  version: { type: Number, default: 0 },
+});
+MatchSchema.pre("findOneAndUpdate", function (next) {
+  this._update.$inc = this._update.$inc || {};
+  this._update.$inc.version = 1;
+  next();
+});
+
 const USER = mongoose?.models?.users || mongoose?.model("users", UserSchema);
 const BET = mongoose?.models?.bets || mongoose.model("bets", BetSchema);
 const COMMISSION =
@@ -81,5 +91,7 @@ const TRANSACTION =
   mongoose?.model("transactions", TransactionSchema);
 const REWARD =
   mongoose?.models?.rewards || mongoose.model("rewards", RewardsSchema);
+const MATCH =
+  mongoose?.models?.matches || mongoose?.model("matches", MatchSchema);
 
-module.exports = { USER, BET, COMMISSION, TRANSACTION, REWARD };
+module.exports = { USER, BET, MATCH, COMMISSION, TRANSACTION, REWARD };

@@ -1,9 +1,11 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Input from "@/app/components/Input";
 import { motion } from "framer-motion";
 import VerificationPopup from "@/app/components/VerificationPopup";
+import { useRouter } from "next/navigation";
+
 const containerVariant = {
   hidden: {
     opacity: 1,
@@ -21,6 +23,7 @@ const itemVariant = {
   visible: { opacity: 1, y: 0 },
 };
 const Login = () => {
+  let router = useRouter();
   const [credentials, updateCredentials] = useState({
     UserName: "",
     Password: "",
@@ -37,9 +40,11 @@ const Login = () => {
       contentType: "application/json",
       body: JSON.stringify(credentials),
     };
-    let res = await fetch("http://localhost:3000/api/Access", config);
+    let res = await fetch(`${window.location.origin}/api/access`, config);
     res = await res.json();
-    console.log(res);
+    if (res?.status === 200) {
+      router.push("/");
+    }
   };
 
   return (
