@@ -3,31 +3,35 @@
 
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-const MatchCard2 = () => {
-  const [imgSrc, updateSrc] = useState();
+const MatchCard2 = ({ data, index, placeBet }) => {
+  const [Team_a_logo, updateSrcTeam_a] = useState();
+  const [Team_b_logo, updateSrcTeam_b] = useState();
+
   useEffect(() => {
-    updateSrc("/logo.png");
+    updateSrcTeam_a(data?.Team_a_logo);
+    updateSrcTeam_b(data?.Team_b_logo);
   }, []);
   return (
     <div
+      onClick={() => placeBet(true, data)}
       style={{ boxShadow: "0px 7px 17px 6px #c7d4d6d9" }}
-      className=" rounded-lg py-1 px-3  "
+      className=" rounded-lg py-1.5 px-3  "
     >
       <div
         style={{ gridTemplateColumns: "1fr 0.5fr 1fr" }}
         className=" justify-center items-center grid space-x-2"
       >
-        <div className="flex items-center  justify-end">
-          <span className="text-xs line-clamp-2 flex-[2]  font-bold capitalize">
-            tea and the anme is m 1 an the other one is
+        <div className="flex items-center gap-x-2  justify-end">
+          <span className="text-[0.65rem] line-clamp-2 text-end flex-[2]  font-bold capitalize">
+            {data?.Team_a || "no team a"}
           </span>
-          <span className="h-full relative  flex-[1] aspect-square">
+          <span className="h-full flex justify-center items-center relative  flex-[1] aspect-square">
             <Image
-              src={imgSrc || "/search.png"}
-              layout="fill"
-              objectFit="cover"
-              onError={(e) => updateSrc(null)}
-              alt=""
+              src={Team_a_logo || "/search.png"}
+              width={35}
+              height={35}
+              onError={(e) => updateSrcTeam_a(null)}
+              alt="search"
             />
           </span>
         </div>
@@ -35,24 +39,24 @@ const MatchCard2 = () => {
           <h2 className="text-xs font-bold text-red-600">23:00</h2>
           <h2 className="text-xs font-bold">23 Feb</h2>
         </div>
-        <div className="flex flex-row-reverse items-center justify-end ">
-          <span className="text-xs flex-[2] line-clamp-2 font-bold capitalize">
-            team 1 and the ma an the other oe
+        <div className="flex gap-x-2 flex-row-reverse items-center justify-end ">
+          <span className="text-[0.65rem] flex-[2] line-clamp-2 font-bold capitalize">
+            {data?.Team_b || "No Team B"}
           </span>
-          <span className="h-full relative w-full  flex-[1] aspect-square">
+          <span className="h-full flex justify-center items-center relative w-full  flex-[1] aspect-square">
             <Image
-              src={imgSrc || "/email.png"}
-              onError={(e) => updateSrc(null)}
-              layout="fill"
-              objectFit="cover"
-              alt=""
+              src={Team_b_logo || "/search.png"}
+              onError={(e) => updateSrcTeam_b(null)}
+              height={35}
+              width={35}
+              alt="team b  logo"
             />
           </span>
         </div>
       </div>
-      
-      <div className="text-center py-[0.1rem] pb-1 capitalize text-[0.7rem] font-bold">
-        <h2>lets say league</h2>
+
+      <div className="text-center py-[0.2rem] pb-1 capitalize text-xs font-bold">
+        <h2>{data?.LeagueName || "no league available"}</h2>
       </div>
     </div>
   );

@@ -3,53 +3,37 @@
 // this popup will allow users to select the score to bet on.
 import { easeInOut, motion } from "framer-motion";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Input from "./Input";
 import { IoIosAdd } from "react-icons/io";
 import { FaRupeeSign } from "react-icons/fa";
 
-const PlaceBet = () => {
+const PlaceBet = ({ data, togglePopup }) => {
+  const [Team_a_logo, updateSrcTeam_a] = useState();
+  const [Team_b_logo, updateSrcTeam_b] = useState();
   const [credentials, updateCredentials] = useState({
     confPassword: "",
     Password: "",
   });
 
   const [scoreData, updateData] = useState([
-    {
-      score: "0-0",
-      percent: "4.5",
-      selected: false,
-    },
-    {
-      score: "0-1",
-      percent: "4.5",
-      selected: false,
-    },
-    {
-      score: "0-2",
-      percent: "4.5",
-      selected: false,
-    },
-    {
-      score: "0-3",
-      percent: "4.5",
-      selected: false,
-    },
-    {
-      score: "0-4",
-      percent: "4.5",
-      selected: false,
-    },
-    {
-      score: "0-0",
-      percent: "4.5",
-      selected: false,
-    },
-    {
-      score: "0-0",
-      percent: "4.5",
-      selected: false,
-    },
+    { score: "0-0", selected: false },
+    { score: "0-1", selected: false },
+    { score: "0-2", selected: false },
+    { score: "0-3", selected: false },
+    { score: "1-0", selected: false },
+    { score: "1-1", selected: false },
+    { score: "1-2", selected: false },
+    { score: "1-3", selected: false },
+    { score: "2-0", selected: false },
+    { score: "2-1", selected: false },
+    { score: "2-2", selected: false },
+    { score: "2-3", selected: false },
+    { score: "3-0", selected: false },
+    { score: "3-1", selected: false },
+    { score: "3-2", selected: false },
+    { score: "3-3", selected: false },
+    { score: "4-4", selected: false },
   ]);
 
   function setActive(idx) {
@@ -69,6 +53,10 @@ const PlaceBet = () => {
     updateCredentials((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
+  useEffect(() => {
+    updateSrcTeam_a(data?.Team_a_logo);
+    updateSrcTeam_b(data?.Team_b_logo);
+  }, []);
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -84,29 +72,36 @@ const PlaceBet = () => {
           <h4 className="border-2 border-solid border-blue-700 min-w-[20%] rounded-full"></h4>
           <p
             className="absolute left-2 text-sm font-bold mt-[-1rem] p-2"
-            onClick={() => toggleVerification(false)}
+            onClick={() => togglePopup(false)}
           >
             &lt; Back
           </p>
         </div>
 
         <div className=" px-6 mt-8 text-white">
-          <div className="rounded-2xl relative bg-blue-300 pt-4 bg-[../../public/betplace.png]  h-full  text-center  w-full">
+          <div
+            style={{
+              background: "url(./betplace.png)",
+              backgroundSize: "cover",
+            }}
+            className="rounded-2xl relative pt-4  h-full  text-center  w-full"
+          >
             <h2 className="capitalize text-sm font-bold truncate text-white">
-              premier league
+              {data?.LeagueName || "No league available"}
             </h2>
             <div className="w-full mt-3 flex px-2">
               <div className="flex-[2] flex-col flex w-full items-center h-full ">
-                <span className="h-[60px] w-[60px] rounded-full relative ">
+                <span className="h-[60px] flex justify-center items-center w-[60px] rounded-full relative ">
                   <Image
-                    src={"/logo.png"}
-                    alt={"logo"}
-                    objectFit="cover"
-                    layout="fill"
+                    src={Team_a_logo || "/search.png"}
+                    onError={(e) => updateSrcTeam_b(null)}
+                    height={38}
+                    width={38}
+                    alt="team a  logo"
                   />
                 </span>
                 <span className="line-clamp-2 w-[80%] text-xs capitalize font-bold">
-                  team a and here am i
+                  {data?.Team_a || "team a unavailable"}
                 </span>
               </div>
               <div className="flex-[1] flex items-center justify-center flex-col">
@@ -116,16 +111,17 @@ const PlaceBet = () => {
                 <span className="uppercase text-sm font-bold">27 FEB</span>
               </div>
               <div className="flex-[2] flex-col flex w-full items-center h-full ">
-                <span className="h-[60px] w-[60px] rounded-full relative ">
+                <span className="h-[60px] flex justify-center items-center w-[60px] rounded-full relative ">
                   <Image
-                    src={"/logo.png"}
-                    alt={"logo"}
-                    objectFit="cover"
-                    layout="fill"
+                    src={Team_b_logo || "/search.png"}
+                    onError={(e) => updateSrcTeam_b(null)}
+                    height={38}
+                    width={38}
+                    alt="team b  logo"
                   />
                 </span>
                 <span className="line-clamp-2 w-[80%] text-xs capitalize font-bold">
-                  team a and here am i
+                  {data?.Team_b || "Team b unavailable"}
                 </span>
               </div>
             </div>
@@ -145,7 +141,7 @@ const PlaceBet = () => {
           </h2>
         </div>
 
-        <div className="mt-3 px-4 space-y-4">
+        <div className="mt-3 px-4 pb-40 space-y-4">
           {/* score cards */}
           {scoreData.map((item, i) => (
             <ScoreCards
@@ -153,6 +149,7 @@ const PlaceBet = () => {
               setActive={setActive}
               setDeactivated={setDeactivated}
               key={i}
+              percent={data?.Percents[i]}
             />
           ))}
         </div>
@@ -163,7 +160,23 @@ const PlaceBet = () => {
 
 export default PlaceBet;
 
-function ScoreCards({ cardDetails, setActive, setDeactivated }) {
+function ScoreCards({ percent, cardDetails, setActive, setDeactivated }) {
+  const [estimatedIncome, updateEstimated] = useState(0);
+  const [betAmount, updateBetAmount] = useState(0);
+
+  function updateAmount(e) {
+    updateBetAmount(e?.target?.value || "");
+    updateEstimated(() => {
+      let estimated = (
+        (Number(e?.target?.value) / 100) *
+        Number(percent)
+      ).toFixed(2);
+      return Math.abs(
+        Number(estimated) - (Number(estimated) / 100) * 5
+      ).toFixed(2);
+    });
+  }
+
   return (
     <div>
       <div
@@ -174,8 +187,7 @@ function ScoreCards({ cardDetails, setActive, setDeactivated }) {
           Score <h2 className="ml-1 text-red-500 ">{cardDetails.score}</h2>
         </span>
         <span className="flex items-center">
-          Odds percentage -
-          <h2 className="ml-1 text-green-400">{cardDetails.percent}</h2>
+          Odds percentage -<h2 className="ml-1 text-green-400">{percent}</h2>
           <h2 className="text-green-400">%</h2>
         </span>
         <span
@@ -241,6 +253,8 @@ function ScoreCards({ cardDetails, setActive, setDeactivated }) {
                   className="focus:outline-none h-8 w-[80%] border-none bg-transparent outline-none "
                   placeholder="Add"
                   name=""
+                  onChange={updateAmount}
+                  value={betAmount}
                   id=""
                 />
               </div>
@@ -253,7 +267,7 @@ function ScoreCards({ cardDetails, setActive, setDeactivated }) {
                 </span>
 
                 <span className="text-xs font-bold text-green-500 pr-3">
-                  109230
+                  {estimatedIncome || 0}
                 </span>
               </div>
             </div>
@@ -270,4 +284,30 @@ function ScoreCards({ cardDetails, setActive, setDeactivated }) {
       )}
     </div>
   );
+}
+
+// this function will return a boolean value wether the match is valid according to time or not;
+
+function isValidMatch(inputDateString) {
+  // Convert the input date string to a Date object in the "Asia/Calcutta" timezone
+  const inputDate = new Date(inputDateString);
+  inputDate.setTime(
+    inputDate.getTime() + inputDate.getTimezoneOffset() * 60000
+  );
+  inputDate.setTime(inputDate.getTime() + 330 * 60000);
+
+  // Get the current time in the "Asia/Calcutta" timezone
+  const now = new Date();
+  now.setTime(now.getTime() + now.getTimezoneOffset() * 60000);
+  now.setTime(now.getTime() + 330 * 60000);
+
+  // Calculate the difference between the input date and the current time in minutes
+  const diffInMinutes = (inputDate - now) / 60000;
+
+  // Check if the difference is less than 5 minutes
+  if (Math.abs(diffInMinutes) < 5) {
+    return false;
+  } else {
+    return true;
+  }
 }

@@ -151,11 +151,3 @@ const Login = () => {
 };
 
 export default Login;
-
-// Rahul
-//  home
-//  tradingPage stakes
-//  profile
-
-// vishal
-//  loginSignup
