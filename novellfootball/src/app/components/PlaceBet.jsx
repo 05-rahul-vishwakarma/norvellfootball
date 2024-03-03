@@ -4,9 +4,9 @@
 import { easeInOut, motion } from "framer-motion";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import Input from "./Input";
 import { IoIosAdd } from "react-icons/io";
 import { FaRupeeSign } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 const PlaceBet = ({ data, togglePopup }) => {
   const [Team_a_logo, updateSrcTeam_a] = useState();
@@ -35,6 +35,7 @@ const PlaceBet = ({ data, togglePopup }) => {
     { score: "3-3", selected: false },
     { score: "4-4", selected: false },
   ]);
+  let router = useRouter();
 
   function setActive(idx) {
     let newData = JSON.parse(JSON.stringify(scoreData));
@@ -53,10 +54,40 @@ const PlaceBet = ({ data, togglePopup }) => {
     updateCredentials((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
+  async function placeBet(Percentage, score, BetAmount) {
+    try {
+      let [Score_a, Score_b] = score.split("-");
+      let body = {
+        ...data,
+        BetAmount,
+        Percentage,
+        Score_a,
+        Score_b,
+      };
+      let config = {
+        method: "POST",
+        headers: {
+          "content-type": "applicaiton/json",
+        },
+        body: JSON.stringify(body),
+      };
+      let res = await fetch(`${window.location.origin}/api/match`, config);
+      res = await res.json();
+      if (res?.status === 200) {
+        alert("bet placed");
+      } else if (res?.status === 500 || res?.status === 302) {
+        router.push("/access/login");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     updateSrcTeam_a(data?.Team_a_logo);
     updateSrcTeam_b(data?.Team_b_logo);
   }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -149,6 +180,7 @@ const PlaceBet = ({ data, togglePopup }) => {
               setActive={setActive}
               setDeactivated={setDeactivated}
               key={i}
+              placeBet={placeBet}
               percent={data?.Percents[i]}
             />
           ))}
@@ -160,7 +192,13 @@ const PlaceBet = ({ data, togglePopup }) => {
 
 export default PlaceBet;
 
-function ScoreCards({ percent, cardDetails, setActive, setDeactivated }) {
+function ScoreCards({
+  percent,
+  cardDetails,
+  setActive,
+  setDeactivated,
+  placeBet,
+}) {
   const [estimatedIncome, updateEstimated] = useState(0);
   const [betAmount, updateBetAmount] = useState(0);
 
@@ -276,7 +314,10 @@ function ScoreCards({ percent, cardDetails, setActive, setDeactivated }) {
             <button className="py-2 px-1 font-bold w-[30%] text-sm text-white rounded-md capitalize bg-gray-900">
               all amount
             </button>
-            <button className="py-2 px-2 w-[70%] bg-blue-600 font-bold text-sm text-white rounded-md capitalize">
+            <button
+              onClick={() => placeBet(percent, cardDetails?.score, betAmount)}
+              className="py-2 px-2 w-[70%] bg-blue-600 font-bold text-sm text-white rounded-md capitalize"
+            >
               confirm
             </button>
           </div>

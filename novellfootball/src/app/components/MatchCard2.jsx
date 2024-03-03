@@ -36,8 +36,8 @@ const MatchCard2 = ({ data, index, placeBet }) => {
           </span>
         </div>
         <div className="text-center">
-          <h2 className="text-xs font-bold text-red-600">23:00</h2>
-          <h2 className="text-xs font-bold">23 Feb</h2>
+          <h2 className="text-xs font-extrabold text-red-500">23:00</h2>
+          <h2 className="text-xs font-semibold">23 Feb</h2>
         </div>
         <div className="flex gap-x-2 flex-row-reverse items-center justify-end ">
           <span className="text-[0.65rem] flex-[2] line-clamp-2 font-bold capitalize">

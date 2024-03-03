@@ -27,16 +27,16 @@ const BetSchema = new Schema(
     Team_b: { type: String, required: true },
     Team_a_logo: { type: String, required: true },
     Team_b_logo: { type: String, required: true },
-    League: { type: String, required: true },
+    LeagueName: { type: String, required: true },
     StakeId: { type: Number, required: true },
     BetAmount: { type: Number, required: true }, //amount * 100
     Percentage: { type: Number, required: true },
-    Date: { type: String, required: true },
+    StartsAt: { type: String, required: true },
     Score_a: { type: Number, required: true },
     Score_b: { type: Number, required: true },
     Status: { type: Number, default: 0 }, //0->pending 1->settled 2->canceled
     Remark: { type: String }, //win / lose
-    ParentInv: { type: Number, default: 0 },
+    Parent: { type: String, default: "" },
     UserName: { type: String, required: true },
     InvitationCode: { type: Number, required: true },
   },
