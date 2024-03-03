@@ -36,8 +36,8 @@ function Page() {
   const [swipe, setSwipe] = useState(true);
   const [iShow, setShow] = useState(false);
 
-  const color = "green";
-  const colorTwo = "red";
+  // const color = "green";
+  // const colorTwo = "red";
 
   const showPopup = () => {
     setShow(true);
@@ -46,6 +46,39 @@ function Page() {
   const backBtn = () => {
     setShow(false);
   };
+
+  const items = [
+    {
+      id: 1,
+      result: "Win",
+      resultbg:"green",
+      bgColor: "#EBFFF3",
+    },
+    {
+      id: 2,
+      result: "Loss",
+      resultbg:"red",
+      bgColor: "#FFECEC",
+    },
+    {
+      id: 3,
+      result: "Win",
+      resultbg:"green",
+      bgColor: "#EBFFF3",
+    },
+    {
+      id: 4,
+      result: "Win",
+      resultbg:"green",
+      bgColor: "#EBFFF3",
+    },
+    {
+      id: 5,
+      result: "Win",
+      resultbg:"green",
+      bgColor: "#EBFFF3",
+    },
+  ];
 
   return (
     <Layout>
@@ -66,14 +99,14 @@ function Page() {
         <div className=" h-[60px] w-[90%] mr-auto ml-auto rounded-[10px] relative  bg-[#e8e8e8] ">
           <div className="h-[100%] w-[100%] mr-auto ml-auto rounded-[10px] flex justify-between place-items-center  ">
             <div
-              className="w-[50%]  h-[100%] flex place-items-center  justify-center z-[1] "
+              className="w-[50%]  h-[100%] flex place-items-center  justify-center z-[1] text-[.8rem] "
               onClick={() => setSwipe(true)}
             >
               My Stake
             </div>
             <div
               onClick={() => setSwipe(false)} //swipe = false
-              className="w-[50%]  h-[100%] flex place-items-center  justify-center z-[1] "
+              className="w-[50%]  h-[100%] flex place-items-center text-[.8rem]  justify-center z-[1] "
             >
               History
             </div>
@@ -96,36 +129,23 @@ function Page() {
           }}
           className="h-[38px] font-[600] w-[90%] mr-auto ml-auto rounded-[10px]   border-2 border-black flex justify-center mt-[.7rem] place-items-center "
         >
-          <span className="text-center flex text-[.9rem] ">
-            Total earned from stakes ₹ <p>10000</p>
+          <span className="text-center flex text-[.7rem] ">
+            Total earned from stakes ₹ <p className="ml-1 " >10000</p>
           </span>
         </div>
 
         <div className="h-[65%] mt-[.6rem]  overflow-y-scroll relative  pb-[12rem] ">
-          <motion.div
-            animate={swipe ? "visible" : "hidden"}
-            variants={variantOne}
-            className=" absolute top-0 left-0 w-full h-full opacity-[1] z-[1] "
-          >
-            <Stake onClick={showPopup} />
-          </motion.div>
-
-          <motion.div
-            variants={variantOne}
-            animate={swipe ? "hidden" : "visible"}
-            className="  absolute  top-0 left-0  w-full h-full opacity-0 z-[-1] "
-          >
-            <StakeHistory
-              color={color}
-              loss="Win"
-              bgColor="#ebfff3"
-            ></StakeHistory>
-            <StakeHistory
-              color={colorTwo}
-              loss="Loss"
-              bgColor="#ffecec"
-            ></StakeHistory>
-          </motion.div>
+          {swipe ? (
+            <div className=" h-full absolute top-0 left-0 w-full  ">
+              <Stake onClick={showPopup} />
+            </div>
+          ) : (
+            <div className=" h-full absolute top-0 left-0 w-full  ">
+              {items.map((item,index) => (
+                <StakeHistory key={item.id} id={{item}.id} result={item.result} bgColor={item.bgColor} resultbg={item.resultbg} />
+              ))}
+            </div>
+          )}
         </div>
 
         <motion.div
@@ -150,10 +170,10 @@ export default Page;
 function Stake({ onClick }) {
   return (
     <div className="border-2 border-gray-[#e2dbd3] min-h-min w-[90%] mr-auto ml-auto rounded-[10px] mt-[.5rem] bg-[#fbf3eb] shadow-sm relative pb-4 ">
-      <div className="w-max mr-auto ml-auto px-[1rem] py-[.1rem] rounded-b-lg font-semibold bg-[#ec8220] text-white ">
+      <div className="w-max mr-auto ml-auto px-[1rem] py-[.2rem] rounded-b-lg font-semibold bg-[#ec8220] text-white text-[.6rem] ">
         Pending
       </div>
-      <div className="text-center text-[.8rem] font-bold my-[.6rem] ">
+      <div className="text-center text-[.65rem] font-bold my-[.5rem] ">
         Primere leauge
       </div>
 
@@ -162,31 +182,31 @@ function Stake({ onClick }) {
           <div className="border-2 h-[40px] w-[40px] rounded-[100%] ">
             <Image src={teamlogo} alt="teamlogo" width={150} height={150} />
           </div>
-          <p className=" text-[.65rem] leading-3  line-clamp-2 flex-[2]  font-bold capitalize w-[95%] text-center overflow-ellipsis break-words ">
+          <p className=" leading-3 text-xs  line-clamp-2 flex-[2]  font-bold capitalize w-[95%] text-center overflow-ellipsis break-words ">
             team name hii sir how are you{" "}
           </p>
         </div>
 
         <div className="flex  flex-col place-items-center  ">
-          <p className="text-red-600 font-[700] text-[1.2rem] ">23:30</p>
-          <p className="font-[600] ">25 FEB</p>
+          <p className="text-red-600 font-[700] text-[.8rem] ">23:30</p>
+          <p className="font-[600] text-[.7rem] ">25 FEB</p>
         </div>
 
         <div className="w-[35%]  flex flex-col place-items-center   ">
           <div className="border-2 h-[40px] w-[40px] rounded-[100%] ">
             <Image src={teamlogo} alt="teamlogo" width={150} height={150} />
           </div>
-          <p className=" text-[.65rem] leading-3  line-clamp-2 flex-[2]  font-bold capitalize w-[95%] text-center overflow-ellipsis break-words ">
+          <p className="  leading-3 text-xs  line-clamp-2 flex-[2]  font-bold capitalize w-[95%] text-center overflow-ellipsis break-words ">
             team name hii sir how are you{" "}
           </p>
         </div>
       </div>
 
-      <hr className=" w-[88%] mr-auto ml-auto mt-[.7rem] bg-black opacity-50 " />
+      <hr className=" w-[88%] mr-auto ml-auto mt-[.7rem] bg-black  " />
 
       <div className=" mt-[.3rem] w-[87%] mr-auto ml-auto ">
         <div
-          className="flex  justify-between text-[.65rem] line-clamp-1 font-[600] "
+          className="flex  justify-between text-xs line-clamp-1 font-[600] "
           style={{ color: "gray" }}
         >
           <p className="">Stake ID : 32100</p>
@@ -196,7 +216,7 @@ function Stake({ onClick }) {
         </div>
 
         <div
-          className="flex  justify-between text-[.65rem] line-clamp-1 font-[600] "
+          className="flex  justify-between text-xs line-clamp-1 font-[600] "
           style={{ color: "gray" }}
         >
           <p className="line-clamp-1 text-ellipsis">Stake Amount 100000</p>
@@ -208,10 +228,10 @@ function Stake({ onClick }) {
           </span>
         </div>
 
-        <div className="flex  justify-between text-[.8rem] line-clamp-1  font-extrabold leading-4 ">
-          <span className="flex place-items-center ">
+        <div className="flex  justify-between text-xs line-clamp-1  font-extrabold leading-4 ">
+          <span className="flex place-items-center  ">
             Score FT{" "}
-            <p className="text-red-600 text-[1.2rem] font-extrabold ">0-0</p>{" "}
+            <p className="text-red-600 text-[.8rem] font-extrabold ">0-0</p>{" "}
           </span>
           <span className="w-[50%] flex place-items-center ">
             Odds{" "}
@@ -225,7 +245,7 @@ function Stake({ onClick }) {
 
       <button
         onClick={() => onClick()}
-        className=" bg-[#2885f6] z-10 w-[85%] h-[3.1rem] mr-auto ml-auto block  mt-[1rem] rounded-[5px] font-bold text-white "
+        className=" bg-[#2885f6]  w-[85%] h-[2.5rem] mr-auto ml-auto block  mt-[1rem] rounded-[5px] font-bold text-white  text-[0.8rem] "
       >
         Cancel Stake
       </button>

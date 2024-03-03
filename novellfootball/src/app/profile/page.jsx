@@ -9,6 +9,7 @@ import RecordAccordians from "../components/RecordAccordian";
 import { useRouter } from "next/navigation";
 import Layout from "../components/Layout";
 import VerificationPopup from "../components/VerificationPopup";
+import Vip from "../components/Vip";
 
 function Page() {
   const router = useRouter();
@@ -109,6 +110,9 @@ function Page() {
                 hello there
               </h2>
             </div>
+           
+           
+           
             <div className="w-full mt-1  px-4">
               <div className="rounded-full  bg-white py-0.5 flex justify-between">
                 <div className="flex px-2 space-x-1 items-center">
@@ -135,6 +139,9 @@ function Page() {
                 </div>
               </div>
             </div>
+
+
+
             <div
               onClick={() => updateRecord(true)}
               className="absolute top-4 left-4 "
@@ -443,6 +450,10 @@ function Page() {
           </div>
         )}
       </section>
+
+      {/* <section className="absolute top-0 left-0 w-screen h-screen bg-[#F8FCFF] " >
+       <Vip/>
+      </section> */}
     </Layout>
   );
 }

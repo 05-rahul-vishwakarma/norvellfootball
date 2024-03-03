@@ -29,27 +29,27 @@ function Page() {
 
   return (
     <div className="bg-white w-full h-full absolute top-0 left-0 flex justify-center ">
-      <div className="w-[90%]  h-full flex flex-col place-items-center0 ">
+      <div className="w-[90%]  h-full flex flex-col  ">
         <div
           style={{
-            boxShadow: "0 0 5px 0 #c0cad9",
+            boxShadow: "0 0 4px 0 #c0cad9",
           }}
           className="border-2 border-white shadow-md my-[2rem] w-[100%] py-3 flex  justify-center place-items-center flex-col rounded-lg "
         >
-          <h1 className="flex">
-            $<p>10000</p>
+          <h1 className="flex place-items-center">
+            $<p className="text-[.6rem] text-[#0000ffce] ">10000</p>
           </h1>
-          <p>Payment Amount</p>
+          <p className="text-[.6rem] ">Payment Amount</p>
         </div>
 
         <div
           style={{
             boxShadow: "0 0 5px 0 #c0cad9",
           }}
-          className=" py-2 grid place-items-center "
+          className=" py-2 grid place-items-center text-[.7rem] "
         >
           <div
-            className=" border-b-2 border-[#d3cccc52]
+            className=" border-b-2 border-[#d3cccc52] 
          h-[3rem] flex justify-between place-items-center w-[95%] mr-auto ml-auto my-1  "
           >
             <div className="flex justify-center place-items-center ">
@@ -158,7 +158,7 @@ function Page() {
           variants={accorodient}
           animate={BarCode ? "show" : "hide"}
           style={{ boxShadow: "0 0 5px 0 #c0cad9" }}
-          className="mt-[1rem] rounded-lg h-[5%]  "
+          className="mt-[1rem] rounded-lg h-[5%] text-[.75rem] "
           onClick={() => setBarCode(!BarCode)}
         >
           <div className="py-1 flex justify-between mr-2 ml-2 place-items-center ">
@@ -188,7 +188,7 @@ function Page() {
               />
             </div>
 
-            <p className="uppercase text-center font-semibold text-[#b93939] text-[.9rem] ">
+            <p className=" text-[.75rem]  uppercase text-center font-semibold text-[#b93939] mt-3 ">
               One qr code for single payment only
             </p>
           </motion.div>
@@ -196,14 +196,14 @@ function Page() {
 
         <div
           style={{ boxShadow: "0 0 5px 0 #c0cad9" }}
-          className="bg-[#9fa8b8] text-center p-3 mt-4 flex justify-center place-items-center text-white "
+          className="bg-[#9fa8b8] text-center p-3 mt-4 flex justify-center place-items-center text-white  text-[.7rem] "
         >
           pay $ <p className="ml-1 ">10000</p>
         </div>
 
         <div
           style={{ boxShadow: "0 0 5px 0 #c0cad9" }}
-          className="bg-white text-center p-3 mt-4 flex justify-center place-items-center text-[#9fa8b8] "
+          className="bg-white text-center p-3 mt-4 flex justify-center place-items-center text-[#9fa8b8]  text-[.7rem] "
         >
           Payment Failed
         </div>
