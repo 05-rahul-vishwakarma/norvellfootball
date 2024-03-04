@@ -1,22 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import Image from "next/image";
 import teamlogo from "../../../public/logo.png";
 
-function StakeHistory({ bgColor,result,resultbg }) {
- 
+function StakeHistory({ bgColor, result, resultbg, data }) {
+  const [MatchStartTime, updateTime] = useState(new Date());
+  const [Team_a_logo, updateSrcTeam_a] = useState();
+  const [Team_b_logo, updateSrcTeam_b] = useState();
+
+  useEffect(() => {
+    const MatchTime = new Date(
+      new Date(data?.StartsAt).toLocaleString("en-US", {
+        timeZone: "asia/calcutta",
+      })
+    );
+    updateTime(MatchTime);
+    updateSrcTeam_a(data?.Team_a_logo);
+    updateSrcTeam_b(data?.Team_b_logo);
+  }, []);
+
   return (
     <div
-     style={{background:bgColor}}
-    className="border-2 border-gray-[#e2dbd3] min-h-min  w-[90%] mr-auto ml-auto rounded-[10px] mt-[.5rem] bg-[#fbf3eb] shadow-sm pb-2 text-[.6rem] ">
+      style={{ background: bgColor }}
+      className="border-2 border-gray-[#e2dbd3] min-h-min  w-[90%] mr-auto ml-auto rounded-[10px] mt-[.5rem] bg-[#fbf3eb] shadow-sm pb-2 text-[.6rem] "
+    >
       <div
         style={{ background: resultbg }}
-        className="w-max mr-auto ml-auto px-[1rem] py-[.1rem] rounded-b-lg font-semibold  text-white "
+        className="w-max mr-auto capitalize ml-auto px-[1rem] py-[.1rem] rounded-b-lg font-semibold  text-white "
       >
         {result}
       </div>
       <div className="text-center text-[.65rem] font-bold my-[.5rem] ">
-        Primere leauge
+        {data?.LeagueName || "no league available"}
       </div>
 
       <div className=" flex justify-between place-items-center w-[95%] mr-auto ml-auto ">
@@ -25,13 +40,28 @@ function StakeHistory({ bgColor,result,resultbg }) {
             <Image src={teamlogo} alt="teamlogo" width={150} height={150} />
           </div>
           <p className=" text-xs leading-3  line-clamp-2 flex-[2]  font-bold capitalize w-[95%] text-center overflow-ellipsis break-words ">
-            team name hii sir how are you{" "}
+            {data?.Team_a || "no team available"}
           </p>
         </div>
 
         <div className="flex  flex-col place-items-center  ">
-          <p className="text-red-600 font-[700] text-[.8rem] ">23:30</p>
-          <p className="font-[600] text-[.7rem] ">25 FEB</p>
+          <p className="text-red-600 font-[700] text-[.8rem] ">
+            {" "}
+            {MatchStartTime.getHours() > 12
+              ? `${MatchStartTime.getHours() - 12}`
+              : `0${MatchStartTime.getHours()}`}
+            :
+            {MatchStartTime.getMinutes() < 10
+              ? `0${MatchStartTime.getMinutes()}`
+              : `${MatchStartTime.getMinutes()}`}
+          </p>
+          <p className="font-[600] text-[.7rem] ">
+            {" "}
+            {(MatchStartTime.getDate() < 10
+              ? "0" + MatchStartTime.getDate()
+              : MatchStartTime.getDate()) +
+              MatchStartTime?.toString().slice(3, 7)}
+          </p>
         </div>
 
         <div className="w-[35%]  flex flex-col place-items-center   ">
@@ -39,7 +69,7 @@ function StakeHistory({ bgColor,result,resultbg }) {
             <Image src={teamlogo} alt="teamlogo" width={150} height={150} />
           </div>
           <p className=" text-xs leading-3  line-clamp-2 flex-[2]  font-bold capitalize w-[95%] text-center overflow-ellipsis break-words ">
-            team name hii sir how are you{" "}
+            {data?.Team_a || "no team available"}
           </p>
         </div>
       </div>
@@ -51,7 +81,7 @@ function StakeHistory({ bgColor,result,resultbg }) {
           className="flex  justify-between text-xs line-clamp-1 font-[600] "
           style={{ color: "gray" }}
         >
-          <p className="">Stake ID : 32100</p>
+          <p className="">Stake ID : {data?.StakeId}</p>
           <span className="w-[50%] line-clamp-1 text-ellipsis  flex  ">
             Stake Time 12/10/12 <p className="ml-2">20:20</p>
           </span>
@@ -61,7 +91,9 @@ function StakeHistory({ bgColor,result,resultbg }) {
           className="flex  justify-between text-xs line-clamp-1 font-[600] "
           style={{ color: "gray" }}
         >
-          <p className="line-clamp-1 text-ellipsis">Stake Amount 100000</p>
+          <p className="line-clamp-1 text-ellipsis">
+            Stake Amount {data?.BetAmount || 0}
+          </p>
           <span className="w-[50%]  text-nowrap flex line-clamp-1 text-ellipsis ">
             Estimated Income
             <p className="text-nowrap ml-[.4rem] " style={{ color: "#00db58" }}>
@@ -73,13 +105,15 @@ function StakeHistory({ bgColor,result,resultbg }) {
         <div className="flex  justify-between text-xs line-clamp-1  font-extrabold leading-4 ">
           <span className="flex place-items-center  ">
             Score FT{" "}
-            <p className="text-red-600 text-[.8rem] font-extrabold ">0-0</p>{" "}
+            <p className="text-red-600 text-[.8rem] font-extrabold ">
+              {data?.Score_a}-{data?.Score_b}
+            </p>{" "}
           </span>
           <span className="w-[50%] flex place-items-center ">
             Odds{" "}
             <p className=" ml-[.3rem] " style={{ color: "#00db58" }}>
               {" "}
-              5.64%
+              {data?.Percentage}%
             </p>{" "}
           </span>
         </div>
@@ -96,7 +130,6 @@ function StakeHistory({ bgColor,result,resultbg }) {
           3
         </div>
       </div>
-
     </div>
   );
 }

@@ -183,6 +183,8 @@ export async function POST(request) {
           BetAmount: BetAmount,
           LeagueName,
           StartsAt,
+          Team_a_logo,
+          Team_b_logo,
           Score_a,
           Score_b,
           Percentage,

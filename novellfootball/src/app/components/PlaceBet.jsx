@@ -3,18 +3,18 @@
 // this popup will allow users to select the score to bet on.
 import { easeInOut, motion } from "framer-motion";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { IoIosAdd } from "react-icons/io";
 import { FaRupeeSign } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import { UserContext } from "../helpers/UserContext";
 
 const PlaceBet = ({ data, togglePopup }) => {
+  const { userBalance, getBalance } = useContext(UserContext);
+
   const [Team_a_logo, updateSrcTeam_a] = useState();
   const [Team_b_logo, updateSrcTeam_b] = useState();
-  const [credentials, updateCredentials] = useState({
-    confPassword: "",
-    Password: "",
-  });
+  const [MatchStartTime, updateTime] = useState(new Date());
 
   const [scoreData, updateData] = useState([
     { score: "0-0", selected: false },
@@ -50,10 +50,6 @@ const PlaceBet = ({ data, togglePopup }) => {
     });
   }
 
-  function update(e) {
-    updateCredentials((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  }
-
   async function placeBet(Percentage, score, BetAmount) {
     try {
       let [Score_a, Score_b] = score.split("-");
@@ -75,6 +71,7 @@ const PlaceBet = ({ data, togglePopup }) => {
       res = await res.json();
       if (res?.status === 200) {
         alert("bet placed");
+        await getBalance();
       } else if (res?.status === 500 || res?.status === 302) {
         router.push("/access/login");
       }
@@ -84,6 +81,12 @@ const PlaceBet = ({ data, togglePopup }) => {
   }
 
   useEffect(() => {
+    const MatchTime = new Date(
+      new Date(data?.StartsAt).toLocaleString("en-US", {
+        timeZone: "asia/calcutta",
+      })
+    );
+    updateTime(MatchTime);
     updateSrcTeam_a(data?.Team_a_logo);
     updateSrcTeam_b(data?.Team_b_logo);
   }, []);
@@ -137,7 +140,13 @@ const PlaceBet = ({ data, togglePopup }) => {
               </div>
               <div className="flex-[1] flex items-center justify-center flex-col">
                 <span className="text-xl block font-bold text-red-600">
-                  23:40
+                  {MatchStartTime.getHours() - 12 < 10
+                    ? `0${MatchStartTime.getHours() - 12}`
+                    : `${MatchStartTime.getHours() - 12}`}
+                  :
+                  {MatchStartTime.getHours() < 10
+                    ? `0${MatchStartTime.getMinutes()}`
+                    : `${MatchStartTime.getMinutes()}`}
                 </span>
                 <span className="uppercase text-sm font-bold">27 FEB</span>
               </div>
@@ -182,6 +191,7 @@ const PlaceBet = ({ data, togglePopup }) => {
               key={i}
               placeBet={placeBet}
               percent={data?.Percents[i]}
+              Balance={userBalance}
             />
           ))}
         </div>
@@ -198,6 +208,7 @@ function ScoreCards({
   setActive,
   setDeactivated,
   placeBet,
+  Balance,
 }) {
   const [estimatedIncome, updateEstimated] = useState(0);
   const [betAmount, updateBetAmount] = useState(0);
@@ -259,7 +270,7 @@ function ScoreCards({
                   <FaRupeeSign />
                 </span>
 
-                <span className="text-xs font-bold pr-3">109230</span>
+                <span className="text-xs font-bold pr-3">{Balance}</span>
               </div>
               <span className="h-[90%] font-bolder text-white aspect-square rounded-full bg-blue-700 flex justify-center items-center">
                 <IoIosAdd />
