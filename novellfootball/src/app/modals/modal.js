@@ -34,6 +34,8 @@ const BetSchema = new Schema(
     StartsAt: { type: String, required: true },
     Score_a: { type: Number, required: true },
     Score_b: { type: Number, required: true },
+    Result_a: { type: Number, default: 0 },
+    Result_b: { type: Number, default: 0 },
     Status: { type: Number, default: 0 }, //0->pending 1->settled 2->canceled
     Remark: { type: String }, //win / lose
     Parent: { type: String, default: "" },

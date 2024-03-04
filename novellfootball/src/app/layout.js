@@ -1,5 +1,6 @@
 import Footer from "./components/Footer";
 import "./globals.css";
+import UserContextProvider from "./helpers/UserContext";
 
 export const metadata = {
   title: "NorvellFootball",
@@ -18,7 +19,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
-        {children}        
+        <UserContextProvider>{children}</UserContextProvider>
       </body>
     </html>
   );

@@ -4,10 +4,12 @@ import Image from "next/image";
 import MatchCard2 from "../components/MatchCard2";
 import PlaceBet from "../components/PlaceBet";
 import Layout from "../components/Layout";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import { useRouter } from "next/navigation";
+import { UserContext } from "../helpers/UserContext";
 
 function Page() {
+  const { userBalance, getBalance } = useContext(UserContext);
   const [isPlaceBet, togglePlaceBet] = useState(false);
   const [placeBetData, updatePlaceBetData] = useState({});
   const [matches, updateMatches] = useState([]);
@@ -41,6 +43,9 @@ function Page() {
   }
 
   useEffect(() => {
+    if (!userBalance) {
+      getBalance();
+    }
     if (!matchLoaded) {
       getLiveMatches();
       updateLoaded(true);

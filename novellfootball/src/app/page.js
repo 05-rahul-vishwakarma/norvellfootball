@@ -5,17 +5,19 @@ import logo from "../../public/logo.png";
 import MatchCard from "./components/MatchCard";
 import Slider from "./components/Slider";
 import { IoIosArrowBack } from "react-icons/io";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { IoIosAdd } from "react-icons/io";
 import { FaRupeeSign } from "react-icons/fa";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import Layout from "./components/Layout";
 import { LiaRupeeSignSolid } from "react-icons/lia";
+import { UserContext } from "./helpers/UserContext";
 
 export default function Home() {
   const bgColor =
     "linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(216,242,227,1) 0%, rgba(254,255,254,1) 0%, rgba(240,233,231,1) 46%, rgba(249,230,233,1) 100%)";
   const router = useRouter();
+  const { userBalance, getBalance } = useContext(UserContext);
 
   return (
     <Layout>
@@ -33,7 +35,7 @@ export default function Home() {
                 <span className="flex place-items-center ">
                   <LiaRupeeSignSolid />
                   <p className=" w-[80%] text-ellipsis line-clamp-1 break-words text-wrap text-[0.65rem] ">
-                    10000000
+                    {userBalance || 0}
                   </p>
                 </span>
                 <FaCirclePlus className="text-[#2785f6] " />
@@ -99,7 +101,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="scale-0 " >
+        <div className="scale-0 ">
           <MatchPopup />
         </div>
       </main>

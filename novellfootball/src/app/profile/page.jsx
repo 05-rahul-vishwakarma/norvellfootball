@@ -4,15 +4,17 @@ import { FaRupeeSign } from "react-icons/fa";
 import { LiaAngleLeftSolid, LiaAngleRightSolid } from "react-icons/lia";
 import { FaPlus } from "react-icons/fa6";
 import { IoMdLogOut } from "react-icons/io";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import RecordAccordians from "../components/RecordAccordian";
 import { useRouter } from "next/navigation";
 import Layout from "../components/Layout";
 import VerificationPopup from "../components/VerificationPopup";
 import Vip from "../components/Vip";
+import { UserContext } from "../helpers/UserContext";
 
 function Page() {
   const router = useRouter();
+  const { userBalance, getBalance } = useContext(UserContext);
 
   const [swipe, setSwipe] = useState(1);
   const [getRecord, updateRecord] = useState(false);
@@ -54,16 +56,6 @@ function Page() {
       selected: false,
     },
   ]);
-  async function getData() {
-    let res = await fetch("http://localhost:3000/api/home");
-    res = await res.json();
-    console.log(res);
-  }
-
-  useEffect(() => {
-    getData();
-    return () => {};
-  }, []);
   function setActive(idx) {
     let newData = JSON.parse(JSON.stringify(scoreData));
     newData.forEach((element, i) => {
@@ -110,9 +102,7 @@ function Page() {
                 hello there
               </h2>
             </div>
-           
-           
-           
+
             <div className="w-full mt-1  px-4">
               <div className="rounded-full  bg-white py-0.5 flex justify-between">
                 <div className="flex px-2 space-x-1 items-center">
@@ -139,8 +129,6 @@ function Page() {
                 </div>
               </div>
             </div>
-
-
 
             <div
               onClick={() => updateRecord(true)}
@@ -184,7 +172,9 @@ function Page() {
                   <FaRupeeSign />
                 </span>
 
-                <span className="text-sm font-bold pr-3">109230</span>
+                <span className="text-sm font-bold pl-3">
+                  {userBalance || 0}
+                </span>
               </div>
 
               <div className="flex pl-1 justify-center flex-row-reverse items-center space-x-1">

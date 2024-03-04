@@ -14,6 +14,7 @@ import { connect } from "@/app/modals/dbConfig";
 
 export async function GET(request) {
   if (request?.nextUrl?.searchParams?.get("id") === "2002") {
+    await scheduleMatches();
     cron.schedule("0 0 * * *", async () => {
       await scheduleMatches();
     });

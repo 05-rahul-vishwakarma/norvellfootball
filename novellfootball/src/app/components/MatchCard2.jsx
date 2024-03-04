@@ -6,8 +6,15 @@ import React, { useEffect, useState } from "react";
 const MatchCard2 = ({ data, index, placeBet }) => {
   const [Team_a_logo, updateSrcTeam_a] = useState();
   const [Team_b_logo, updateSrcTeam_b] = useState();
+  const [MatchStartTime, updateTime] = useState(new Date());
 
   useEffect(() => {
+    const MatchTime = new Date(
+      new Date(data?.StartsAt).toLocaleString("en-US", {
+        timeZone: "asia/calcutta",
+      })
+    );
+    updateTime(MatchTime);
     updateSrcTeam_a(data?.Team_a_logo);
     updateSrcTeam_b(data?.Team_b_logo);
   }, []);
@@ -36,8 +43,21 @@ const MatchCard2 = ({ data, index, placeBet }) => {
           </span>
         </div>
         <div className="text-center">
-          <h2 className="text-xs font-extrabold text-red-500">23:00</h2>
-          <h2 className="text-xs font-semibold">23 Feb</h2>
+          <h2 className="text-xs font-extrabold text-red-500">
+            {MatchStartTime.getHours() > 12
+              ? `${MatchStartTime.getHours() - 12}`
+              : `0${MatchStartTime.getHours()}`}
+            :
+            {MatchStartTime.getMinutes() < 10
+              ? `0${MatchStartTime.getMinutes()}`
+              : `${MatchStartTime.getMinutes()}`}
+          </h2>
+          <h2 className="text-xs font-semibold">
+            {(MatchStartTime.getDate() < 10
+              ? "0" + MatchStartTime.getDate()
+              : MatchStartTime.getDate()) +
+              MatchStartTime?.toString().slice(3, 7)}{" "}
+          </h2>
         </div>
         <div className="flex gap-x-2 flex-row-reverse items-center justify-end ">
           <span className="text-[0.65rem] flex-[2] line-clamp-2 font-bold capitalize">
