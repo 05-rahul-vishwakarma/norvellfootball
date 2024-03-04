@@ -8,8 +8,12 @@ import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 
 function Page() {
+  
   const [isPlaceBet, togglePlaceBet] = useState(false);
   const [placeBetData, updatePlaceBetData] = useState({});
+
+  console.log(placeBetData);
+
   const [matches, updateMatches] = useState([]);
   const [matchLoaded, updateLoaded] = useState(false);
 
@@ -113,6 +117,8 @@ function Page() {
                 Loading...
               </div>
             )}
+
+
           </div>
         </main>
         {/* popup */}

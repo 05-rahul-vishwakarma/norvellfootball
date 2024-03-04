@@ -5,7 +5,7 @@ import logo from "../../public/logo.png";
 import MatchCard from "./components/MatchCard";
 import Slider from "./components/Slider";
 import { IoIosArrowBack } from "react-icons/io";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoIosAdd } from "react-icons/io";
 import { FaRupeeSign } from "react-icons/fa";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
@@ -16,6 +16,46 @@ export default function Home() {
   const bgColor =
     "linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(216,242,227,1) 0%, rgba(254,255,254,1) 0%, rgba(240,233,231,1) 46%, rgba(249,230,233,1) 100%)";
   const router = useRouter();
+
+  const [matches, updateMatches] = useState([]);
+  const [matchLoaded, updateLoaded] = useState(false);
+  const [isPlaceBet, togglePlaceBet] = useState(false);
+  const [placeBetData, updatePlaceBetData] = useState({});
+  
+
+
+  const [popup, setPopup] = useState(false);
+
+  const backbtn = () => {
+    setPopup(false);
+  };
+
+  async function getLiveMatches() {
+    try {
+      let res = await fetch(`${window.location.origin}/api/home`);
+      if (!res.ok) throw new Error("Error while fetching matches");
+      res = await res.json();
+      if (res?.status === 200) {
+        updateMatches(res?.data?.matches);
+      } else {
+        throw new Error("Somethign went wrong");
+      }
+    } catch (error) {
+      router.push("/access/login");
+    }
+  }
+
+  async function getPlaceBet(data) {
+    updatePlaceBetData(data);
+    setPopup(true)
+  }
+
+  useEffect(() => {
+    if (!matchLoaded) {
+      getLiveMatches();
+      updateLoaded(true);
+    }
+  }, [matchLoaded]);
 
   return (
     <Layout>
@@ -76,7 +116,7 @@ export default function Home() {
           </div>
 
           <div className=" overflow-y-scroll h-[80%] pb-[6rem] ">
-            <MatchCard
+            {/* <MatchCard
               id={1}
               bgColor="linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(216,242,227,1) 0%, rgba(254,255,254,1) 0%, rgba(240,233,231,1) 46%, rgba(249,230,233,1) 100%)"
             />
@@ -95,12 +135,20 @@ export default function Home() {
             <MatchCard
               id={5}
               bgColor="linear-gradient(90deg, rgba(224,235,229,1) 0%, rgba(226,235,228,0.9528186274509804) 7%, rgba(243,231,221,1) 100%)"
-            />
-          </div>
-        </div>
+            /> */}
 
-        <div className="scale-0 " >
-          <MatchPopup />
+            {matches.map((item, i) => (
+              <div onClick={() => getPlaceBet()}>
+                <MatchCard
+                  key={item.StakeId}
+                  index={i}
+                  data={{ ...item }}
+                />
+              </div>
+            ))}
+
+            {popup ? <MatchPopup data={placeBetData} onClick={backbtn} /> : ""}
+          </div>
         </div>
       </main>
     </Layout>
@@ -211,13 +259,16 @@ function ScoreCards() {
   );
 }
 
-function MatchPopup() {
+function MatchPopup({ onClick }) {
   return (
     <div className="h-full absolute  top-0 left-0 flex justify-center items-end bg-black/70 w-full  ">
       <div className=" h-[80%] pt-[2rem] pb-[6rem]  bg-slate-100 overflow-y-scroll rounded-t-[2rem] w-[98%]">
         <div className="flex  relative px-2  justify-center">
           <h4 className="border-2 border-solid border-blue-700 min-w-[20%] rounded-full"></h4>
-          <p className="absolute left-2 text-sm font-bold mt-[-1rem] p-2">
+          <p
+            onClick={onClick}
+            className="absolute left-2 text-sm font-bold mt-[-1rem] p-2"
+          >
             &lt; Back
           </p>
         </div>

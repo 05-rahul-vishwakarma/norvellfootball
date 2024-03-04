@@ -4,6 +4,7 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 const MatchCard2 = ({ data, index, placeBet }) => {
+  console.log(placeBet);
   const [Team_a_logo, updateSrcTeam_a] = useState();
   const [Team_b_logo, updateSrcTeam_b] = useState();
 
