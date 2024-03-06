@@ -117,6 +117,7 @@ function Page() {
                   </p>
                 </div>
                 <div
+                  onClick={() => router.push("/profile/vip")}
                   className="flex flex-row-reverse  space-x-1
               gap-x-2 items-center justify-end"
                 >
@@ -202,10 +203,12 @@ function Page() {
           <div className="w-full  flex justify-center items-center py-4">
             <h2 className="py-0.5 w-[20%] bg-blue-500 rounded-full"></h2>
           </div>
+          
           <div className="h-full overflow-y-scroll pb-40 px-4">
             <div
-              style={{ boxShadow: "0px 4px 10px 3px #dddee5" }}
-              className="shadow-md flex mt-2 items-center py-2  rounded-full  px-2"
+              onClick={() => router.push("/profile/commission")}
+              style={{ boxShadow: "0px 2px 4px 1px rgb(0,0,0,0.1) " }}
+              className="flex mt-2 items-center py-2  rounded-[19px]  px-2 bg-[#fff] "
             >
               <div className="h-full w-full flex justify-center items-center flex-[1]">
                 <svg
@@ -221,20 +224,19 @@ function Page() {
                   />
                 </svg>
               </div>
-              <div
-                onClick={() => router.push("/profile/commission")}
-                className="h-full w-full flex-[4] capitalize font-bold text-[0.75rem]"
-              >
+
+              <div className="h-full w-full flex-[4] capitalize font-bold text-[0.75rem]">
                 commission center
               </div>
               <div className="h-full w-full flex justify-center items-center flex-[1]">
                 <LiaAngleRightSolid />
               </div>
             </div>
+
             <div
               onClick={() => updateWithdrawal(true)}
-              style={{ boxShadow: "0px 4px 10px 3px #dddee5" }}
-              className="shadow-md flex mt-2 items-center py-2  rounded-full px-2"
+              style={{ boxShadow: "0px 2px 4px 1px rgb(0,0,0,0.1) " }}
+              className="flex mt-2 items-center py-2  rounded-[19px]  px-2 bg-[#fff] "
             >
               <div className="h-full w-full flex justify-center items-center flex-[1]">
                 <svg
@@ -264,9 +266,10 @@ function Page() {
                 <LiaAngleRightSolid />
               </div>
             </div>
+
             <div
-              style={{ boxShadow: "0px 4px 10px 3px #dddee5" }}
-              className="shadow-md flex mt-2 items-center py-2  rounded-full px-2"
+              style={{ boxShadow: "0px 2px 4px 1px rgb(0,0,0,0.1) " }}
+              className="flex mt-2 items-center py-2  rounded-[19px] bg-[#fff]  px-2"
             >
               <div className="h-full w-full flex justify-center items-center flex-[1]">
                 <svg
@@ -296,9 +299,10 @@ function Page() {
                 <LiaAngleRightSolid />
               </div>
             </div>
+
             <div
-              style={{ boxShadow: "0px 4px 10px 3px #dddee5" }}
-              className="shadow-md flex mt-2 items-center py-2  rounded-full px-2"
+              style={{ boxShadow: "0px 2px 4px 1px rgb(0,0,0,0.1) " }}
+              className="flex mt-2 items-center py-2  rounded-[19px] bg-[#fff] px-2"
             >
               <div className="h-full w-full flex justify-center items-center flex-[1]">
                 <svg
@@ -324,9 +328,10 @@ function Page() {
                 <LiaAngleRightSolid />
               </div>
             </div>
+
             <div
-              style={{ boxShadow: "0px 4px 10px 3px #dddee5" }}
-              className="shadow-md flex mt-2 items-center py-2  rounded-full px-2"
+              style={{ boxShadow: "0px 2px 4px 1px rgb(0,0,0,0.1) " }}
+              className="flex mt-2 items-center py-3  rounded-[19px] bg-[#fff]  px-2"
             >
               <div className="h-full w-full flex justify-center items-center flex-[1]">
                 <svg
@@ -359,9 +364,10 @@ function Page() {
                 <LiaAngleRightSolid />
               </div>
             </div>
+
             <div
-              style={{ boxShadow: "0px 4px 10px 3px #dddee5" }}
-              className="shadow-md flex mt-2 items-center py-2  rounded-full px-2 text-red-600"
+              style={{ boxShadow: "0px 2px 4px 1px rgb(0,0,0,0.1) " }}
+              className="flex mt-2 items-center py-2  rounded-[19px] bg-[#fff] px-2 text-red-600 "
             >
               <div className="h-full w-full flex justify-center items-center flex-[1]">
                 <IoMdLogOut className="text-red-500 text-[1.7rem] " />
@@ -373,6 +379,7 @@ function Page() {
                 <LiaAngleRightSolid />
               </div>
             </div>
+
           </div>
         </div>
 
@@ -440,10 +447,6 @@ function Page() {
           </div>
         )}
       </section>
-
-      {/* <section className="absolute top-0 left-0 w-screen h-screen bg-[#F8FCFF] " >
-       <Vip/>
-      </section> */}
     </Layout>
   );
 }

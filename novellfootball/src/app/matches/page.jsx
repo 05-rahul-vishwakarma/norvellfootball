@@ -9,11 +9,7 @@ import { useRouter } from "next/navigation";
 import { UserContext } from "../helpers/UserContext";
 
 function Page() {
-<<<<<<< HEAD
-  
-=======
   const { userBalance, getBalance } = useContext(UserContext);
->>>>>>> 65a906c3451c1a886f37799d791acbde72bf269d
   const [isPlaceBet, togglePlaceBet] = useState(false);
   const [placeBetData, updatePlaceBetData] = useState({});
 

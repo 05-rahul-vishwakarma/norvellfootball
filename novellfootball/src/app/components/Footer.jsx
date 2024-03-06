@@ -56,7 +56,7 @@ function SecondFooter() {
       setMatch(false);
     }
 
-    if (pathname == "/profile" || pathname == "/profile/recharge" || pathname == "/profile/commission" || pathname == "/profile/editpassword" || pathname == "/profile/help" || pathname == "/profile/recharge" || pathname == "/profile/withdrawal" ) {
+    if (pathname == "/profile" || pathname == "/profile/recharge" || pathname == "/profile/commission" || pathname == "/profile/editpassword" || pathname == "/profile/help" || pathname == "/profile/recharge" || pathname == "/profile/withdrawal" || pathname == "/profile/vip" ) {
       setProfile(true);
     } else {
       setProfile(false);
@@ -84,7 +84,7 @@ function SecondFooter() {
             className="flex place-items-center  w-full justify-center h-full "
           >
             <Image
-              src={home ? "/homeTwo.svg" : "home.svg"}
+              src={home ? "/homeTwo.svg" : "/home.svg"}
               alt="home"
               width={28}
               height={28}

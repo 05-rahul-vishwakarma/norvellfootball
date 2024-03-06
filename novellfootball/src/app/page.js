@@ -5,11 +5,7 @@ import logo from "../../public/logo.png";
 import MatchCard from "./components/MatchCard";
 import Slider from "./components/Slider";
 import { IoIosArrowBack } from "react-icons/io";
-<<<<<<< HEAD
-import { useEffect, useState } from "react";
-=======
-import { useContext, useState } from "react";
->>>>>>> 65a906c3451c1a886f37799d791acbde72bf269d
+import { useContext , useState , useEffect} from "react";
 import { IoIosAdd } from "react-icons/io";
 import { FaRupeeSign } from "react-icons/fa";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
@@ -27,8 +23,6 @@ export default function Home() {
   const [matchLoaded, updateLoaded] = useState(false);
   const [isPlaceBet, togglePlaceBet] = useState(false);
   const [placeBetData, updatePlaceBetData] = useState({});
-  
-
 
   const [popup, setPopup] = useState(false);
 
@@ -53,7 +47,7 @@ export default function Home() {
 
   async function getPlaceBet(data) {
     updatePlaceBetData(data);
-    setPopup(true)
+    setPopup(true);
   }
 
   useEffect(() => {
@@ -65,16 +59,20 @@ export default function Home() {
 
   return (
     <Layout>
-      <main className="h-screen bg-[url('../../public/home.png')] bg-no-repeat bg- bg-center   ">
+      <main
+        style={{
+          // background:"linear-gradient(90deg,(#2885F6),(#eee))"
+        }}
+        className="h-screen  bg-no-repeat bg- bg-center bg-gradient-to-b from-[#2885F6] to-[#000]  ">
         <div className="pt-[1rem]">
-          <div className=" flex justify-between place-items-center  mx-1 ">
+          <div className=" flex justify-between place-items-center  mx-1  ">
             <div
               className="pl-1  leading-4
              "
             >
               <div
                 onClick={() => router.push("/profile/recharge")}
-                className=" w-[100%] line-clamp-1 text-ellipsis flex justify-between px-1 place-items-center bg-[#f8fcff] p-1 rounded-[100px] "
+                className="w-[6rem] line-clamp-1 text-ellipsis flex justify-between px-1 place-items-center bg-[#f8fcff] p-1 rounded-[100px] "
               >
                 <span className="flex place-items-center ">
                   <LiaRupeeSignSolid />
@@ -85,26 +83,28 @@ export default function Home() {
                 <FaCirclePlus className="text-[#2785f6] " />
               </div>
 
-              <h1 className=" mt-[.5rem] font-extrabold text-[1rem] text-white ">
-                TOP EVENTS
+              <h1 className=" mt-[1rem] font-extrabold text-[1rem] text-white ">
+                
               </h1>
             </div>
 
             <div className="flex place-items-center pr-1 ">
-              <span className="leading-5 ">
-                <h1 className="font-bold text-white ">WELCOME BACK</h1>
-                <h3 className=" text-white text-end ">DARGON</h3>
+              <span className="leading-4 mr-1 mt-2 text-start ">
+                <h1 className="font-bold text-white text-[.7rem] ">WELCOME BACK</h1>
+                <h3 className=" text-white  line-clamp-1 text-ellipsis text-[.6rem] w-[70px] text-start ">DARGON </h3>
               </span>
 
               <span
-                className="h-[4rem] w-[4rem] rounded-[100%] "
+                className="h-[4.5rem] w-[4.5rem] rounded-[100%] flex justify-center place-items-center "
                 style={{ background: "#f8fcff" }}
               >
-                <Image src={logo} alt="logo" width={90} height={90} />
+                <Image src={logo} alt="logo" width={55} height={55} />
               </span>
             </div>
           </div>
         </div>
+
+          
 
         <div className="h-[28%] mt-[1rem] w-[95%] mr-auto ml-auto ">
           <Slider />
@@ -122,44 +122,40 @@ export default function Home() {
           </div>
 
           <div className=" overflow-y-scroll h-[80%] pb-[6rem] ">
+            
             {/* <MatchCard
               id={1}
               bgColor="linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(216,242,227,1) 0%, rgba(254,255,254,1) 0%, rgba(240,233,231,1) 46%, rgba(249,230,233,1) 100%)"
             />
+            
             <MatchCard
               id={2}
               bgColor="linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(216,242,227,1) 0%, rgba(140,236,249,0.8911939775910365) 100%)"
             />
+            
             <MatchCard
               id={3}
               bgColor="linear-gradient(90deg, rgba(227,251,240,1) 0%, rgba(223,221,243,1) 47%, rgba(219,192,246,1) 100%)"
             />
+            
             <MatchCard
               id={4}
               bgColor="linear-gradient(90deg, rgba(224,235,229,1) 0%, rgba(226,235,228,0.9528186274509804) 7%, rgba(243,231,221,1) 100%)"
             />
+
             <MatchCard
               id={5}
               bgColor="linear-gradient(90deg, rgba(224,235,229,1) 0%, rgba(226,235,228,0.9528186274509804) 7%, rgba(243,231,221,1) 100%)"
             /> */}
 
-<<<<<<< HEAD
             {matches.map((item, i) => (
               <div onClick={() => getPlaceBet()}>
-                <MatchCard
-                  key={item.StakeId}
-                  index={i}
-                  data={{ ...item }}
-                />
+                <MatchCard key={item.StakeId} index={i} data={{ ...item }} />
               </div>
             ))}
 
             {popup ? <MatchPopup data={placeBetData} onClick={backbtn} /> : ""}
           </div>
-=======
-        <div className="scale-0 ">
-          <MatchPopup />
->>>>>>> 65a906c3451c1a886f37799d791acbde72bf269d
         </div>
       </main>
     </Layout>
