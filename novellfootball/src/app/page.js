@@ -12,6 +12,7 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import Layout from "./components/Layout";
 import { LiaRupeeSignSolid } from "react-icons/lia";
 import { UserContext } from "./helpers/UserContext";
+import Modal from "./components/Modal";
 
 export default function Home() {
   const bgColor =
@@ -158,6 +159,7 @@ export default function Home() {
           </div>
         </div>
       </main>
+      <Modal/>
     </Layout>
   );
 }
