@@ -15,7 +15,6 @@ const UserContextProvider = ({ children }) => {
     try {
       let res = await fetch(`${window.location.origin}/api/user`);
       res = await res.json();
-      console.log(res);
       if (res?.status === 200) setUserBalance(res?.data?.Balance);
       if (res?.status === 302) router.push("/access/login");
     } catch (error) {

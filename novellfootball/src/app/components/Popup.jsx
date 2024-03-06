@@ -7,7 +7,7 @@ function Popup({ image, condtions, onClick }) {
   return (
     <div className="h-full w-full bg-[#F8FCFF]  z-[3]  ">
       <div onClick={() => onClick()} className="pt-[2rem]">
-        <BackButton pageName="" />
+        <BackButton pageName="stake" />
       </div>
       <div className=" h-[80%] mt-[2rem]    ">
         <div className=" h-[50vh] flex flex-col justify-center place-items-center ">

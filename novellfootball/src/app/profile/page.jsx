@@ -79,7 +79,7 @@ function Page() {
           {/* hero section */}
           <div
             style={{
-              background: "url(./profile-bg.png) center no-repeat",
+              background: "url(./profile_bg.png) center no-repeat",
               backgroundSize: "cover",
               borderRadius: "25px",
             }}
