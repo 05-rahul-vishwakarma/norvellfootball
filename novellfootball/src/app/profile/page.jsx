@@ -79,7 +79,7 @@ function Page() {
           {/* hero section */}
           <div
             style={{
-              background: "url(./profile-bg.png) center no-repeat",
+              background: "url(./profile_bg.png) center no-repeat",
               backgroundSize: "cover",
             }}
             className=" h-[65%] py-4  w-full relative 
@@ -203,7 +203,7 @@ function Page() {
           <div className="w-full  flex justify-center items-center py-4">
             <h2 className="py-0.5 w-[20%] bg-blue-500 rounded-full"></h2>
           </div>
-          
+
           <div className="h-full overflow-y-scroll pb-40 px-4">
             <div
               onClick={() => router.push("/profile/commission")}
@@ -379,7 +379,6 @@ function Page() {
                 <LiaAngleRightSolid />
               </div>
             </div>
-
           </div>
         </div>
 
