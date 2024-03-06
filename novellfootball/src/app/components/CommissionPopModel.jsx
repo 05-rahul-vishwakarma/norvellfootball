@@ -59,7 +59,7 @@ function CommissionPopModel({ closeModel }) {
     });
   }
   return (
-    <div className="h-screen w-screen overflow-y-hidden bg-[#f8fcff] ">
+    <div className="h-screen w-screen overflow-y-hidden bg-[#F8FCFF] ">
       <div className="py-[1rem] h-[10%] ">
         <div className="grid grid-flow-col  place-items-center">
           <span
@@ -112,7 +112,8 @@ function CommissionPopModel({ closeModel }) {
           <input
             type="text"
             name=""
-            style={{ boxShadow: " 0px 5px 10px 1px #cfd8e4" }}
+            
+            style={{ boxShadow: "0px 8px 15px 0px rgba(0,0,0,0.1) " }}
             className="text-center px-4 rounded-full py-1.5 outline-none
               shadow-gray-500
             border-none bg-white w-full"
@@ -173,7 +174,9 @@ export default CommissionPopModel;
 // new register accordian button
 function RegisterAcordian({ cardDetails, setActive, setDeactivated, idx }) {
   return (
-    <div className="bg-white mb-4 w-full px-6 py-2 shadow-md rounded-md">
+    <div
+       style={{boxShadow:"0 5px 5px rgba(0,0,0,0.02) "}}
+      className="bg-white mb-4 w-full px-6 py-2  rounded-md">
       <div className="grid grid-cols-3 justify-between ">
         <motion.div
           layoutId={idx + 1}

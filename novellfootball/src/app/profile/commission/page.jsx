@@ -20,7 +20,7 @@ const Page = () => {
 
   return (
     <Layout>
-      <section className=" bg-[#f8f8f8] w-full relative h-[100dvh]">
+      <section className=" bg-[#F8FCFF] w-full relative h-[100dvh]">
         <div className="relative text-center py-4 h-[8%] ">
           <h2 className=" capitalize text-[0.8rem] font-bold my-0">
             commission center
@@ -34,7 +34,7 @@ const Page = () => {
               backgroundSize: "cover ",
             }}
             className=" h-[65%] py-4 pb-7 ring-[0.2px] ring-gray-600 w-full relative 
-       rounded-2xl"
+       rounded-[25px] "
           >
             <div className="flex flex-col w-full mt-2 justify-center items-center py-3">
               <span
@@ -121,9 +121,10 @@ const Page = () => {
           } pt-2  shadow-gray-900 rounded-t-[1.5rem]`}
         >
           <div className="h-full overflow-y-scroll pb-40 px-4">
+           
             <div
-              style={{ boxShadow: "0px 4px 10px 3px #dddee5" }}
-              className="shadow-md mt-3 items-center py-2.5   rounded-2xl  px-4"
+              style={{ boxShadow: "0px 5px 15px 0px rgba(0,0,0,0.1) " }}
+              className="mt-3 items-center py-2.5 bg-[#FFFFFF]  rounded-2xl  px-4"
             >
               <div className="flex items-center ">
                 <div className="h-full   w-full flex text-[0.6rem] font-semibold capitalize  items-center flex-[2]">
@@ -176,10 +177,11 @@ const Page = () => {
                 </motion.div>
               )}
             </div>
+
             <div
               onClick={() => updateCommissionPop(true)}
-              style={{ boxShadow: "0px 4px 10px 3px #dddee5" }}
-              className="shadow-md flex mt-3 items-center py-2.5  rounded-full  px-2"
+              style={{ boxShadow: "0px 5px 15px 0px rgba(0,0,0,0.1) " }}
+              className="shadow-md flex mt-3 items-center py-[0.7rem] bg-[#FFF]  rounded-2xl  px-2"
             >
               <div className="h-full pl-2  w-full flex text-[0.6rem] font-semibold capitalize  items-center flex-[2]">
                 new deposit
@@ -193,10 +195,11 @@ const Page = () => {
                 </div>
               </div>
             </div>
+
             <div
               onClick={() => updateCommissionPop(true)}
-              style={{ boxShadow: "0px 4px 10px 3px #dddee5" }}
-              className="shadow-md flex mt-3 items-center py-2.5  rounded-full  px-2"
+              style={{ boxShadow: "0px 5px 15px 0px rgba(0,0,0,0.1) " }}
+              className="shadow-md flex mt-3 items-center py-[0.7rem] bg-[#FFF] rounded-2xl  px-2"
             >
               <div className="h-full pl-2  w-full flex text-[0.6rem] font-semibold capitalize  items-center flex-[2]">
                 total withdrawal
@@ -210,10 +213,11 @@ const Page = () => {
                 </div>
               </div>
             </div>
+
             <div
               onClick={() => updateCommissionPop(true)}
-              style={{ boxShadow: "0px 4px 10px 3px #dddee5" }}
-              className="shadow-md flex mt-3 items-center py-2.5  rounded-full  px-2"
+              style={{ boxShadow: "0px 5px 15px 0px rgba(0,0,0,0.1) " }}
+              className="shadow-md flex mt-3 items-center py-[.7rem] bg-white  rounded-2xl  px-2"
             >
               <div className="h-full pl-2  w-full flex text-[0.6rem] font-semibold capitalize  items-center flex-[2]">
                 today&apos;s commission
@@ -227,10 +231,11 @@ const Page = () => {
                 </div>
               </div>
             </div>
+
             <div
               onClick={() => updateCommissionPop(true)}
-              style={{ boxShadow: "0px 4px 10px 3px #dddee5" }}
-              className="shadow-md flex mt-3 items-center py-2.5  rounded-full  px-2"
+              style={{ boxShadow: "0px 5px 15px 0px rgba(0,0,0,0.1) " }}
+              className="shadow-md flex mt-3 items-center py-[.7rem]  rounded-2xl bg-white  px-2"
             >
               <div className="h-full pl-2  w-full flex text-[0.6rem] font-semibold capitalize  items-center flex-[2]">
                 new register
@@ -244,6 +249,7 @@ const Page = () => {
                 </div>
               </div>
             </div>
+
           </div>
         </div>
 

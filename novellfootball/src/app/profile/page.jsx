@@ -81,9 +81,10 @@ function Page() {
             style={{
               background: "url(./profile-bg.png) center no-repeat",
               backgroundSize: "cover",
+              borderRadius: "25px",
             }}
             className=" h-[65%] py-4  w-full relative 
-       rounded-xl"
+             rounded-[20px]  "
           >
             <div className="flex flex-col w-full justify-center items-center py-3">
               <span
@@ -203,11 +204,12 @@ function Page() {
           <div className="w-full  flex justify-center items-center py-4">
             <h2 className="py-0.5 w-[20%] bg-blue-500 rounded-full"></h2>
           </div>
-          
+
           <div className="h-full overflow-y-scroll pb-40 px-4">
+            
             <div
               onClick={() => router.push("/profile/commission")}
-              style={{ boxShadow: "0px 2px 4px 1px rgb(0,0,0,0.1) " }}
+              style={{ boxShadow: "0px 2px 8px 1px rgb(0,0,0,0.1) " }}
               className="flex mt-2 items-center py-2  rounded-[19px]  px-2 bg-[#fff] "
             >
               <div className="h-full w-full flex justify-center items-center flex-[1]">
@@ -235,7 +237,7 @@ function Page() {
 
             <div
               onClick={() => updateWithdrawal(true)}
-              style={{ boxShadow: "0px 2px 4px 1px rgb(0,0,0,0.1) " }}
+              style={{ boxShadow: "0px 2px 8px 1px rgb(0,0,0,0.1) " }}
               className="flex mt-2 items-center py-2  rounded-[19px]  px-2 bg-[#fff] "
             >
               <div className="h-full w-full flex justify-center items-center flex-[1]">
@@ -268,7 +270,7 @@ function Page() {
             </div>
 
             <div
-              style={{ boxShadow: "0px 2px 4px 1px rgb(0,0,0,0.1) " }}
+              style={{ boxShadow: "0px 2px 8px 1px rgb(0,0,0,0.1) " }}
               className="flex mt-2 items-center py-2  rounded-[19px] bg-[#fff]  px-2"
             >
               <div className="h-full w-full flex justify-center items-center flex-[1]">
@@ -301,7 +303,7 @@ function Page() {
             </div>
 
             <div
-              style={{ boxShadow: "0px 2px 4px 1px rgb(0,0,0,0.1) " }}
+              style={{ boxShadow: "0px 2px 8px 1px rgb(0,0,0,0.1) " }}
               className="flex mt-2 items-center py-2  rounded-[19px] bg-[#fff] px-2"
             >
               <div className="h-full w-full flex justify-center items-center flex-[1]">
@@ -330,7 +332,7 @@ function Page() {
             </div>
 
             <div
-              style={{ boxShadow: "0px 2px 4px 1px rgb(0,0,0,0.1) " }}
+              style={{ boxShadow: "0px 2px 8px 1px rgb(0,0,0,0.1) " }}
               className="flex mt-2 items-center py-3  rounded-[19px] bg-[#fff]  px-2"
             >
               <div className="h-full w-full flex justify-center items-center flex-[1]">
@@ -366,7 +368,7 @@ function Page() {
             </div>
 
             <div
-              style={{ boxShadow: "0px 2px 4px 1px rgb(0,0,0,0.1) " }}
+              style={{ boxShadow: "0px 2px 8px 1px rgb(0,0,0,0.1) " }}
               className="flex mt-2 items-center py-2  rounded-[19px] bg-[#fff] px-2 text-red-600 "
             >
               <div className="h-full w-full flex justify-center items-center flex-[1]">
@@ -379,7 +381,6 @@ function Page() {
                 <LiaAngleRightSolid />
               </div>
             </div>
-
           </div>
         </div>
 
