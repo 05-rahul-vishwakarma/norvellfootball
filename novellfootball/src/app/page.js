@@ -5,7 +5,7 @@ import logo from "../../public/logo.png";
 import MatchCard from "./components/MatchCard";
 import Slider from "./components/Slider";
 import { IoIosArrowBack } from "react-icons/io";
-import { useContext , useState , useEffect} from "react";
+import { useContext, useState, useEffect } from "react";
 import { IoIosAdd } from "react-icons/io";
 import { FaRupeeSign } from "react-icons/fa";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
@@ -36,6 +36,7 @@ export default function Home() {
       let res = await fetch(`${window.location.origin}/api/home`);
       if (!res.ok) throw new Error("Error while fetching matches");
       res = await res.json();
+      console.log(res);
       if (res?.status === 200) {
         updateMatches(res?.data?.matches);
       } else {
@@ -61,53 +62,42 @@ export default function Home() {
   return (
     <Layout>
       <main
-        style={{
-          // background:"linear-gradient(90deg,(#2885F6),(#eee))"
-        }}
-        className="h-screen  bg-no-repeat bg- bg-center bg-gradient-to-b from-[#2885F6] to-[#000]  ">
-        <div className="pt-[1rem]">
-          <div className=" flex justify-between place-items-center  mx-1  ">
-            <div
-              className="pl-1  leading-4
-             "
-            >
-              <div
-                onClick={() => router.push("/profile/recharge")}
-                className="w-[6rem] line-clamp-1 text-ellipsis flex justify-between px-1 place-items-center bg-[#f8fcff] p-1 rounded-[100px] "
-              >
-                <span className="flex place-items-center ">
-                  <LiaRupeeSignSolid />
-                  <p className=" w-[80%] text-ellipsis line-clamp-1 break-words text-wrap text-[0.65rem] ">
-                    {userBalance || 0}
-                  </p>
-                </span>
-                <FaCirclePlus className="text-[#2785f6] " />
-              </div>
-
-              <h1 className=" mt-[1rem] font-extrabold text-[1rem] text-white ">
-                
-              </h1>
+        style={
+          {
+            // background:"linear-gradient(90deg,(#2885F6),(#eee))"
+          }
+        }
+        className="h-screen  bg-no-repeat bg- bg-center bg-gradient-to-b from-[#2885F6] to-[#000]  "
+      >
+        <div className="flex justify-between place-items-center pt-3 pb-2  ">
+          <div className="  mx-2 w-max mt-2 ">
+            <div className="flex place-items-center rounded-full bg-white w-max line-clamp-1 text-ellipsis ">
+              <span className=" flex place-items-center   line-clamp-1 text-ellipsis text-xs font-[500] px-3 py-1.5 ">
+                <FaRupeeSign />
+                100000
+              </span>
+              <FaCirclePlus className="text-[.9rem] mr-2 text-[#2885F6] " />
             </div>
 
-            <div className="flex place-items-center pr-1 ">
-              <span className="leading-4 mr-1 mt-2 text-start ">
-                <h1 className="font-bold text-white text-[.7rem] ">WELCOME BACK</h1>
-                <h3 className=" text-white  line-clamp-1 text-ellipsis text-[.6rem] w-[70px] text-start ">DARGON </h3>
-              </span>
+            <h1 className=" font-bold text-[white] mt-3  ">
+              Top Events
+            </h1>
+          </div>
 
-              <span
-                className="h-[4.5rem] w-[4.5rem] rounded-[100%] flex justify-center place-items-center "
-                style={{ background: "#f8fcff" }}
-              >
-                <Image src={logo} alt="logo" width={55} height={55} />
-              </span>
+          <div className="flex place-items-center mr-2 ">
+            <span className="text-[0.7rem] font-semibold mt-2 leading-3 mr-1 text-white ">
+              <p>Welcome Back</p>
+              <p className="  line-clamp-1 text-ellipsis w-[5rem] ">
+                User Name{" "}
+              </p>
+            </span>
+            <div className="h-[4rem] w-[4rem] flex justify-center place-items-center rounded-full bg-white ">
+              <Image src={"/logo.png"} alt="logo" width={55} height={55} />
             </div>
           </div>
         </div>
 
-          
-
-        <div className="h-[28%] mt-[1rem] w-[95%] mr-auto ml-auto ">
+        <div className="h-[28%]  w-[95%] mr-auto ml-auto ">
           <Slider />
         </div>
 
@@ -123,7 +113,6 @@ export default function Home() {
           </div>
 
           <div className=" overflow-y-scroll h-[80%] pb-[6rem] ">
-            
             {/* <MatchCard
               id={1}
               bgColor="linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(216,242,227,1) 0%, rgba(254,255,254,1) 0%, rgba(240,233,231,1) 46%, rgba(249,230,233,1) 100%)"
