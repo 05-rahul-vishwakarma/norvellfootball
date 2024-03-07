@@ -79,9 +79,7 @@ export default function Home() {
               <FaCirclePlus className="text-[.9rem] mr-2 text-[#2885F6] " />
             </div>
 
-            <h1 className=" font-bold text-[white] mt-3  ">
-              Top Events
-            </h1>
+            <h1 className=" font-bold text-[white] mt-3  ">Top Events</h1>
           </div>
 
           <div className="flex place-items-center mr-2 ">
@@ -113,34 +111,9 @@ export default function Home() {
           </div>
 
           <div className=" overflow-y-scroll h-[80%] pb-[6rem] ">
-            {/* <MatchCard
-              id={1}
-              bgColor="linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(216,242,227,1) 0%, rgba(254,255,254,1) 0%, rgba(240,233,231,1) 46%, rgba(249,230,233,1) 100%)"
-            />
-            
-            <MatchCard
-              id={2}
-              bgColor="linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(216,242,227,1) 0%, rgba(140,236,249,0.8911939775910365) 100%)"
-            />
-            
-            <MatchCard
-              id={3}
-              bgColor="linear-gradient(90deg, rgba(227,251,240,1) 0%, rgba(223,221,243,1) 47%, rgba(219,192,246,1) 100%)"
-            />
-            
-            <MatchCard
-              id={4}
-              bgColor="linear-gradient(90deg, rgba(224,235,229,1) 0%, rgba(226,235,228,0.9528186274509804) 7%, rgba(243,231,221,1) 100%)"
-            />
-
-            <MatchCard
-              id={5}
-              bgColor="linear-gradient(90deg, rgba(224,235,229,1) 0%, rgba(226,235,228,0.9528186274509804) 7%, rgba(243,231,221,1) 100%)"
-            /> */}
-
             {matches.map((item, i) => (
-              <div onClick={() => getPlaceBet()}>
-                <MatchCard key={item.StakeId} index={i} data={{ ...item }} />
+              <div key={item.StakeId} onClick={() => getPlaceBet()}>
+                <MatchCard id={i} index={i} data={{ ...item }} />
               </div>
             ))}
 
