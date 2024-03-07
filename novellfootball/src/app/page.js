@@ -62,53 +62,42 @@ export default function Home() {
   return (
     <Layout>
       <main
-        style={{
-          // background:"linear-gradient(90deg,(#2885F6),(#eee))"
-        }}
-        className="h-screen  bg-no-repeat bg- bg-center bg-gradient-to-b from-[#2885F6] to-[#000]  ">
-        <div className="pt-[1rem]">
-          <div className=" flex justify-between place-items-center  mx-1  ">
-            <div
-              className="pl-1  leading-4
-             "
-            >
-              <div
-                onClick={() => router.push("/profile/recharge")}
-                className="w-[6rem] line-clamp-1 text-ellipsis flex justify-between px-1 place-items-center bg-[#f8fcff] p-1 rounded-[100px] "
-              >
-                <span className="flex place-items-center ">
-                  <LiaRupeeSignSolid />
-                  <p className=" w-[80%] text-ellipsis line-clamp-1 break-words text-wrap text-[0.65rem] ">
-                    {userBalance || 0}
-                  </p>
-                </span>
-                <FaCirclePlus className="text-[#2785f6] " />
-              </div>
-
-              <h1 className=" mt-[1rem] font-extrabold text-[1rem] text-white ">
-                
-              </h1>
+        style={
+          {
+            // background:"linear-gradient(90deg,(#2885F6),(#eee))"
+          }
+        }
+        className="h-screen  bg-no-repeat bg- bg-center bg-gradient-to-b from-[#2885F6] to-[#000]  "
+      >
+        <div className="flex justify-between place-items-center pt-3 pb-2  ">
+          <div className="  mx-2 w-max mt-2 ">
+            <div className="flex place-items-center rounded-full bg-white w-max line-clamp-1 text-ellipsis ">
+              <span className=" flex place-items-center   line-clamp-1 text-ellipsis text-xs font-[500] px-3 py-1.5 ">
+                <FaRupeeSign />
+                100000
+              </span>
+              <FaCirclePlus className="text-[.9rem] mr-2 text-[#2885F6] " />
             </div>
 
-            <div className="flex place-items-center pr-1 ">
-              <span className="leading-4 mr-1 mt-2 text-start ">
-                <h1 className="font-bold text-white text-[.7rem] ">WELCOME BACK</h1>
-                <h3 className=" text-white  line-clamp-1 text-ellipsis text-[.6rem] w-[70px] text-start ">DARGON </h3>
-              </span>
+            <h1 className=" font-bold text-[white] mt-3  ">
+              Top Events
+            </h1>
+          </div>
 
-              <span
-                className="h-[4.5rem] w-[4.5rem] rounded-[100%] flex justify-center place-items-center "
-                style={{ background: "#f8fcff" }}
-              >
-                <Image src={logo} alt="logo" width={55} height={55} />
-              </span>
+          <div className="flex place-items-center mr-2 ">
+            <span className="text-[0.7rem] font-semibold mt-2 leading-3 mr-1 text-white ">
+              <p>Welcome Back</p>
+              <p className="  line-clamp-1 text-ellipsis w-[5rem] ">
+                User Name{" "}
+              </p>
+            </span>
+            <div className="h-[4rem] w-[4rem] flex justify-center place-items-center rounded-full bg-white ">
+              <Image src={"/logo.png"} alt="logo" width={55} height={55} />
             </div>
           </div>
         </div>
 
-          
-
-        <div className="h-[28%] mt-[1rem] w-[95%] mr-auto ml-auto ">
+        <div className="h-[28%]  w-[95%] mr-auto ml-auto ">
           <Slider />
         </div>
 
@@ -124,7 +113,6 @@ export default function Home() {
           </div>
 
           <div className=" overflow-y-scroll h-[80%] pb-[6rem] ">
-            
             {/* <MatchCard
               id={1}
               bgColor="linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(216,242,227,1) 0%, rgba(254,255,254,1) 0%, rgba(240,233,231,1) 46%, rgba(249,230,233,1) 100%)"
@@ -151,8 +139,8 @@ export default function Home() {
             /> */}
 
             {matches.map((item, i) => (
-              <div key={item.StakeId} onClick={() => getPlaceBet(item)}>
-                <MatchCard index={i} id={i} data={{ ...item }} />
+              <div onClick={() => getPlaceBet()}>
+                <MatchCard key={item.StakeId} index={i} data={{ ...item }} />
               </div>
             ))}
 
@@ -164,23 +152,7 @@ export default function Home() {
   );
 }
 
-function ScoreCards({ data }) {
-  const [estimatedIncome, updateEstimated] = useState(0);
-  const [betAmount, updateBetAmount] = useState(0);
-  const { userBalance, getBalance } = useContext(UserContext);
-
-  function updateAmount(e) {
-    updateBetAmount(e?.target?.value);
-    updateEstimated(() => {
-      let estimated = (
-        (Number(e?.target?.value) / 100) *
-        Number(data?.FixedPercent)
-      ).toFixed(2);
-      return Math.abs(
-        Number(estimated) - (Number(estimated) / 100) * 5
-      ).toFixed(2);
-    });
-  }
+function ScoreCards() {
   return (
     <div className="w-[100%] ">
       <div
@@ -194,14 +166,11 @@ function ScoreCards({ data }) {
           className="flex items-center justify-center 
         "
         >
-          Score{" "}
-          <h2 className="ml-1 text-red-500 ">
-            {data?.Score_a}-{data?.Score_b}
-          </h2>
+          Score <h2 className="ml-1 text-red-500 ">0-0</h2>
         </span>
         <span className="flex items-center">
           Odds percentage -<h2 className=" ml-1 text-green-400"></h2>
-          <h2 className="text-green-400">{data?.FixedPercent}%</h2>
+          <h2 className="text-green-400">3.4%</h2>
         </span>
         <span className="flex items-center justify-center py-2 px-2 bg-[#5A5A5A] text-white rounded-[7px] ">
           Place stake
@@ -222,7 +191,7 @@ function ScoreCards({ data }) {
                 <FaRupeeSign />
               </span>
 
-              <span className="text-xs font-bold pr-3">{userBalance}</span>
+              <span className="text-xs font-bold pr-3">109230</span>
             </div>
             <span className="h-[90%] font-bolder text-white aspect-square rounded-full bg-blue-700 flex justify-center items-center">
               <IoIosAdd />
@@ -256,8 +225,6 @@ function ScoreCards({ data }) {
                 className="focus:outline-none h-8 w-[80%] border-none bg-transparent outline-none "
                 placeholder="Add"
                 name=""
-                value={betAmount}
-                onChange={(e) => updateAmount(e)}
                 id=""
               />
             </div>
@@ -270,7 +237,7 @@ function ScoreCards({ data }) {
               </span>
 
               <span className="text-xs font-bold text-green-500 pr-3">
-                {estimatedIncome || 0}
+                109230
               </span>
             </div>
           </div>
@@ -289,22 +256,7 @@ function ScoreCards({ data }) {
   );
 }
 
-function MatchPopup({ onClick, data }) {
-  const [Team_a_logo, updateSrcTeam_a] = useState();
-  const [Team_b_logo, updateSrcTeam_b] = useState();
-  const [MatchStartTime, updateTime] = useState(new Date());
-
-  useEffect(() => {
-    const MatchTime = new Date(
-      new Date(data?.StartsAt).toLocaleString("en-US", {
-        timeZone: "asia/calcutta",
-      })
-    );
-    updateTime(MatchTime);
-    updateSrcTeam_a(data?.Team_a_logo);
-    updateSrcTeam_b(data?.Team_b_logo);
-  }, []);
-
+function MatchPopup({ onClick }) {
   return (
     <div className="h-full absolute  top-0 left-0 flex justify-center items-end bg-black/70 w-full  ">
       <div className=" h-[80%] pt-[2rem] pb-[6rem]  bg-slate-100 overflow-y-scroll rounded-t-[2rem] w-[98%]">
@@ -321,51 +273,29 @@ function MatchPopup({ onClick, data }) {
         <div className=" px-6 mt-4 text-white">
           <div className="rounded-2xl relative  pt-4 bg-[url(../../public/betplace.png)]  h-full  text-center  w-full">
             <h2 className="capitalize text-sm font-bold truncate text-white">
-              {data?.LeagueName || "no league available"}
+              premier league
             </h2>
             <div className="w-full mt-3 flex px-2">
               <div className="flex-[2] flex-col flex w-full items-center h-full ">
-                <span className="h-[60px] w-[60px] flex justify-center items-center rounded-full relative ">
-                  <Image
-                    src={Team_a_logo || "/logo.png"}
-                    onError={() => updateSrcTeam_b(null)}
-                    height={38}
-                    width={38}
-                    alt="logo"
-                  />
+                <span className="h-[60px] w-[60px] rounded-full relative ">
+                  <Image src={"/logo.png"} objectFit="cover" layout="fill" />
                 </span>
                 <span className="line-clamp-2 w-[80%] text-[.6rem] capitalize font-bold">
-                  {data?.Team_a || "no team available"}
+                  team a and here am i
                 </span>
               </div>
               <div className="flex-[1] flex items-center justify-center flex-col">
                 <span className="text-xl block font-bold text-red-600">
-                  {MatchStartTime.getHours() - 12 < 10
-                    ? `0${MatchStartTime.getHours() - 12}`
-                    : `${MatchStartTime.getHours() - 12}`}
-                  :
-                  {MatchStartTime.getHours() < 10
-                    ? `0${MatchStartTime.getMinutes()}`
-                    : `${MatchStartTime.getMinutes()}`}
+                  23:40
                 </span>
-                <span className="uppercase text-sm font-bold">
-                  {" "}
-                  {MatchStartTime.getDate()}
-                  {MatchStartTime.toDateString().slice(3, 8)}
-                </span>
+                <span className="uppercase text-sm font-bold">27 FEB</span>
               </div>
               <div className="flex-[2] flex-col flex w-full items-center h-full ">
-                <span className="h-[60px] flex justify-center items-center w-[60px] rounded-full relative ">
-                  <Image
-                    src={Team_b_logo || "/logo.png"}
-                    alt="logo"
-                    height={38}
-                    width={38}
-                    onError={() => updateSrcTeam_b(null)}
-                  />
+                <span className="h-[60px] w-[60px] rounded-full relative ">
+                  <Image src={"/logo.png"} objectFit="cover" layout="fill" />
                 </span>
                 <span className="line-clamp-2 w-[80%] text-[.6rem] capitalize font-bold">
-                  {data?.Team_b || "no team available"}
+                  team a and here am i
                 </span>
               </div>
             </div>
@@ -386,7 +316,7 @@ function MatchPopup({ onClick, data }) {
         </div>
 
         <div className="mt-2 px-4 space-y-4">
-          <ScoreCards data={data} />
+          <ScoreCards />
         </div>
       </div>
     </div>
