@@ -2,9 +2,10 @@
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import Input from "@/app/components/Input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 
 const containerVariants = {
   hidden: { opacity: 1, scale: 1 },
@@ -118,11 +119,22 @@ const Signup = () => {
     Password: "",
     Invitation: "",
   });
+
   const [getVerification, updateGetVerif] = useState(false);
   const [isInternational, updtInternational] = useState(false);
   function update(e) {
     updateCredentials((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
+
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    let invitationCode = searchParams.get("id");
+    if (invitationCode) {
+      updateCredentials((prev) => ({ ...prev, Invitation: invitationCode }));
+    }
+  }, []);
+
   const sendData = async (e) => {
     e.preventDefault();
     if (
@@ -153,7 +165,7 @@ const Signup = () => {
       contentType: "application/json",
       body: JSON.stringify({ ...credentials }),
     };
-    let res = await fetch("http://localhost:3000/api/Access", config);
+    let res = await fetch("http://localhost:3000/api/access", config);
     res = await res.json();
     console.log(res);
   };
