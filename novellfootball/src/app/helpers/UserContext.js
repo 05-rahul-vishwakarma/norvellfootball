@@ -6,10 +6,11 @@ export const UserContext = React.createContext();
 
 const UserContextProvider = ({ children }) => {
   const [userBalance, setUserBalance] = React.useState(null);
-
   let router = useRouter();
   useEffect(() => {
-    getBalance();
+    if (!window.location.href.includes("access") && userBalance === null) {
+      getBalance();
+    }
   }, []);
   async function getBalance() {
     try {

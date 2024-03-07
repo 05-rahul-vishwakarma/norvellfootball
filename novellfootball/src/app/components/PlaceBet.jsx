@@ -148,7 +148,10 @@ const PlaceBet = ({ data, togglePopup }) => {
                     ? `0${MatchStartTime.getMinutes()}`
                     : `${MatchStartTime.getMinutes()}`}
                 </span>
-                <span className="uppercase text-sm font-bold">27 FEB</span>
+                <span className="uppercase text-sm font-bold">
+                  {MatchStartTime.getDate()}
+                  {MatchStartTime.toDateString().slice(3, 8)}
+                </span>
               </div>
               <div className="flex-[2] flex-col flex w-full items-center h-full ">
                 <span className="h-[60px] flex justify-center items-center w-[60px] rounded-full relative ">
@@ -214,7 +217,7 @@ function ScoreCards({
   const [betAmount, updateBetAmount] = useState(0);
 
   function updateAmount(e) {
-    updateBetAmount(e?.target?.value || "");
+    updateBetAmount(e?.target?.value);
     updateEstimated(() => {
       let estimated = (
         (Number(e?.target?.value) / 100) *

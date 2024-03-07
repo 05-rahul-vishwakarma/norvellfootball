@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 import { verifyToken } from "@/app/helpers/auth";
 
 export async function middleware(NextRequest) {
-  const path = NextRequest.nextUrl.pathname;
-  const isPublic = path === "/access/login" || path === "/access/signup";
+  const { pathname } = NextRequest.nextUrl;
+  const isPublic = pathname.startsWith === "/access";
   const token = NextRequest.cookies?.get("token")?.value || "";
   if (!token || token === "")
     return NextResponse.redirect(new URL("/access/login", NextRequest.nextUrl));

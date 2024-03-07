@@ -1,6 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
 import HomeGradient from "./HomeGradient";
+import { IoColorFilterSharp } from "react-icons/io5";
+const colorArr = [
+  { start: "#FFBFBF", stop: "#EC2020" },
+  { start: "#F0FFF6", stop: "#00DB58" },
+  { start: "#DFFAFE", stop: "#1FE4FF" },
+  { start: "#FFEBC9", stop: "#F7A928" },
+];
 
 function MatchCard({ bgColor, id, data, index }) {
   const [istTime, setISTTime] = useState("");
@@ -26,19 +33,13 @@ function MatchCard({ bgColor, id, data, index }) {
     }
   }, [data.StartsAt]);
 
-  useEffect(() => {});
-
-  const colorArr = [
-    { start: "#FFBFBF", stop: "#EC2020" },
-    { start: "#F0FFF6", stop: "#00DB58" },
-    { start: "#DFFAFE", stop: "#1FE4FF" },
-    { start: "#FFEBC9", stop: "#F7A928" },
-  ];
   let [percentage, updatePercentage] = useState(0);
-  let [rand, updaterand] = useState(0);
+  let [colors, updateColors] = useState({});
+
   useEffect(() => {
     updatePercentage(Math.random() * 105);
-    updaterand(Math.floor(Math.random() * (colorArr.length - 1)));
+    let rand = Math.floor(Math.random() * colorArr.length);
+    updateColors({ ...colorArr[rand] });
   }, []);
   return (
     <div
@@ -53,8 +54,8 @@ function MatchCard({ bgColor, id, data, index }) {
           <div className="h-[90%] flex justify-center items-center text-white ">
             <div style={{ lineHeight: 1 }} className="capitalize text-center">
               <p
-                // style={{ color: `${colorArr[rand].stop}` }}
-                className={`text-md font-bold text-[${colorArr[rand].stop}]`}
+                style={{ color: `${colors.stop}` }}
+                className={`text-md font-bold`}
               >
                 77M
               </p>
@@ -63,11 +64,7 @@ function MatchCard({ bgColor, id, data, index }) {
             </div>
           </div>
           <div className="absolute flex justify-center items-center h-full w-full">
-            <HomeGradient
-              id={id}
-              percentage={percentage}
-              colors={colorArr[rand]}
-            />
+            <HomeGradient id={id} percentage={percentage} colors={colors} />
           </div>
         </div>
       </div>
@@ -94,7 +91,11 @@ function MatchCard({ bgColor, id, data, index }) {
         <div className="flex line-clamp-1  font-semibold text-[.8rem] place-items-center  ">
           <span>full time , odds</span>
           <span className="flex  line-clamp-1 text-ellipsis place-items-center  ">
-            <p className="ml-1"> {data.Score_a}:{data.Score_b} </p> <p className="ml-1" > @{data.FixedPercent} </p>{" "}
+            <p className="ml-1">
+              {" "}
+              {data.Score_a}:{data.Score_b}{" "}
+            </p>{" "}
+            <p className="ml-1"> @{data.FixedPercent} </p>{" "}
           </span>
         </div>
 
