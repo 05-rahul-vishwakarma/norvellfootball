@@ -234,8 +234,20 @@ function Stake({ onClick, data }) {
         </div>
 
         <div className="flex  flex-col place-items-center  ">
-          <p className="text-red-600 font-[700] text-[.8rem] ">23:30</p>
-          <p className="font-[600] text-[.7rem] ">25 FEB</p>
+          <p className="text-red-600 font-[700] text-[.8rem] ">
+            {" "}
+            {MatchStartTime.getHours() - 12 < 10
+              ? `0${MatchStartTime.getHours() - 12}`
+              : `${MatchStartTime.getHours() - 12}`}
+            :
+            {MatchStartTime.getHours() < 10
+              ? `0${MatchStartTime.getMinutes()}`
+              : `${MatchStartTime.getMinutes()}`}
+          </p>
+          <p className="font-[600] text-[.7rem] ">
+            {MatchStartTime.getDate()}
+            {MatchStartTime.toDateString().slice(3, 8)}
+          </p>
         </div>
 
         <div className="w-[35%]  flex flex-col place-items-center   ">

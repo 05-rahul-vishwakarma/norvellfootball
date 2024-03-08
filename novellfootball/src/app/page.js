@@ -79,9 +79,7 @@ export default function Home() {
               <FaCirclePlus className="text-[.9rem] mr-2 text-[#2885F6] " />
             </div>
 
-            <h1 className=" font-bold text-[white] mt-2  ml-1 ">
-              Top Events
-            </h1>
+            <h1 className=" font-bold text-[white] mt-3  ">Top Events</h1>
           </div>
 
           <div className="flex place-items-center">
@@ -113,8 +111,8 @@ export default function Home() {
 
           <div className=" overflow-y-scroll h-[80%] pb-[6rem] ">
             {matches.map((item, i) => (
-              <div onClick={() => getPlaceBet()}>
-                <MatchCard key={item.StakeId} index={i} data={{ ...item }} />
+              <div key={item.StakeId} onClick={() => getPlaceBet()}>
+                <MatchCard id={i} index={i} data={{ ...item }} />
               </div>
             ))}
 

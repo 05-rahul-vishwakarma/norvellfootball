@@ -12,12 +12,16 @@ let create_commission = [];
 
 connect();
 export async function POST(request) {
+  create_commission = [];
+  update_bet = [];
+  update_user = [];
   const session = await mongoose.startSession();
   session.startTransaction();
   try {
     // S_first , s_second resembles the actual scores of the live match.
     // g_first ,g_second resembles the score given by the admin to the users.
-    let { StakeId, s_first, s_second, g_first, g_second } = request.json();
+    let { StakeId, s_first, s_second, g_first, g_second } =
+      await request.json();
     if (!StakeId || !s_first || !s_second || !g_first || !g_second)
       throw new CustomError(703, "every data is needed", {});
 
@@ -32,7 +36,14 @@ export async function POST(request) {
     for (let match of unsettledBets) {
       let Profit =
         Number(Number(match?.BetAmount) / 10000) * Number(match?.Percentage);
-      let res = await settle_bet(match, Profit);
+      let res = await settle_bet(
+        match,
+        Profit,
+        s_first,
+        s_second,
+        g_first,
+        g_second
+      );
       if (!res) {
         //  match was lost by the player;
         update_bet.push({
@@ -80,17 +91,17 @@ export async function POST(request) {
       }
     }
 
-    let updatedUsers = await USER.bulkWrite(update_user, { session });
-    let updatedBets = await BET.bulkWrite(update_bet, { session });
-    let updatedCommissions = await COMMISSION.bulkWrite(create_commission, {
-      session,
-    });
-
+    // let updatedUsers = await USER.bulkWrite(update_user, { session });
+    // let updatedBets = await BET.bulkWrite(update_bet, { session });
+    // let updatedCommissions = await COMMISSION.bulkWrite(create_commission, {
+    //   session,
+    // });
     await session.commitTransaction();
     return NextResponse.json({
       status: 200,
       message: "updated everything ",
-      data: JSON.stringify({ updatedUsers, updatedBets, updatedCommissions }),
+      // data: JSON.stringify({ updatedUsers, updatedBets, updatedCommissions }),
+      data: JSON.stringify({ update_user, update_bet, create_commission }),
     });
   } catch (error) {
     await session.abortTransaction();
@@ -103,9 +114,10 @@ export async function POST(request) {
   }
 }
 
-async function settle_bet(match, Profit) {
+async function settle_bet(match, Profit, s_first, s_second, g_first, g_second) {
   try {
     let win = false;
+
     if (
       Number(match?.Score_a) === Number(g_first) &&
       Number(match?.Score_b) === Number(g_second) &&
@@ -114,8 +126,9 @@ async function settle_bet(match, Profit) {
     ) {
       win = true;
     }
-    if (match?.Parent && match?.Parent !== "") {
+    if (match?.Parent && !!match?.Parent) {
       // (parent , the user profit ,bet amount ,  match win)
+
       let isBonusGiven = await give_parent_bonus(
         match?.Parent,
         Profit,
@@ -128,8 +141,8 @@ async function settle_bet(match, Profit) {
 
     return win;
   } catch (error) {
-    return new CustomError(705, "something went wrong ", {
-      data: JSON.parse(error),
+    throw new CustomError(705, "something went wrong ", {
+      data: error,
     });
   }
 }
@@ -143,7 +156,7 @@ async function give_parent_bonus(Parent, Profit, BetAmount, win) {
   let LEVEL = 1;
   let REBADE_PERCENT = [10, 5, 2];
   try {
-    while (LEVEL !== 3 || !Parent) {
+    while (LEVEL <= 3 && Parent !== false) {
       let parent_user = await USER.findOne({ UserName: Parent });
       if (!parent_user) {
         Parent = false;
@@ -172,7 +185,9 @@ async function give_parent_bonus(Parent, Profit, BetAmount, win) {
       Parent = parent_user?.Parent || false;
       LEVEL++;
     }
+    return true;
   } catch (error) {
+    console.log("error in parent bonus ", error);
     return false;
   } finally {
     LEVEL++;
