@@ -219,7 +219,7 @@ function Stake({ onClick, data }) {
 
       <div className=" flex justify-between place-items-center w-[95%] mr-auto ml-auto ">
         <div className="w-[35%]  flex flex-col place-items-center   ">
-          <div className="border-2 h-[40px] w-[40px] rounded-[100%] ">
+          <div className=" h-[40px] w-[40px] rounded-[100%] ">
             <Image
               src={Team_a_logo || "/search.png"}
               onError={() => update_logo_a(null)}
@@ -251,7 +251,7 @@ function Stake({ onClick, data }) {
         </div>
 
         <div className="w-[35%]  flex flex-col place-items-center   ">
-          <div className="border-2 h-[40px] w-[40px] rounded-[100%] ">
+          <div className=" h-[40px] w-[40px] rounded-[100%] ">
             <Image
               src={Team_b_logo || "/search.png"}
               onError={() => update_logo_b(null)}

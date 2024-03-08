@@ -22,7 +22,6 @@ export default function Home() {
 
   const [matches, updateMatches] = useState([]);
   const [matchLoaded, updateLoaded] = useState(false);
-  const [isPlaceBet, togglePlaceBet] = useState(false);
   const [placeBetData, updatePlaceBetData] = useState({});
 
   const [popup, setPopup] = useState(false);
@@ -62,15 +61,12 @@ export default function Home() {
   return (
     <Layout>
       <main
-        style={
-          {
-            // background:"linear-gradient(90deg,(#2885F6),(#eee))"
-          }
-        }
+        
         className="h-screen  bg-no-repeat bg- bg-center bg-gradient-to-b from-[#2885F6] to-[#000]  "
       >
-        <div className="flex justify-between place-items-center pt-2 pb-2 w-[95%] mr-auto ml-auto  ">
-          <div className="w-max mt-2 flex flex-col justify-center place-items-center  ">
+        <div className="flex justify-between place-items-center pb-2 w-[95%] mr-auto ml-auto  ">
+          
+          <div className="w-max mt-4 flex flex-col justify-center place-items-center ">
             <div className=" ml-1 flex place-items-center rounded-full bg-white w-max line-clamp-1 text-ellipsis ">
               <span className=" flex place-items-center   line-clamp-1 text-ellipsis text-xs font-[500] px-3 py-1.5 ">
                 <FaRupeeSign />
@@ -85,7 +81,7 @@ export default function Home() {
           <div className="flex place-items-center">
             <span className="text-[0.7rem] font-semibold mt-2 leading-3 mr-1 text-white ">
               <p className="w-[6rem] text-right overflow-hidden  break-words  ">
-              <p>Welcome User name </p>
+                Welcome User name
               </p>
             </span>
             <div className="h-[3.5rem] w-[3.5rem] flex justify-center place-items-center rounded-full bg-white ">
@@ -117,9 +113,7 @@ export default function Home() {
             ))}
 
             {popup ? <MatchPopup data={placeBetData} onClick={backbtn} /> : ""}
-
           </div>
-          
         </div>
       </main>
       {/* <Modal/> */}
