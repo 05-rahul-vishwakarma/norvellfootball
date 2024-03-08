@@ -69,9 +69,9 @@ export default function Home() {
         }
         className="h-screen  bg-no-repeat bg- bg-center bg-gradient-to-b from-[#2885F6] to-[#000]  "
       >
-        <div className="flex justify-between place-items-center pt-3 pb-2  ">
-          <div className="  mx-2 w-max mt-2 ">
-            <div className="flex place-items-center rounded-full bg-white w-max line-clamp-1 text-ellipsis ">
+        <div className="flex justify-between place-items-center pt-2 pb-2 w-[95%] mr-auto ml-auto  ">
+          <div className="w-max mt-2 flex flex-col justify-center place-items-center  ">
+            <div className=" ml-1 flex place-items-center rounded-full bg-white w-max line-clamp-1 text-ellipsis ">
               <span className=" flex place-items-center   line-clamp-1 text-ellipsis text-xs font-[500] px-3 py-1.5 ">
                 <FaRupeeSign />
                 100000
@@ -79,20 +79,19 @@ export default function Home() {
               <FaCirclePlus className="text-[.9rem] mr-2 text-[#2885F6] " />
             </div>
 
-            <h1 className=" font-bold text-[white] mt-3  ">
+            <h1 className=" font-bold text-[white] mt-2  ml-1 ">
               Top Events
             </h1>
           </div>
 
-          <div className="flex place-items-center mr-2 ">
+          <div className="flex place-items-center">
             <span className="text-[0.7rem] font-semibold mt-2 leading-3 mr-1 text-white ">
-              <p>Welcome Back</p>
-              <p className="  line-clamp-1 text-ellipsis w-[5rem] ">
-                User Name{" "}
+              <p className="w-[6rem] text-right overflow-hidden  break-words  ">
+              <p>Welcome User name </p>
               </p>
             </span>
-            <div className="h-[4rem] w-[4rem] flex justify-center place-items-center rounded-full bg-white ">
-              <Image src={"/logo.png"} alt="logo" width={55} height={55} />
+            <div className="h-[3.5rem] w-[3.5rem] flex justify-center place-items-center rounded-full bg-white ">
+              <Image src={"/logo.png"} alt="logo" width={40} height={40} />
             </div>
           </div>
         </div>
@@ -113,31 +112,6 @@ export default function Home() {
           </div>
 
           <div className=" overflow-y-scroll h-[80%] pb-[6rem] ">
-            {/* <MatchCard
-              id={1}
-              bgColor="linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(216,242,227,1) 0%, rgba(254,255,254,1) 0%, rgba(240,233,231,1) 46%, rgba(249,230,233,1) 100%)"
-            />
-            
-            <MatchCard
-              id={2}
-              bgColor="linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(216,242,227,1) 0%, rgba(140,236,249,0.8911939775910365) 100%)"
-            />
-            
-            <MatchCard
-              id={3}
-              bgColor="linear-gradient(90deg, rgba(227,251,240,1) 0%, rgba(223,221,243,1) 47%, rgba(219,192,246,1) 100%)"
-            />
-            
-            <MatchCard
-              id={4}
-              bgColor="linear-gradient(90deg, rgba(224,235,229,1) 0%, rgba(226,235,228,0.9528186274509804) 7%, rgba(243,231,221,1) 100%)"
-            />
-
-            <MatchCard
-              id={5}
-              bgColor="linear-gradient(90deg, rgba(224,235,229,1) 0%, rgba(226,235,228,0.9528186274509804) 7%, rgba(243,231,221,1) 100%)"
-            /> */}
-
             {matches.map((item, i) => (
               <div onClick={() => getPlaceBet()}>
                 <MatchCard key={item.StakeId} index={i} data={{ ...item }} />
@@ -145,9 +119,12 @@ export default function Home() {
             ))}
 
             {popup ? <MatchPopup data={placeBetData} onClick={backbtn} /> : ""}
+
           </div>
+          
         </div>
       </main>
+      {/* <Modal/> */}
     </Layout>
   );
 }
