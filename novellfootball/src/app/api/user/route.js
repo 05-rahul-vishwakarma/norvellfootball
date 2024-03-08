@@ -17,6 +17,7 @@ export async function GET(request) {
       data: { Balance: Number(res?.Balance) / 100 },
     });
   } catch (error) {
+    console.log(error, "error from users");
     return NextResponse.json({
       status: error?.status || error?.code || 500,
       message: "somethign went wrong ",

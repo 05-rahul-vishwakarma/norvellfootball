@@ -23,8 +23,14 @@ const Page = () => {
     res = await res.json();
     console.log(res);
   }
+  async function getdata() {
+    let res = await fetch("http://localhost:3000/api/admin/settleMatch");
+    res = await res.json();
+    console.log(res);
+  }
   useEffect(() => {
     settleBet();
+    // getdata();
   }, []);
   return <div>hello</div>;
 };

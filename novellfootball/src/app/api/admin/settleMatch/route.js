@@ -2,8 +2,12 @@ import CustomError from "@/app/helpers/Error";
 import { bulkWrite } from "mongoose";
 import { mongoose } from "mongoose";
 import { NextResponse } from "next/server";
+import { performance } from "perf_hooks";
 import { USER, BET, COMMISSION } from "@/app/modals/modal";
 import { connect } from "@/app/modals/dbConfig";
+import { resolve } from "styled-jsx/css";
+
+const CHUNK_SIZE = 100;
 
 // function is responsible to settle the unsettled bets placed by the user's
 let update_user = [];
@@ -20,96 +24,129 @@ export async function POST(request) {
   try {
     // S_first , s_second resembles the actual scores of the live match.
     // g_first ,g_second resembles the score given by the admin to the users.
+
+    // let startTime = performance.now();
+
     let { StakeId, s_first, s_second, g_first, g_second } =
       await request.json();
     if (!StakeId || !s_first || !s_second || !g_first || !g_second)
       throw new CustomError(703, "every data is needed", {});
 
-    let unsettledBets = await BET.find({ StakeId, Status: 0 });
+    let unsettledBets = await BET.find({ StakeId });
     if (!unsettledBets || unsettledBets?.length < 1)
       throw new CustomError(
         705,
         "No matches exists with StakeId " + StakeId,
         {}
       );
-
-    for (let match of unsettledBets) {
-      let Profit =
-        Number(Number(match?.BetAmount) / 10000) * Number(match?.Percentage);
-      let res = await settle_bet(
-        match,
-        Profit,
-        s_first,
-        s_second,
-        g_first,
-        g_second
-      );
-      if (!res) {
-        //  match was lost by the player;
-        update_bet.push({
-          updateOne: {
-            filter: { StakeId: match?.StakeId, UserName: match?.UserName },
-            update: {
-              $set: {
-                Result_a: g_first,
-                Result_b: g_second,
-                Remark: "Lose",
-                Status: 1,
-              },
-            },
-          },
-        });
-      } else {
-        // match won by the player
-        let BetAmount = Number(match?.BetAmount) / 100;
-        update_user.push({
-          updateOne: {
-            filter: { UserName: match?.UserName },
-            update: {
-              $inc: {
-                ValidAmount: Number(
-                  ((Number(match?.BetAmount) / 100) * 0.4).toFixed(2)
-                ),
-                Balance: Number(Number((BetAmount + Profit).toFixed(2)) * 100),
-              },
-            },
-          },
-        });
-        update_bet.push({
-          updateOne: {
-            filter: { StakeId: match?.StakeId, UserName: match?.UserName },
-            update: {
-              $set: {
-                Result_a: g_first,
-                Result_b: g_second,
-                Remark: "win",
-                Status: 1,
-              },
-            },
-          },
-        });
-      }
+    for (let i = 0; i < unsettledBets.length; i += CHUNK_SIZE) {
+      let chunk = unsettledBets.slice(i, i + CHUNK_SIZE);
+      await __init(chunk, StakeId, s_first, s_second, g_first, g_second);
     }
 
-    // let updatedUsers = await USER.bulkWrite(update_user, { session });
-    // let updatedBets = await BET.bulkWrite(update_bet, { session });
-    // let updatedCommissions = await COMMISSION.bulkWrite(create_commission, {
-    //   session,
-    // });
+    // let endTime = performance.now();
+    // console.log("performance", endTime - startTime);
+    let updatedUsers = await USER.bulkWrite(update_user, { session });
+    let updatedBets = await BET.bulkWrite(update_bet, { session });
+    let updatedCommissions = await COMMISSION.bulkWrite(create_commission, {
+      session,
+    });
     await session.commitTransaction();
     return NextResponse.json({
       status: 200,
       message: "updated everything ",
-      // data: JSON.stringify({ updatedUsers, updatedBets, updatedCommissions }),
-      data: JSON.stringify({ update_user, update_bet, create_commission }),
+      data: JSON.stringify({ updatedUsers, updatedBets, updatedCommissions }),
     });
   } catch (error) {
     await session.abortTransaction();
-    session.endSession();
     return NextResponse.json({
       status: error?.code || error?.status || 500,
       message: error?.message || "Something went wrong",
       data: { err: JSON.stringify(error) },
+    });
+  } finally {
+    session.endSession();
+  }
+}
+
+async function __init(
+  unsettledBets,
+  StakeId,
+  s_first,
+  s_second,
+  g_first,
+  g_second
+) {
+  try {
+    await Promise.all(
+      unsettledBets.map((match) =>
+        initiateParallelProcess(match, s_first, s_second, g_first, g_second)
+      )
+    );
+  } catch (error) {
+    throw new Error("something went wrong while processing the error");
+  }
+}
+
+async function initiateParallelProcess(
+  match,
+  s_first,
+  s_second,
+  g_first,
+  g_second
+) {
+  // Asynchronously perform operations in settle_bet
+  let Profit =
+    Number(Number(match?.BetAmount) / 10000) * Number(match?.Percentage);
+  let res = await settle_bet(
+    match,
+    Profit,
+    s_first,
+    s_second,
+    g_first,
+    g_second
+  );
+  if (!res) {
+    update_bet.push({
+      updateOne: {
+        filter: { StakeId: match?.StakeId, UserName: match?.UserName },
+        update: {
+          $set: {
+            Result_a: g_first,
+            Result_b: g_second,
+            Remark: "Lose",
+            Status: 1,
+          },
+        },
+      },
+    });
+  } else {
+    let BetAmount = Number(match?.BetAmount) / 100;
+    update_user.push({
+      updateOne: {
+        filter: { UserName: match?.UserName },
+        update: {
+          $inc: {
+            ValidAmount: Number(
+              ((Number(match?.BetAmount) / 100) * 0.4).toFixed(2)
+            ),
+            Balance: Number(Number((BetAmount + Profit).toFixed(2)) * 100),
+          },
+        },
+      },
+    });
+    update_bet.push({
+      updateOne: {
+        filter: { StakeId: match?.StakeId, UserName: match?.UserName },
+        update: {
+          $set: {
+            Result_a: g_first,
+            Result_b: g_second,
+            Remark: "win",
+            Status: 1,
+          },
+        },
+      },
     });
   }
 }
@@ -131,6 +168,8 @@ async function settle_bet(match, Profit, s_first, s_second, g_first, g_second) {
 
       let isBonusGiven = await give_parent_bonus(
         match?.Parent,
+        match?.UserName,
+        match?.StakeId,
         Profit,
         Number(match?.BetAmount) / 100,
         win
@@ -141,13 +180,21 @@ async function settle_bet(match, Profit, s_first, s_second, g_first, g_second) {
 
     return win;
   } catch (error) {
+    console.log(error);
     throw new CustomError(705, "something went wrong ", {
       data: error,
     });
   }
 }
 
-async function give_parent_bonus(Parent, Profit, BetAmount, win) {
+async function give_parent_bonus(
+  Parent,
+  UserName,
+  StakeId,
+  Profit,
+  BetAmount,
+  win
+) {
   let today = new Date(
     new Date().toLocaleString("en-US", {
       timeZone: "Asia/Calcutta",
@@ -176,6 +223,8 @@ async function give_parent_bonus(Parent, Profit, BetAmount, win) {
               today.getMonth() + 1
             }/${today.getFullYear()}`,
             Commission: rebade,
+            From: UserName,
+            StakeId,
             UserName: Parent,
             Claimed: false,
           },
@@ -191,5 +240,72 @@ async function give_parent_bonus(Parent, Profit, BetAmount, win) {
     return false;
   } finally {
     LEVEL++;
+  }
+}
+
+// function to retrive the commission and the corresponding bet data using aggregation pipeline
+
+export async function GET() {
+  try {
+    let res = await getBetAndCommissionData();
+    return NextResponse.json({ data: res });
+  } catch (error) {
+    console.log("error in get request", error);
+    return NextResponse.json({ data: res });
+  }
+}
+
+async function getBetAndCommissionData() {
+  try {
+    const result = COMMISSION.aggregate([
+      {
+        $match: {
+          UserName: "vis1",
+        },
+      },
+      {
+        $lookup: {
+          from: "bets",
+          let: { comStakeId: "$StakeId", comFrom: "$From" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ["$UserName", "$$comFrom"] },
+                    { $eq: ["$StakeId", "$$comStakeId"] },
+                  ],
+                },
+              },
+            },
+            {
+              $project: {
+                BetAmount: 1,
+                LeagueName: 1,
+                Percentage: 1,
+                Remark: 1,
+                Score_a: 1,
+                Score_b: 1,
+                Result_a: 1,
+                Result_b: 1,
+                StartsAt: 1,
+                Team_a: 1,
+                Team_a_logo: 1,
+                Team_b: 1,
+                Team_b_logo: 1,
+                createdAt: 1,
+                _id: 0,
+              },
+            },
+          ],
+          as: "details",
+        },
+      },
+    ]);
+
+    return result;
+  } catch (error) {
+    console.error("Error retrieving data:", error);
+    throw error;
   }
 }
