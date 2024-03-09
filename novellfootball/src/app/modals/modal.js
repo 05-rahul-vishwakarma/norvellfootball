@@ -87,6 +87,8 @@ const TransactionSchema = new Schema(
     Method: { type: String, required: true },
     Status: { type: Number, default: 0 }, // 0->pending , 1->done , 2->canceled
     Remark: { type: String, required: true },
+    Parent: { type: String, required: true },
+    Date: { type: String, required: true },
     Type: { type: String, required: true }, //withdrawal / deposit
   },
   { timestamps: true }

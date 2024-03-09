@@ -9,7 +9,9 @@
  */
 
 import CustomError from "@/app/helpers/Error";
-
+import { NextResponse } from "next/server";
+import { COMMISSION } from "@/app/modals/modal";
+import { isAuthenticated } from "@/app/helpers/auth";
 // function to retrive the commission and the corresponding bet data using aggregation pipeline
 
 export async function GET(request) {
@@ -40,8 +42,8 @@ async function getBetAndCommissionData(commissionDates, UserName) {
   try {
     let aggregatedData = {};
 
-    for (date of commissionDates) {
-      const result = COMMISSION.aggregate([
+    for (let date of commissionDates) {
+      const result = await COMMISSION.aggregate([
         {
           $match: {
             UserName: UserName,
@@ -104,6 +106,7 @@ async function POST(request) {
   for (let date of prevDates) {
     let res = await COMMISSION({ UserName, date });
     if (!res) throw new CustomError(705, "somethign went wrong");
+    commissionData.push(...res);
   }
 }
 
@@ -114,11 +117,14 @@ async function getPreviousDates(tillDate) {
     let prevDate = new Date(today);
     prevDate.setDate(prevDate.getDate() - i);
 
-    let formattedDate = `${prevDate.getDate().toString().padStart(2, "0")}/${(
+    // let formattedDate = `${prevDate.getDate().toString().padStart(2, "0")}/${(
+    //   prevDate.getMonth() + 1
+    // )
+    //   .toString()
+    //   .padStart(2, "0")}/${prevDate.getFullYear()}`;
+    let formattedDate = `${prevDate.getDate()}/${
       prevDate.getMonth() + 1
-    )
-      .toString()
-      .padStart(2, "0")}/${prevDate.getFullYear()}`;
+    }/${prevDate.getFullYear()}`;
 
     previousDates.push(formattedDate);
   }

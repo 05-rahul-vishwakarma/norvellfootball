@@ -124,11 +124,11 @@ const PlaceBet = ({ data, togglePopup }) => {
               {data?.LeagueName || "No league available"}
             </h2>
             <div className="w-full mt-3 flex px-2">
-              <div className="flex-[2] flex-col flex w-full items-center h-full ">
+              <div className="flex-[2] text-center flex-col flex w-full items-center h-full ">
                 <span className="h-[60px] flex justify-center items-center w-[60px] rounded-full relative ">
                   <Image
                     src={Team_a_logo || "/search.png"}
-                    onError={(e) => updateSrcTeam_b(null)}
+                    onError={(e) => updateSrcTeam_a(null)}
                     height={38}
                     width={38}
                     alt="team a  logo"
@@ -155,7 +155,7 @@ const PlaceBet = ({ data, togglePopup }) => {
                   {MatchStartTime.toDateString().slice(3, 8)}
                 </span>
               </div>
-              <div className="flex-[2] flex-col flex w-full items-center h-full ">
+              <div className="flex-[2] text-center flex-col flex w-full items-center h-full ">
                 <span className="h-[60px] flex justify-center items-center w-[60px] rounded-full relative ">
                   <Image
                     src={Team_b_logo || "/search.png"}
@@ -275,7 +275,9 @@ function ScoreCards({
                   <FaRupeeSign />
                 </span>
 
-                <span className="text-xs font-bold pr-3">{Balance}</span>
+                <span className="text-xs font-bold pr-3">
+                  {new Intl.NumberFormat().format(Balance || 0)}
+                </span>
               </div>
               <span className="h-[90%] font-bolder text-white aspect-square rounded-full bg-blue-700 flex justify-center items-center">
                 <IoIosAdd />

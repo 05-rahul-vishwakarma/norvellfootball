@@ -225,6 +225,7 @@ async function give_parent_bonus(
             Commission: rebade,
             From: UserName,
             StakeId,
+            Level: LEVEL,
             UserName: Parent,
             Claimed: false,
           },

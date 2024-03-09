@@ -2,7 +2,7 @@
 import CommissionPopModel from "@/app/components/CommissionPopModel";
 import Layout from "@/app/components/Layout";
 import { motion } from "framer-motion";
-import React, { use, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { FaRupeeSign, FaShare } from "react-icons/fa";
 import { FaCopy, FaInfo, FaLink } from "react-icons/fa6";
 import {
@@ -30,8 +30,8 @@ const Page = () => {
           {/* hero section */}
           <div
             style={{
-              background: "url(../../profile-bg.png) center no-repeat",
-              backgroundSize: "cover ",
+              background: "url(../../profileBg.png) center no-repeat",
+              backgroundSize: "cover",
             }}
             className=" h-[65%] py-4 pb-7 ring-[0.2px] ring-gray-600 w-full relative 
        rounded-[25px] "
@@ -121,7 +121,6 @@ const Page = () => {
           } pt-2  shadow-gray-900 rounded-t-[1.5rem]`}
         >
           <div className="h-full overflow-y-scroll pb-40 px-4">
-           
             <div
               style={{ boxShadow: "0px 5px 15px 0px rgba(0,0,0,0.1) " }}
               className="mt-3 items-center py-2.5 bg-[#FFFFFF]  rounded-2xl  px-4"
@@ -249,7 +248,6 @@ const Page = () => {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
 

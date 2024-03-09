@@ -79,12 +79,11 @@ function Page() {
           {/* hero section */}
           <div
             style={{
-              background: "url(./profile_bg.png) center no-repeat",
+              background: "url(/profileBg.png) center no-repeat",
               backgroundSize: "cover",
-              borderRadius: "25px",
             }}
             className=" h-[65%] py-4  w-full relative 
-             rounded-[20px]  "
+             rounded-[25px]  "
           >
             <div className="flex flex-col w-full justify-center items-center py-3">
               <span
@@ -175,7 +174,7 @@ function Page() {
                 </span>
 
                 <span className="text-sm font-bold pl-3">
-                  {userBalance || 0}
+                  {new Intl.NumberFormat().format(userBalance || 0)}
                 </span>
               </div>
 
@@ -206,7 +205,6 @@ function Page() {
           </div>
 
           <div className="h-full overflow-y-scroll pb-40 px-4">
-            
             <div
               onClick={() => router.push("/profile/commission")}
               style={{ boxShadow: "0px 2px 8px 1px rgb(0,0,0,0.1) " }}
