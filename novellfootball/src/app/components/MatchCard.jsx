@@ -9,7 +9,10 @@ const colorArr = [
   { start: "#FFEBC9", stop: "#F7A928" },
 ];
 
-function MatchCard({ bgColor, id, data, index }) {
+function MatchCard({ id, data, index, gradient  }) {
+
+  console.log(gradient.bgColor);
+
   const [istTime, setISTTime] = useState("");
   const [timeString, setTimeString] = useState("");
 
@@ -41,13 +44,16 @@ function MatchCard({ bgColor, id, data, index }) {
     let rand = Math.floor(Math.random() * colorArr.length);
     updateColors({ ...colorArr[rand] });
   }, []);
+
   return (
     <div
       style={{
         boxShadow: "0px 5px 5px 0px rgba(0,0,0,0.1)",
-        background: bgColor,
+        background:gradient.bgColor
+        // background: `linear-gradient(${gradient.direction}, ${gradient.colors.join(', ')})`
+
       }}
-      className=" bg-[#FFD1D1]  h-[100px] flex mr-auto ml-auto my-[1rem] w-[95%]  rounded-xl place-items-center justify-around"
+      className="   h-[100px] flex mr-auto ml-auto my-[1rem] w-[90%]  rounded-xl place-items-center justify-around"
     >
       <div className="w-[27%] flex place-items-center h-[90%] justify-center ">
         <div className="h-[100%] aspect-square relative rounded-full bg-[#000000] flex place-items-center justify-center ">

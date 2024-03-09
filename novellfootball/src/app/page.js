@@ -22,6 +22,7 @@ export default function Home() {
 
   const [matches, updateMatches] = useState([]);
   const [matchLoaded, updateLoaded] = useState(false);
+  const [isPlaceBet, togglePlaceBet] = useState(false);
   const [placeBetData, updatePlaceBetData] = useState({});
 
   const [popup, setPopup] = useState(false);
@@ -58,39 +59,91 @@ export default function Home() {
     }
   }, [matchLoaded]);
 
+  const gradients = [
+    {
+      id: 1,
+      bgColor:
+        "linear-gradient(138deg, rgba(255,230,201,1) 0%, rgba(255,255,255,1) 50%, rgba(255,230,201,1) 100%)",
+    },
+    {
+      id: 2,
+      bgColor:
+        "linear-gradient(86deg, rgba(255,253,253,1) 0%, rgba(255,255,255,1) 50%, rgba(247,223,235,1) 100%)",
+    },
+    {
+      id: 3,
+      bgColor:
+        "linear-gradient(138deg, rgba(255,201,253,1) 0%, rgba(255,255,255,1) 50%, rgba(255,185,255,1) 100%)",
+    },
+    {
+      id: 4,
+      bgColor:
+        "linear-gradient(138deg, rgba(252,185,252,1) 0%, rgba(255,255,255,1) 50%, rgba(252,185,252,1) 100%)",
+    },
+    {
+      id: 5,
+      bgColor:
+        "linear-gradient(138deg, rgba(219,183,255,1) 0%, rgba(255,255,255,1) 50%, rgba(219,183,255,1) 100%)",
+    },
+    {
+      id: 6,
+      bgColor:
+        "linear-gradient(138deg, rgba(180,180,251,1) 0%, rgba(255,255,255,1) 50%, rgba(180,180,251,1) 100%)",
+    },
+    {
+      id: 7,
+      bgColor:
+      "linear-gradient(138deg, rgba(180,255,218,1) 0%, rgba(255,255,255,1) 50%, rgba(180,255,218,1) 100%)",
+    },
+    
+    {
+      id: 8,
+      bgColor:
+        "linear-gradient(138deg, rgba(183,255,184,1) 0%, rgba(255,255,255,1) 50%, rgba(183,253,183,1) 100%)",
+    },
+    {
+      id: 9,
+      bgColor:
+        "linear-gradient(138deg, rgba(252,252,172,1) 0%, rgba(255,255,255,1) 50%, rgba(252,252,172,1) 100%)",
+    },
+    {
+      id: 10,
+      bgColor:
+        "linear-gradient(138deg, rgba(252,221,188,1) 0%, rgba(255,255,255,1) 50%, rgba(252,221,188,1) 100%)",
+    },
+  ];
+
   return (
     <Layout>
-      <main
-        
-        className="h-screen  bg-no-repeat bg- bg-center bg-gradient-to-b from-[#2885F6] to-[#000]  "
-      >
-        <div className="flex justify-between place-items-center pb-2 w-[95%] mr-auto ml-auto  ">
-          
-          <div className="w-max mt-4 flex flex-col justify-center place-items-center ">
-            <div className=" ml-1 flex place-items-center rounded-full bg-white w-max line-clamp-1 text-ellipsis ">
-              <span className=" flex place-items-center   line-clamp-1 text-ellipsis text-xs font-[500] px-3 py-1.5 ">
+      <main className="h-screen  bg-no-repeat bg- bg-center bg-gradient-to-b from-[#2885F6] to-[#000]  ">
+        <div className="flex justify-between place-items-center  w-[90%] mr-auto ml-auto   ">
+          <div className="w-max mt-2 flex flex-col justify-center  pt-2 ">
+            <div className="flex place-items-center rounded-full bg-white w-max line-clamp-1 text-ellipsis ">
+              <span className=" flex place-items-center justify-center  line-clamp-1 text-ellipsis text-xs font-[500] px-3 py-1.5 ">
                 <FaRupeeSign />
-                100000
+                {userBalance}
               </span>
               <FaCirclePlus className="text-[.9rem] mr-2 text-[#2885F6] " />
             </div>
 
-            <h1 className=" font-bold text-[white] mt-3  ">Top Events</h1>
+            <h1 className=" font-bold text-[white] mt-3 text-center  ">
+              Top Events
+            </h1>
           </div>
 
           <div className="flex place-items-center">
-            <span className="text-[0.7rem] font-semibold mt-2 leading-3 mr-1 text-white ">
+            <span className="text-[0.7rem] font-semibold mt-1 leading-3 mr-1 text-white ">
               <p className="w-[6rem] text-right overflow-hidden  break-words  ">
                 Welcome User name
               </p>
             </span>
-            <div className="h-[3.5rem] w-[3.5rem] flex justify-center place-items-center rounded-full bg-white ">
-              <Image src={"/logo.png"} alt="logo" width={40} height={40} />
+            <div className="h-[3rem] w-[3rem] flex justify-center place-items-center rounded-full bg-white ">
+              <Image src={"/logo.png"} alt="logo" width={45} height={45} />
             </div>
           </div>
         </div>
 
-        <div className="h-[28%]  w-[95%] mr-auto ml-auto ">
+        <div className="h-[28%]  w-[95%] mr-auto ml-auto mt-1 ">
           <Slider />
         </div>
 
@@ -98,8 +151,8 @@ export default function Home() {
           <div className="h-[70px] rounded-t-[30px] flex flex-col justify-around  ">
             <div className="w-[70px] h-[5px]  mr-auto ml-auto rounded-2xl bg-blue-500 "></div>
             <div className="flex  justify-between w-[90%] mr-auto ml-auto  ">
-              <h1 className="ml-[.5rem] font-bold ">Hot Matches</h1>
-              <h1 className="flex mr-[.5rem] text-[12px] font-light text-[#989898] line-clamp-1 text-ellipsis ">
+              <h1 className="font-bold ">Hot Matches</h1>
+              <h1 className="flex text-[12px] font-light text-[#989898] line-clamp-1 text-ellipsis ">
                 Online Users : <p>10000000</p>{" "}
               </h1>
             </div>
@@ -108,7 +161,12 @@ export default function Home() {
           <div className=" overflow-y-scroll h-[80%] pb-[6rem] ">
             {matches.map((item, i) => (
               <div key={item.StakeId} onClick={() => getPlaceBet()}>
-                <MatchCard id={i} index={i} data={{ ...item }} />
+                <MatchCard
+                  id={i}
+                  index={i}
+                  data={{ ...item }}
+                  gradient={gradients[i]}
+                />
               </div>
             ))}
 
