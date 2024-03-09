@@ -140,11 +140,13 @@ const PlaceBet = ({ data, togglePopup }) => {
               </div>
               <div className="flex-[1] flex items-center justify-center flex-col">
                 <span className="text-xl block font-bold text-red-600">
-                  {MatchStartTime.getHours() - 12 < 10
-                    ? `0${MatchStartTime.getHours() - 12}`
-                    : `${MatchStartTime.getHours() - 12}`}
+                  {MatchStartTime.getHours() > 12
+                    ? `${MatchStartTime.getHours() - 12}`
+                    : `${
+                        MatchStartTime.getHours() < 10 ? "0" : ""
+                      }${MatchStartTime.getHours()}`}
                   :
-                  {MatchStartTime.getHours() < 10
+                  {MatchStartTime.getMinutes() < 10
                     ? `0${MatchStartTime.getMinutes()}`
                     : `${MatchStartTime.getMinutes()}`}
                 </span>

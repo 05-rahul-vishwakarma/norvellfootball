@@ -9,10 +9,7 @@ const colorArr = [
   { start: "#FFEBC9", stop: "#F7A928" },
 ];
 
-function MatchCard({ id, data, index, gradient  }) {
-
-  console.log(gradient.bgColor);
-
+function MatchCard({ id, data, index, gradient }) {
   const [istTime, setISTTime] = useState("");
   const [timeString, setTimeString] = useState("");
 
@@ -49,9 +46,8 @@ function MatchCard({ id, data, index, gradient  }) {
     <div
       style={{
         boxShadow: "0px 5px 5px 0px rgba(0,0,0,0.1)",
-        background:gradient.bgColor
+        background: gradient.bgColor,
         // background: `linear-gradient(${gradient.direction}, ${gradient.colors.join(', ')})`
-
       }}
       className="   h-[100px] flex mr-auto ml-auto my-[1rem] w-[90%]  rounded-xl place-items-center justify-around"
     >

@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema(
   {
     Session: { type: String, required: true },
+    VipLevel: { type: Number, default: 0 },
     UserName: { type: String, required: true },
     Password: { type: String, required: true },
     PhoneNumber: { type: String },
@@ -16,7 +17,27 @@ const UserSchema = new Schema(
     ValidAmount: { type: Number, default: 0 },
     ValidDeposit: { type: Number, default: 0 },
     Deposited: { type: Number, default: 0 },
+    Withdrawal: { type: Number, default: 0 }, // Withdrawal * 100
     Members: { type: Number, default: 0 },
+    LocalBankAdded: { type: Boolean, default: false },
+    UsdtBankAdded: { type: Boolean, default: false },
+    LocalBank: {
+      type: Object,
+      default: {
+        AccHolderName: "",
+        BankName: "",
+        AccNumber: "",
+        Ifsc: "",
+        BranchName: "",
+      },
+    },
+    UsdtBank: {
+      type: Object,
+      default: {
+        UsdtAddress: "",
+        AppName: "",
+      },
+    },
   },
   { timestamps: true }
 );
@@ -60,6 +81,7 @@ const CommissionSchema = new Schema(
 
 const TransactionSchema = new Schema(
   {
+    UserName: { type: String, required: true },
     Amount: { type: Number, required: true },
     TransactionId: { type: String, required: true },
     Method: { type: String, required: true },

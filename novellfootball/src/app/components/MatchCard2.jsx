@@ -47,7 +47,9 @@ const MatchCard2 = ({ data, index, placeBet }) => {
           <h2 className="text-xs font-extrabold text-red-500">
             {MatchStartTime.getHours() > 12
               ? `${MatchStartTime.getHours() - 12}`
-              : `0${MatchStartTime.getHours()}`}
+              : `${
+                  MatchStartTime.getHours() < 10 ? "0" : ""
+                }${MatchStartTime.getHours()}`}
             :
             {MatchStartTime.getMinutes() < 10
               ? `0${MatchStartTime.getMinutes()}`
