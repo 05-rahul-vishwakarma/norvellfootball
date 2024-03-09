@@ -51,6 +51,9 @@ const CommissionSchema = new Schema(
     Commission: { type: Number, required: true },
     Date: { type: String, required: true }, //dd/mm/yyy
     Claimed: { type: Boolean, default: false },
+    LeagueName: { type: String, default: "" },
+    From: { type: String, required: true },
+    StakeId: { type: Number, required: true },
   },
   { timestamps: true }
 );

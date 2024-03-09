@@ -56,7 +56,7 @@ function Page() {
      return {
       status: 200,
       message: "",
-      data: { pendingMatches, settledMatches },
+      data: { },
     }
     status: {
       200 : "deleted"
