@@ -5,9 +5,13 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { FaTelegram } from "react-icons/fa6";
 import { LiaAngleDownSolid, LiaAngleRightSolid } from "react-icons/lia";
+import { useRouter } from "next/navigation";
+ 
+
 
 const Page = () => {
   const [getAgents, toggleAgents] = useState(false);
+  const router = useRouter()
 
   return (
     <Layout>
@@ -112,7 +116,9 @@ const Page = () => {
                 </motion.div>
               )}
             </div>
-            <div className=" capitalize bg-white shadow-md rounded-md py-2 px-2 font-semibold text-sm">
+            <div 
+             onClick={() =>router.push('/profile/help/privacy')}
+             className=" capitalize bg-white shadow-md rounded-md py-2 px-2 font-semibold text-sm">
               <div className="flex items-center">
                 <div className="flex-[1]">
                   <span className="flex justify-center items-center text-3xl size-8 rounded-full">
@@ -144,7 +150,10 @@ const Page = () => {
                 </div>
               </div>
             </div>
-            <div className=" capitalize bg-white shadow-md rounded-md py-2 px-2 font-semibold text-sm">
+
+            <div 
+             onClick={() =>router.push('/profile/help/helps')}
+             className=" capitalize bg-white shadow-md rounded-md py-2 px-2 font-semibold text-sm">
               <div className="flex items-center">
                 <div className="flex-[1]">
                   <span className="flex justify-center items-center  text-3xl size-8 rounded-full">

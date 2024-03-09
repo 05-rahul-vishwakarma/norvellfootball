@@ -56,7 +56,18 @@ function SecondFooter() {
       setMatch(false);
     }
 
-    if (pathname == "/profile" || pathname == "/profile/recharge" || pathname == "/profile/commission" || pathname == "/profile/editpassword" || pathname == "/profile/help" || pathname == "/profile/recharge" || pathname == "/profile/withdrawal" || pathname == "/profile/vip" ) {
+    if (
+      pathname ==="/profile/help/helps"||
+      pathname ==="/profile/help/privacy"||
+      pathname == "/profile" ||
+      pathname == "/profile/recharge" ||
+      pathname == "/profile/commission" ||
+      pathname == "/profile/editpassword" ||
+      pathname == "/profile/help" ||
+      pathname == "/profile/recharge" ||
+      pathname == "/profile/withdrawal" ||
+      pathname == "/profile/vip"
+    ) {
       setProfile(true);
     } else {
       setProfile(false);
