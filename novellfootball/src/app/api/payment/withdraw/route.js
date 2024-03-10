@@ -1,6 +1,6 @@
 import CustomError from "@/app/helpers/Error";
 import { randomBytes } from "crypto";
-import { encode } from "jose/dist/types/util/base64url";
+import { encode } from "jose";
 import { USER, TRANSACTION } from "@/app/modals/modal";
 import { NextResponse } from "next/server";
 const { mongoose } = require("mongoose");

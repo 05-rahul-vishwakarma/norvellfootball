@@ -10,18 +10,18 @@
   font-optical-sizing: auto;
 }
 
-body{
+body {
   background: white;
 }
 
-input{
+input {
   outline: none;
 }
 
 .react-tel-input {
   background: #ffffff80;
   padding: 0.2rem 0;
-  border: 2px solid rgb(118 169 250);
+  border: 2px solid #2885f6;
   border-radius: 0.3rem;
 }
 .react-tel-input > input {
@@ -48,8 +48,6 @@ input{
     font-size: 13px;
   }
 }
-
-
 
 .progress-ring__circle {
   stroke-dasharray: 400, 400;

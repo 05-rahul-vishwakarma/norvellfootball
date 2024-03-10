@@ -281,6 +281,7 @@ const Signup = () => {
                 <PhoneInput
                   country={"in"}
                   value={credentials.Phone}
+                  className=" border-blue-600"
                   inputProps={{
                     name: "Phone",
                     required: !isInternational,
@@ -338,7 +339,7 @@ const Signup = () => {
                 onChange={update}
                 minLength={3}
                 placeholder="Eg.Abcd@xyz"
-                className="block w-full px-[2.7rem] rounded-md border-0 bg-white/50 py-[0.7rem] text-slate-800 shadow-md ring-2 ring-inset outline-none focus:ring-2 ring-blue-400 focus:ring-inset  sm:text-sm sm:leading-6"
+                className="block w-full px-[2.7rem] rounded-md border-0 bg-white/50 py-[0.7rem] text-slate-800 shadow-md ring-2 ring-inset outline-none focus:ring-2 ring-blue-500 focus:ring-inset  sm:text-sm sm:leading-6"
               />
             </div>
           </motion.div>
