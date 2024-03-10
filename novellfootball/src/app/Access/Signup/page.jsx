@@ -2,10 +2,11 @@
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import Input from "@/app/components/Input";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
+import OtpInputs from "@/app/components/OtpInputs";
 
 const containerVariants = {
   hidden: { opacity: 1, scale: 1 },
@@ -29,8 +30,30 @@ const itemVariants2 = {
   visible: { opacity: 1, y: 0 },
 };
 
-function VerificationPopup({ sentTo, toggleVerification, resend }) {
+function VerificationPopup({
+  sentTo,
+  toggleVerification,
+  resend,
+  setVerified,
+}) {
   // have to create a funciton that will change the tab index on each click;
+  const [otp, setOtp] = useState(new Array(4).fill(""));
+
+  function verify() {
+    let EnteredOtp = otp.join("");
+    EnteredOtp = Number(EnteredOtp);
+    let cookies = document.cookie;
+    let providedOtp;
+    const [name, value] = cookies.split("=");
+    if (name === "otp") {
+      providedOtp = value;
+    }
+    if (EnteredOtp === Number(providedOtp)) {
+      alert("verified");
+      setVerified(true);
+      toggleVerification(false);
+    }
+  }
 
   return (
     <div className="absolute z-[30] left-0 flex bg-slate-950/70 items-center justify-center right-0 h-full w-full opacity-1">
@@ -56,42 +79,7 @@ function VerificationPopup({ sentTo, toggleVerification, resend }) {
             </span>
           </div>
           <div className="flex space-x-2 flex-row items-center justify-between mx-auto w-full max-w-xs">
-            <div className="w-16 h-16 ">
-              <input
-                className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-400 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
-                type="text"
-                name=""
-                tabIndex={0}
-                id=""
-              />
-            </div>
-            <div className="w-16 h-16 ">
-              <input
-                className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-400 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
-                type="text"
-                name=""
-                tabIndex={1}
-                id=""
-              />
-            </div>
-            <div className="w-16 h-16 ">
-              <input
-                className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-400 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
-                type="text"
-                name=""
-                tabIndex={2}
-                id=""
-              />
-            </div>
-            <div className="w-16 h-16 ">
-              <input
-                className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-400 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
-                type="text"
-                name=""
-                tabIndex={3}
-                id=""
-              />
-            </div>
+            <OtpInputs otp={otp} setOtp={setOtp} />
           </div>
           <div className="flex items-center text-center text-sm font-medium space-x-1 uppercase text-gray-500">
             <a
@@ -105,7 +93,10 @@ function VerificationPopup({ sentTo, toggleVerification, resend }) {
 
           <div className="flex flex-col space-y-5">
             <div>
-              <button className="flex flex-row items-center justify-center text-center w-full  font-bold tracking-wide text-md rounded-xl outline-none py-4 bg-blue-600 border-none text-white text-sm uppercase  shadow-sm">
+              <button
+                onClick={verify}
+                className="flex flex-row items-center justify-center text-center w-full  font-bold tracking-wide text-md rounded-xl outline-none py-4 bg-blue-600 border-none text-white text-sm uppercase  shadow-sm"
+              >
                 Verify
               </button>
             </div>
@@ -126,8 +117,10 @@ const Signup = () => {
     Invitation: "",
   });
 
-  const [getVerification, updateGetVerif] = useState(false);
+  const [getVerification, updateGetVerif] = useState(true);
   const [isInternational, updtInternational] = useState(false);
+  const [isVerified, setVerified] = useState(false);
+
   function update(e) {
     updateCredentials((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
@@ -143,6 +136,10 @@ const Signup = () => {
 
   const sendData = async (e) => {
     e.preventDefault();
+    if (!isVerified) {
+      alert("not verified");
+      return;
+    }
     if (
       !credentials.UserName ||
       !credentials.ConfPassword ||
@@ -458,6 +455,7 @@ const Signup = () => {
       {getVerification && (
         <VerificationPopup
           sentTo={credentials?.Phone}
+          setVerified={setVerified}
           resend={getPhoneOtp}
           toggleVerification={updateGetVerif}
         />

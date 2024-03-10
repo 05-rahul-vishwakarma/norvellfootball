@@ -2,7 +2,28 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { easeInOut, motion } from "framer-motion";
 import Input from "./Input";
+import { FaPlay } from "react-icons/fa6";
+import OtpInputs from "./OtpInputs";
 const VerificationPopup = ({ toggleVerification }) => {
+  const [otp, setOtp] = useState(new Array(4).fill(""));
+
+  function verify() {
+    let EnteredOtp = otp.join("");
+    EnteredOtp = Number(EnteredOtp);
+    let cookies = document.cookie;
+    let providedOtp;
+    const [name, value] = cookies.split("=");
+    if (name === "otp") {
+      providedOtp = value;
+    }
+    if (EnteredOtp === Number(providedOtp)) {
+      alert("verified");
+      setVerified(true);
+      toggleVerification(false);
+    }
+  }
+
+  const [verifPhone, updateVerifType] = useState(true);
   const [credentials, updateCredentials] = useState({
     confPassword: "",
     Password: "",
@@ -19,7 +40,7 @@ const VerificationPopup = ({ toggleVerification }) => {
       <motion.div
         initial={{ y: 100 }}
         animate={{ y: 0 }}
-        className=" h-[80%] py-8 pb-40  bg-slate-50 overflow-y-auto rounded-t-[2rem] w-[98%]"
+        className=" h-[80%] py-8 pb-40  bg-[#f8fbfe] overflow-y-auto rounded-t-[2rem] w-[98%]"
       >
         <div className="flex  relative px-2  justify-center">
           <h4 className="uppercase text-center font-bold">otp verification</h4>
@@ -37,76 +58,66 @@ const VerificationPopup = ({ toggleVerification }) => {
           </h3>
         </div>
         <div className="flex flex-col items-center mt-1 space-y-3">
-          <div className="flex items-center w-[70%] px-2 justify-between bg-white rounded-md ">
+          <div className="flex items-center w-[70%] px-2 justify-between bg-[#ffffff] rounded-md ">
             <h3 className="font-semibold py-3  text-xs">Phone Verification</h3>
             <input
               type="radio"
-              className=" border-2 border-solid border-blue-600"
-              name=""
+              checked={verifPhone}
+              onChange={() => updateVerifType(true)}
+              className=" border-2 size-4 border-solid border-blue-600"
+              name="verificationType"
               id=""
             />
           </div>
-          <div className="flex items-center w-[70%] px-2 justify-between bg-white rounded-md ">
+          <div className="flex items-center w-[70%] px-2 justify-between bg-[#ffffff] rounded-md ">
             <h3 className="font-semibold py-3  text-xs">Email Verification</h3>
             <input
               type="radio"
-              className=" border-2 border-solid border-blue-600"
-              name=""
+              checked={!verifPhone}
+              onChange={() => updateVerifType(false)}
+              className=" border-2 size-4 border-solid border-blue-600"
+              name="verificationType"
               id=""
             />
           </div>
         </div>
-        <div className="text-start mt-4 px-14 flex flex-col">
-          <span className="uppercase font-regular text-gray-500 text-[0.6rem]">
-            Enter the otp you received on
-          </span>
-          <span className="uppercase font-bold text-xs">+91******9182</span>
+        <div className="mx-auto w-[70%] pb-2 mt-1 rounded-md">
+          <div className="flex capitalize font-semibold text-[0.65rem] space-x-2 ">
+            <div className=" flex w-[70%] space-x-2 px-2">
+              <div className="flex space-x-1 mt-2 flex-row items-center justify-between mx-auto w-full ">
+                <div className=" h-10 ">
+                  <input
+                    placeholder="Enter user name"
+                    className="w-full ring-[1.2px] h-full px-5 outline-none rounded-md border border-gray-300 text-sm bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
+                    type="text"
+                    name=""
+                  />
+                </div>
+              </div>
+            </div>
+            <div className=" flex  flex-col justify-end  w-[30%] space-y-2 text-center px-0">
+              <span
+                className="  
+            flex text-[0.7rem] justify-center items-center"
+              >
+                <Image
+                  src={"/tick_mark.png"}
+                  alt="sent"
+                  width={25}
+                  height={25}
+                />
+              </span>
+              <div className="flex text-center justify-center text-xs items-center h-[20%]">
+                <p>Resend OTP</p>
+                <FaPlay />
+              </div>
+            </div>
+          </div>
         </div>
         <div className="flex space-x-2 mt-2 px-8 flex-row items-center justify-between mx-auto w-full max-w-xs">
-          <div className="w-16 h-16 ">
-            <input
-              className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-400 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
-              type="text"
-              name=""
-              id=""
-            />
-          </div>
-          <div className="w-16 h-16 ">
-            <input
-              className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-400 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
-              type="text"
-              name=""
-              id=""
-            />
-          </div>
-          <div className="w-16 h-16 ">
-            <input
-              className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-400 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
-              type="text"
-              name=""
-              id=""
-            />
-          </div>
-          <div className="w-16 h-16 ">
-            <input
-              className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-400 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
-              type="text"
-              name=""
-              id=""
-            />
-          </div>
+          <OtpInputs otp={otp} setOtp={setOtp} />
         </div>
-        <div className="flex mt-3 px-14 flex-row items-center text-center text-sm font-medium space-x-1 uppercase text-gray-500">
-          <a
-            className="flex flex-row items-center font-semibold text-slate-900"
-            href="http://"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Resend
-          </a>
-          <Image src={"/play.png"} alt={"play"} width={12} height={12}></Image>
-        </div>
+
         <div className="px-14 mt-2">
           <div className=" bg-gradient-to-r p-[2px] rounded-md from-blue-700 to-slate-950">
             <button className="h-full font-bold py-2 rounded-md w-full bg-slate-100">

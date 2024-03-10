@@ -45,7 +45,6 @@ export async function GET(request) {
 export async function POST(request) {
   try {
     let { Phone } = await request.json();
-    console.log(Phone);
     let phoneNumber = Phone || "";
     phoneNumber = phoneNumber.slice(2);
     let otp = Math.ceil(Math.random() * 9000 + 1000);
@@ -57,9 +56,7 @@ export async function POST(request) {
         message: "otp sent and valid for 5 minutes",
       });
       response.cookies.set("otp", `${otp}`, {
-        httpOnly: true,
         maxAge: "5M",
-        secure: true,
       });
       return response;
     }
