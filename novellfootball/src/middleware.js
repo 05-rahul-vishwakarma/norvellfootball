@@ -3,11 +3,12 @@ import { verifyToken } from "@/app/helpers/auth";
 
 export async function middleware(NextRequest) {
   const { pathname } = NextRequest.nextUrl;
+
   const isPublic =
-    pathname.startsWith === "/access" ||
-    pathname.startsWith === "/api/admin" ||
-    pathname.startsWith === "/api/otp";
-  console.log(pathname.startsWith, isPublic);
+    pathname.startsWith("/access") ||
+    pathname.startsWith("/api/admin") ||
+    pathname.startsWith("/api/otp");
+
   const token = NextRequest.cookies?.get("token")?.value || "";
   if (!token || token === "")
     return NextResponse.redirect(new URL("/access/login", NextRequest.nextUrl));
@@ -28,6 +29,5 @@ export const config = {
     "/stake/:path*",
     "/recharge/:path*",
     "/matches/:path*",
-    "/api/:path*",
   ],
 };

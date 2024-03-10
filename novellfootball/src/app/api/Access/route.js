@@ -13,8 +13,8 @@ import crypto from "crypto";
 
 // post request will handle the login functionality
 export async function POST(NextRequest) {
+  await connect();
   try {
-    await connect();
     const { UserName, Password } = await NextRequest.json();
     if (!UserName || !Password)
       throw new CustomError(700, "Username or password is missing", {});
@@ -47,6 +47,7 @@ export async function POST(NextRequest) {
     });
     return response;
   } catch (error) {
+    console.log(error);
     return NextResponse.json({
       status: error?.status || error?.code || 500,
       message: error?.message || "something went wrong",
