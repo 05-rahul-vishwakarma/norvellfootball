@@ -1,6 +1,4 @@
 import CustomError from "@/app/helpers/Error";
-import { randomBytes } from "crypto";
-import { encode } from "jose";
 import { USER, TRANSACTION } from "@/app/modals/modal";
 import { NextResponse } from "next/server";
 const { mongoose } = require("mongoose");
@@ -11,7 +9,7 @@ const { mongoose } = require("mongoose");
  *
  */
 
-async function POST(request) {
+export async function POST(request) {
   let Session = await mongoose.startSession();
   Session.startTransaction();
   try {
@@ -129,6 +127,7 @@ async function vipVerified(UserName, Ammount) {
 }
 
 async function genTransactionID() {
-  const bytes = randomBytes(6);
-  return encode(bytes);
+  const PART_A = Math.floor(Math.random() * 90000 + 10000).toString();
+  const PART_B = Math.floor(Math.random() * 90000 + 10000).toString();
+  return PART_A + PART_B;
 }
