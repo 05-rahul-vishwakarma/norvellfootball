@@ -38,10 +38,9 @@ const accorodient = {
 };
 
 function Page() {
-
-  const onClick = () =>{
+  const onClick = () => {
     setTerms(true);
-  }
+  };
 
   const [isVisible, setVisible] = useState(false);
   const [isVisibleTwo, setVisibleTwo] = useState(false);
@@ -164,8 +163,7 @@ function Page() {
           )}
         </div>
 
-        {showTerms?<Terms setTerms={setTerms} />:""}
-
+        {showTerms ? <Terms setTerms={setTerms} /> : ""}
       </section>
     </Layout>
   );
@@ -173,12 +171,10 @@ function Page() {
 
 export default Page;
 
-function Terms({setTerms}) {
+function Terms({ setTerms }) {
   return (
     <section className="absolute top-0 left-0 bg-white h-screen w-screen ">
-      <div
-        onClick={() =>setTerms(false)}
-        className="p-1 mt-3  ">
+      <div onClick={() => setTerms(false)} className="p-1 mt-3  ">
         <BackButton pageName="Terms and Conditions" />
       </div>
       <div className=" mt-4 w-[90%] mr-auto ml-auto h-full overflow-y-scroll pb-[8rem] ">

@@ -9,7 +9,7 @@ const colorArr = [
   { start: "#FFEBC9", stop: "#F7A928" },
 ];
 
-function MatchCard({ id, data, index, gradient }) {
+function MatchCard({ id, data, index, gradient, onClick }) {
   const [istTime, setISTTime] = useState("");
   const [timeString, setTimeString] = useState("");
 
@@ -44,6 +44,7 @@ function MatchCard({ id, data, index, gradient }) {
 
   return (
     <div
+      onClick={onClick}
       style={{
         boxShadow: "0px 5px 5px 0px rgba(0,0,0,0.1)",
         background: gradient.bgColor,

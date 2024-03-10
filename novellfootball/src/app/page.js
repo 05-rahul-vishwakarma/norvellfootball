@@ -15,20 +15,23 @@ import { UserContext } from "./helpers/UserContext";
 import Modal from "./components/Modal";
 
 export default function Home() {
-  const bgColor =
-    "linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(216,242,227,1) 0%, rgba(254,255,254,1) 0%, rgba(240,233,231,1) 46%, rgba(249,230,233,1) 100%)";
   const router = useRouter();
   const { userBalance, getBalance } = useContext(UserContext);
-
   const [matches, updateMatches] = useState([]);
   const [matchLoaded, updateLoaded] = useState(false);
-  const [isPlaceBet, togglePlaceBet] = useState(false);
-  const [placeBetData, updatePlaceBetData] = useState({});
 
-  const [popup, setPopup] = useState(false);
+  // states for access current data and popup handling //
+  const [selectedMatch, setSelectedMatch] = useState(null);
+  const [popupVisible, setPopupVisible] = useState(false);
 
-  const backbtn = () => {
-    setPopup(false);
+  // event handlers for the popup and accesing current data //
+  const handleMatchCardClick = (item) => {
+    setSelectedMatch(item);
+    setPopupVisible(true);
+  };
+
+  const closePopup = () => {
+    setPopupVisible(false);
   };
 
   async function getLiveMatches() {
@@ -45,11 +48,6 @@ export default function Home() {
     } catch (error) {
       router.push("/access/login");
     }
-  }
-
-  async function getPlaceBet(data) {
-    updatePlaceBetData(data);
-    setPopup(true);
   }
 
   useEffect(() => {
@@ -93,9 +91,9 @@ export default function Home() {
     {
       id: 7,
       bgColor:
-      "linear-gradient(138deg, rgba(180,255,218,1) 0%, rgba(255,255,255,1) 50%, rgba(180,255,218,1) 100%)",
+        "linear-gradient(138deg, rgba(180,255,218,1) 0%, rgba(255,255,255,1) 50%, rgba(180,255,218,1) 100%)",
     },
-    
+
     {
       id: 8,
       bgColor:
@@ -160,26 +158,201 @@ export default function Home() {
 
           <div className=" overflow-y-scroll h-[80%] pb-[6rem] ">
             {matches.map((item, i) => (
-              <div key={item.StakeId} onClick={() => getPlaceBet()}>
+              <div key={item.StakeId}>
                 <MatchCard
                   id={i}
                   index={i}
                   data={{ ...item }}
                   gradient={gradients[i]}
+                  onClick={() => handleMatchCardClick(item)}
                 />
               </div>
             ))}
-
-            {popup ? <MatchPopup data={placeBetData} onClick={backbtn} /> : ""}
           </div>
+
+          {popupVisible && (
+            <MatchPopup match={selectedMatch} onClose={closePopup} />
+          )}
+        </div>
+
+        <div className="translate-x-[100vw] ">
+          <Modal />
         </div>
       </main>
-      {/* <Modal/> */}
     </Layout>
   );
 }
 
-function ScoreCards() {
+function MatchPopup({ match, onClose }) {
+  console.log(match);
+
+  const { userBalance, getBalance } = useContext(UserContext);
+
+  const [Team_a_logo, updateSrcTeam_a] = useState();
+  const [Team_b_logo, updateSrcTeam_b] = useState();
+  const [MatchStartTime, updateTime] = useState(new Date());
+
+  // placeBet function //
+
+  async function placeBet(Percentage, Score_a, Score_b, BetAmount) {
+    try {
+      // let [Score_a, Score_b] = score.split("-");
+      let body = {
+        ...match,
+        BetAmount,
+        Percentage,
+        Score_a,
+        Score_b,
+      };
+
+      let config = {
+        method: "POST",
+        headers: {
+          "content-type": "applicaiton/json",
+        },
+        body: JSON.stringify(body),
+      };
+      let res = await fetch(`${window.location.origin}/api/match`, config);
+      res = await res.json();
+      console.log(res);
+      if (res?.status === 200) {
+        alert("bet placed");
+        await getBalance();
+      } else if (res?.status === 500 || res?.status === 302) {
+        router.push("/access/login");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // updating the logos and match time start
+
+  useEffect(() => {
+    const MatchTime = new Date(
+      new Date(match?.StartsAt).toLocaleString("en-US", {
+        timeZone: "asia/calcutta",
+      })
+    );
+    updateTime(MatchTime);
+    updateSrcTeam_a(match?.Team_a_logo);
+    updateSrcTeam_b(match?.Team_b_logo);
+  }, []);
+
+  return (
+    <div className="h-full absolute  top-0 left-0 flex justify-center items-end bg-black/70 w-full  ">
+      <div className=" h-[80%] pt-[2rem] pb-[6rem]  bg-slate-100 overflow-y-scroll rounded-t-[2rem] w-[98%]">
+        <div className="flex  relative px-2  justify-center">
+          <h4 className="border-2 border-solid border-blue-700 min-w-[20%] rounded-full"></h4>
+          <p
+            onClick={onClose}
+            className="absolute left-2 text-sm font-bold mt-[-1rem] p-2"
+          >
+            &lt; Back
+          </p>
+        </div>
+
+        <div className=" px-6 mt-4 text-white">
+          <div className="rounded-2xl relative  pt-4 bg-[url(/betplace.png)]  h-full  text-center  w-full">
+            <h2 className="capitalize text-sm font-bold truncate text-white">
+              {match.LeagueName}
+            </h2>
+            <div className="w-full mt-3 flex px-2">
+              <div className="flex-[2] flex-col flex w-full items-center h-full ">
+                <span className="h-[60px] w-[60px] rounded-full relative  flex justify-center place-items-center ">
+                  <Image
+                    src={Team_a_logo || "/search.png"}
+                    alt="logo"
+                    width={38}
+                    height={38}
+                  />
+                </span>
+                <span className="line-clamp-2 w-[80%] text-[.6rem] capitalize font-bold">
+                  {match?.Team_a || "Team b unavailable"}
+                </span>
+              </div>
+              <div className="flex-[1] flex items-center justify-center flex-col">
+                <span className="text-xl block font-bold text-red-600">
+                  {MatchStartTime.getHours() > 12
+                    ? `${MatchStartTime.getHours() - 12}`
+                    : `${
+                        MatchStartTime.getHours() < 10 ? "0" : ""
+                      }${MatchStartTime.getHours()}`}
+                  :
+                  {MatchStartTime.getMinutes() < 10
+                    ? `0${MatchStartTime.getMinutes()}`
+                    : `${MatchStartTime.getMinutes()}`}
+                </span>
+                <span className="uppercase text-sm font-bold">
+                  {MatchStartTime.getDate()}
+                  {MatchStartTime.toDateString().slice(3, 8)}
+                </span>
+              </div>
+              <div className="flex-[2] flex-col flex w-full items-center h-full ">
+                <span className="h-[60px] w-[60px] rounded-full relative flex justify-center place-items-center ">
+                  <Image
+                    src={Team_b_logo || "/search.png"}
+                    alt="logo"
+                    width={38}
+                    height={38}
+                  />
+                </span>
+                <span className="line-clamp-2 w-[80%] text-[.6rem] capitalize font-bold">
+                  {match?.Team_b || "Team b unavailable"}
+                </span>
+              </div>
+            </div>
+            <div className="mt-6 flex justify-center">
+              <div className="rounded-t-xl bg-red-600 px-3 py-1 h-full">
+                <h2 className="capitalize font-bold text-sm text-white">
+                  full-time
+                </h2>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="px-5">
+          <h2 className="text-[0.7rem] mt-3 font-semibold text-slate-500">
+            Please choose a match score to place your stake.
+          </h2>
+        </div>
+
+        <div className="mt-2 px-4 space-y-4">
+          <ScoreCards
+            placeBet={placeBet}
+            percent={match?.FixedPercent}
+            Balance={userBalance}
+            Score_a={match.Score_a}
+            Score_b={match.Score_b}
+            s
+          />
+        </div>
+      </div>
+      <div className="translate-x-[100vw]">
+        <Modal />
+      </div>
+    </div>
+  );
+}
+
+function ScoreCards({ placeBet, percent, Balance, Score_a, Score_b }) {
+  const [estimatedIncome, updateEstimated] = useState(0);
+  const [betAmount, updateBetAmount] = useState(0);
+
+  function updateAmount(e) {
+    updateBetAmount(e?.target?.value);
+    updateEstimated(() => {
+      let estimated = (
+        (Number(e?.target?.value) / 100) *
+        Number(percent)
+      ).toFixed(2);
+      return Math.abs(
+        Number(estimated) - (Number(estimated) / 100) * 5
+      ).toFixed(2);
+    });
+  }
+
   return (
     <div className="w-[100%] ">
       <div
@@ -193,11 +366,15 @@ function ScoreCards() {
           className="flex items-center justify-center 
         "
         >
-          Score <h2 className="ml-1 text-red-500 ">0-0</h2>
+          Score{" "}
+          <h2 className="ml-1 text-red-500 ">
+            {" "}
+            {Score_a}-{Score_b}{" "}
+          </h2>
         </span>
         <span className="flex items-center">
           Odds percentage -<h2 className=" ml-1 text-green-400"></h2>
-          <h2 className="text-green-400">3.4%</h2>
+          <h2 className="text-green-400"> {percent} </h2>
         </span>
         <span className="flex items-center justify-center py-2 px-2 bg-[#5A5A5A] text-white rounded-[7px] ">
           Place stake
@@ -218,7 +395,9 @@ function ScoreCards() {
                 <FaRupeeSign />
               </span>
 
-              <span className="text-xs font-bold pr-3">109230</span>
+              <span className="text-xs font-bold pr-3">
+                {new Intl.NumberFormat().format(Balance || 0)}
+              </span>
             </div>
             <span className="h-[90%] font-bolder text-white aspect-square rounded-full bg-blue-700 flex justify-center items-center">
               <IoIosAdd />
@@ -253,6 +432,8 @@ function ScoreCards() {
                 placeholder="Add"
                 name=""
                 id=""
+                onChange={updateAmount}
+                value={betAmount}
               />
             </div>
             <div className="flex pl-1 min-w-[50%] space-x-2  items-center h-[90%] ">
@@ -264,7 +445,7 @@ function ScoreCards() {
               </span>
 
               <span className="text-xs font-bold text-green-500 pr-3">
-                109230
+                {estimatedIncome || 0}
               </span>
             </div>
           </div>
@@ -274,76 +455,12 @@ function ScoreCards() {
           <button className="py-2 px-1 font-bold w-[30%] text-sm text-white rounded-md capitalize bg-gray-900">
             all amount
           </button>
-          <button className="py-2 px-2 w-[70%] bg-blue-600 font-bold text-sm text-white rounded-md capitalize">
+          <button
+            onClick={() => placeBet(percent, Score_a, Score_b, betAmount)}
+            className="py-2 px-2 w-[70%] bg-blue-600 font-bold text-sm text-white rounded-md capitalize"
+          >
             confirm
           </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function MatchPopup({ onClick }) {
-  return (
-    <div className="h-full absolute  top-0 left-0 flex justify-center items-end bg-black/70 w-full  ">
-      <div className=" h-[80%] pt-[2rem] pb-[6rem]  bg-slate-100 overflow-y-scroll rounded-t-[2rem] w-[98%]">
-        <div className="flex  relative px-2  justify-center">
-          <h4 className="border-2 border-solid border-blue-700 min-w-[20%] rounded-full"></h4>
-          <p
-            onClick={onClick}
-            className="absolute left-2 text-sm font-bold mt-[-1rem] p-2"
-          >
-            &lt; Back
-          </p>
-        </div>
-
-        <div className=" px-6 mt-4 text-white">
-          <div className="rounded-2xl relative  pt-4 bg-[url(../../public/betplace.png)]  h-full  text-center  w-full">
-            <h2 className="capitalize text-sm font-bold truncate text-white">
-              premier league
-            </h2>
-            <div className="w-full mt-3 flex px-2">
-              <div className="flex-[2] flex-col flex w-full items-center h-full ">
-                <span className="h-[60px] w-[60px] rounded-full relative ">
-                  <Image src={"/logo.png"} objectFit="cover" layout="fill" />
-                </span>
-                <span className="line-clamp-2 w-[80%] text-[.6rem] capitalize font-bold">
-                  team a and here am i
-                </span>
-              </div>
-              <div className="flex-[1] flex items-center justify-center flex-col">
-                <span className="text-xl block font-bold text-red-600">
-                  23:40
-                </span>
-                <span className="uppercase text-sm font-bold">27 FEB</span>
-              </div>
-              <div className="flex-[2] flex-col flex w-full items-center h-full ">
-                <span className="h-[60px] w-[60px] rounded-full relative ">
-                  <Image src={"/logo.png"} objectFit="cover" layout="fill" />
-                </span>
-                <span className="line-clamp-2 w-[80%] text-[.6rem] capitalize font-bold">
-                  team a and here am i
-                </span>
-              </div>
-            </div>
-            <div className="mt-6 flex justify-center">
-              <div className="rounded-t-xl bg-red-600 px-3 py-1 h-full">
-                <h2 className="capitalize font-bold text-sm text-white">
-                  full-time
-                </h2>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="px-5">
-          <h2 className="text-[0.7rem] mt-3 font-semibold text-slate-500">
-            Please choose a match score to place your stake.
-          </h2>
-        </div>
-
-        <div className="mt-2 px-4 space-y-4">
-          <ScoreCards />
         </div>
       </div>
     </div>

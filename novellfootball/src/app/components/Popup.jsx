@@ -4,6 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 
 function Popup({ image, condtions, onClick }) {
+
+  function PopUpDlt() {
+     onClick()
+  }
+
   return (
     <div className="h-full w-full bg-[#F8FCFF]  z-[3]  ">
       <div onClick={() => onClick()} className="pt-[2rem]">
@@ -21,7 +26,7 @@ function Popup({ image, condtions, onClick }) {
         </div>
 
         <div
-          onClick={() => onClick()}
+          onClick={PopUpDlt}
           className="text-center p-3 mt-4 rounded-lg flex justify-center place-items-center text-[#000] w-[90%] mr-auto ml-auto  "
         >
           Cancel Stake

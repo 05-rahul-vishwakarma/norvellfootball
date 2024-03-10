@@ -45,11 +45,10 @@ function Page() {
   const [pendingMatches, updatePendingMatches] = useState([]);
   const [settledMatches, updateSettledMatches] = useState([]);
   let router = useRouter();
-  // const color = "green";
-  // const colorTwo = "red";
 
   // # function to cancel the stake
   const showPopup = async () => {
+   
     /*
      make a post call to "/api/stake" to delete stake
      body : StakeId, StartsAt 
@@ -67,8 +66,8 @@ function Page() {
 
     #### make the cancel stake button visible to only those people
        whose match start time is 5 minutes or more than the current time 
-
     */
+
     setShow(true);
   };
 
