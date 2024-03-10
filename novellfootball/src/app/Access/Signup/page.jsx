@@ -29,7 +29,9 @@ const itemVariants2 = {
   visible: { opacity: 1, y: 0 },
 };
 
-function VerificationPopup({ toggleVerification }) {
+function VerificationPopup({ sentTo, toggleVerification, resend }) {
+  // have to create a funciton that will change the tab index on each click;
+
   return (
     <div className="absolute z-[30] left-0 flex bg-slate-950/70 items-center justify-center right-0 h-full w-full opacity-1">
       <div className=" w-[80%] bg-slate-100 rounded-[2rem] px-6 pt-6 pb-4">
@@ -49,7 +51,9 @@ function VerificationPopup({ toggleVerification }) {
             <span className="uppercase font-regular text-gray-500 text-[0.6rem]">
               Enter the otp you received on
             </span>
-            <span className="uppercase font-bold text-xs">+91******9182</span>
+            <span className="uppercase font-bold text-xs">
+              +{sentTo?.slice(0, 3)}******{sentTo?.slice(-3)}
+            </span>
           </div>
           <div className="flex space-x-2 flex-row items-center justify-between mx-auto w-full max-w-xs">
             <div className="w-16 h-16 ">
@@ -57,6 +61,7 @@ function VerificationPopup({ toggleVerification }) {
                 className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-400 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
                 type="text"
                 name=""
+                tabIndex={0}
                 id=""
               />
             </div>
@@ -65,6 +70,7 @@ function VerificationPopup({ toggleVerification }) {
                 className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-400 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
                 type="text"
                 name=""
+                tabIndex={1}
                 id=""
               />
             </div>
@@ -73,6 +79,7 @@ function VerificationPopup({ toggleVerification }) {
                 className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-400 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
                 type="text"
                 name=""
+                tabIndex={2}
                 id=""
               />
             </div>
@@ -81,16 +88,15 @@ function VerificationPopup({ toggleVerification }) {
                 className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-400 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
                 type="text"
                 name=""
+                tabIndex={3}
                 id=""
               />
             </div>
           </div>
-          <div className="flex flex-row items-center text-center text-sm font-medium space-x-1 uppercase text-gray-500">
+          <div className="flex items-center text-center text-sm font-medium space-x-1 uppercase text-gray-500">
             <a
+              onClick={resend}
               className="flex flex-row items-center font-semibold text-slate-900"
-              href="http://"
-              target="_blank"
-              rel="noopener noreferrer"
             >
               Resend
             </a>
@@ -169,7 +175,35 @@ const Signup = () => {
     res = await res.json();
     console.log(res);
   };
-
+  async function getPhoneOtp() {
+    try {
+      if (credentials?.Phone?.length === 12) {
+        // setIsLoading(true);
+        let config = {
+          method: "POST",
+          header: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({ Phone: credentials?.Phone }),
+        };
+        let res = await fetch(
+          window.location.origin + "/api/otp/phone",
+          config
+        );
+        res = await res.json();
+        if (res?.status === 200) {
+          alert(res?.message);
+          updateGetVerif(true);
+        } else {
+          alert(res?.message);
+        }
+      } else {
+        alert("invalid phone number");
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  }
   return (
     <div className="flex relative min-h-[100dvh] flex-col justify-center px-6 py-12 lg:px-8">
       <div className="absolute top-0 left-0 z-[-1]  h-full w-full">
@@ -230,7 +264,7 @@ const Signup = () => {
                         ></Image>
                       ) : (
                         <button
-                          onClick={() => updateGetVerif(true)}
+                          onClick={() => getPhoneOtp()}
                           className="rounded-md py-1 px-2.5 bg-slate-100 text-xs capitalize fobold"
                         >
                           verify
@@ -422,7 +456,11 @@ const Signup = () => {
       </div>
 
       {getVerification && (
-        <VerificationPopup toggleVerification={updateGetVerif} />
+        <VerificationPopup
+          sentTo={credentials?.Phone}
+          resend={getPhoneOtp}
+          toggleVerification={updateGetVerif}
+        />
       )}
     </div>
   );
