@@ -50,7 +50,7 @@ const VerificationPopup = ({ toggleVerification }) => {
         body: JSON.stringify({ UserName }),
       };
       let res = await fetch(
-        BACKEND + "/api/otp/" + `${verifPhone ? "phone" : "email"}`,
+        "/api/otp/" + `${verifPhone ? "phone" : "email"}`,
         config
       );
       res = await res.json();
@@ -86,7 +86,7 @@ const VerificationPopup = ({ toggleVerification }) => {
         },
         body: JSON.stringify({ UserName, Password: credentials?.Password }),
       };
-      let res = await fetch(BACKEND + "/api/access/resetPassword", config);
+      let res = await fetch("/api/access/resetPassword", config);
       res = await res.json();
       if (res?.status === 200) {
         updateOtpSent(true);

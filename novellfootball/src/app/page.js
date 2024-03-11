@@ -38,7 +38,7 @@ export default function Home() {
 
   async function getLiveMatches() {
     try {
-      let res = await fetch(`${BACKEND}/api/home`);
+      let res = await fetch(`/api/home`);
       if (!res.ok) throw new Error("Error while fetching matches");
       res = await res.json();
       console.log(res);
@@ -214,7 +214,7 @@ function MatchPopup({ match, onClose }) {
         },
         body: JSON.stringify(body),
       };
-      let res = await fetch(`${BACKEND}/api/match`, config);
+      let res = await fetch(`/api/match`, config);
       res = await res.json();
       console.log(res);
       if (res?.status === 200) {

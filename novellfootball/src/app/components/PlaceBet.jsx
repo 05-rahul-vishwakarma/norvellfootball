@@ -69,7 +69,7 @@ const PlaceBet = ({ data, togglePopup }) => {
         },
         body: JSON.stringify(body),
       };
-      let res = await fetch(`${BACKEND}/api/match`, config);
+      let res = await fetch(`/api/match`, config);
       res = await res.json();
       if (res?.status === 200) {
         alert("bet placed");

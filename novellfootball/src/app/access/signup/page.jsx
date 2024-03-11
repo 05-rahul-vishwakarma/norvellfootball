@@ -169,7 +169,7 @@ const Signup = () => {
       contentType: "application/json",
       body: JSON.stringify({ ...credentials }),
     };
-    let res = await fetch(BACKEND + "/api/access", config);
+    let res = await fetch("/api/access", config);
     res = await res.json();
     console.log(res);
   };
@@ -184,7 +184,7 @@ const Signup = () => {
           },
           body: JSON.stringify({ Phone: credentials?.Phone }),
         };
-        let res = await fetch(BACKEND + "/api/otp/phone", config);
+        let res = await fetch("/api/otp/phone", config);
         res = await res.json();
         if (res?.status === 200) {
           alert(res?.message);

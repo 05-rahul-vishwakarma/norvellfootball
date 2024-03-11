@@ -33,7 +33,7 @@ function Page() {
 
   async function getLiveMatches() {
     try {
-      let res = await fetch(`${BACKEND}/api/match`);
+      let res = await fetch(`/api/match`);
       if (!res.ok) throw new Error("Error while fetching matches");
       res = await res.json();
       if (res?.status === 200) {

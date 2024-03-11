@@ -78,7 +78,7 @@ function Page() {
 
   async function getStakeData() {
     try {
-      let res = await fetch(`${BACKEND}/api/stake`);
+      let res = await fetch(`/api/stake`);
       res = await res.json();
       if (res?.status === 200) {
         updatePendingMatches(res?.data?.pendingMatches);
