@@ -12,7 +12,9 @@ export async function middleware(NextRequest) {
 
   const token = NextRequest?.cookies?.get("token")?.value || "";
   if (!token || token === "")
-    return NextResponse.redirect(new URL("/access/login", NextRequest.nextUrl));
+    return NextResponse.redirect(
+      new URL("/access/signup", NextRequest.nextUrl)
+    );
   const isValidToken = await verifyToken(token);
 
   if (!isPublic && !isValidToken?.success) {
