@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { verifyToken } from "@/app/helpers/auth";
+import { jwtVerify } from "jose";
+const secretKey = process.env.NEXT_PUBLIC_JWT_SECRET;
 
 export async function middleware(NextRequest) {
   const { pathname } = NextRequest.nextUrl;
@@ -9,7 +10,8 @@ export async function middleware(NextRequest) {
     pathname.startsWith("/api/admin") ||
     pathname.startsWith("/api/otp");
 
-  const token = NextRequest.cookies?.get("token")?.value || "";
+  const token = NextRequest?.cookies?.get("token")?.value || "";
+  console.log(token);
   if (!token || token === "")
     return NextResponse.redirect(new URL("/access/login", NextRequest.nextUrl));
   const isValidToken = await verifyToken(token);
@@ -31,3 +33,14 @@ export const config = {
     "/matches/:path*",
   ],
 };
+
+async function verifyToken(token) {
+  try {
+    const decoded = await jwtVerify(token, new TextEncoder().encode(secretKey));
+    // const decoded = await jwtVerify(token, `${secretKey}`);
+    return { success: true, decoded: decoded?.payload || "" };
+  } catch (error) {
+    console.log(error);
+    return { success: false, error: "Invalid token" };
+  }
+}

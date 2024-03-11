@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { USER } from "@/app/modals/modal";
 import { redirect } from "next/navigation";
 import { generateToken, verifyToken } from "@/app/helpers/auth";
@@ -35,16 +36,26 @@ export async function POST(NextRequest) {
       { new: true }
     );
     const response = NextResponse.json({ status: 200, message: "logged in" });
-    response.cookies.set("token", `${token}`, {
+    cookies().set("token", `${token}`, {
       httpOnly: true,
       maxAge: "1d",
       secure: true,
     });
-    response.cookies.set("session", `${sessionToken}`, {
+    cookies().set("session", `${sessionToken}`, {
       httpOnly: true,
       maxAge: "1d",
       secure: true,
     });
+    // response.cookies.set("token", `${token}`, {
+    //   httpOnly: true,
+    //   maxAge: "1d",
+    //   secure: true,
+    // });
+    // response.cookies.set("session", `${sessionToken}`, {
+    //   httpOnly: true,
+    //   maxAge: "1d",
+    //   secure: true,
+    // });
     return response;
   } catch (error) {
     console.log(error);
@@ -111,16 +122,27 @@ export async function PUT(NextRequest) {
       status: 200,
       message: "user created",
     });
-    response.cookies.set("token", token, {
+    cookies().set("token", `${token}`, {
       httpOnly: true,
       maxAge: "1d",
       secure: true,
     });
-    response.cookies.set("session", `${sessionToken}`, {
+    cookies().set("session", `${sessionToken}`, {
       httpOnly: true,
       maxAge: "1d",
       secure: true,
     });
+
+    // response.cookies.set("token", token, {
+    //   httpOnly: true,
+    //   maxAge: "1d",
+    //   secure: true,
+    // });
+    // response.cookies.set("session", `${sessionToken}`, {
+    //   httpOnly: true,
+    //   maxAge: "1d",
+    //   secure: true,
+    // });
     return response;
   } catch (error) {
     return NextResponse.json({

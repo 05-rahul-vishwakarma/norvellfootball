@@ -5,7 +5,7 @@ import { connect } from "../modals/dbConfig";
 
 const secretKey = process.env.NEXT_PUBLIC_JWT_SECRET; // Replace with your secret key
 
-const generateToken = async (payload) => {
+export const generateToken = async (payload) => {
   const token = await new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setJti(uuid())
@@ -15,7 +15,7 @@ const generateToken = async (payload) => {
   return token;
 };
 
-const isAuthenticated = async (token, sessionToken) => {
+export const isAuthenticated = async (token, sessionToken) => {
   connect();
   try {
     const decoded = await jwtVerify(token, new TextEncoder().encode(secretKey));
@@ -36,7 +36,7 @@ const isAuthenticated = async (token, sessionToken) => {
   }
 };
 
-const verifyToken = async (token) => {
+export const verifyToken = async (token) => {
   try {
     const decoded = await jwtVerify(token, new TextEncoder().encode(secretKey));
     return { success: true, decoded: decoded?.payload || "" };
@@ -46,7 +46,7 @@ const verifyToken = async (token) => {
   }
 };
 
-async function isValidUser(request) {
+export async function isValidUser(request) {
   const session = request.cookies.get("session")?.value || "";
   const token = request?.cookies?.get("token")?.value || "";
   const UserName = await isAuthenticated(token, session);
@@ -55,4 +55,17 @@ async function isValidUser(request) {
   return UserName;
 }
 
-module.exports = { generateToken, verifyToken, isAuthenticated, isValidUser };
+// module.exports = { generateToken, verifyToken, isAuthenticated, isValidUser };
+
+export const config = {
+  runtime: "edge", // for Edge API Routes only
+  unstable_allowDynamic: [
+    // allows a single file
+    "/src/app/modals/modal.js",
+    "/src/app/helpers/auth.js",
+    "/node_modules/function-bind/**",
+    "/node_modules/jose/dist/**",
+    // use a glob to allow anything in the function-bind 3rd party module
+    "/node_modules/mongoose/dist/browser.umd.js",
+  ],
+};

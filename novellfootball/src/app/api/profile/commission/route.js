@@ -7,18 +7,20 @@
  * ### POST request will allow the functionality to claim the unclaimed commissions of previous week;
  *
  */
-
 import CustomError from "@/app/helpers/Error";
 import { NextResponse } from "next/server";
 import { COMMISSION } from "@/app/modals/modal";
 import { isAuthenticated } from "@/app/helpers/auth";
+import { cookies } from "next/headers";
 // function to retrive the commission and the corresponding bet data using aggregation pipeline
 
 export async function GET(request) {
   try {
-    const session = request.cookies.get("session")?.value || "";
-    const token = request?.cookies?.get("token")?.value || "";
-    const UserName = await isAuthenticated(token, session);
+    // const session = request.cookies.get("session")?.value || "";
+    // const token = request?.cookies?.get("token")?.value || "";
+
+    // const UserName = await isAuthenticated(token, session);
+    const UserName = await isValidUser(request);
     if (!UserName)
       return NextResponse.json({
         status: 302,
@@ -34,7 +36,7 @@ export async function GET(request) {
       data: res,
     });
   } catch (error) {
-    return NextResponse.json({ data: res });
+    return NextResponse.json({ data: error });
   }
 }
 
@@ -129,4 +131,16 @@ async function getPreviousDates(tillDate) {
     previousDates.push(formattedDate);
   }
   return previousDates;
+}
+
+async function isValidUser(request) {
+  // const session = request.cookies.get("session")?.value || "";
+  // const token = request?.cookies?.get("token")?.value || "";
+  const cookieStore = cookies();
+  const session = cookieStore.get("session") || "";
+  const token = cookieStore.get("token") || "";
+  const UserName = await isAuthenticated(token, session);
+  if (!UserName) return false;
+
+  return UserName;
 }

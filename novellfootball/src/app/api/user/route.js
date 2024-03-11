@@ -3,6 +3,7 @@ import { connect } from "@/app/modals/dbConfig";
 import { USER } from "@/app/modals/modal";
 import { NextResponse } from "next/server";
 import { isAuthenticated } from "@/app/helpers/auth";
+import { cookies } from "next/headers";
 
 export async function GET(request) {
   await connect();
@@ -27,8 +28,11 @@ export async function GET(request) {
 }
 
 async function isValidUser(request) {
-  const session = request.cookies.get("session")?.value || "";
-  const token = request?.cookies?.get("token")?.value || "";
+  // const session = request.cookies.get("session")?.value || "";
+  // const token = request?.cookies?.get("token")?.value || "";
+  const cookieStore = cookies();
+  const session = cookieStore.get("session") || "";
+  const token = cookieStore.get("token") || "";
   const UserName = await isAuthenticated(token, session);
   if (!UserName) return false;
 
