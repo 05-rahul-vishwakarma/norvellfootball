@@ -32,6 +32,7 @@ export const isAuthenticated = async (token, sessionToken) => {
       return decoded?.payload?.UserName;
     }
   } catch (error) {
+    console.log(error);
     return false;
   }
 };

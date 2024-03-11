@@ -31,8 +31,8 @@ async function isValidUser(request) {
   // const session = request.cookies.get("session")?.value || "";
   // const token = request?.cookies?.get("token")?.value || "";
   const cookieStore = cookies();
-  const session = cookieStore.get("session") || "";
-  const token = cookieStore.get("token") || "";
+  const session = cookieStore.get("session")?.value || "";
+  const token = cookieStore.get("token")?.value || "";
   const UserName = await isAuthenticated(token, session);
   if (!UserName) return false;
 
