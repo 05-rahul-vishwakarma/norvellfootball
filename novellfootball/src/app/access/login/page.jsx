@@ -1,4 +1,5 @@
 "use client";
+const BACKEND = process.env.NEXT_PUBLIC_BACKEND_URL;
 import { useState } from "react";
 import Image from "next/image";
 import Input from "@/app/components/Input";
@@ -40,7 +41,7 @@ const Login = () => {
       contentType: "application/json",
       body: JSON.stringify(credentials),
     };
-    let res = await fetch(`${window.location.origin}/api/access`, config);
+    let res = await fetch(BACKEND + `/api/access`, config);
     res = await res.json();
     if (res?.status === 200) {
       router.push("/");

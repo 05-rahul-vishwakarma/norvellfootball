@@ -1,6 +1,7 @@
 import CustomError from "@/app/helpers/Error";
 import { NextResponse } from "next/server";
 import { USER } from "@/app/modals/modal";
+import { cookies } from "next/headers";
 /*
   
 🏦🏧
@@ -14,9 +15,10 @@ import { USER } from "@/app/modals/modal";
 
 export async function POST(request) {
   try {
-    const session = request.cookies.get("session")?.value || "";
-    const token = request?.cookies?.get("token")?.value || "";
-    const UserName = await isAuthenticated(token, session);
+    // const session = request.cookies.get("session")?.value || "";
+    // const token = request?.cookies?.get("token")?.value || "";
+    // const UserName = await isAuthenticated(token, session);
+    const UserName = await isValidUser(request);
     if (!UserName)
       return NextResponse.json({
         status: 302,
@@ -86,9 +88,10 @@ export async function POST(request) {
 
 export async function PATCH(request) {
   try {
-    const session = request.cookies.get("session")?.value || "";
-    const token = request?.cookies?.get("token")?.value || "";
-    const UserName = await isAuthenticated(token, session);
+    // const session = request.cookies.get("session")?.value || "";
+    // const token = request?.cookies?.get("token")?.value || "";
+    // const UserName = await isAuthenticated(token, session);
+    const UserName = await isValidUser(request);
     if (!UserName)
       return NextResponse.json({
         status: 302,
@@ -154,4 +157,15 @@ export async function PATCH(request) {
       data: {},
     });
   }
+}
+async function isValidUser(request) {
+  // const session = request.cookies.get("session")?.value || "";
+  // const token = request?.cookies?.get("token")?.value || "";
+  const cookieStore = cookies();
+  const session = cookieStore.get("session") || "";
+  const token = cookieStore.get("token") || "";
+  const UserName = await isAuthenticated(token, session);
+  if (!UserName) return false;
+
+  return UserName;
 }

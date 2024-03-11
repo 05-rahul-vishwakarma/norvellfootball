@@ -17,7 +17,8 @@ const Input = ({
       </div>
       <div className="absolute top-0 flex justify-center items-center right-0  h-full aspect-square px-1.5 py-1.5 ">
         {id === "ConfPassword" ? (
-          credentials[id] === credentials["Password"] ? (
+          credentials[id] === credentials["Password"] &&
+          credentials["Password"] !== "" ? (
             <Image
               src={`/tick_mark.png`}
               alt="correct"

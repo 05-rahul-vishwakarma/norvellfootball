@@ -110,17 +110,30 @@ MatchSchema.pre("findOneAndUpdate", function (next) {
   next();
 });
 
-const USER = mongoose?.models?.users || mongoose?.model("users", UserSchema);
-const BET = mongoose?.models?.bets || mongoose.model("bets", BetSchema);
-const COMMISSION =
+export const USER =
+  mongoose?.models?.users || mongoose?.model("users", UserSchema);
+export const BET = mongoose?.models?.bets || mongoose.model("bets", BetSchema);
+export const COMMISSION =
   mongoose?.models?.commissions ||
   mongoose?.model("commissions", CommissionSchema);
-const TRANSACTION =
+export const TRANSACTION =
   mongoose?.models?.transactions ||
   mongoose?.model("transactions", TransactionSchema);
-const REWARD =
+export const REWARD =
   mongoose?.models?.rewards || mongoose.model("rewards", RewardsSchema);
-const MATCH =
+export const MATCH =
   mongoose?.models?.matches || mongoose?.model("matches", MatchSchema);
 
-module.exports = { USER, BET, MATCH, COMMISSION, TRANSACTION, REWARD };
+// module.exports = { USER, BET, MATCH, COMMISSION, TRANSACTION, REWARD };
+
+export const config = {
+  runtime: "edge", // for Edge API Routes only
+  unstable_allowDynamic: [
+    // allows a single file
+    "/src/app/modals/modal.js",
+    "/src/app/helpers/auth.js",
+    "/node_modules/function-bind/**",
+    // use a glob to allow anything in the function-bind 3rd party module
+    "/node_modules/mongoose/dist/browser.umd.js",
+  ],
+};

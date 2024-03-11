@@ -39,7 +39,7 @@ function Page({ closePopup }) {
           {/* hero section */}
           <div
             style={{
-              background: "url(../../profile-bg.png) center no-repeat",
+              background: "url(/profileBg.png) center no-repeat",
               backgroundSize: "cover",
             }}
             className=" h-[65%] py-4  relative w-full  

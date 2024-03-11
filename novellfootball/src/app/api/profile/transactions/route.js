@@ -8,12 +8,15 @@ import { TRANSACTION } from "@/app/modals/modal";
 import CustomError from "@/app/helpers/Error";
 import { NextResponse } from "next/server";
 import { isAuthenticated } from "@/app/helpers/auth";
+import { cookies } from "next/headers";
 
 export async function GET(request) {
   try {
-    const session = request.cookies.get("session")?.value || "";
-    const token = request?.cookies?.get("token")?.value || "";
-    const UserName = await isAuthenticated(token, session);
+    // const session = request.cookies.get("session")?.value || "";
+    // const token = request?.cookies?.get("token")?.value || "";
+    // const UserName = await isAuthenticated(token, session);
+    const UserName = await isValidUser(token, session);
+
     if (!UserName)
       return NextResponse.json({
         status: 302,
@@ -53,4 +56,16 @@ export async function GET(request) {
       message: "something went wrong",
     });
   }
+}
+
+async function isValidUser(request) {
+  // const session = request.cookies.get("session")?.value || "";
+  // const token = request?.cookies?.get("token")?.value || "";
+  const cookieStore = cookies();
+  const session = cookieStore.get("session") || "";
+  const token = cookieStore.get("token") || "";
+  const UserName = await isAuthenticated(token, session);
+  if (!UserName) return false;
+
+  return UserName;
 }
