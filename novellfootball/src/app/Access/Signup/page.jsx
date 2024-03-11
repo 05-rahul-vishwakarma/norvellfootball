@@ -1,4 +1,5 @@
 "use client";
+const BACKEND = process.env.NEXT_PUBLIC_BACKEND_URL;
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import Input from "@/app/components/Input";
@@ -168,7 +169,7 @@ const Signup = () => {
       contentType: "application/json",
       body: JSON.stringify({ ...credentials }),
     };
-    let res = await fetch("http://localhost:3000/api/access", config);
+    let res = await fetch(BACKEND + "/api/access", config);
     res = await res.json();
     console.log(res);
   };
@@ -183,10 +184,7 @@ const Signup = () => {
           },
           body: JSON.stringify({ Phone: credentials?.Phone }),
         };
-        let res = await fetch(
-          window.location.origin + "/api/otp/phone",
-          config
-        );
+        let res = await fetch(BACKEND + "/api/otp/phone", config);
         res = await res.json();
         if (res?.status === 200) {
           alert(res?.message);

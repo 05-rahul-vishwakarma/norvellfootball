@@ -1,5 +1,7 @@
 "use client";
 
+const BACKEND = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 import React, { useEffect, useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import StakeHistory from "../components/StakeHistory";
@@ -48,7 +50,6 @@ function Page() {
 
   // # function to cancel the stake
   const showPopup = async () => {
-   
     /*
      make a post call to "/api/stake" to delete stake
      body : StakeId, StartsAt 
@@ -77,7 +78,7 @@ function Page() {
 
   async function getStakeData() {
     try {
-      let res = await fetch(`${window.location.origin}/api/stake`);
+      let res = await fetch(`${BACKEND}/api/stake`);
       res = await res.json();
       if (res?.status === 200) {
         updatePendingMatches(res?.data?.pendingMatches);

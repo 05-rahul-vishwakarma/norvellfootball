@@ -4,6 +4,7 @@ import { easeInOut, motion } from "framer-motion";
 import Input from "./Input";
 import { FaPlay } from "react-icons/fa6";
 import OtpInputs from "./OtpInputs";
+const BACKEND = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 const VerificationPopup = ({ toggleVerification }) => {
   const [otp, setOtp] = useState(new Array(4).fill(""));
@@ -49,9 +50,7 @@ const VerificationPopup = ({ toggleVerification }) => {
         body: JSON.stringify({ UserName }),
       };
       let res = await fetch(
-        window.location.origin +
-          "/api/otp/" +
-          `${verifPhone ? "phone" : "email"}`,
+        BACKEND + "/api/otp/" + `${verifPhone ? "phone" : "email"}`,
         config
       );
       res = await res.json();
@@ -87,10 +86,7 @@ const VerificationPopup = ({ toggleVerification }) => {
         },
         body: JSON.stringify({ UserName, Password: credentials?.Password }),
       };
-      let res = await fetch(
-        window.location.origin + "/api/access/resetPassword",
-        config
-      );
+      let res = await fetch(BACKEND + "/api/access/resetPassword", config);
       res = await res.json();
       if (res?.status === 200) {
         updateOtpSent(true);

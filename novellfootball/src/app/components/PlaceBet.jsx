@@ -1,6 +1,8 @@
 "use client";
 // this component is used when the user try's to place a bet by clicking on matchCard2 -> this popup
 // this popup will allow users to select the score to bet on.
+const BACKEND = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 import { easeInOut, motion } from "framer-motion";
 import Image from "next/image";
 import { useState, useEffect, useContext } from "react";
@@ -67,7 +69,7 @@ const PlaceBet = ({ data, togglePopup }) => {
         },
         body: JSON.stringify(body),
       };
-      let res = await fetch(`${window.location.origin}/api/match`, config);
+      let res = await fetch(`${BACKEND}/api/match`, config);
       res = await res.json();
       if (res?.status === 200) {
         alert("bet placed");

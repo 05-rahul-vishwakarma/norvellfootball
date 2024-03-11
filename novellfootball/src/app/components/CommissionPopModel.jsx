@@ -1,4 +1,5 @@
 "use client";
+const BACKEND = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 import React, { useEffect, useState } from "react";
 import { IoIosArrowBack, IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
@@ -10,7 +11,7 @@ function CommissionPopModel({ closeModel }) {
   const [overallCommission, updateOverallCommission] = useState([]);
 
   async function getCommissionData() {
-    let res = await fetch(window.location.origin + "/api/profile/commission");
+    let res = await fetch(BACKEND + "/api/profile/commission");
     if (res.ok) {
       res = await res.json();
       let commissionObj = res?.data[0];

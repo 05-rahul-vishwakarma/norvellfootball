@@ -1,4 +1,5 @@
 "use client";
+const BACKEND = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 import Image from "next/image";
 import MatchCard2 from "../components/MatchCard2";
@@ -32,7 +33,7 @@ function Page() {
 
   async function getLiveMatches() {
     try {
-      let res = await fetch(`${window.location.origin}/api/match`);
+      let res = await fetch(`${BACKEND}/api/match`);
       if (!res.ok) throw new Error("Error while fetching matches");
       res = await res.json();
       if (res?.status === 200) {
@@ -121,8 +122,6 @@ function Page() {
                 Loading...
               </div>
             )}
-
-
           </div>
         </main>
         {/* popup */}

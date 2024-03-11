@@ -1,4 +1,6 @@
 "use client";
+const BACKEND = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 import Image from "next/image";
 import { FaCirclePlus } from "react-icons/fa6";
 import logo from "../../public/logo.png";
@@ -36,7 +38,7 @@ export default function Home() {
 
   async function getLiveMatches() {
     try {
-      let res = await fetch(`${window.location.origin}/api/home`);
+      let res = await fetch(`${BACKEND}/api/home`);
       if (!res.ok) throw new Error("Error while fetching matches");
       res = await res.json();
       console.log(res);
@@ -212,7 +214,7 @@ function MatchPopup({ match, onClose }) {
         },
         body: JSON.stringify(body),
       };
-      let res = await fetch(`${window.location.origin}/api/match`, config);
+      let res = await fetch(`${BACKEND}/api/match`, config);
       res = await res.json();
       console.log(res);
       if (res?.status === 200) {
