@@ -16,7 +16,6 @@ export async function middleware(NextRequest) {
       new URL("/access/signup", NextRequest.nextUrl)
     );
   const isValidToken = await verifyToken(token);
-
   if (!isPublic && !isValidToken?.success) {
     return NextResponse.redirect(new URL("/access/login", NextRequest.nextUrl));
   }

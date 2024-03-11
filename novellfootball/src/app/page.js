@@ -48,7 +48,8 @@ export default function Home() {
         throw new Error("Somethign went wrong");
       }
     } catch (error) {
-      router.push("/access/login");
+      alert(error);
+      // router.push("/access/login");
     }
   }
 

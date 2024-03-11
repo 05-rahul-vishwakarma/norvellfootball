@@ -47,12 +47,9 @@ export const verifyToken = async (token) => {
   }
 };
 
-export async function isValidUser(request) {
-  const session = request.cookies.get("session")?.value || "";
-  const token = request?.cookies?.get("token")?.value || "";
+export async function isValidUser(token, session) {
   const UserName = await isAuthenticated(token, session);
   if (!UserName) return false;
-
   return UserName;
 }
 

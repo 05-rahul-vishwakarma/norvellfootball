@@ -2,13 +2,14 @@ import CustomError from "@/app/helpers/Error";
 import { connect } from "@/app/modals/dbConfig";
 import { USER } from "@/app/modals/modal";
 import { NextResponse } from "next/server";
-import { isAuthenticated } from "@/app/helpers/auth";
+import { isValidUser } from "@/app/helpers/auth";
 import { cookies } from "next/headers";
 
-export async function GET(request) {
+export async function GET(req) {
   await connect();
+  const { token, session } = await getCookieData();
   try {
-    let UserName = await isValidUser(request);
+    let UserName = await isValidUser(token, session);
     if (!UserName) throw new CustomError(302, "Login session time out", {});
     let res = await USER.findOne({ UserName }, { Balance: 1 });
     if (!res) throw new CustomError(703, "somthing went wrong", {});
@@ -21,20 +22,18 @@ export async function GET(request) {
     console.log(error, "error from users");
     return NextResponse.json({
       status: error?.status || error?.code || 500,
-      message: "somethign went wrong ",
+      message: error,
       data: {},
     });
   }
 }
-
-async function isValidUser(request) {
-  // const session = request.cookies.get("session")?.value || "";
-  // const token = request?.cookies?.get("token")?.value || "";
-  const cookieStore = cookies();
-  const session = cookieStore.get("session")?.value || "";
-  const token = cookieStore.get("token")?.value || "";
-  const UserName = await isAuthenticated(token, session);
-  if (!UserName) return false;
-
-  return UserName;
+async function getCookieData() {
+  let token = cookies().get("token")?.value || "";
+  let session = cookies().get("session")?.value || "";
+  const cookieData = { token, session };
+  return new Promise((resolve) =>
+    setTimeout(() => {
+      resolve(cookieData);
+    }, 1000)
+  );
 }

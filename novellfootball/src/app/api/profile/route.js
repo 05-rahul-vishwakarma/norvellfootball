@@ -12,12 +12,15 @@
 import { NextResponse } from "next/server";
 import { TRANSACTION } from "@/app/modals/modal";
 import { cookies } from "next/headers";
+import { isValidUser } from "@/app/helpers/auth";
+
 export async function GET() {
+  let { session, token } = await getCookieData();
   try {
     // const session = request.cookies.get("session")?.value || "";
     // const token = request?.cookies?.get("token")?.value || "";
     // const UserName = await isAuthenticated(token, session);
-    const UserName = await isValidUser(request);
+    const UserName = await isValidUser(token, session);
     if (!UserName)
       return NextResponse.json({
         status: 302,
@@ -39,14 +42,13 @@ export async function GET() {
   }
 }
 
-async function isValidUser(request) {
-  // const session = request.cookies.get("session")?.value || "";
-  // const token = request?.cookies?.get("token")?.value || "";
-  const cookieStore = cookies();
-  const session = cookieStore.get("session") || "";
-  const token = cookieStore.get("token") || "";
-  const UserName = await isAuthenticated(token, session);
-  if (!UserName) return false;
-
-  return UserName;
+async function getCookieData() {
+  let token = cookies().get("token")?.value || "";
+  let session = cookies().get("session")?.value || "";
+  const cookieData = { token, session };
+  return new Promise((resolve) =>
+    setTimeout(() => {
+      resolve(cookieData);
+    }, 1000)
+  );
 }

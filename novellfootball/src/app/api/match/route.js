@@ -5,13 +5,13 @@
 */
 
 import { NextResponse } from "next/server";
-import { isAuthenticated } from "@/app/helpers/auth";
+import { isValidUser } from "@/app/helpers/auth";
 import { USER, MATCH, BET } from "@/app/modals/modal";
 import { connect } from "@/app/modals/dbConfig";
 import mongoose from "mongoose";
 import { scheduleMatches } from "@/app/api/matchScheduler/route";
 import CustomError from "@/app/helpers/Error";
-
+import { cookies } from "next/headers";
 // 200 -> Everything went fine
 // 700 -> something went wrong with data sent by the client;
 // 703 -> database issue;
@@ -22,8 +22,9 @@ import CustomError from "@/app/helpers/Error";
 const MATCH_ID = process.env.NEXT_PUBLIC_MATCH_ID;
 
 export async function GET(request) {
+  let { session, token } = await getCookieData();
   try {
-    let UserName = await isValidUser(request);
+    let UserName = await isValidUser(token, session);
     if (!UserName)
       throw new CustomError(302, "Session time out login again", {});
 
@@ -107,8 +108,9 @@ async function getExtractedMatches(matches) {
 
 // this function will handle functionality of bet placement;
 export async function POST(request) {
+  let { token, session } = await getCookieData();
   try {
-    let UserName = await isValidUser(request);
+    let UserName = await isValidUser(token, session);
     if (!UserName)
       throw new CustomError(302, "Session time out login again ", {});
 
@@ -157,8 +159,8 @@ export async function POST(request) {
 
     BetAmount = BetAmount * 100;
 
-    const session = await mongoose.startSession();
-    session.startTransaction();
+    const Session = await mongoose.startSession();
+    Session.startTransaction();
 
     let user_updated = await USER.findOneAndUpdate(
       {
@@ -170,7 +172,7 @@ export async function POST(request) {
           Balance: -parseFloat(BetAmount),
         },
       },
-      { new: true, session }
+      { new: true, session: Session }
     );
     if (!user_updated) throw new CustomError(703, "Low balance");
 
@@ -194,10 +196,10 @@ export async function POST(request) {
           Remark: "Pending",
         },
       ],
-      { session }
+      { session: Session }
     );
     if (!newBet) throw new CustomError(500, "Failed to create bets");
-    await session.commitTransaction();
+    await Session.commitTransaction();
     return NextResponse.json({ status: 200, message: "bet placed" });
   } catch (error) {
     return NextResponse.json({
@@ -207,11 +209,13 @@ export async function POST(request) {
   }
 }
 
-async function isValidUser(request) {
-  const session = request.cookies.get("session")?.value || "";
-  const token = request?.cookies?.get("token")?.value || "";
-  const UserName = await isAuthenticated(token, session);
-  if (!UserName) return false;
-
-  return UserName;
+async function getCookieData() {
+  let token = cookies().get("token")?.value || "";
+  let session = cookies().get("session")?.value || "";
+  const cookieData = { token, session };
+  return new Promise((resolve) =>
+    setTimeout(() => {
+      resolve(cookieData);
+    }, 1000)
+  );
 }
