@@ -174,17 +174,12 @@ export default function Home() {
             <MatchPopup match={selectedMatch} onClose={closePopup} />
           )}
         </div>
-
-        <div className="translate-x-[100vw] ">
-          <Modal />
-        </div>
       </main>
     </Layout>
   );
 }
 
-function MatchPopup({ match, onClose }) {
-  console.log(match);
+function MatchPopup({ match , onClose }) {
 
   const { userBalance, getBalance } = useContext(UserContext);
 
@@ -195,6 +190,9 @@ function MatchPopup({ match, onClose }) {
   // placeBet function //
 
   async function placeBet(Percentage, Score_a, Score_b, BetAmount) {
+
+
+
     try {
       // let [Score_a, Score_b] = score.split("-");
       let body = {
@@ -204,6 +202,8 @@ function MatchPopup({ match, onClose }) {
         Score_a,
         Score_b,
       };
+
+        console.log("body data from the home page", body);
 
       let config = {
         method: "POST",
@@ -255,7 +255,9 @@ function MatchPopup({ match, onClose }) {
         <div className=" px-6 mt-4 text-white">
           <div className="rounded-2xl relative  pt-4 bg-[url(/betplace.png)]  h-full  text-center  w-full">
             <h2 className="capitalize text-sm font-bold truncate text-white">
+              
               {match.LeagueName}
+              <p className="hidden" >{match.StakeId}</p>
             </h2>
             <div className="w-full mt-3 flex px-2">
               <div className="flex-[2] flex-col flex w-full items-center h-full ">
@@ -329,9 +331,11 @@ function MatchPopup({ match, onClose }) {
           />
         </div>
       </div>
+
       <div className="translate-x-[100vw]">
         <Modal />
       </div>
+      
     </div>
   );
 }
@@ -369,7 +373,7 @@ function ScoreCards({ placeBet, percent, Balance, Score_a, Score_b }) {
           Score{" "}
           <h2 className="ml-1 text-red-500 ">
             {" "}
-            {Score_a}-{Score_b}{" "}
+            {1}-{1}{" "}
           </h2>
         </span>
         <span className="flex items-center">
