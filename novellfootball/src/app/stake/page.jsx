@@ -46,10 +46,14 @@ function Page() {
   const [iShow, setShow] = useState(false);
   const [pendingMatches, updatePendingMatches] = useState([]);
   const [settledMatches, updateSettledMatches] = useState([]);
+  const [isDltMatch,SetDltMaatch] = useState(null);
+
   let router = useRouter();
 
   // # function to cancel the stake
   const showPopup = async (match) => {
+    SetDltMaatch(match)
+
     // console.log(StartsAt);
     /*
      make a post call to "/api/stake" to delete stake
@@ -89,12 +93,9 @@ function Page() {
 
   async function getStakeData() {
     try {
-<<<<<<< HEAD
 
       let res = await fetch(`${BACKEND}/api/stake`);
-=======
       let res = await fetch(`/api/stake`);
->>>>>>> 40d84d6a0fa34460690a3530ce89e14254b9993c
       res = await res.json();
       if (res?.status === 200) {
         updatePendingMatches(res?.data?.pendingMatches);
@@ -106,12 +107,6 @@ function Page() {
     }
   }
 
-  // implementing the bet delete routing //
-  const [isDltMatch,SetDltMaatch] = useState(null);
-  const betDelete = (match) => {
-    console.log(match);
-    SetDltMaatch(match)
-  }
 
   useEffect(() => {
     getStakeData();
@@ -181,8 +176,7 @@ function Page() {
                 <Stake
                   key={match?.StakeId || idx}
                   data={match}
-                  onClick={() => showPopup()}
-                  betDelete = {betDelete(match)}
+                  onClick={() => showPopup(match)}
                 />
               ))}
             </div>
