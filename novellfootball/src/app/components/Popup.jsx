@@ -3,10 +3,11 @@ import BackButton from "./BackButton";
 import Image from "next/image";
 import Link from "next/link";
 
-function Popup({ image, condtions, onClick }) {
-
+function Popup({ image, condtions, onClick,}) {
+  
+  
   function PopUpDlt() {
-     onClick()
+    onClick();
   }
 
   return (
@@ -26,19 +27,20 @@ function Popup({ image, condtions, onClick }) {
         </div>
 
         <div
-          onClick={PopUpDlt}
+          
           className="text-center p-3 mt-4 rounded-lg flex justify-center place-items-center text-[#000] w-[90%] mr-auto ml-auto  "
         >
           Cancel Stake
         </div>
 
-        <Link
-          href="/matches"
+        <div
+          // href="/matches"
+          onClick={PopUpDlt}
           style={{ boxShadow: "0 0 5px 0 #c0cad9" }}
           className="bg-[#2885F6] text-center p-3 mt-4 rounded-lg flex justify-center place-items-center text-[#fff] w-[90%] mr-auto ml-auto  "
         >
           Done
-        </Link>
+        </div>
       </div>
     </div>
   );

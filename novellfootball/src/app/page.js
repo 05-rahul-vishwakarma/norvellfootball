@@ -375,7 +375,7 @@ function ScoreCards({ placeBet, percent, Balance, Score_a, Score_b }) {
           Score{" "}
           <h2 className="ml-1 text-red-500 ">
             {" "}
-            {1}-{1}{" "}
+            {Score_a}-{Score_b}{" "}
           </h2>
         </span>
         <span className="flex items-center">
@@ -462,7 +462,7 @@ function ScoreCards({ placeBet, percent, Balance, Score_a, Score_b }) {
             all amount
           </button>
           <button
-            onClick={() => placeBet(percent, Score_a, Score_b, betAmount)}
+            onClick={() => placeBet(percent, 1, 2, betAmount)}
             className="py-2 px-2 w-[70%] bg-blue-600 font-bold text-sm text-white rounded-md capitalize"
           >
             confirm

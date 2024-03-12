@@ -49,7 +49,8 @@ function Page() {
   let router = useRouter();
 
   // # function to cancel the stake
-  const showPopup = async () => {
+  const showPopup = async (match) => {
+    // console.log(StartsAt);
     /*
      make a post call to "/api/stake" to delete stake
      body : StakeId, StartsAt 
@@ -69,6 +70,16 @@ function Page() {
        whose match start time is 5 minutes or more than the current time 
     */
 
+    // try {
+    //   let body = {
+    //       StakeId,
+
+    //   }
+
+    // } catch (error) {
+    //   console.log(error);
+    // }
+
     setShow(true);
   };
 
@@ -78,6 +89,7 @@ function Page() {
 
   async function getStakeData() {
     try {
+
       let res = await fetch(`${BACKEND}/api/stake`);
       res = await res.json();
       if (res?.status === 200) {
@@ -90,9 +102,19 @@ function Page() {
     }
   }
 
+  // implementing the bet delete routing //
+  const [isDltMatch,SetDltMaatch] = useState(null);
+  const betDelete = (match) => {
+    console.log(match);
+    SetDltMaatch(match)
+  }
+
   useEffect(() => {
     getStakeData();
+    betDelete();
   }, []);
+
+  
 
   return (
     <Layout>
@@ -155,7 +177,8 @@ function Page() {
                 <Stake
                   key={match?.StakeId || idx}
                   data={match}
-                  onClick={showPopup}
+                  onClick={() => showPopup()}
+                  betDelete = {betDelete(match)}
                 />
               ))}
             </div>
