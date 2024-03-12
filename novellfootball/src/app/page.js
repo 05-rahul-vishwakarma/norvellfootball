@@ -119,7 +119,9 @@ export default function Home() {
       <main className="h-screen  bg-no-repeat bg- bg-center bg-gradient-to-b from-[#2885F6] to-[#000]  ">
         <div className="flex justify-between place-items-center  w-[90%] mr-auto ml-auto   ">
           <div className="w-max mt-2 flex flex-col justify-center  pt-2 ">
-            <div className="flex place-items-center rounded-full bg-white w-max line-clamp-1 text-ellipsis ">
+            <div
+             onClick={() => router.push('/profile/recharge')}
+             className="flex place-items-center rounded-full bg-white w-max line-clamp-1 text-ellipsis ">
               <span className=" flex place-items-center justify-center  line-clamp-1 text-ellipsis text-xs font-[500] px-3 py-1.5 ">
                 <FaRupeeSign />
                 {userBalance}

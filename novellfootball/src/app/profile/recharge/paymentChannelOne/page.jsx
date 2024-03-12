@@ -3,6 +3,7 @@
 import { TbCoinRupeeFilled } from "react-icons/tb";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import {
   MdOutlineKeyboardArrowDown,
@@ -26,6 +27,10 @@ const accorodient = {
 
 function Page() {
   const [BarCode, setBarCode] = useState(true);
+  const router = useRouter();
+  console.log(router.query,"from the payment chanel one");
+  // const { data } = router.query;
+  //  console.log(data);
 
   return (
     <div className="bg-white w-full h-full absolute top-0 left-0 flex justify-center ">
