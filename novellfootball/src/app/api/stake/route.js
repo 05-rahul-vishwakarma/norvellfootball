@@ -7,16 +7,18 @@
 */
 
 import { NextResponse } from "next/server";
-const moment = require("moment-timezone");
+import moment from "moment-timezone";
 import { connect } from "@/app/modals/dbConfig";
 import { BET, USER } from "@/app/modals/modal";
-import { isAuthenticated } from "@/app/helpers/auth";
+import { isAuthenticated, isValidUser } from "@/app/helpers/auth";
 import CustomError from "@/app/helpers/Error";
-import mongoose from "mongoose";
+import mongoose, { get } from "mongoose";
+import { cookies } from "next/headers";
 
 export async function GET(request) {
+  let { session, token } = await getCookieData();
   try {
-    let UserName = await isValidUser(request);
+    let UserName = await isValidUser(token, session);
     if (!UserName)
       throw new CustomError(302, "Session time out login again", {});
 
@@ -38,8 +40,9 @@ export async function GET(request) {
 }
 
 export async function POST(request) {
+  let { session, token } = await getCookieData();
   try {
-    let UserName = await isValidUser(request);
+    let UserName = await isValidUser(token, session);
     if (!UserName)
       throw new CustomError(302, "Session time out login again", {});
 
@@ -108,15 +111,16 @@ function getDate() {
   return new Date(date);
 }
 
-async function isValidUser(request) {
-  const session = request.cookies.get("session")?.value || "";
-  const token = request?.cookies?.get("token")?.value || "";
-  const UserName = await isAuthenticated(token, session);
-  if (!UserName) return false;
-
-  return UserName;
+async function getCookieData() {
+  let token = cookies().get("token")?.value || "";
+  let session = cookies().get("session")?.value || "";
+  const cookieData = { token, session };
+  return new Promise((resolve) =>
+    setTimeout(() => {
+      resolve(cookieData);
+    }, 1000)
+  );
 }
-
 async function isDeletable(StartsAt) {
   let today = new Date(
     new Date().toLocaleString("en-US", {

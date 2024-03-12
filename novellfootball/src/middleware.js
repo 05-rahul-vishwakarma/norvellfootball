@@ -11,11 +11,11 @@ export async function middleware(NextRequest) {
     pathname.startsWith("/api/otp");
 
   const token = NextRequest?.cookies?.get("token")?.value || "";
-  console.log(token);
   if (!token || token === "")
-    return NextResponse.redirect(new URL("/access/login", NextRequest.nextUrl));
+    return NextResponse.redirect(
+      new URL("/access/signup", NextRequest.nextUrl)
+    );
   const isValidToken = await verifyToken(token);
-
   if (!isPublic && !isValidToken?.success) {
     return NextResponse.redirect(new URL("/access/login", NextRequest.nextUrl));
   }

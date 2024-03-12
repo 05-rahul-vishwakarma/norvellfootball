@@ -10,17 +10,18 @@
 import CustomError from "@/app/helpers/Error";
 import { NextResponse } from "next/server";
 import { COMMISSION } from "@/app/modals/modal";
-import { isAuthenticated } from "@/app/helpers/auth";
+import { isValidUser } from "@/app/helpers/auth";
 import { cookies } from "next/headers";
 // function to retrive the commission and the corresponding bet data using aggregation pipeline
 
 export async function GET(request) {
+  let { token, session } = await getCookieData();
   try {
     // const session = request.cookies.get("session")?.value || "";
     // const token = request?.cookies?.get("token")?.value || "";
 
     // const UserName = await isAuthenticated(token, session);
-    const UserName = await isValidUser(request);
+    const UserName = await isValidUser(token, session);
     if (!UserName)
       return NextResponse.json({
         status: 302,
@@ -133,14 +134,13 @@ async function getPreviousDates(tillDate) {
   return previousDates;
 }
 
-async function isValidUser(request) {
-  // const session = request.cookies.get("session")?.value || "";
-  // const token = request?.cookies?.get("token")?.value || "";
-  const cookieStore = cookies();
-  const session = cookieStore.get("session") || "";
-  const token = cookieStore.get("token") || "";
-  const UserName = await isAuthenticated(token, session);
-  if (!UserName) return false;
-
-  return UserName;
+async function getCookieData() {
+  let token = cookies().get("token")?.value || "";
+  let session = cookies().get("session")?.value || "";
+  const cookieData = { token, session };
+  return new Promise((resolve) =>
+    setTimeout(() => {
+      resolve(cookieData);
+    }, 1000)
+  );
 }

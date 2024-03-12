@@ -15,12 +15,14 @@ const UserContextProvider = ({ children }) => {
   }, []);
   async function getBalance() {
     try {
-      let res = await fetch(`${BACKEND}/api/user`);
+      let res = await fetch(`/api/user`);
       res = await res.json();
       if (res?.status === 200) setUserBalance(res?.data?.Balance);
-      if (res?.status === 302) router.push("/access/login");
+      alert(res);
+      // if (res?.status === 302) router.push("/access/login");
     } catch (error) {
-      router.push("/access/login");
+      alert(error);
+      // router.push("/access/login");
     }
   }
   return (

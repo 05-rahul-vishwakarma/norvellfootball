@@ -9,9 +9,10 @@ import Image from "next/image";
 function CommissionPopModel({ closeModel }) {
   const [todayCommission, updateTodayCommission] = useState([]);
   const [overallCommission, updateOverallCommission] = useState([]);
+  const [loadedOnce, updateLoaded] = useState(false);
 
   async function getCommissionData() {
-    let res = await fetch(BACKEND + "/api/profile/commission");
+    let res = await fetch("/api/profile/commission");
     if (res.ok) {
       res = await res.json();
       let commissionObj = res?.data[0];
@@ -33,6 +34,10 @@ function CommissionPopModel({ closeModel }) {
   useEffect(() => {
     if (!todayCommission || !overallCommission) {
       getCommissionData();
+      updateLoaded(true);
+    } else if (!loadedOnce) {
+      getCommissionData();
+      updateLoaded();
     }
   }, []);
 

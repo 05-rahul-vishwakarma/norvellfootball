@@ -38,7 +38,7 @@ export default function Home() {
 
   async function getLiveMatches() {
     try {
-      let res = await fetch(`${BACKEND}/api/home`);
+      let res = await fetch(`/api/home`);
       if (!res.ok) throw new Error("Error while fetching matches");
       res = await res.json();
       console.log(res);
@@ -48,7 +48,8 @@ export default function Home() {
         throw new Error("Somethign went wrong");
       }
     } catch (error) {
-      router.push("/access/login");
+      alert(error);
+      // router.push("/access/login");
     }
   }
 
@@ -214,7 +215,7 @@ function MatchPopup({ match , onClose }) {
         },
         body: JSON.stringify(body),
       };
-      let res = await fetch(`${BACKEND}/api/match`, config);
+      let res = await fetch(`/api/match`, config);
       res = await res.json();
       console.log(res);
       if (res?.status === 200) {

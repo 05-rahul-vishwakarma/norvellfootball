@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import { isAuthenticated } from "@/app/helpers/auth";
+import { isValidUser } from "@/app/helpers/auth";
 import { USER, MATCH } from "@/app/modals/modal";
 import { connect } from "@/app/modals/dbConfig";
 import { scheduleMatches } from "@/app/api/matchScheduler/route";
 import CustomError from "@/app/helpers/Error";
-
+import { cookies } from "next/headers";
 // 200 -> Everything went fine
 // 700 -> something went wrong with data sent by the client;
 // 703 -> database issue;
@@ -15,10 +15,9 @@ import CustomError from "@/app/helpers/Error";
 const MATCH_ID = process.env.NEXT_PUBLIC_MATCH_ID;
 
 export async function GET(request) {
+  const { session, token } = await getCookieData();
   try {
-    const session = request.cookies.get("session")?.value || "";
-    const token = request?.cookies?.get("token")?.value || "";
-    const UserName = await isAuthenticated(token, session);
+    const UserName = await isValidUser(token, session);
     if (!UserName)
       return NextResponse.json({
         status: 302,
@@ -104,4 +103,15 @@ async function getExtractedMatches(matches) {
     if (count == 10) break;
   }
   return ExtractedMatches;
+}
+
+async function getCookieData() {
+  let token = cookies().get("token")?.value || "";
+  let session = cookies().get("session")?.value || "";
+  const cookieData = { token, session };
+  return new Promise((resolve) =>
+    setTimeout(() => {
+      resolve(cookieData);
+    }, 1000)
+  );
 }
