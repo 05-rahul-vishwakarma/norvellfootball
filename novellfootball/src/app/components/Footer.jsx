@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState , useEffect } from "react";
 import { motion } from "framer-motion";
 
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
@@ -11,7 +11,7 @@ const variants = {
     width: "8.75rem",
     transition: 1,
   },
-  closed: { width: "58px", transition: 1 },
+  closed: { width: "3.625rem", transition: 1 },
   visible: {
     scale: 1,
   },
@@ -36,6 +36,8 @@ function SecondFooter() {
   const [stake, setStake] = useState(false);
   const [match, setMatch] = useState(false);
   const [profile, setProfile] = useState(false);
+
+console.log(match);
 
   useEffect(() => {
     if (pathname == "/") {

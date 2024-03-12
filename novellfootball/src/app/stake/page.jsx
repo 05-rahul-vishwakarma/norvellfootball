@@ -46,15 +46,12 @@ function Page() {
   const [iShow, setShow] = useState(false);
   const [pendingMatches, updatePendingMatches] = useState([]);
   const [settledMatches, updateSettledMatches] = useState([]);
-  const [isDltMatch,SetDltMaatch] = useState(null);
-
+  const [isDltMatch, setDltMatch] = useState([]);
   let router = useRouter();
 
   // # function to cancel the stake
   const showPopup = async (match) => {
-    SetDltMaatch(match)
-
-    // console.log(StartsAt);
+    setDltMatch(match);
     /*
      make a post call to "/api/stake" to delete stake
      body : StakeId, StartsAt 
@@ -74,28 +71,41 @@ function Page() {
        whose match start time is 5 minutes or more than the current time 
     */
 
-    // try {
-    //   let body = {
-    //       StakeId,
-
-    //   }
-
-    // } catch (error) {
-    //   console.log(error);
-    // }
-
     setShow(true);
   };
 
-  const backBtn = () => {
-    setShow(false);
+  const backBtn = async () => {
+    try {
+      let StakeId = isDltMatch.StakeId;
+      let StartTime = isDltMatch.StartsAt;
+
+      let body = {
+        StakeId,
+        StartTime,
+      };
+
+      let config = {
+        method: "POST",
+        headers: {
+          "content-type": "applicaiton/json",
+        },
+        body: JSON.stringify(body),
+      };
+      let res = await fetch(`/api/stake`, config);
+      res = await res.json();
+      console.log(res);
+      
+
+      setShow(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   async function getStakeData() {
     try {
-
-      let res = await fetch(`${BACKEND}/api/stake`);
       let res = await fetch(`/api/stake`);
+      console.log(res,'from the get api stake');
       res = await res.json();
       if (res?.status === 200) {
         updatePendingMatches(res?.data?.pendingMatches);
@@ -107,13 +117,9 @@ function Page() {
     }
   }
 
-
   useEffect(() => {
     getStakeData();
-    betDelete();
   }, []);
-
-  
 
   return (
     <Layout>
@@ -205,7 +211,7 @@ function Page() {
           <Popup
             image="/cancel.svg"
             condtions="Cancelled Success!"
-            onClick={backBtn}
+            onClick={() => backBtn()}
           />
         </motion.div>
       </div>

@@ -206,7 +206,6 @@ function MatchPopup({ match , onClose }) {
         Score_b,
       };
 
-        console.log("body data from the home page", body);
 
       let config = {
         method: "POST",
@@ -335,9 +334,6 @@ function MatchPopup({ match , onClose }) {
         </div>
       </div>
 
-      <div className="translate-x-[100vw]">
-        <Modal />
-      </div>
       
     </div>
   );

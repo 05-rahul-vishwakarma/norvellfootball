@@ -12,7 +12,7 @@ function Popup({ image, condtions, onClick,}) {
 
   return (
     <div className="h-full w-full bg-[#F8FCFF]  z-[3]  ">
-      <div onClick={() => onClick()} className="pt-[2rem]">
+      <div onClick={() => PopUpDlt} className="pt-[2rem]">
         <BackButton pageName="stake" />
       </div>
       <div className=" h-[80%] mt-[2rem]    ">
