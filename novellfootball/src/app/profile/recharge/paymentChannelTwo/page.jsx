@@ -1,20 +1,77 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { FaRegCopy } from "react-icons/fa6";
 
-function Page() {
+import { useRouter } from "next/navigation";
+
+function Page({ searchParams }) {
+  const router = useRouter();
+  // access the amount data that is passed by the recharge main page //
+  const [receivedData, setReceivedData] = useState("");
+  useEffect(() => {
+    const data = searchParams.data;
+    if (data) {
+      setReceivedData(decodeURIComponent(data));
+    }
+  }, [searchParams]);
+
+  // implementing the copy buttoon
+  const [copied, setCopied] = useState(false);
+  const upiId = "example@upi";
+
+  // immplementing the utr number value
+  const [value, setValue] = useState("");
+  const handleChange = (e) => {
+    const inputValue = e.target.value;
+    if (inputValue.length <= 12) {
+      setValue(inputValue);
+    } else {
+      alert("Please fill only 12 digits numbers");
+    }
+  };
+
+  console.log(value);
+
+  // post request from the front-end
+  async function submitDeposit() {
+    let utrNumber, amount;
+
+    if (value == "" || receivedData == "") {
+      alert("something went wrong");
+    } else {
+      utrNumber = value;
+      amount = receivedData;
+    }
+
+    let body = {
+      utrNumber,
+      amount,
+    };
+
+    let config = {
+      method: "POST",
+      headers: {
+        "content-type": "applicaiton/json",
+      },
+      body: JSON.stringify(body),
+    };
+
+    let res = await fetch("/api/payment/deposit", config);
+    res = await res.json();
+    console.log(res);
+  }
+
   return (
     <div className='className="bg-white w-screen h-screen overflow-y-scroll pb-[12rem]'>
       <div className="flex place-items-center w-[90%] mr-auto ml-auto border-b-2 border-[lightgray] mt-2 py-3 px-2 text-[.7rem] ">
-        $<p className="ml-1 text-[.65rem] font-semibold ">500</p>
+        $<p className="ml-1 text-[.65rem] font-semibold "> {receivedData} </p>
       </div>
 
       <div className="flex place-items-center w-[90%] mr-auto ml-auto  mt-2 py-3 px-2 justify-between text-[.6rem] ">
         <p>UPI ID</p>
-        <span className="text-red-600 flex  w-[50%] justify-around place-items-center ">
-          <p className=""> 1234567890@jio</p>
-          <FaRegCopy />
-        </span>
+        <CopyUPI upiId={upiId} />
       </div>
 
       <div className="h-[35%] mt-3 flex flex-col justify-center place-items-center  text-[.6rem] ">
@@ -83,15 +140,22 @@ function Page() {
         </div>
 
         <div className=" flex   w-[90%] mr-auto ml-auto  mt-3 ">
-          <p className="grid place-items-center font-semibold  text-[.75rem] ">UTR</p>
+          <p className="grid place-items-center font-semibold  text-[.75rem] ">
+            UTR
+          </p>
           <div className=" flex w-[90%] justify-between ml-1 ">
             <input
               type="number"
               placeholder="Input 12 digits here"
+              value={value}
+              onChange={handleChange}
               className="border-2 border-[#8080807a] w-[75%] p-1 outline-none bg-transparent  text-[.75rem] "
             />
 
-            <button className="bg-[#2885F6] text-white  w-[23%]  text-[.65rem] ">
+            <button
+              onClick={() => submitDeposit()}
+              className="bg-[#2885F6] text-white  w-[23%]  text-[.65rem] "
+            >
               Submit
             </button>
           </div>
@@ -132,3 +196,31 @@ function Page() {
 }
 
 export default Page;
+
+const CopyUPI = ({ upiId }) => {
+  const [copied, setCopied] = useState(false);
+
+  const copyToClipboard = () => {
+    navigator.clipboard
+      .writeText(upiId)
+      .then(() => {
+        setCopied(true);
+        alert("copied");
+        setTimeout(() => setCopied(false), 2000); // Reset copied state after 2 seconds
+      })
+      .catch((error) => {
+        console.error("Failed to copy:", error);
+      });
+  };
+
+  return (
+    <div>
+      <span className="text-red-600 flex   justify-around place-items-center ">
+        <p className="mr-2">{upiId}</p>
+        <button onClick={copyToClipboard}>
+          <FaRegCopy />
+        </button>
+      </span>
+    </div>
+  );
+};

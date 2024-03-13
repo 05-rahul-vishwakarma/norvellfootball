@@ -1,7 +1,7 @@
 "use client";
 
 import { TbCoinRupeeFilled } from "react-icons/tb";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -25,12 +25,19 @@ const accorodient = {
   },
 };
 
-function Page() {
+function Page({ searchParams }) {
   const [BarCode, setBarCode] = useState(true);
   const router = useRouter();
-  console.log(router.query,"from the payment chanel one");
-  // const { data } = router.query;
-  //  console.log(data);
+
+
+  const [receivedData, setReceivedData] = useState("");
+  useEffect(() => {
+    const data = searchParams.data;
+    if (data) {
+      setReceivedData(decodeURIComponent(data));
+    }
+  },[searchParams]);
+
 
   return (
     <div className="bg-white w-full h-full absolute top-0 left-0 flex justify-center ">
@@ -42,7 +49,7 @@ function Page() {
           className="border-2 border-white shadow-md my-[2rem] w-[100%] py-3 flex  justify-center place-items-center flex-col rounded-lg "
         >
           <h1 className="flex place-items-center">
-            $<p className="text-[.6rem] text-[#0000ffce] ">10000</p>
+            $<p className="text-[.6rem] text-[#0000ffce] "> {receivedData} </p>
           </h1>
           <p className="text-[.6rem] ">Payment Amount</p>
         </div>
@@ -184,12 +191,10 @@ function Page() {
           >
             <div className="flex justify-center place-items-center h-full my-2 h-  ">
               <Image
-                src=""
-                alt=""
+                src={'/logo.png'}
+                alt="bar code"
                 width={90}
                 height={90}
-                objectFit="contain"
-                className="border-2 border-black "
               />
             </div>
 
@@ -203,7 +208,7 @@ function Page() {
           style={{ boxShadow: "0 0 5px 0 #c0cad9" }}
           className="bg-[#9fa8b8] text-center p-3 mt-4 flex justify-center place-items-center text-white  text-[.7rem] "
         >
-          pay $ <p className="ml-1 ">10000</p>
+          pay $ <p className="ml-1 ">{receivedData}</p>
         </div>
 
         <div

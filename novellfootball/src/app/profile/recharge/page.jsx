@@ -14,7 +14,9 @@ function Page() {
   const [inputValue, setInputValue] = useState("");
 
   const handleDivClick = (value) => {
-    setInputValue(value);
+    if (value) {
+      setInputValue(value);
+    }
   };
 
   const [selectedDiv, setSelectedDiv] = useState(null);
@@ -23,28 +25,31 @@ function Page() {
   };
 
   // implementing condtion based redireacting
-  console.log(inputValue);
   const [selectedOption, setSelectedOption] = useState("");
   const handleOptionChange = (e) => {
     setSelectedOption(e.target.value);
   };
   const handleRedirect = () => {
-    if (selectedOption === "option1") {
-      // window.open("/profile/recharge/paymentChannelOne", "_blank");
-      // router.push({
-      //   pathname: '/profile/recharge/paymentChannelOne',
-      //   query: { data: 'inputvalue' }, // Pass your data here
-      // });
-      router.push(
-        `/profile/recharge/paymentChannelOne?data=${encodeURIComponent(
-          inputValue
-        )}`
-      );
-    } else if (selectedOption === "option2") {
-      window.open("/profile/recharge/paymentChannelTwo", "_blank");
-    } else if (selectedOption === "option3") {
-      window.open("/profile/recharge/usdt", "_blank");
-      // router.push("/profile/recharge/usdt", '_blank');
+    if (!inputValue) {
+      alert("please choose any one payment method");
+    } else {
+      if (selectedOption === "option1") {
+        router.push(
+          `/profile/recharge/paymentChannelOne?data=${encodeURIComponent(
+            inputValue
+          )}`
+        );
+      } else if (selectedOption === "option2") {
+        router.push(
+          `/profile/recharge/paymentChannelTwo?data=${encodeURIComponent(
+            inputValue
+          )}`
+        );
+      } else if (selectedOption === "option3") {
+        router.push(
+          `/profile/recharge/usdt?data=${encodeURIComponent(inputValue)}`
+        );
+      }
     }
   };
 

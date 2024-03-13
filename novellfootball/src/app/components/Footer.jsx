@@ -37,7 +37,6 @@ function SecondFooter() {
   const [match, setMatch] = useState(false);
   const [profile, setProfile] = useState(false);
 
-console.log(match);
 
   useEffect(() => {
     if (pathname == "/") {
