@@ -32,8 +32,9 @@ function Page({ searchParams }) {
 
   // implementing the function which copies the address value //
   const [text, setText] = useState("");
-  const [transactionId,setTransactionId] = useState("");
+  const [transactionId, setTransactionId] = useState("");
   const [copied, setCopied] = useState(false);
+  const [details, setDetails] = useState();
 
   const copyAddress = async () => {
     if (text.trim() === "") {
@@ -65,6 +66,36 @@ function Page({ searchParams }) {
     }
   };
 
+  async function usdtDetails() {
+    let depositAddress;
+    let transId, usdtAmount;
+    if (!transactionId || !text || !receivedData) {
+      alert("please fill carefully all the detaiils");
+    } else {
+      depositAddress = text;
+      transId = transactionId;
+      usdtAmount = receivedData;
+
+      try {
+        let body = {
+          depositAddress,
+          transId,
+          usdtAmount,
+        };
+        let config = {
+          method: "POST",
+          headers: {
+            "content-type": "applicaiton/json",
+          },
+          body: JSON.stringify(body),
+        };
+
+        let res = await fetch("/api/payment/deposit", config);
+        res = await res.json();
+        console.log(res);
+      } catch (error) {}
+    }
+  }
 
   return (
     <div className="w-screen h-screen bg-[#F8FCFF]  pb-[12rem] overflow-y-scroll  flex flex-col place-items-center  ">
@@ -163,6 +194,7 @@ function Page({ searchParams }) {
         </div>
 
         <div
+          onClick={() => usdtDetails()}
           style={{ boxShadow: "0 0 5px 0 #c0cad9" }}
           className="bg-[#2885F6] text-center p-3 mt-4 rounded-lg flex justify-center place-items-center text-[#fff] text-[.7rem] "
         >

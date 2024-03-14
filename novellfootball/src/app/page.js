@@ -26,6 +26,10 @@ export default function Home() {
   const [selectedMatch, setSelectedMatch] = useState(null);
   const [popupVisible, setPopupVisible] = useState(false);
 
+  //------------------------------popup handling ------------------------------//
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+
   // event handlers for the popup and accesing current data //
   const handleMatchCardClick = (item) => {
     setSelectedMatch(item);
@@ -120,8 +124,9 @@ export default function Home() {
         <div className="flex justify-between place-items-center  w-[90%] mr-auto ml-auto   ">
           <div className="w-max mt-2 flex flex-col justify-center  pt-2 ">
             <div
-             onClick={() => router.push('/profile/recharge')}
-             className="flex place-items-center rounded-full bg-white w-max line-clamp-1 text-ellipsis ">
+              onClick={() => router.push("/profile/recharge")}
+              className="flex place-items-center rounded-full bg-white w-max line-clamp-1 text-ellipsis "
+            >
               <span className=" flex place-items-center justify-center  line-clamp-1 text-ellipsis text-xs font-[500] px-3 py-1.5 ">
                 <FaRupeeSign />
                 {userBalance}
@@ -179,15 +184,29 @@ export default function Home() {
             <MatchPopup match={selectedMatch} onClose={closePopup} />
           )}
         </div>
+        
       </main>
     </Layout>
   );
 }
 
-function MatchPopup({ match , onClose }) {
+function MatchPopup({ match, onClose }) {
+
+  // Popup handling here //
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [opps,setopps] = useState('Opps!');
+  const [oppsImage,SetOppsImage] = useState('/')
+
+
+  console.log(modalOpen,modalMessage);
+
+  const handleCloseErrorPopup = () => {
+    setModalOpen(false);
+  };
+
 
   const { userBalance, getBalance } = useContext(UserContext);
-
   const [Team_a_logo, updateSrcTeam_a] = useState();
   const [Team_b_logo, updateSrcTeam_b] = useState();
   const [MatchStartTime, updateTime] = useState(new Date());
@@ -195,9 +214,6 @@ function MatchPopup({ match , onClose }) {
   // placeBet function //
 
   async function placeBet(Percentage, Score_a, Score_b, BetAmount) {
-
-
-
     try {
       // let [Score_a, Score_b] = score.split("-");
       let body = {
@@ -207,7 +223,6 @@ function MatchPopup({ match , onClose }) {
         Score_a,
         Score_b,
       };
-
 
       let config = {
         method: "POST",
@@ -220,10 +235,31 @@ function MatchPopup({ match , onClose }) {
       res = await res.json();
       console.log(res);
       if (res?.status === 200) {
-        alert("bet placed");
+        setopps('Success')
+        setModalMessage(res.message);
+        setModalOpen(true);
         await getBalance();
-      } else if (res?.status === 500 || res?.status === 302) {
+      }
+      else if (res?.status === 500 || res?.status === 302) {
+        setopps('Opps!')
+        setModalMessage(res.message);
+        setModalOpen(true);
         router.push("/access/login");
+      }
+      else if (res?.status === 409) {
+        setopps('Opps!')
+        setModalMessage(res.message);
+        setModalOpen(true);
+      }
+      else if (res?.status === 700) {
+        setopps('Opps!')
+        setModalMessage(res.message);
+        setModalOpen(true);
+      }
+      else if (res?.status === 703) {
+        setopps('Opps!')
+        setModalMessage(res.message);
+        setModalOpen(true);
       }
     } catch (error) {
       console.log(error);
@@ -259,9 +295,8 @@ function MatchPopup({ match , onClose }) {
         <div className=" px-6 mt-4 text-white">
           <div className="rounded-2xl relative  pt-4 bg-[url(/betplace.png)]  h-full  text-center  w-full">
             <h2 className="capitalize text-sm font-bold truncate text-white">
-              
               {match.LeagueName}
-              <p className="hidden" >{match.StakeId}</p>
+              <p className="hidden">{match.StakeId}</p>
             </h2>
             <div className="w-full mt-3 flex px-2">
               <div className="flex-[2] flex-col flex w-full items-center h-full ">
@@ -335,8 +370,10 @@ function MatchPopup({ match , onClose }) {
           />
         </div>
       </div>
-
-      
+       {
+        modalOpen && <Modal message={modalMessage} status = {opps} onClose={handleCloseErrorPopup}
+        />
+       }
     </div>
   );
 }
