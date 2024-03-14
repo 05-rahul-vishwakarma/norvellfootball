@@ -17,9 +17,6 @@ import { isValidUser } from "@/app/helpers/auth";
 export async function GET() {
   let { session, token } = await getCookieData();
   try {
-    // const session = request.cookies.get("session")?.value || "";
-    // const token = request?.cookies?.get("token")?.value || "";
-    // const UserName = await isAuthenticated(token, session);
     const UserName = await isValidUser(token, session);
     if (!UserName)
       return NextResponse.json({

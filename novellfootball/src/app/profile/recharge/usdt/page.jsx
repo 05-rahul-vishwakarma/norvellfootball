@@ -78,9 +78,9 @@ function Page({ searchParams }) {
 
       try {
         let body = {
-          depositAddress,
-          transId,
-          usdtAmount,
+          TransactionId: transId,
+          Amount: usdtAmount,
+          Channel: 3,
         };
         let config = {
           method: "POST",

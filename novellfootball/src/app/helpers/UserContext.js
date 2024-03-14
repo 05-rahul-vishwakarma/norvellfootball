@@ -18,8 +18,10 @@ const UserContextProvider = ({ children }) => {
       let res = await fetch(`/api/user`);
       res = await res.json();
       if (res?.status === 200) setUserBalance(res?.data?.Balance);
-      alert(res);
-      // if (res?.status === 302) router.push("/access/login");
+      if (res?.status === 302) {
+        alert("sessioin time out");
+        router.push("/access/login");
+      }
     } catch (error) {
       alert(error);
       // router.push("/access/login");

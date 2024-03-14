@@ -3,72 +3,96 @@ import Image from "next/image";
 import { easeInOut, motion } from "framer-motion";
 import Input from "./Input";
 import { LiaAngleLeftSolid, LiaAngleRightSolid } from "react-icons/lia";
+const usdtBank = [
+  {
+    name: "UsdtAddress",
+    alt: "usdt address",
+    type: "text",
+    label: "usdt address (TRC20) ",
+  },
+  {
+    name: "AppName",
+    alt: "application name",
+    type: "text",
+    label: "application name",
+  },
+];
+
+const localBank = [
+  {
+    name: "AccHolderName",
+    alt: "Account holder",
+    type: "text",
+    label: "account holder name",
+  },
+  {
+    name: "BankName",
+    alt: "bank name",
+    type: "text",
+    label: "bank name",
+  },
+  {
+    name: "AccNumber",
+    alt: "account number",
+    type: "number",
+    label: "bank account number",
+  },
+  {
+    name: "Ifsc",
+    alt: "Ifsc code",
+    type: "text",
+    label: "bank ifsc",
+  },
+  {
+    name: "BranchName",
+    alt: "branch name",
+    type: "text",
+    label: "bank branch",
+  },
+];
 
 const AddBank = ({ closePopup }) => {
   const [localBankCredentials, updateCredentials] = useState({
-    AccountHolder: "",
+    AccHolderName: "",
     BankName: "",
-    AccountNumber: "",
+    AccNumber: "",
     Ifsc: "",
     BranchName: "",
   });
-  const usdtBank = [
-    {
-      name: "Address",
-      alt: "usdt address",
-      type: "text",
-      label: "usdt address (TRC20) ",
-    },
-    {
-      name: "Name",
-      alt: "application name",
-      type: "text",
-      label: "application name",
-    },
-  ];
-
-  const localBank = [
-    {
-      name: "AccountHolder",
-      alt: "Account holder",
-      type: "text",
-      label: "account holder name",
-    },
-    {
-      name: "BankName",
-      alt: "bank name",
-      type: "text",
-      label: "bank name",
-    },
-    {
-      name: "AccountNumber",
-      alt: "account number",
-      type: "number",
-      label: "bank account number",
-    },
-    {
-      name: "Ifsc",
-      alt: "Ifsc code",
-      type: "text",
-      label: "bank ifsc",
-    },
-    {
-      name: "BranchName",
-      alt: "branch name",
-      type: "text",
-      label: "bank branch",
-    },
-  ];
-
   const [usdtBankCredentials, updateUsdtBank] = useState({
-    Address: "",
-    Name: "",
+    UsdtAddress: "",
+    AppName: "",
   });
+  const [isLocalBank, updateBank] = useState(true);
+
+  async function sendNewBankData() {
+    try {
+      let config = {
+        method: "POST",
+        header: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(
+          isLocalBank
+            ? { ...localBankCredentials, isLocalBank }
+            : { ...usdtBankCredentials, isLocalBank }
+        ),
+      };
+      let res = await fetch("/api/profile/account", config);
+      res = await res.json();
+      if (res?.status === 200) {
+        alert(res?.message);
+      } else {
+        alert(res?.message);
+      }
+    } catch (error) {
+      alert(error);
+    }
+  }
 
   function updateUsdt(e) {
     updateUsdtBank((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
-  const [isLocalBank, updateBank] = useState(true);
 
   function update(e) {
     updateCredentials((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -173,7 +197,7 @@ const AddBank = ({ closePopup }) => {
                 <div key={idx} className="text-sm">
                   <div className="flex  items-center justify-between">
                     <label
-                      htmlFor="AccountHolder"
+                      htmlFor="AccountHolderName"
                       className="block text-[0.6rem] capitalize font-semibold p-1 text-black"
                     >
                       {ele.label}
@@ -194,7 +218,7 @@ const AddBank = ({ closePopup }) => {
                 <div key={idx} className="text-sm">
                   <div className="flex  items-center justify-between">
                     <label
-                      htmlFor="AccountHolder"
+                      htmlFor="AccountHolderName"
                       className="block text-[0.6rem] capitalize font-semibold p-1 text-black"
                     >
                       {ele.label}
@@ -214,7 +238,10 @@ const AddBank = ({ closePopup }) => {
         </div>
 
         <div className="px-5 mt-8">
-          <button className=" rounded-md text-white font-bold tracking-wider capitalize w-full py-3 bg-blue-500">
+          <button
+            onClick={sendNewBankData}
+            className=" rounded-md text-white font-bold tracking-wider capitalize w-full py-3 bg-blue-500"
+          >
             save my bank details
           </button>
         </div>

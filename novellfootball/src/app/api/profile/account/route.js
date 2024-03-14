@@ -36,6 +36,7 @@ export async function POST(request) {
       let isLocalBankAdded = await USER.findOneAndUpdate(
         { UserName, LocalBankAdded: false },
         {
+          LocalBankAdded: true,
           LocalBank: {
             AccHolderName,
             BankName,
@@ -57,9 +58,10 @@ export async function POST(request) {
       if (!UsdtAddress || !AppName)
         throw new CustomError(705, "Field missing", {});
 
-      isUsdtBankAdded = await USER.findOneAndUpdate(
+      let isUsdtBankAdded = await USER.findOneAndUpdate(
         { UserName, UsdtBankAdded: false },
         {
+          UsdtBankAdded: true,
           UsdtBank: {
             UsdtAddress,
             AppName,
@@ -74,12 +76,8 @@ export async function POST(request) {
         data: {},
       });
     }
-    return NextResponse.json({
-      status: 500,
-      message: "something went wrong",
-      data: {},
-    });
   } catch (error) {
+    console.log(error);
     return NextResponse.json({
       status: error?.code || error?.status || 500,
       message: error?.message || "something went wrong",
@@ -91,9 +89,6 @@ export async function POST(request) {
 export async function PATCH(request) {
   let { session, token } = await getCookieData();
   try {
-    // const session = request.cookies.get("session")?.value || "";
-    // const token = request?.cookies?.get("token")?.value || "";
-    // const UserName = await isAuthenticated(token, session);
     const UserName = await isValidUser(token, session);
     if (!UserName)
       return NextResponse.json({

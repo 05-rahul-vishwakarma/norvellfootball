@@ -3,10 +3,12 @@ import { NextResponse } from "next/server";
 import { isValidUser } from "@/app/helpers/auth";
 import { USER } from "@/app/modals/modal";
 import CustomError from "@/app/helpers/Error";
+import { cookies } from "next/headers";
 
 export async function GET(request) {
+  let { token, session } = await getCookieData();
   try {
-    let UserName = await isValidUser(request);
+    let UserName = await isValidUser(token, session);
     if (!UserName)
       return NextResponse.json({
         status: 302,
@@ -17,7 +19,7 @@ export async function GET(request) {
     if (!user || !user?.PhoneNumber || user?.PhoneNumber === "")
       throw new CustomError(705, "invalid phone number", {});
     let phoneNumber = user?.PhoneNumber || "";
-    phoneNumber = phoneNumber.slice(3);
+    // phoneNumber = phoneNumber.slice(3);
     let otp = Math.ceil(Math.random() * 9000 + 1000);
     let res = await sendPhoneOtp(phoneNumber, otp);
 
@@ -27,9 +29,7 @@ export async function GET(request) {
         message: "otp sent and valid for 5 minutes",
       });
       response.cookies.set("otp", `${otp}`, {
-        httpOnly: true,
         maxAge: "5M",
-        secure: true,
       });
       return response;
     }
@@ -99,4 +99,15 @@ export async function PUT(request) {
       message: error?.message || "somethign went wrong",
     });
   }
+}
+
+async function getCookieData() {
+  let token = cookies().get("token")?.value || "";
+  let session = cookies().get("session")?.value || "";
+  const cookieData = { token, session };
+  return new Promise((resolve) =>
+    setTimeout(() => {
+      resolve(cookieData);
+    }, 1000)
+  );
 }

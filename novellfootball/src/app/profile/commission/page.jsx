@@ -2,14 +2,10 @@
 import CommissionPopModel from "@/app/components/CommissionPopModel";
 import Layout from "@/app/components/Layout";
 import { motion } from "framer-motion";
-import React, { use, useEffect, useState } from "react";
-import { FaRupeeSign, FaShare } from "react-icons/fa";
-import { FaCopy, FaInfo, FaLink } from "react-icons/fa6";
-import {
-  LiaAngleLeftSolid,
-  LiaAngleRightSolid,
-  LiaAngleUpSolid,
-} from "react-icons/lia";
+import React, { useEffect, useState } from "react";
+import { FaRupeeSign } from "react-icons/fa";
+import { FaInfo, FaLink } from "react-icons/fa6";
+import { LiaAngleRightSolid, LiaAngleUpSolid } from "react-icons/lia";
 import { MdOutlineContentCopy, MdOutlineShare } from "react-icons/md";
 
 const Page = () => {
@@ -17,6 +13,86 @@ const Page = () => {
   const [claimModel, updateclaimModel] = useState(false);
   const [isShairing, updateShairing] = useState(false);
   const [getCommissionPop, updateCommissionPop] = useState(false);
+  const [popupType, updatePopupType] = useState("");
+  const [todayCommission, updateTodayCommission] = useState([]);
+  const [overallCommission, updateOverallCommission] = useState([]);
+  const [RegisterData, updateRegisterData] = useState({
+    level1: [],
+    level2: [],
+    level3: [],
+  });
+  const [TransactionData, updateTransactionData] = useState({
+    level1: [],
+    level2: [],
+    level3: [],
+  });
+
+  const [loadedOnce, updateLoaded] = useState(false);
+
+  // functioni will get the commission popup which will show data of users like deposit withdrawal and register;
+  function getPopup(type) {
+    updatePopupType(type);
+    updateCommissionPop(true);
+  }
+
+  async function getCommissionData() {
+    let res = await fetch("/api/profile/commission");
+    if (res.ok) {
+      res = await res.json();
+      let commissionObj = res?.data[0];
+      updateTodayCommission(commissionObj["8/3/2024"]);
+      updateOverallCommission(() => {
+        let overall_obj = [];
+        for (let key in commissionObj) {
+          if (commissionObj.hasOwnProperty(key)) {
+            if (key !== "8/3/2024") {
+              overall_obj.push(...commissionObj[key]);
+            }
+          }
+        }
+        return overall_obj;
+      });
+    }
+  }
+  async function getTransactionData() {
+    let res = await fetch("/api/profile/transactions");
+    if (res.ok) {
+      res = await res.json();
+      if (res?.status === 200) {
+        let { level1_transactions, level2_transactions, level3_transactions } =
+          res?.data;
+        updateTransactionData({
+          level1: level1_transactions,
+          level2: level2_transactions,
+          level3: level3_transactions,
+        });
+      } else {
+        alert(res?.message);
+      }
+    }
+  }
+  async function getRegisterData() {
+    let res = await fetch("/api/profile/register");
+    if (res.ok) {
+      res = await res.json();
+      if (res?.status === 200) {
+        let { level1_users, level2_users, level3_users } = res?.data;
+        updateRegisterData({
+          level1: level1_users,
+          level2: level2_users,
+          level3: level3_users,
+        });
+      } else {
+        alert(res?.message);
+      }
+    }
+  }
+
+  useEffect(() => {
+    getCommissionData();
+    getRegisterData();
+    getTransactionData();
+  }, []);
 
   return (
     <Layout>
@@ -178,7 +254,7 @@ const Page = () => {
             </div>
 
             <div
-              onClick={() => updateCommissionPop(true)}
+              onClick={() => getPopup("deposit")}
               style={{ boxShadow: "0px 5px 15px 0px rgba(0,0,0,0.1) " }}
               className="shadow-md flex mt-3 items-center py-[0.7rem] bg-[#FFF]  rounded-2xl  px-2"
             >
@@ -196,7 +272,7 @@ const Page = () => {
             </div>
 
             <div
-              onClick={() => updateCommissionPop(true)}
+              onClick={() => getPopup("withdrawal")}
               style={{ boxShadow: "0px 5px 15px 0px rgba(0,0,0,0.1) " }}
               className="shadow-md flex mt-3 items-center py-[0.7rem] bg-[#FFF] rounded-2xl  px-2"
             >
@@ -214,7 +290,7 @@ const Page = () => {
             </div>
 
             <div
-              onClick={() => updateCommissionPop(true)}
+              onClick={() => getPopup("commission")}
               style={{ boxShadow: "0px 5px 15px 0px rgba(0,0,0,0.1) " }}
               className="shadow-md flex mt-3 items-center py-[.7rem] bg-white  rounded-2xl  px-2"
             >
@@ -232,7 +308,7 @@ const Page = () => {
             </div>
 
             <div
-              onClick={() => updateCommissionPop(true)}
+              onClick={() => getPopup("register")}
               style={{ boxShadow: "0px 5px 15px 0px rgba(0,0,0,0.1) " }}
               className="shadow-md flex mt-3 items-center py-[.7rem]  rounded-2xl bg-white  px-2"
             >
@@ -252,11 +328,39 @@ const Page = () => {
         </div>
 
         {/* commission popups */}
-        {getCommissionPop && (
+        {getCommissionPop && popupType === "commission" && (
           <section className="absolute top-0 left-0 h-full w-full bg-slate-50">
-            <CommissionPopModel closeModel={updateCommissionPop} />
+            <CommissionPopModel
+              type={popupType}
+              todayCommission={todayCommission}
+              overallCommission={overallCommission}
+              closeModel={updateCommissionPop}
+            />
           </section>
         )}
+        {getCommissionPop && popupType === "register" && (
+          <section className="absolute top-0 left-0 h-full w-full bg-slate-50">
+            <CommissionPopModel
+              type={popupType}
+              level1={RegisterData?.level1 || []}
+              level2={RegisterData?.level2 || []}
+              level3={RegisterData?.level3 || []}
+              closeModel={updateCommissionPop}
+            />
+          </section>
+        )}
+        {getCommissionPop &&
+          (popupType === "deposit" || popupType === "withdrawal") && (
+            <section className="absolute top-0 left-0 h-full w-full bg-slate-50">
+              <CommissionPopModel
+                type={popupType}
+                level1={TransactionData?.level1 || []}
+                level2={TransactionData?.level2 || []}
+                level3={TransactionData?.level3 || []}
+                closeModel={updateCommissionPop}
+              />
+            </section>
+          )}
       </section>
     </Layout>
   );

@@ -17,6 +17,7 @@ function Page() {
   const { userBalance, getBalance } = useContext(UserContext);
 
   const [swipe, setSwipe] = useState(1);
+  const [transactionData, updateTransaction] = useState([]);
   const [getRecord, updateRecord] = useState(false);
   const [getWithdrawal, updateWithdrawal] = useState(false);
   const [scoreData, updateData] = useState([
@@ -68,6 +69,28 @@ function Page() {
       return prev.map((ele) => ({ ...ele, selected: false }));
     });
   }
+
+  async function getTransactionData() {
+    try {
+      let res = await fetch("/api/profile");
+      if (res?.ok) {
+        res = await res.json();
+        if (res?.status === 200) {
+          updateTransaction(res?.data);
+        } else {
+          alert(res?.message);
+          return;
+        }
+      }
+    } catch (error) {
+      alert("something went wrong");
+    }
+  }
+
+  useEffect(() => {
+    getTransactionData();
+    console.log(transactionData);
+  }, []);
 
   return (
     <Layout>
@@ -433,15 +456,53 @@ function Page() {
             </div>
             {/* popup display make the same for withdrawal and overall the data will be fetched here in this file and transfered to the recordAccordian file */}
             <section className="max-h-[80%] overflow-y-scroll pt-6 pb-40 px-4">
-              {scoreData.map((item, idx) => (
-                <RecordAccordians
-                  key={idx}
-                  idx={idx}
-                  cardDetails={item}
-                  setActive={setActive}
-                  setDeactivated={setDeactivated}
-                />
-              ))}
+              {transactionData.map((item, idx) => {
+                if (swipe === 1 && item?.Type === "deposit") {
+                  //  deposit type
+                  return (
+                    <RecordAccordians
+                      key={item?._id}
+                      idx={idx}
+                      details={{
+                        "transaction id": item?.TransactionId,
+                        "recharge method": item?.Method,
+                      }}
+                      cardDetails={item}
+                    />
+                  );
+                } else if (swipe === 2 && item?.Type === "withdrawal") {
+                  //withdraw type
+                  return (
+                    <RecordAccordians
+                      key={item?._id}
+                      idx={idx}
+                      details={{
+                        "transaction id": item?.TransactionId,
+                        "withdrawal method": item?.Method,
+                        "Handling fee": (Number(item?.Amount) / 10000).toFixed(
+                          2
+                        ),
+                      }}
+                      cardDetails={item}
+                    />
+                  );
+                } else if (swipe === 3 && item?.Type === "overall") {
+                  //overall
+
+                  return (
+                    <RecordAccordians
+                      key={item?._id}
+                      idx={idx}
+                      details={{
+                        username: item?.UserName,
+                        Remark: item?.Remark,
+                      }}
+                      cardDetails={item}
+                    />
+                  );
+                }
+                // <RecordAccordians key={idx} idx={idx} cardDetails={item} />;
+              })}
             </section>
           </div>
         )}

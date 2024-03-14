@@ -28,12 +28,11 @@ const OtpInputs = ({ otp, setOtp }) => {
   return (
     <>
       {otp.map((val, idx) => (
-        <div key={idx} className="w-16 h-16 ">
+        <div key={idx} className="w-10 h-12 ">
           <input
             ref={activeIdx == idx ? inputRef : null}
-            className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-400 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
+            className="w-full h-full  text-center outline-none rounded-xl border text-gray-600 border-gray-400 text-[0.9rem] bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
             type="text"
-            name=""
             onChange={updateOtp}
             onKeyDown={(e) => handleKeyDown(e, idx)}
             value={otp[idx]}

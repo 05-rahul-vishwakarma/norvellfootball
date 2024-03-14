@@ -104,7 +104,7 @@ function Page() {
           </div>
           <div
             ref={matches_box}
-            className="w-full px-4 overflow-y-scroll pb-[5rem] max-h-[100%] space-y-3 "
+            className="w-full px-4 overflow-y-scroll pb-[5rem] pt-4 max-h-[100%] space-y-4 "
           >
             {matches.length > 2 &&
               matches

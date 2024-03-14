@@ -1,6 +1,10 @@
 import CustomError from "@/app/helpers/Error";
 import { USER, TRANSACTION } from "@/app/modals/modal";
 import { NextResponse } from "next/server";
+import { isValidUser } from "@/app/helpers/auth";
+import { getFormattedDate } from "@/app/helpers/formattedDate";
+import { cookies } from "next/headers";
+import { connect } from "@/app/modals/dbConfig";
 const { mongoose } = require("mongoose");
 
 /**
@@ -8,34 +12,33 @@ const { mongoose } = require("mongoose");
  *   As the name suggest this will handle the withdrawals made by users;
  *
  */
+let parent = "";
 
 export async function POST(request) {
+  await connect();
   let Session = await mongoose.startSession();
   Session.startTransaction();
+  let { session, token } = await getCookieData();
   try {
-    const session = request.cookies.get("session")?.value || "";
-    const token = request?.cookies?.get("token")?.value || "";
-    const UserName = await isAuthenticated(token, session);
+    const UserName = await isValidUser(token, session);
     if (!UserName)
       return NextResponse.json({
         status: 302,
         message: "Session Expired login again",
       });
-    let verifiedOtp = true; //make it false and create a helper function that will evaluate the hash from teh users end;
-    if (!verifiedOtp) throw new CustomError(702, "Invalid otp provided ", {});
 
     let body = await request.json();
-    let { Ammount } = body;
-    Ammount = Number(Ammount);
-    if (!(await vipVerified(UserName, body?.Ammount)))
+    let { Amount } = body;
+    if (!Amount) Amount = Number(Amount);
+    if (!(await vipVerified(UserName, body?.Amount)))
       throw new CustomError(705, "Your vip level is low", {});
 
     if (body?.isLocalBank) {
-      if (!Ammount) throw new CustomError(705, "Missing Fields", {});
-      Ammount = Ammount * 100;
+      if (!Amount) throw new CustomError(705, "Missing Fields", {});
+      Amount = Amount * 100;
       let updatedUser = await updateUser(
         UserName,
-        Ammount,
+        Amount,
         Session,
         "LocalBankAdded"
       );
@@ -43,11 +46,11 @@ export async function POST(request) {
       if (!updatedUser)
         throw new CustomError(705, "Bank already added or error field", {});
     } else {
-      if (!Ammount) throw new CustomError(705, "Field missing", {});
-      Ammount = Number(Ammount) * 100;
+      if (!Amount) throw new CustomError(705, "Field missing", {});
+      Amount = Number(Amount) * 100;
       let updatedUser = await updateUser(
         UserName,
-        Ammount,
+        Amount,
         Session,
         "UsdtBankAdded"
       );
@@ -56,28 +59,32 @@ export async function POST(request) {
         throw new CustomError(705, "Bank already added or error field", {});
     }
     let TransactionId = await genTransactionID();
+
     let isTransCreated = await TRANSACTION.create(
-      {
-        UserName,
-        Ammount: Ammount * 100,
-        TransactionId,
-        Method: body?.isLocalBank ? "Local bank transfer" : "usdt transfer",
-        Status: 0,
-        Remark: "pending",
-        Type: "withdrawal",
-      },
-      { session }
+      [
+        {
+          UserName: UserName,
+          Amount: Amount,
+          TransactionId: TransactionId,
+          Method: body?.isLocalBank ? "Local bank transfer" : "usdt transfer",
+          Date: getFormattedDate(),
+          Parent: parent,
+          Remark: "pending",
+          Type: "withdrawal",
+        },
+      ],
+      { session: Session }
     );
     if (!isTransCreated)
       throw new CustomError(500, "something went wrong while withdrawal", {});
-    Session.commitTransaction();
+    await Session.commitTransaction();
     return NextResponse.json({
       status: 200,
       message: "Withdrawall is in processing",
       data: {},
     });
   } catch (error) {
-    Session.abortTransaction();
+    await Session.abortTransaction();
     return NextResponse.json({
       status: error?.code || error?.status || 500,
       message: error?.message || "something went wrong",
@@ -86,21 +93,26 @@ export async function POST(request) {
   }
 }
 
-async function updateUser(UserName, Ammount, session, Bank) {
+async function updateUser(UserName, Amount, Session, Bank) {
+  await connect();
   try {
     let user = await USER.findOneAndUpdate(
-      { UserName, [Bank]: true, $get: { Balance: Number(Ammount) } },
+      { UserName, [Bank]: true, Balance: { $gte: Number(Amount) } },
       {
         $inc: {
-          Balance: -Ammount,
-          Withdrawal: Ammount,
+          Balance: -Amount,
+          Withdrawal: Amount,
         },
       },
-      { session }
+      { session: Session }
     );
     if (!user) throw Error("Low balance");
+    parent = user?.Parent;
     return true;
   } catch (error) {
+    console.log(error);
+    parent = "";
+    console.log(error);
     throw new CustomError(705, "Low balance or bank not added");
   }
 }
@@ -111,7 +123,6 @@ async function vipVerified(UserName, Ammount) {
     // here the amount is not multiplied by 100 for  convenience reasons;
     Ammount = Number(Ammount);
     let { VipLevel } = await USER.findOne({ UserName }, { VipLevel: 1 });
-
     if (Ammount >= 500 && Ammount <= vipMax[VipLevel]) {
       return true;
     }
@@ -130,4 +141,14 @@ async function genTransactionID() {
   const PART_A = Math.floor(Math.random() * 90000 + 10000).toString();
   const PART_B = Math.floor(Math.random() * 90000 + 10000).toString();
   return PART_A + PART_B;
+}
+async function getCookieData() {
+  let token = cookies().get("token")?.value || "";
+  let session = cookies().get("session")?.value || "";
+  const cookieData = { token, session };
+  return new Promise((resolve) =>
+    setTimeout(() => {
+      resolve(cookieData);
+    }, 1000)
+  );
 }

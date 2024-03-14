@@ -32,8 +32,6 @@ function Page({ searchParams }) {
     }
   };
 
-  console.log(value);
-
   // post request from the front-end
   async function submitDeposit() {
     let utrNumber, amount;
@@ -46,8 +44,9 @@ function Page({ searchParams }) {
     }
 
     let body = {
-      utrNumber,
-      amount,
+      TransactionId: utrNumber,
+      Amount: amount,
+      Channel: 2,
     };
 
     let config = {

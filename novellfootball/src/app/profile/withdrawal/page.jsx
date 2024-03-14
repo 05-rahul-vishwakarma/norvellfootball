@@ -14,12 +14,91 @@ import { useState } from "react";
 import { IoIosClose } from "react-icons/io";
 import AddBank from "@/app/components/AddBank";
 import Layout from "@/app/components/Layout";
+import OtpInputs from "@/app/components/OtpInputs";
 
 function Page({ closePopup }) {
   const [getVerification, updateGetVerif] = useState(false);
-  const [editBank, updateEditBank] = useState(true);
+  const [verifPhone, updateVerificationMethod] = useState(true);
+  const [editBank, updateEditBank] = useState(false);
+  const [isVerified, setVerified] = useState(false);
+  const [otpSent, updateOtpSent] = useState(false);
+  const [Amount, updateAmount] = useState(0);
+  const [otp, setOtp] = useState(new Array(4).fill(""));
+
+  async function verify() {
+    let EnteredOtp = otp.join("");
+    EnteredOtp = Number(EnteredOtp);
+    let cookies = document.cookie;
+    let providedOtp;
+    const [name, value] = cookies.split("=");
+    if (name === "otp") {
+      providedOtp = value;
+    }
+    if (EnteredOtp === Number(providedOtp)) {
+      return true;
+    }
+    return false;
+  }
 
   const [isLocalBank, updateBank] = useState(true);
+
+  async function getOtp() {
+    try {
+      let res = await fetch("/api/otp/" + `${verifPhone ? "phone" : "email"}`);
+      res = await res.json();
+      if (res?.status === 200) {
+        updateOtpSent(true);
+        alert(res?.message);
+      } else {
+        alert(res?.message);
+      }
+    } catch (error) {
+      alert(error);
+    }
+  }
+  async function getEditOtp() {
+    try {
+      let res = await fetch("/api/otp/" + `${verifPhone ? "phone" : "email"}`);
+      res = await res.json();
+      if (res?.status === 200) {
+        alert(res?.message);
+        updateGetVerif(true);
+      } else {
+        alert(res?.message);
+      }
+    } catch (error) {
+      alert(error);
+    }
+  }
+
+  async function withdraw() {
+    try {
+      let isVerified = await verify();
+      if (!isVerified) {
+        alert("not verified");
+        return;
+      }
+      let config = {
+        method: "POST",
+        header: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ Amount, isLocalBank }),
+      };
+      let res = await fetch("/api/payment/withdraw", config);
+      if (res?.ok) {
+        res = await res.json();
+        if (res?.status === 200) {
+          alert("pending done");
+        } else {
+          alert(res?.message);
+        }
+      }
+    } catch (error) {
+      alert(error);
+    }
+  }
+
   return (
     <Layout>
       <section className="bg-[#F8FCFF] relative top-0 left-0 overflow-hidden w-full h-[100dvh]">
@@ -28,11 +107,11 @@ function Page({ closePopup }) {
             payment withdrawal
           </span>
           <span
-            //   onClick={() => closePopup(false)}
+            // onClick={() => closePopup(false)}
             className="space-x-2 absolute top-[50%] translate-y-[-50%] left-2 flex justify-center items-center font-semibold text-sm"
           >
-            <LiaAngleLeftSolid />
-            Back
+            {/* <LiaAngleLeftSolid />
+            Back */}
           </span>
         </div>
         <main className=" space-y-1  h-fit px-4 ">
@@ -99,7 +178,7 @@ function Page({ closePopup }) {
               </div>
             </div>
             <div
-              onClick={() => updateGetVerif(true)}
+              onClick={getEditOtp}
               className="absolute top-2 right-2 text-center "
             >
               <div className="rounded-full flex justify-center items-center size-7 bg-blue-500 text-xl text-center text-white ">
@@ -205,7 +284,6 @@ function Page({ closePopup }) {
                     checked={isLocalBank}
                     value={"local"}
                     className="size-5"
-                    id=""
                   />
                 </div>
               </div>
@@ -262,6 +340,8 @@ function Page({ closePopup }) {
                         </span>
                         <input
                           type="number"
+                          value={Amount}
+                          onChange={(e) => updateAmount(e.target.value)}
                           placeholder="Enter value"
                           className="w-full h-full outline-none text-gray-600"
                           name=""
@@ -276,6 +356,8 @@ function Page({ closePopup }) {
                         </span>
                         <input
                           type="number"
+                          disabled
+                          value={Amount - Number((Amount / 10).toFixed(2))}
                           className="w-full h-full outline-none text-green-600"
                           name=""
                         />
@@ -307,6 +389,8 @@ function Page({ closePopup }) {
                         </span>
                         <input
                           type="number"
+                          value={Amount}
+                          onChange={(e) => updateAmount(e.target.value)}
                           placeholder="Enter value"
                           className="w-full h-full outline-none text-gray-600"
                           name=""
@@ -322,6 +406,9 @@ function Page({ closePopup }) {
                         <input
                           type="number"
                           disabled
+                          value={((Amount - Number(Amount / 10)) / 80).toFixed(
+                            2
+                          )}
                           placeholder="0"
                           className="w-full h-full outline-none text-green-600"
                           name=""
@@ -341,68 +428,62 @@ function Page({ closePopup }) {
               </div>
               <div className="ring-[1.5px] ring-blue-600 pb-2 mt-1 rounded-md">
                 <div className="flex capitalize font-semibold text-[0.65rem] space-x-2 ">
-                  <div className=" flex w-[70%] space-x-2 px-2">
-                    <div className="flex space-x-1 mt-2 flex-row items-center justify-between mx-auto w-full ">
-                      <div className="w-10 h-12 ">
-                        <input
-                          className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-md border border-gray-300 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
-                          type="text"
-                          name=""
-                        />
-                      </div>
-                      <div className="w-10 h-12 ">
-                        <input
-                          className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-md border border-gray-300 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
-                          type="text"
-                          name=""
-                        />
-                      </div>
-                      <div className="w-10 h-12 ">
-                        <input
-                          className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-md border border-gray-300 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
-                          type="text"
-                          name=""
-                        />
-                      </div>
-                      <div className="w-10 h-12 ">
-                        <input
-                          className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-md border border-gray-300 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
-                          type="text"
-                          name=""
-                        />
-                      </div>
+                  <div className=" flex w-[70%] space-x-1 px-2">
+                    <div className="flex space-x-2 mt-2 flex-row items-center justify-between mx-auto w-full ">
+                      <OtpInputs otp={otp} setOtp={setOtp} />
                     </div>
                   </div>
-                  <div className=" flex  flex-col justify-end w-[30%] space-y-2 text-center px-2">
-                    <span
-                      className="  
+                  <div className=" flex items-center  flex-col justify-end w-[30%] space-y-2 text-center px-2">
+                    {otpSent !== true ? (
+                      <div
+                        onClick={getOtp}
+                        className="h-[80%] w-full rounded-md flex justify-center items-center text-white capitalize bg-blue-500"
+                      >
+                        Get otp
+                      </div>
+                    ) : (
+                      <>
+                        <span
+                          className="  
             flex text-[0.7rem] justify-center items-center"
-                    >
-                      <Image
-                        src={"/tick_mark.png"}
-                        alt="sent"
-                        width={25}
-                        height={25}
-                      />
-                    </span>
-                    <div className="flex text-center justify-center text-xs items-center h-[20%]">
-                      <p>Resend OTP</p>
-                      <FaPlay />
-                    </div>
+                        >
+                          <Image
+                            src={"/tick_mark.png"}
+                            alt="sent"
+                            width={25}
+                            height={25}
+                          />
+                        </span>
+                        <div
+                          onClick={getOtp}
+                          className="flex text-center justify-center text-xs items-center h-[20%]"
+                        >
+                          <p>Resend OTP</p>
+                          <FaPlay />
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
             </div>
 
             <div className="px-2 py-1">
-              <button className="w-full capitalize rounded-md mt-4 shadow-md bg-blue-500 text-white font-bold py-2 ">
+              <button
+                onClick={withdraw}
+                className="w-full capitalize rounded-md mt-4 shadow-md bg-blue-500 text-white font-bold py-2 "
+              >
                 transfer to bank
               </button>
             </div>
           </div>
         </div>
         {getVerification && (
-          <VerificationPopup toggleVerification={updateGetVerif} />
+          <VerificationPopup
+            getBankEdit={updateEditBank}
+            verify={verify}
+            toggleVerification={updateGetVerif}
+          />
         )}
         {editBank && <AddBank closePopup={updateEditBank} />}
       </section>
@@ -412,8 +493,20 @@ function Page({ closePopup }) {
 
 export default Page;
 
-function VerificationPopup({ toggleVerification }) {
+function VerificationPopup({ getBankEdit, verify, toggleVerification }) {
   const [phone, updateVerificationMethod] = useState(true);
+  async function editBank() {
+    try {
+      let isVerified = await verify();
+      if (isVerified) {
+        alert("verified");
+        toggleVerification(false);
+        getBankEdit(true);
+      }
+    } catch (error) {
+      alert("not verified");
+    }
+  }
   return (
     <div className="absolute z-[30] top-0 left-0 flex bg-black/50 items-center justify-center right-0 h-full w-full opacity-1">
       <div className=" w-[80%] bg-slate-100 rounded-[1.3rem] px-6 pt-3 pb-4">
@@ -522,12 +615,15 @@ function VerificationPopup({ toggleVerification }) {
             >
               Resend
             </a>
-            <Image src={"/play.png"} width={12} height={12}></Image>
+            <Image src={"/play.png"} alt="play " width={12} height={12}></Image>
           </div>
 
           <div className="flex flex-col pt-4">
             <div>
-              <button className="flex flex-row items-center justify-center text-center w-full  font-bold tracking-wide text-md rounded-md outline-none py-4 bg-blue-500 border-none text-white text-sm uppercase  shadow-sm">
+              <button
+                onClick={editBank}
+                className="flex flex-row items-center justify-center text-center w-full  font-bold tracking-wide text-md rounded-md outline-none py-4 bg-blue-500 border-none text-white text-sm uppercase  shadow-sm"
+              >
                 edit bank details
               </button>
             </div>

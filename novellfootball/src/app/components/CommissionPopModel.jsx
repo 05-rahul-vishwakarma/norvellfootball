@@ -6,40 +6,16 @@ import { IoIosArrowBack, IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-function CommissionPopModel({ closeModel }) {
-  const [todayCommission, updateTodayCommission] = useState([]);
-  const [overallCommission, updateOverallCommission] = useState([]);
-  const [loadedOnce, updateLoaded] = useState(false);
-
-  async function getCommissionData() {
-    let res = await fetch("/api/profile/commission");
-    if (res.ok) {
-      res = await res.json();
-      let commissionObj = res?.data[0];
-      updateTodayCommission(commissionObj["8/3/2024"]);
-      updateOverallCommission(() => {
-        let overall_obj = [];
-        for (let key in commissionObj) {
-          if (commissionObj.hasOwnProperty(key)) {
-            if (key !== "8/3/2024") {
-              overall_obj.push(commissionObj[key]);
-            }
-          }
-        }
-        return overall_obj;
-      });
-    }
-  }
-
-  useEffect(() => {
-    if (!todayCommission || !overallCommission) {
-      getCommissionData();
-      updateLoaded(true);
-    } else if (!loadedOnce) {
-      getCommissionData();
-      updateLoaded();
-    }
-  }, []);
+function CommissionPopModel({
+  type,
+  todayCommission,
+  overallCommission,
+  level1,
+  level2,
+  level3,
+  closeModel,
+}) {
+  const [selectedLevel, updateLevel] = useState(1);
 
   const [swipe, setSwipe] = useState(1);
 
@@ -56,7 +32,7 @@ function CommissionPopModel({ closeModel }) {
           </span>
           <div className="flex place-items-center justify-self-start">
             <span className="font-bold text-[0.8rem] capitalize ">
-              new register
+              new {type}
             </span>
           </div>
           <span></span>
@@ -108,39 +84,93 @@ function CommissionPopModel({ closeModel }) {
             <Image src="/search.png" alt="logo" height={25} width={25}></Image>
           </div>
         </div>
-        <div className="relative px-4 h-[10%] flex items-center justify-evenly ">
-          <div className="flex shadow-sm items-center bg-white space-x-3 py-2 px-3 text-sm font-bold rounded-md">
-            <div>level 1</div>
-            <input
-              type="radio"
-              className="text-blue-500  size-5 radio-primary outline-blue-400"
-              name="level"
-              id=""
-            />
+        {type !== "commission" ? (
+          <div className="relative px-4 h-[10%] flex items-center justify-evenly ">
+            <div className="flex shadow-sm items-center bg-white space-x-3 py-2 px-3 text-sm font-bold rounded-md">
+              <div>level 1</div>
+              <input
+                type="radio"
+                checked={selectedLevel === 1}
+                onChange={() => updateLevel(1)}
+                className="text-blue-500  size-5 radio-primary outline-blue-400"
+                name="level"
+              />
+            </div>
+            <div className="flex shadow-sm items-center bg-white space-x-3 py-2 px-3 text-sm font-bold rounded-md">
+              <div>level 2</div>
+              <input
+                type="radio"
+                checked={selectedLevel === 2}
+                onChange={() => updateLevel(2)}
+                className="text-blue-500 size-5 radio-primary outline-blue-400"
+                name="level"
+              />
+            </div>
+            <div className="flex shadow-sm items-center bg-white space-x-3 py-2 px-3 text-sm font-bold rounded-md">
+              <div>level 3</div>
+              <input
+                type="radio"
+                checked={selectedLevel === 3}
+                onChange={() => updateLevel(3)}
+                className="text-blue-500 size-5 radio-primary outline-blue-400"
+                name="level"
+              />
+            </div>
           </div>
-          <div className="flex shadow-sm items-center bg-white space-x-3 py-2 px-3 text-sm font-bold rounded-md">
-            <div>level 2</div>
-            <input
-              type="radio"
-              className="text-blue-500 size-5 radio-primary outline-blue-400"
-              name="level"
-              id=""
-            />
-          </div>
-          <div className="flex shadow-sm items-center bg-white space-x-3 py-2 px-3 text-sm font-bold rounded-md">
-            <div>level 3</div>
-            <input
-              type="radio"
-              className="text-blue-500 size-5 radio-primary outline-blue-400"
-              name="level"
-              id=""
-            />
-          </div>
-        </div>
-        <div className="h-[80%] overflow-y-auto px-6 pb-[15rem] w-full">
-          {todayCommission?.map((item, idx) => (
-            <CommissionAcordian key={idx} idx={idx} cardDetails={item} />
-          ))}
+        ) : (
+          ""
+        )}
+        <div className="h-[80%] mt-3 overflow-y-auto px-6 pb-[15rem] w-full">
+          {selectedLevel === 1 &&
+            type === "register" &&
+            level1.map((item, idx) => (
+              <div key={idx}>
+                <RegisterAcordian cardDetails={item} />
+              </div>
+            ))}
+          {selectedLevel === 2 &&
+            type === "register" &&
+            level2.map((item, idx) => (
+              <div key={idx}>
+                <RegisterAcordian cardDetails={item} />
+              </div>
+            ))}
+          {selectedLevel === 3 &&
+            type !== "register" &&
+            level3.map((item, idx) => (
+              <div key={idx}>
+                <RegisterAcordian cardDetails={item} />
+              </div>
+            ))}
+
+          {selectedLevel === 1 &&
+            (type === "deposit" || type === "withdrawal") &&
+            level1.map((item, idx) => (
+              <div key={idx}>
+                <Transaction type={type} cardDetails={item} />
+              </div>
+            ))}
+          {selectedLevel === 2 &&
+            (type === "deposit" || type === "withdrawal") &&
+            level2.map((item, idx) => (
+              <div key={idx}>
+                <Transaction type={type} cardDetails={item} />
+              </div>
+            ))}
+          {selectedLevel === 3 &&
+            (type === "deposit" || type === "withdrawal") &&
+            level3.map((item, idx) => (
+              <div key={idx}>
+                <Transaction type={type} cardDetails={item} />
+              </div>
+            ))}
+
+          {(swipe === 1 ? todayCommission : overallCommission)?.map(
+            (item, idx) =>
+              item && (
+                <CommissionAcordian key={idx} idx={idx} cardDetails={item} />
+              )
+          )}
         </div>
       </div>
     </div>
@@ -151,10 +181,13 @@ export default CommissionPopModel;
 
 function CommissionAcordian({ cardDetails }) {
   const [isActive, updateActive] = useState(false);
+  useEffect(() => {
+    console.log(cardDetails);
+  }, []);
   return (
     <div
       style={{ boxShadow: "0 5px 5px rgba(0,0,0,0.02) " }}
-      className="bg-white mb-4 w-full py-2  rounded-md"
+      className="bg-white mb-4 w-full py-2.5  rounded-md"
     >
       <div className="grid grid-cols-3 px-4 justify-between ">
         <h2 className="font-bold capitalize truncate text-sm">
@@ -167,7 +200,7 @@ function CommissionAcordian({ cardDetails }) {
             <h2>10:00</h2>
           </div>
         </div>
-        <div className="flex justify-self-end space-x-4">
+        <div className="flex justify-self-end items-center space-x-4">
           <div>
             <h2
               style={{ color: cardDetails?.Commission < 0 ? "red" : "black" }}
@@ -178,10 +211,14 @@ function CommissionAcordian({ cardDetails }) {
           </div>
           <div
             onClick={() => updateActive((prev) => !prev)}
-            className=" flex justify-end h-fit"
+            className=" flex justify-end h-fit  items-center"
           >
-            <span className="p-[0.1rem] bg-gray-300 text-gray-600 rounded-full">
-              {isActive ? <IoIosArrowUp /> : <IoIosArrowDown />}
+            <span className="p-[0.1rem] flex justify-center items-center bg-gray-200 text-gray-600 rounded-full">
+              {isActive ? (
+                <IoIosArrowUp className="text-sm" />
+              ) : (
+                <IoIosArrowDown className="text-sm" />
+              )}
             </span>
           </div>
         </div>
@@ -209,7 +246,8 @@ function CommissionAcordian({ cardDetails }) {
 }
 
 // new register accordian button
-function RegisterAcordian({ cardDetails, setActive, setDeactivated, idx }) {
+function RegisterAcordian({ cardDetails, idx }) {
+  const [isActive, updateActive] = useState(false);
   return (
     <div
       style={{ boxShadow: "0 5px 5px rgba(0,0,0,0.02) " }}
@@ -217,32 +255,36 @@ function RegisterAcordian({ cardDetails, setActive, setDeactivated, idx }) {
     >
       <div className="grid grid-cols-3 justify-between ">
         <motion.div
-          layoutId={idx + 1}
+          // layoutId={idx + 1}
           className="space-y-0.5 flex col-span-2 justify-between "
         >
-          <h2 className="font-bold capitalize truncate text-sm">Deposit</h2>
-          <div className="flex text-xs text-gray-600 font-bold items-center">
-            <h2>12/02/2023</h2>
-            <h2>-</h2>
-            <h2>10:00</h2>
-          </div>
+          {!isActive && (
+            <>
+              <h2 className="font-bold capitalize truncate text-sm">Deposit</h2>
+              <div className="flex text-xs text-gray-600 font-bold items-center">
+                <h2>12/02/2023</h2>
+                <h2>-</h2>
+                <h2>10:00</h2>
+              </div>
+            </>
+          )}
         </motion.div>
         <div className="flex justify-self-end space-x-4">
           <div
-            onClick={() =>
-              cardDetails.selected ? setDeactivated() : setActive(idx)
-            }
+            onClick={() => updateActive((prev) => !prev)}
             className=" flex justify-end h-fit"
           >
             <span className="p-[0.1rem] bg-gray-300 text-gray-600 rounded-full">
-              {cardDetails.selected ? <IoIosArrowUp /> : <IoIosArrowDown />}
+              {isActive ? <IoIosArrowUp /> : <IoIosArrowDown />}
             </span>
           </div>
         </div>
       </div>
-      {cardDetails.selected && (
+      {isActive && (
         <motion.div
-          layoutId={idx + 1}
+          initial={{ y: "-20%", opacity: 0 }}
+          animate={{ y: "0", opacity: 1 }}
+          transition={{ duration: 0.3 }}
           className="mt-0 capitalize text-[0.56rem] space-y-[1.25px] text-black font-medium"
         >
           <div className="pb-2">
@@ -289,7 +331,7 @@ function RegisterAcordian({ cardDetails, setActive, setDeactivated, idx }) {
 }
 
 // this component can be used for new deposit and new withdrawal also
-function NewDeposit() {
+function Transaction({ type, cardDetails }) {
   return (
     <div className="flex text-sm mb-4 bg-white text-gray-700 shadow-sm font-bold items-center capitalize justify-between px-3 py-2.5 rounded-md">
       <h2>user name</h2>

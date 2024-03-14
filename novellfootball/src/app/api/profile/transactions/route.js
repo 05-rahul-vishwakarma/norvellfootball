@@ -24,7 +24,7 @@ export async function GET(request) {
         message: "Session Expired login again",
       });
     let level1_transactions = await TRANSACTION.find({
-      Parent: user?.UserName,
+      Parent: UserName,
       Type: { $in: ["withdrawal", "deposit"] },
     });
     if (!level1_transactions)
@@ -52,6 +52,7 @@ export async function GET(request) {
       data: { level1_transactions, level2_transactions, level3_transactions },
     });
   } catch (error) {
+    console.log(error);
     return NextResponse.json({
       status: error?.code || error?.status || 500,
       message: "something went wrong",

@@ -21,7 +21,7 @@ const MatchCard2 = ({ data, index, placeBet }) => {
   return (
     <div
       onClick={() => placeBet(true, data)}
-      style={{ boxShadow: "0px 7px 17px 6px #c7d4d6d9" }}
+      style={{ boxShadow: "0px 7px 17px 6px #e2e2e2" }}
       className=" rounded-lg py-1.5 px-3  "
     >
       <div

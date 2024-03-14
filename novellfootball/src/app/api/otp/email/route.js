@@ -3,10 +3,12 @@ import { NextResponse } from "next/server";
 import { isValidUser } from "@/app/helpers/auth";
 import { USER } from "@/app/modals/modal";
 import CustomError from "@/app/helpers/Error";
+import { cookies } from "next/headers";
 
 export async function GET(request) {
+  let { token, session } = await getCookieData();
   try {
-    let UserName = await isValidUser(request);
+    let UserName = await isValidUser(token, session);
     if (!UserName)
       return NextResponse.json({
         status: 302,
@@ -72,4 +74,15 @@ export async function PUT(request) {
       message: error?.message || "somethign went wrong",
     });
   }
+}
+
+async function getCookieData() {
+  let token = cookies().get("token")?.value || "";
+  let session = cookies().get("session")?.value || "";
+  const cookieData = { token, session };
+  return new Promise((resolve) =>
+    setTimeout(() => {
+      resolve(cookieData);
+    }, 1000)
+  );
 }
