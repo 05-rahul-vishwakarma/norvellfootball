@@ -3,10 +3,20 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { FaRegCopy } from "react-icons/fa6";
-
+import Modal from "@/app/components/Modal";
 import { useRouter } from "next/navigation";
 
 function Page({ searchParams }) {
+  // Popup handling here //
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [opps, setopps] = useState("Opps!");
+  const [statusImage, setStatusImage] = useState("/success.png");
+
+  const handleCloseErrorPopup = () => {
+    setModalOpen(false);
+  };
+
   const router = useRouter();
   // access the amount data that is passed by the recharge main page //
   const [receivedData, setReceivedData] = useState("");
@@ -25,10 +35,19 @@ function Page({ searchParams }) {
   const [value, setValue] = useState("");
   const handleChange = (e) => {
     const inputValue = e.target.value;
-    if (inputValue.length <= 12) {
+    if (inputValue.length <= 12 ) {
       setValue(inputValue);
-    } else {
-      alert("Please fill only 12 digits numbers");
+    } else if (!inputValue) {
+      setStatusImage("/opps.png");
+      setopps("Opps!");
+      setModalMessage("Kindly input utr number");
+      setModalOpen(true);
+    }
+    else {
+      setStatusImage("/opps.png");
+      setopps("Opps!");
+      setModalMessage("Please fill only 12 digits numbers");
+      setModalOpen(true);
     }
   };
 
@@ -37,7 +56,10 @@ function Page({ searchParams }) {
     let utrNumber, amount;
 
     if (value == "" || receivedData == "") {
-      alert("something went wrong");
+      setStatusImage("/opps.png");
+      setopps("Opps!");
+      setModalMessage("Kindly input utr number");
+      setModalOpen(true);
     } else {
       utrNumber = value;
       amount = receivedData;
@@ -59,7 +81,17 @@ function Page({ searchParams }) {
 
     let res = await fetch("/api/payment/deposit", config);
     res = await res.json();
-    console.log(res);
+    if (res?.status === 200) {
+      setStatusImage("/opps.png");
+      setopps("Pending");
+      setModalMessage(res.message);
+      setModalOpen(true);
+    }else if (res?.status === 500) {
+      setStatusImage("/opps.png");
+      setopps("Opps!");
+      setModalMessage(res.message);
+      setModalOpen(true);
+    }
   }
 
   return (
@@ -190,6 +222,15 @@ function Page({ searchParams }) {
           className="object-contain w-[100%] h-full  "
         />
       </div>
+
+      {modalOpen && (
+        <Modal
+          message={modalMessage}
+          statusImage={statusImage}
+          status={opps}
+          onClose={handleCloseErrorPopup}
+        />
+      )}
     </div>
   );
 }

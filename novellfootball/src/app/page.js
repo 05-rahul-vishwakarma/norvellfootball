@@ -196,10 +196,10 @@ function MatchPopup({ match, onClose }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [opps,setopps] = useState('Opps!');
-  const [oppsImage,SetOppsImage] = useState('/')
+  const [statusImage,setStatusImage] = useState('/success.png')
 
+  
 
-  console.log(modalOpen,modalMessage);
 
   const handleCloseErrorPopup = () => {
     setModalOpen(false);
@@ -233,30 +233,34 @@ function MatchPopup({ match, onClose }) {
       };
       let res = await fetch(`/api/match`, config);
       res = await res.json();
-      console.log(res);
       if (res?.status === 200) {
+        setStatusImage('/success.png')
         setopps('Success')
         setModalMessage(res.message);
         setModalOpen(true);
         await getBalance();
       }
       else if (res?.status === 500 || res?.status === 302) {
+        setStatusImage('/opps.png')
         setopps('Opps!')
         setModalMessage(res.message);
         setModalOpen(true);
         router.push("/access/login");
       }
       else if (res?.status === 409) {
+        setStatusImage('/opps.png')
         setopps('Opps!')
         setModalMessage(res.message);
         setModalOpen(true);
       }
       else if (res?.status === 700) {
+        setStatusImage('/opps.png')
         setopps('Opps!')
         setModalMessage(res.message);
         setModalOpen(true);
       }
       else if (res?.status === 703) {
+        setStatusImage('/opps.png')
         setopps('Opps!')
         setModalMessage(res.message);
         setModalOpen(true);
@@ -371,7 +375,7 @@ function MatchPopup({ match, onClose }) {
         </div>
       </div>
        {
-        modalOpen && <Modal message={modalMessage} status = {opps} onClose={handleCloseErrorPopup}
+        modalOpen && <Modal message={modalMessage} statusImage={statusImage} status = {opps}  onClose={handleCloseErrorPopup}
         />
        }
     </div>

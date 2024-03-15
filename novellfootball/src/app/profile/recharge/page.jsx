@@ -6,8 +6,21 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Layout from "@/app/components/Layout";
+import Modal from "@/app/components/Modal";
+
 
 function Page() {
+  // Popup handling here //
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [opps, setopps] = useState("Opps!");
+  const [statusImage, setStatusImage] = useState("/success.png");
+
+  const handleCloseErrorPopup = () => {
+    setModalOpen(false);
+  };
+
+
   const router = useRouter();
 
   // change the value of input box whenever user click any div
@@ -31,7 +44,10 @@ function Page() {
   };
   const handleRedirect = () => {
     if (!inputValue) {
-      alert("please choose any one payment method");
+      setStatusImage('/opps.png')
+      setopps('Opps!')
+      setModalMessage("please enter the deposit amount");
+      setModalOpen(true);
     } else {
       if (selectedOption === "option1") {
         router.push(
@@ -49,6 +65,11 @@ function Page() {
         router.push(
           `/profile/recharge/usdt?data=${encodeURIComponent(inputValue)}`
         );
+      }else if (selectedOption === "") {
+        setStatusImage('/opps.png')
+        setopps('Opps!')
+        setModalMessage("please choose any one payment method");
+        setModalOpen(true);
       }
     }
   };
@@ -57,7 +78,9 @@ function Page() {
     <Layout>
       <div className="h-screen w-screen bg-[#F8FCFF] pb-[7rem] overflow-y-scroll ">
         <div className="h-screen w-screen ">
-          <div className="pt-2 ">
+          <div
+            onClick={() => router.back()}
+            className="pt-2 ">
             <BackButton pageName="Recharge" />
           </div>
 
@@ -209,6 +232,16 @@ function Page() {
             </div>
           </div>
         </div>
+
+        {modalOpen && (
+          <Modal
+            message={modalMessage}
+            statusImage={statusImage}
+            status={opps}
+            onClose={handleCloseErrorPopup}
+          />
+        )}
+        
       </div>
     </Layout>
   );

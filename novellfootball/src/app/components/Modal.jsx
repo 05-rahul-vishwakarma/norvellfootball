@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 
-function Modal({ message, onClose ,status}) {
+function Modal({ message, onClose ,status ,statusImage}) {
   return (
     <section
       // isOpen={isOpen}
@@ -11,7 +11,7 @@ function Modal({ message, onClose ,status}) {
       <div className="w-[65%] h-[40%]  bg-[#ffffffa2] flex rounded-[15px] ">
         <div className="flex place-items-center  w-full justify-center relative ">
           <div className="flex flex-col place-items-center justify-around  h-[65%]   ">
-            <Image src={"/opps.png"} alt="logo" width={70} height={70} />
+            <Image src={statusImage} alt="logo" width={70} height={70} />
             <h1 className=" font-extrabold  ">{status}</h1>
             <p className="w-[95%] text-[.7rem] text-center  ">{message}</p>
           </div>

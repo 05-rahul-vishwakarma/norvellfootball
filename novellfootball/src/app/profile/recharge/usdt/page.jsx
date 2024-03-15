@@ -5,10 +5,20 @@ import { RiSecurePaymentLine } from "react-icons/ri";
 import { IoQrCodeOutline } from "react-icons/io5";
 import { FaRegCopy } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
+import Modal from "@/app/components/Modal";
 
 function Page({ searchParams }) {
-  const router = useRouter();
+  // Popup handling here //
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [opps, setopps] = useState("Opps!");
+  const [statusImage, setStatusImage] = useState("/success.png");
 
+  const handleCloseErrorPopup = () => {
+    setModalOpen(false);
+  };
+
+  const router = useRouter();
   // access the amount data that is passed by the recharge main page //
   const [receivedData, setReceivedData] = useState("");
   useEffect(() => {
@@ -70,7 +80,10 @@ function Page({ searchParams }) {
     let depositAddress;
     let transId, usdtAmount;
     if (!transactionId || !text || !receivedData) {
-      alert("please fill carefully all the detaiils");
+      setStatusImage("/opps.png");
+      setopps("Opps!");
+      setModalMessage("Please fill the details");
+      setModalOpen(true);
     } else {
       depositAddress = text;
       transId = transactionId;
@@ -92,7 +105,17 @@ function Page({ searchParams }) {
 
         let res = await fetch("/api/payment/deposit", config);
         res = await res.json();
-        console.log(res);
+        if (res?.status === 200) {
+          setStatusImage("/opps.png");
+          setopps("Pending");
+          setModalMessage(res.message);
+          setModalOpen(true);
+        } else if (res?.status === 500) {
+          setStatusImage("/opps.png");
+          setopps("Opps!");
+          setModalMessage(res.message);
+          setModalOpen(true);
+        }
       } catch (error) {}
     }
   }
@@ -201,6 +224,15 @@ function Page({ searchParams }) {
           Recharge
         </div>
       </div>
+
+      {modalOpen && (
+        <Modal
+          message={modalMessage}
+          statusImage={statusImage}
+          status={opps}
+          onClose={handleCloseErrorPopup}
+        />
+      )}
     </div>
   );
 }
