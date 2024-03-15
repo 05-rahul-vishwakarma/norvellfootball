@@ -24,6 +24,7 @@ export async function GET() {
         message: "Session Expired login again",
       });
     let res = await TRANSACTION.find({ UserName });
+
     if (!res) throw new Error("somethign went wrong");
     return NextResponse.json({
       status: 200,

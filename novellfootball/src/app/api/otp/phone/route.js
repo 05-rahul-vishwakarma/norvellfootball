@@ -20,7 +20,7 @@ export async function GET(request) {
       throw new CustomError(705, "invalid phone number", {});
     let phoneNumber = user?.PhoneNumber || "";
     // phoneNumber = phoneNumber.slice(3);
-    let otp = Math.ceil(Math.random() * 9000 + 1000);
+    let otp = Math.ceil(Math.random() * 9000 + 999);
     let res = await sendPhoneOtp(phoneNumber, otp);
 
     if (res === true) {
@@ -28,8 +28,8 @@ export async function GET(request) {
         status: 200,
         message: "otp sent and valid for 5 minutes",
       });
-      response.cookies.set("otp", `${otp}`, {
-        maxAge: "5M",
+      cookies().set("otp", `${otp}`, {
+        maxAge: "5m",
       });
       return response;
     }
@@ -47,7 +47,7 @@ export async function POST(request) {
     let { Phone } = await request.json();
     let phoneNumber = Phone || "";
     phoneNumber = phoneNumber.slice(2);
-    let otp = Math.ceil(Math.random() * 9000 + 1000);
+    let otp = Math.ceil(Math.random() * 9000 + 999);
     let res = await sendPhoneOtp(phoneNumber, otp);
 
     if (res === true) {
@@ -55,9 +55,10 @@ export async function POST(request) {
         status: 200,
         message: "otp sent and valid for 5 minutes",
       });
-      response.cookies.set("otp", `${otp}`, {
-        maxAge: "5M",
+      cookies().set("otp", `${otp}`, {
+        maxAge: "5m",
       });
+
       return response;
     }
     return NextResponse.json({ status: 705, message: "Invalid phone number" });
@@ -79,7 +80,7 @@ export async function PUT(request) {
     if (!userExists?.PhoneNumber)
       throw new Error("User has not registered his/her mobile number");
 
-    let otp = Math.ceil(Math.random() * 9000 + 1000);
+    let otp = Math.ceil(Math.random() * 9000 + 999);
     let res = await sendPhoneOtp(userExists?.PhoneNumber, otp);
 
     if (res === true) {
@@ -87,8 +88,8 @@ export async function PUT(request) {
         status: 200,
         message: "otp sent and valid for 5 minutes",
       });
-      response.cookies.set("otp", `${otp}`, {
-        maxAge: "5M",
+      cookies().set("otp", `${otp}`, {
+        maxAge: "5m",
       });
       return response;
     }

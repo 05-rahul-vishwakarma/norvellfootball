@@ -22,29 +22,45 @@ export async function GET(request) {
         status: 302,
         message: "Session Expired login again",
       });
-    let level1_users = await USER.find({ Parent: UserName }, { UserName: 1 });
-    if (!level1_users) throw new CustomError(705, "something went wrong", {});
+    let level1_users = await USER.find(
+      { Parent: UserName },
+      { UserName: 1, JoinedOn: 1 }
+    );
     let level2_users = [];
     let level3_users = [];
+    let joinedToday = 0;
 
     for (let user of level1_users) {
       let level2Users = await USER.find(
         { Parent: user?.UserName },
-        { UserName: 1 }
+        { UserName: 1, JoinedOn }
       );
+      if (user?.JoinedOn === "8/3/2024") {
+        joinedToday++;
+      }
       level2_users.push(...level2Users);
       for (let user_lev2 of level2_users) {
         let users = await USER.find(
           { Parent: user_lev2?.UserName },
-          { UserName: 1 }
+          { UserName: 1, JoinedOn: 1 }
         );
         level3_users.push(...users);
+      }
+    }
+    for (let user of level2_users) {
+      if (user?.JoinedOn === "8/3/2024") {
+        joinedToday++;
+      }
+    }
+    for (let user of level3_users) {
+      if (user?.JoinedOn === "8/2/2024") {
+        joinedToday++;
       }
     }
     return NextResponse.json({
       status: 200,
       message: "data fetched",
-      data: { level1_users, level2_users, level3_users },
+      data: { level1_users, level2_users, level3_users, joinedToday },
     });
   } catch (error) {
     console.log(error);

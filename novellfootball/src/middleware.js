@@ -9,6 +9,7 @@ export async function middleware(NextRequest) {
     pathname.startsWith("/access") ||
     pathname.startsWith("/api/admin") ||
     pathname.startsWith("/api/otp");
+  if (isPublic) return NextResponse.next();
 
   const token = NextRequest?.cookies?.get("token")?.value || "";
   if (!token || token === "")

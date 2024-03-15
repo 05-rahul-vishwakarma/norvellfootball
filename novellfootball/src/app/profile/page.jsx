@@ -197,7 +197,10 @@ function Page() {
                 </span>
 
                 <span className="text-sm font-bold pl-3">
-                  {new Intl.NumberFormat().format(userBalance || 0)}
+                  {new Intl.NumberFormat("en-US", {
+                    style: "decimal",
+                    maximumFractionDigits: 2,
+                  }).format(userBalance || 0)}
                 </span>
               </div>
 

@@ -90,6 +90,7 @@ const TransactionSchema = new Schema(
     Parent: { type: String, default: "" },
     Date: { type: String, required: true },
     Type: { type: String, required: true }, //withdrawal / deposit
+    Bank: { type: Object, default: {} },
   },
   { timestamps: true }
 );

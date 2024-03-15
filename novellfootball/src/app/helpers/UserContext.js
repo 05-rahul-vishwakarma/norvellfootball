@@ -9,7 +9,11 @@ const UserContextProvider = ({ children }) => {
   const [userBalance, setUserBalance] = React.useState(null);
   let router = useRouter();
   useEffect(() => {
-    if (!window.location.href.includes("access") && userBalance === null) {
+    if (
+      !window.location.href.includes("admin") &&
+      !window.location.href.includes("access") &&
+      userBalance === null
+    ) {
       getBalance();
     }
   }, []);

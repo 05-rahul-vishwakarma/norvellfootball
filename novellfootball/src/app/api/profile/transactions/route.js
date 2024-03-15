@@ -25,6 +25,7 @@ export async function GET(request) {
       });
     let level1_transactions = await TRANSACTION.find({
       Parent: UserName,
+      Status: 1,
       Type: { $in: ["withdrawal", "deposit"] },
     });
     if (!level1_transactions)
@@ -35,21 +36,52 @@ export async function GET(request) {
     for (let transaction of level1_transactions) {
       let level2Trans = await TRANSACTION.find({
         Parent: transaction?.UserName,
+        Status: 1,
         Type: { $in: ["withdrawal", "deposit"] },
       });
       level2_transactions.push(...level2Trans);
       for (let transaction_lev2 of level2_transactions) {
         let lev3Trans = await TRANSACTION.find({
           Parent: transaction_lev2?.UserName,
+          Status: 1,
           Type: { $in: ["withdrawal", "deposit"] },
         });
         level3_users.push(...lev3Trans);
       }
     }
+    let total_deposit,
+      total_withdrawal = 0;
+    for (let data of level1_transactions) {
+      if (data.Type == "deposit") {
+        total_deposit += parseFloat(data.Amount) / 100;
+      } else {
+        total_withdrawal += parseFloat(data.Amount) / 100;
+      }
+    }
+    for (let data of level2_transactions) {
+      if (data.Type == "deposit") {
+        total_deposit += parseFloat(data.Amount) / 100;
+      } else {
+        total_withdrawal += parseFloat(data.Amount) / 100;
+      }
+    }
+    for (let data of level3_transactions) {
+      if (data.Type == "deposit") {
+        total_deposit += parseFloat(data.Amount) / 100;
+      } else {
+        total_withdrawal += parseFloat(data.Amount) / 100;
+      }
+    }
     return NextResponse.json({
       status: 200,
       message: "data fetched",
-      data: { level1_transactions, level2_transactions, level3_transactions },
+      data: {
+        level1_transactions,
+        level2_transactions,
+        level3_transactions,
+        total_deposit,
+        total_withdrawal,
+      },
     });
   } catch (error) {
     console.log(error);

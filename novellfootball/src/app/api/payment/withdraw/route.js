@@ -60,6 +60,10 @@ export async function POST(request) {
     }
     let TransactionId = await genTransactionID();
 
+    let UserBank = await USER.findOne({ UserName });
+    let Bank =
+      body?.isLocalBank === true ? UserBank?.LocalBank : UserBank?.UsdtBank;
+
     let isTransCreated = await TRANSACTION.create(
       [
         {
@@ -71,6 +75,7 @@ export async function POST(request) {
           Parent: parent,
           Remark: "pending",
           Type: "withdrawal",
+          Bank: Bank,
         },
       ],
       { session: Session }

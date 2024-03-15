@@ -16,6 +16,11 @@ const Page = () => {
   const [popupType, updatePopupType] = useState("");
   const [todayCommission, updateTodayCommission] = useState([]);
   const [overallCommission, updateOverallCommission] = useState([]);
+  const [weekCommission, updateWeeklyCommission] = useState([]);
+  const [total_deposit, updateTotalDeposit] = useState(0);
+  const [total_withdrawal, updateTotalWithdrawal] = useState(0);
+  const [commissionData, updateCommissionData] = useState(0);
+
   const [RegisterData, updateRegisterData] = useState({
     level1: [],
     level2: [],
@@ -28,6 +33,7 @@ const Page = () => {
   });
 
   const [loadedOnce, updateLoaded] = useState(false);
+  const [usersJoinedToday, updateUserJoinedToday] = useState(0);
 
   // functioni will get the commission popup which will show data of users like deposit withdrawal and register;
   function getPopup(type) {
@@ -37,14 +43,29 @@ const Page = () => {
 
   async function getCommissionData() {
     let res = await fetch("/api/profile/commission");
+    let weeklyCommission = [];
     if (res.ok) {
       res = await res.json();
       let commissionObj = res?.data[0];
       updateTodayCommission(commissionObj["8/3/2024"]);
+      updateCommissionData(() => {
+        let total = 0;
+        if (commissionObj.hasOwnProperty("8/3/2024")) {
+          for (let data of commissionObj["8/3/2024"]) {
+            total += Number(data?.Commission) / 100;
+          }
+          return total;
+        }
+      });
       updateOverallCommission(() => {
         let overall_obj = [];
         for (let key in commissionObj) {
           if (commissionObj.hasOwnProperty(key)) {
+            let todayCommission = 0;
+            for (let commission of commissionObj[key]) {
+              todayCommission += Number(commission.Commission) / 100;
+            }
+            weeklyCommission.push(todayCommission);
             if (key !== "8/3/2024") {
               overall_obj.push(...commissionObj[key]);
             }
@@ -52,6 +73,7 @@ const Page = () => {
         }
         return overall_obj;
       });
+      updateWeeklyCommission(weeklyCommission);
     }
   }
   async function getTransactionData() {
@@ -59,8 +81,15 @@ const Page = () => {
     if (res.ok) {
       res = await res.json();
       if (res?.status === 200) {
-        let { level1_transactions, level2_transactions, level3_transactions } =
-          res?.data;
+        let {
+          level1_transactions,
+          level2_transactions,
+          level3_transactions,
+          total_deposit,
+          total_withdrawal,
+        } = res?.data;
+        updateTotalDeposit(total_deposit);
+        updateTotalWithdrawal(total_withdrawal);
         updateTransactionData({
           level1: level1_transactions,
           level2: level2_transactions,
@@ -76,12 +105,14 @@ const Page = () => {
     if (res.ok) {
       res = await res.json();
       if (res?.status === 200) {
-        let { level1_users, level2_users, level3_users } = res?.data;
+        let { level1_users, level2_users, level3_users, joinedToday } =
+          res?.data;
         updateRegisterData({
           level1: level1_users,
           level2: level2_users,
           level3: level3_users,
         });
+        updateUserJoinedToday(joinedToday);
       } else {
         alert(res?.message);
       }
@@ -124,7 +155,12 @@ const Page = () => {
                 <h2>
                   <FaRupeeSign />
                 </h2>
-                <h2 className="capitalize  truncate font-bold ">190238</h2>
+                <h2 className="capitalize  truncate font-bold ">
+                  {new Intl.NumberFormat("en-US", {
+                    style: "decimal",
+                    maximumFractionDigits: 2,
+                  }).format(12983189)}
+                </h2>
               </span>
             </div>
             <div
@@ -210,7 +246,12 @@ const Page = () => {
                     <h2>
                       <FaRupeeSign />
                     </h2>
-                    <h2>1092</h2>
+                    <h2>
+                      {weekCommission.reduce(
+                        (acc, currentVal) => acc + currentVal,
+                        ""
+                      ) / 100}
+                    </h2>
                   </div>
                   <div className="py-1 bg-blue-500 rounded-md px-3 capitalize text-white font-semibold text-[0.6rem]">
                     claim
@@ -233,7 +274,7 @@ const Page = () => {
                   transition={{ duration: 0.4 }}
                   className=" grid grid-cols-2 pt-2 border-t-2 border-solid text-[0.6rem] font-bold gap-y-1 text-gray-700 border-gray-300 mt-2 "
                 >
-                  {[1, 2, 3, 4, 5, 6, 7].map((ele, idx) => (
+                  {weekCommission.map((ele, idx) => (
                     <span
                       key={idx}
                       className={`flex items-center ${
@@ -246,7 +287,7 @@ const Page = () => {
                           <FaRupeeSign />
                         </h2>
                       </div>
-                      <h2>10</h2>
+                      <h2>{ele}</h2>
                     </span>
                   ))}
                 </motion.div>
@@ -262,7 +303,7 @@ const Page = () => {
                 new deposit
               </div>
               <div className="h-full  w-full flex-[2] capitalize font-bold text-[0.6rem] text-gray-400 flex items-center justify-between">
-                <h2>9000000 new deposit</h2>
+                <h2>{total_deposit || 0} new deposit</h2>
               </div>
               <div className="h-full w-full flex justify-center items-center flex-[1]">
                 <div className="p-1 rounded-full bg-gray-200 text-sm">
@@ -280,7 +321,7 @@ const Page = () => {
                 total withdrawal
               </div>
               <div className="h-full  w-full flex-[2] capitalize font-bold text-[0.6rem] text-gray-400 flex items-center justify-between">
-                <h2>89390 total withdrawal</h2>
+                <h2>{total_withdrawal || 0} total withdrawal</h2>
               </div>
               <div className="h-full w-full flex justify-center items-center flex-[1]">
                 <div className="p-1 rounded-full bg-gray-200 text-sm">
@@ -298,7 +339,7 @@ const Page = () => {
                 today&apos;s commission
               </div>
               <div className="h-full  w-full flex-[2] capitalize font-bold text-[0.6rem] text-gray-400 flex items-center justify-between">
-                <h2>1000 today commission</h2>
+                <h2>{commissionData} today commission</h2>
               </div>
               <div className="h-full w-full flex justify-center items-center flex-[1]">
                 <div className="p-1 rounded-full bg-gray-200 text-sm">
@@ -316,7 +357,7 @@ const Page = () => {
                 new register
               </div>
               <div className="h-full  w-full flex-[2] capitalize font-bold text-[0.6rem] text-gray-400 flex items-center justify-between">
-                <h2>50 new members joined</h2>
+                <h2>{usersJoinedToday} new members joined</h2>
               </div>
               <div className="h-full w-full flex justify-center items-center flex-[1]">
                 <div className="p-1 rounded-full bg-gray-200 text-sm">

@@ -31,7 +31,7 @@ export async function POST(request) {
     if (!Amount || !Channel || !TransactionId)
       throw new CustomError(705, "Missing fields", {});
     Amount = Number(Amount) * 100;
-
+    TransactionId = TransactionId.trim();
     let channelType;
     if (Channel === 1) {
       channelType = "Payment channel 1";
@@ -41,6 +41,14 @@ export async function POST(request) {
       channelType = "Usdt channel";
     }
     let { Parent } = await USER.findOne({ UserName });
+
+    let isTransactionExists = await TRANSACTION.findOne({
+      UserName,
+      TransactionId,
+    });
+    if (isTransactionExists)
+      throw new CustomError(604, "This transaction already exists", {});
+
     let isTransCreated = await TRANSACTION.create(
       [
         {
