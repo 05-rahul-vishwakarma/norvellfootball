@@ -3,16 +3,13 @@ const BACKEND = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 import Image from "next/image";
 import { FaCirclePlus } from "react-icons/fa6";
-import logo from "../../public/logo.png";
 import MatchCard from "./components/MatchCard";
 import Slider from "./components/Slider";
-import { IoIosArrowBack } from "react-icons/io";
 import { useContext, useState, useEffect } from "react";
 import { IoIosAdd } from "react-icons/io";
 import { FaRupeeSign } from "react-icons/fa";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import Layout from "./components/Layout";
-import { LiaRupeeSignSolid } from "react-icons/lia";
 import { UserContext } from "./helpers/UserContext";
 import Modal from "./components/Modal";
 
@@ -120,8 +117,8 @@ export default function Home() {
 
   return (
     <Layout>
-      <main className="h-screen  bg-no-repeat bg- bg-center bg-gradient-to-b from-[#2885F6] to-[#000]  ">
-        <div className="flex justify-between place-items-center  w-[90%] mr-auto ml-auto   ">
+      <main className="h-screen bg-no-repeat bg- bg-center bg-gradient-to-b from-[#2885F6] to-[#000] overflow-hidden  ">
+        <div className="  flex justify-between place-items-center  w-[90%] mr-auto ml-auto   ">
           <div className="w-max mt-2 flex flex-col justify-center  pt-2 ">
             <div
               onClick={() => router.push("/profile/recharge")}
@@ -166,7 +163,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className=" overflow-y-scroll h-[80%] pb-[6rem] ">
+          <div className=" overflow-y-scroll h-[80%] ">
             {matches.map((item, i) => (
               <div key={item.StakeId}>
                 <MatchCard
@@ -191,6 +188,7 @@ export default function Home() {
 }
 
 function MatchPopup({ match, onClose }) {
+  const router = useRouter();
 
   // Popup handling here //
   const [modalOpen, setModalOpen] = useState(false);

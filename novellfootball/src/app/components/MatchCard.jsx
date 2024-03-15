@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import HomeGradient from "./HomeGradient";
 import { IoColorFilterSharp } from "react-icons/io5";
+import Login from "../access/login/page";
 const colorArr = [
   { start: "#FFBFBF", stop: "#EC2020" },
   { start: "#F0FFF6", stop: "#00DB58" },
@@ -21,6 +22,33 @@ function MatchCard({ id, data, index, gradient, onClick }) {
     setISTTime(istTime.toLocaleString());
   };
 
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+
+
+  function calculateTimeLeft() {
+    const difference = +new Date(data.StartsAt) - +new Date();
+    let timeLeft = {};
+
+    if (difference > 0) {
+      timeLeft = {
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60),
+      };
+    }
+
+    return timeLeft;
+  }
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  });
+
+
   useEffect(() => {
     if (data.StartsAt) {
       const dateObject = new Date(data.StartsAt);
@@ -28,11 +56,13 @@ function MatchCard({ id, data, index, gradient, onClick }) {
       const minutes = dateObject.getMinutes().toString().padStart(2, "0"); // Get minutes
       const seconds = dateObject.getSeconds().toString().padStart(2, "0"); // Get seconds
       const formattedTime = `${hours}:${minutes}:${seconds}`;
+
       setTimeString(formattedTime);
       convertToIST();
     }
   }, [data.StartsAt]);
 
+  // circular bar pecentage//
   let [percentage, updatePercentage] = useState(0);
   let [colors, updateColors] = useState({});
 
@@ -103,7 +133,7 @@ function MatchCard({ id, data, index, gradient, onClick }) {
         </div>
 
         <div className="font-light text-[#2885F6] text-[.6rem] ">
-          <p>start in {timeString} </p>
+          <p>start in {`0${timeLeft.hours}`} : {timeLeft.minutes} : {timeLeft.seconds}</p>
         </div>
       </div>
     </div>

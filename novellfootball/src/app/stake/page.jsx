@@ -2,7 +2,7 @@
 
 const BACKEND = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import StakeHistory from "../components/StakeHistory";
 import { motion } from "framer-motion";
@@ -52,25 +52,6 @@ function Page() {
   // # function to cancel the stake
   const showPopup = async (match) => {
     setDltMatch(match);
-    /*
-     make a post call to "/api/stake" to delete stake
-     body : StakeId, StartsAt 
-     return {
-      status: 200,
-      message: "",
-      data: { },
-    }
-    status: {
-      200 : "deleted"
-      703 : "error in client side" , 
-      500 : "somethign went wrong with backend" , 
-      302 : "session time out redirect to login page"
-    }
-
-    #### make the cancel stake button visible to only those people
-       whose match start time is 5 minutes or more than the current time 
-    */
-
     setShow(true);
   };
 
@@ -93,8 +74,6 @@ function Page() {
       };
       let res = await fetch(`/api/stake`, config);
       res = await res.json();
-      console.log(res);
-      
 
       setShow(false);
     } catch (error) {
@@ -105,7 +84,6 @@ function Page() {
   async function getStakeData() {
     try {
       let res = await fetch(`/api/stake`);
-      console.log(res,'from the get api stake');
       res = await res.json();
       if (res?.status === 200) {
         updatePendingMatches(res?.data?.pendingMatches);
@@ -182,6 +160,7 @@ function Page() {
                 <Stake
                   key={match?.StakeId || idx}
                   data={match}
+                  amount = {match?.BetAmount}
                   onClick={() => showPopup(match)}
                 />
               ))}
@@ -221,10 +200,13 @@ function Page() {
 
 export default Page;
 
-function Stake({ onClick, data }) {
+function Stake({ onClick, data ,amount }) {
   const [Team_a_logo, update_logo_a] = useState(null);
   const [Team_b_logo, update_logo_b] = useState(null);
   const [MatchStartTime, updateTime] = useState(new Date());
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+  const [showCancelButton, setShowCancelButton] = useState(false);
+  
   useEffect(() => {
     const MatchTime = new Date(
       new Date(data?.StartsAt).toLocaleString("en-US", {
@@ -235,6 +217,37 @@ function Stake({ onClick, data }) {
     update_logo_a(data?.Team_a_logo);
     update_logo_b(data?.Team_b_logo);
   }, []);
+
+  function calculateTimeLeft() {
+    const difference = +new Date(MatchStartTime) - +new Date();
+    let timeLeft = {};
+
+    if (difference > 0) {
+      timeLeft = {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60),
+      };
+    }
+    return timeLeft;
+  }
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setTimeLeft(calculateTimeLeft());
+      if (timeLeft.minutes <= 5) {
+        setShowCancelButton(true);
+      } else {
+        setShowCancelButton(false);
+      }
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [timeLeft]);
+
+  // ------------------------------------------------------------------------------------
+    
   return (
     <div className="border-2 border-gray-[#e2dbd3] min-h-min w-[90%] mr-auto ml-auto rounded-[10px] mt-[.5rem] bg-[#fbf3eb] shadow-sm relative pb-4 ">
       <div className="w-max mr-auto ml-auto px-[1rem] py-[.2rem] rounded-b-lg font-semibold bg-[#ec8220] text-white text-[.6rem] ">
@@ -351,12 +364,14 @@ function Stake({ onClick, data }) {
         </div>
       </div>
 
-      <button
-        onClick={() => onClick()}
-        className=" bg-[#2885f6]  w-[85%] h-[2.5rem] mr-auto ml-auto block  mt-[1rem] rounded-[5px] font-bold text-white  text-[0.8rem] "
-      >
-        Cancel Stake
-      </button>
+      {showCancelButton && (
+        <button
+          onClick={() => onClick()}
+          className=" bg-[#2885f6]  w-[85%] h-[2.5rem] mr-auto ml-auto block  mt-[1rem] rounded-[5px] font-bold text-white  text-[0.8rem] "
+        >
+          Cancel Stake
+        </button>
+      )}
     </div>
   );
 }
