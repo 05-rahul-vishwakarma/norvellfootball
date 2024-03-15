@@ -10,7 +10,7 @@ const colorArr = [
   { start: "#FFEBC9", stop: "#F7A928" },
 ];
 
-function MatchCard({ id, data, index, gradient, onClick }) {
+function MatchCard({ id, data, index, gradient, onClick, color }) {
   const [istTime, setISTTime] = useState("");
   const [timeString, setTimeString] = useState("");
 
@@ -23,7 +23,6 @@ function MatchCard({ id, data, index, gradient, onClick }) {
   };
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-
 
   function calculateTimeLeft() {
     const difference = +new Date(data.StartsAt) - +new Date();
@@ -47,7 +46,6 @@ function MatchCard({ id, data, index, gradient, onClick }) {
 
     return () => clearTimeout(timer);
   });
-
 
   useEffect(() => {
     if (data.StartsAt) {
@@ -90,7 +88,7 @@ function MatchCard({ id, data, index, gradient, onClick }) {
                 style={{ color: `${colors.stop}` }}
                 className={`text-md font-bold`}
               >
-                77M
+                {Math.floor(percentage)}M
               </p>
               <p className="text-[0.5rem] ">total </p>
               <p className="text-[0.5rem] ">quantity</p>
@@ -112,12 +110,12 @@ function MatchCard({ id, data, index, gradient, onClick }) {
         </div>
 
         <div className="flex  line-clamp-1 text-[.7rem] font-normal text-[#6E6E6E] place-items-center ">
-          <span className="line-clamp-1 text-ellipsis  ">
+          <span className="line-clamp-1 text-ellipsis truncate max-w-xs  ">
             {data?.Team_a || "no team a"}
           </span>
           <span className="mx-1 "> VS </span>
-          <span className="line-clamp-1 text-ellipsis  text-center ">
-            {data?.Team_b || "no team a"}
+          <span className="line-clamp-1 text-ellipsis  text-center truncate max-w-xs  ">
+             {data?.Team_b || "no team a"}
           </span>
         </div>
 
@@ -133,7 +131,10 @@ function MatchCard({ id, data, index, gradient, onClick }) {
         </div>
 
         <div className="font-light text-[#2885F6] text-[.6rem] ">
-          <p>start in {`0${timeLeft.hours}`} : {timeLeft.minutes} : {timeLeft.seconds}</p>
+          <p>
+            start in {`0${timeLeft.hours}`} : {timeLeft.minutes} :{" "}
+            {timeLeft.seconds}
+          </p>
         </div>
       </div>
     </div>

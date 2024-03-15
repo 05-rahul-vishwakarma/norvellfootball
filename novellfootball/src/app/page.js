@@ -54,11 +54,22 @@ export default function Home() {
     }
   }
 
+  
+  const [user, setUser] = useState();
+  console.log(user);
+  const randomUser = () => {
+    let users = Math.floor(Math.random() * 10000000);
+    setUser(users);
+  };
+
+
   useEffect(() => {
     if (!matchLoaded) {
       getLiveMatches();
       updateLoaded(true);
     }
+  randomUser();
+
   }, [matchLoaded]);
 
   const gradients = [
@@ -158,12 +169,12 @@ export default function Home() {
             <div className="flex  justify-between w-[90%] mr-auto ml-auto  ">
               <h1 className="font-bold ">Hot Matches</h1>
               <h1 className="flex text-[12px] font-light text-[#989898] line-clamp-1 text-ellipsis ">
-                Online Users : <p>10000000</p>{" "}
+                Online Users : {user} 
               </h1>
             </div>
           </div>
 
-          <div className=" overflow-y-scroll h-[80%] ">
+          <div className=" overflow-y-scroll h-[80%] pb-[8rem] ">
             {matches.map((item, i) => (
               <div key={item.StakeId}>
                 <MatchCard
@@ -181,7 +192,6 @@ export default function Home() {
             <MatchPopup match={selectedMatch} onClose={closePopup} />
           )}
         </div>
-        
       </main>
     </Layout>
   );
@@ -193,16 +203,12 @@ function MatchPopup({ match, onClose }) {
   // Popup handling here //
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
-  const [opps,setopps] = useState('Opps!');
-  const [statusImage,setStatusImage] = useState('/success.png')
-
-  
-
+  const [opps, setopps] = useState("Opps!");
+  const [statusImage, setStatusImage] = useState("/success.png");
 
   const handleCloseErrorPopup = () => {
     setModalOpen(false);
   };
-
 
   const { userBalance, getBalance } = useContext(UserContext);
   const [Team_a_logo, updateSrcTeam_a] = useState();
@@ -232,34 +238,30 @@ function MatchPopup({ match, onClose }) {
       let res = await fetch(`/api/match`, config);
       res = await res.json();
       if (res?.status === 200) {
-        setStatusImage('/success.png')
-        setopps('Success')
+        setStatusImage("/success.png");
+        setopps("Success");
         setModalMessage(res.message);
         setModalOpen(true);
         await getBalance();
-      }
-      else if (res?.status === 500 || res?.status === 302) {
-        setStatusImage('/opps.png')
-        setopps('Opps!')
+      } else if (res?.status === 500 || res?.status === 302) {
+        setStatusImage("/opps.png");
+        setopps("Opps!");
         setModalMessage(res.message);
         setModalOpen(true);
         router.push("/access/login");
-      }
-      else if (res?.status === 409) {
-        setStatusImage('/opps.png')
-        setopps('Opps!')
+      } else if (res?.status === 409) {
+        setStatusImage("/opps.png");
+        setopps("Opps!");
         setModalMessage(res.message);
         setModalOpen(true);
-      }
-      else if (res?.status === 700) {
-        setStatusImage('/opps.png')
-        setopps('Opps!')
+      } else if (res?.status === 700) {
+        setStatusImage("/opps.png");
+        setopps("Opps!");
         setModalMessage(res.message);
         setModalOpen(true);
-      }
-      else if (res?.status === 703) {
-        setStatusImage('/opps.png')
-        setopps('Opps!')
+      } else if (res?.status === 703) {
+        setStatusImage("/opps.png");
+        setopps("Opps!");
         setModalMessage(res.message);
         setModalOpen(true);
       }
@@ -372,10 +374,14 @@ function MatchPopup({ match, onClose }) {
           />
         </div>
       </div>
-       {
-        modalOpen && <Modal message={modalMessage} statusImage={statusImage} status = {opps}  onClose={handleCloseErrorPopup}
+      {modalOpen && (
+        <Modal
+          message={modalMessage}
+          statusImage={statusImage}
+          status={opps}
+          onClose={handleCloseErrorPopup}
         />
-       }
+      )}
     </div>
   );
 }

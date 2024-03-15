@@ -10,8 +10,19 @@ import { IoIosAdd } from "react-icons/io";
 import { FaRupeeSign } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { UserContext } from "../helpers/UserContext";
+import Modal from "./Modal";
 
 const PlaceBet = ({ data, togglePopup }) => {
+  // Popup handling here //
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [opps, setopps] = useState("Opps!");
+  const [statusImage, setStatusImage] = useState("/success.png");
+
+  const handleCloseErrorPopup = () => {
+    setModalOpen(false);
+  };
+
   const { userBalance, getBalance } = useContext(UserContext);
 
   const [Team_a_logo, updateSrcTeam_a] = useState();
@@ -72,10 +83,32 @@ const PlaceBet = ({ data, togglePopup }) => {
       let res = await fetch(`/api/match`, config);
       res = await res.json();
       if (res?.status === 200) {
-        alert("bet placed");
+        setStatusImage("/success.png");
+        setopps("Success");
+        setModalMessage(res.message);
+        setModalOpen(true);
         await getBalance();
       } else if (res?.status === 500 || res?.status === 302) {
+        setStatusImage("/opps.png");
+        setopps("Opps!");
+        setModalMessage(res.message);
+        setModalOpen(true);
         router.push("/access/login");
+      } else if (res?.status === 409) {
+        setStatusImage("/opps.png");
+        setopps("Opps!");
+        setModalMessage(res.message);
+        setModalOpen(true);
+      } else if (res?.status === 700) {
+        setStatusImage("/opps.png");
+        setopps("Opps!");
+        setModalMessage(res.message);
+        setModalOpen(true);
+      } else if (res?.status === 703) {
+        setStatusImage("/opps.png");
+        setopps("Opps!");
+        setModalMessage(res.message);
+        setModalOpen(true);
       }
     } catch (error) {
       console.log(error);
@@ -203,6 +236,15 @@ const PlaceBet = ({ data, togglePopup }) => {
           ))}
         </div>
       </motion.div>
+
+      {modalOpen && (
+        <Modal
+          message={modalMessage}
+          statusImage={statusImage}
+          status={opps}
+          onClose={handleCloseErrorPopup}
+        />
+      )}
     </motion.div>
   );
 };

@@ -186,7 +186,9 @@ function Page() {
             </div>
           </div>
           {/* reacharge and balance section */}
-          <div className="py-6 h-[20%] px-4">
+          <div 
+           onClick={() => router.push('/profile/recharge') }
+           className="py-6 h-[20%] px-4">
             <div className="bg-white py-2 relative ring-1 flex justify-between ring-gray-200 rounded-full p-1">
               <div className="flex pl-1 justify-center items-center space-x-1">
                 <span

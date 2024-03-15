@@ -102,7 +102,7 @@ function Page() {
   return (
     <Layout>
       <div className="h-screen w-screen  bg-[#f8fcff]   ">
-        <div className="py-[1rem] ">
+        <div onClick={() => router.back()} className="py-[1rem] ">
           <div className="grid grid-flow-col  place-items-center">
             <span className="flex place-items-center justify-self-start p-[.5rem]">
               <IoIosArrowBack className="text-[1.5rem]   " />
@@ -115,8 +115,8 @@ function Page() {
           </div>
         </div>
 
-        <div className=" h-[60px] w-[90%] mr-auto ml-auto rounded-[10px] relative  bg-[#e8e8e8] ">
-          <div className="h-[100%] w-[100%] mr-auto ml-auto rounded-[10px] flex justify-between place-items-center  ">
+        <div className=" h-[60px] w-[90%] mr-auto ml-auto rounded-[15px] relative  bg-[#e8e8e8] ">
+          <div className="h-[100%] w-[100%] mr-auto ml-auto rounded-[15px] flex justify-between place-items-center  ">
             <div
               className="w-[50%]  h-[100%] flex place-items-center  justify-center z-[1] text-[.8rem] "
               onClick={() => setSwipe(true)}
@@ -134,7 +134,7 @@ function Page() {
           <motion.div
             variants={variantOne}
             animate={swipe ? "justifyCenterTwo" : "justifyCenter"}
-            className="h-[100%] w-[100%] mr-auto ml-auto rounded-[10px] absolute top-0 left-0  flex place-items-center justify-start shadow-sm  "
+            className="h-[100%] w-[100%] mr-auto ml-auto rounded-[15px] absolute top-0 left-0  flex place-items-center justify-start shadow-sm  "
           >
             <div className="ml-[.2rem] mr-[.2rem] w-[45%]  h-[90%] bg-white rounded-[10px] "></div>
           </motion.div>
@@ -146,7 +146,7 @@ function Page() {
             border: "1px solid #00db58",
             color: "#707d77",
           }}
-          className="h-[38px] font-[600] w-[90%] mr-auto ml-auto rounded-[10px]   border-2 border-black flex justify-center mt-[.7rem] place-items-center "
+          className="h-[38px] font-[600] w-[90%] mr-auto ml-auto rounded-[15px]   border-2 border-black flex justify-center mt-[.7rem] place-items-center "
         >
           <span className="text-center flex text-[.7rem] ">
             Total earned from stakes ₹ <p className="ml-1 ">10000</p>
@@ -160,7 +160,7 @@ function Page() {
                 <Stake
                   key={match?.StakeId || idx}
                   data={match}
-                  amount = {match?.BetAmount}
+                  amount={match?.BetAmount}
                   onClick={() => showPopup(match)}
                 />
               ))}
@@ -200,13 +200,13 @@ function Page() {
 
 export default Page;
 
-function Stake({ onClick, data ,amount }) {
+function Stake({ onClick, data, amount }) {
   const [Team_a_logo, update_logo_a] = useState(null);
   const [Team_b_logo, update_logo_b] = useState(null);
   const [MatchStartTime, updateTime] = useState(new Date());
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
   const [showCancelButton, setShowCancelButton] = useState(false);
-  
+
   useEffect(() => {
     const MatchTime = new Date(
       new Date(data?.StartsAt).toLocaleString("en-US", {
@@ -236,7 +236,7 @@ function Stake({ onClick, data ,amount }) {
   useEffect(() => {
     const timer = setTimeout(() => {
       setTimeLeft(calculateTimeLeft());
-      if (timeLeft.minutes <= 5) {
+      if (timeLeft.minutes > 5) {
         setShowCancelButton(true);
       } else {
         setShowCancelButton(false);
@@ -247,9 +247,9 @@ function Stake({ onClick, data ,amount }) {
   }, [timeLeft]);
 
   // ------------------------------------------------------------------------------------
-    
+
   return (
-    <div className="border-2 border-gray-[#e2dbd3] min-h-min w-[90%] mr-auto ml-auto rounded-[10px] mt-[.5rem] bg-[#fbf3eb] shadow-sm relative pb-4 ">
+    <div className="border-2 border-gray-[#e2dbd3] min-h-min w-[90%] mr-auto ml-auto rounded-[15px] mt-[.5rem] bg-[#fbf3eb] shadow-sm relative pb-4 ">
       <div className="w-max mr-auto ml-auto px-[1rem] py-[.2rem] rounded-b-lg font-semibold bg-[#ec8220] text-white text-[.6rem] ">
         Pending
       </div>

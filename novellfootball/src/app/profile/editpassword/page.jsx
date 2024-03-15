@@ -1,6 +1,7 @@
 "use client";
 import Input from "@/app/components/Input";
 import Layout from "@/app/components/Layout";
+import Modal from "@/app/components/Modal";
 import OtpInputs from "@/app/components/OtpInputs";
 import { motion } from "framer-motion";
 
@@ -21,6 +22,16 @@ const Page = () => {
 export default Page;
 
 const VerificationPopup = ({ toggleVerification }) => {
+  // Popup handling here //
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [opps, setopps] = useState("Opps!");
+  const [statusImage, setStatusImage] = useState("/success.png");
+
+  const handleCloseErrorPopup = () => {
+    setModalOpen(false);
+  };
+
   const [otp, setOtp] = useState(new Array(4).fill(""));
 
   const [isVerified, setVerified] = useState(false);
@@ -34,7 +45,10 @@ const VerificationPopup = ({ toggleVerification }) => {
       providedOtp = value;
     }
     if (EnteredOtp === Number(providedOtp)) {
-      alert("verified");
+      setStatusImage('/success.png')
+      setopps('Success')
+      setModalMessage("verified");
+      setModalOpen(true);
       setVerified(true);
     }
   }
@@ -55,26 +69,44 @@ const VerificationPopup = ({ toggleVerification }) => {
       res = await res.json();
       if (res?.status === 200) {
         updateOtpSent(true);
-        alert(res?.message);
+        setStatusImage('/success.png')
+        setopps('Success')
+        setModalMessage(res.message);
+        setModalOpen(true);
       } else {
-        alert(res?.message);
+        setStatusImage('/opps.png')
+        setopps('Opps!')
+        setModalMessage(res.message);
+        setModalOpen(true);
       }
     } catch (error) {
-      alert(error);
+      setStatusImage('/opps.png')
+      setopps('Opps!')
+      setModalMessage(error);
+      setModalOpen(true);
     }
   }
 
   async function resetPassword() {
     try {
       if (!isVerified) {
-        alert("verify first");
+        setStatusImage('/opps.png')
+        setopps('Opps!')
+        setModalMessage("verify first");
+        setModalOpen(true);
         return;
       }
       if (credentials?.confPassword !== credentials?.Password) {
-        alert("both password fields are not matching");
+        setStatusImage('/opps.png')
+        setopps('Opps!')
+        setModalMessage("both password fields are not matching");
+        setModalOpen(true);
         return;
       } else if (!UserName) {
-        alert("Username is needed");
+        setStatusImage('/opps.png')
+        setopps('Opps!')
+        setModalMessage("Username is needed");
+        setModalOpen(true);
         return;
       }
 
@@ -88,12 +120,21 @@ const VerificationPopup = ({ toggleVerification }) => {
       let res = await fetch("/api/access/resetPassword", config);
       res = await res.json();
       if (res?.status === 200) {
-        alert(res?.message);
+        setStatusImage('/success.png')
+        setopps('Success')
+        setModalMessage(res.message);
+        setModalOpen(true);
       } else {
-        alert(res?.message);
+        setStatusImage('/opps.png')
+        setopps('Opps!')
+        setModalMessage(res.message);
+        setModalOpen(true);
       }
     } catch (error) {
-      alert(error);
+      setStatusImage('/opps.png')
+      setopps('Opps!')
+      setModalMessage(error);
+      setModalOpen(true);
     }
   }
 
@@ -206,6 +247,14 @@ const VerificationPopup = ({ toggleVerification }) => {
           </button>
         </div>
       </motion.div>
+      {modalOpen && (
+        <Modal
+          message={modalMessage}
+          statusImage={statusImage}
+          status={opps}
+          onClose={handleCloseErrorPopup}
+        />
+      )}
     </motion.div>
   );
 };
