@@ -12,6 +12,8 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import Layout from "./components/Layout";
 import { UserContext } from "./helpers/UserContext";
 import Modal from "./components/Modal";
+import { easeInOut, motion } from "framer-motion";
+
 
 export default function Home() {
   const router = useRouter();
@@ -54,77 +56,76 @@ export default function Home() {
     }
   }
 
-  
   const [user, setUser] = useState();
-  console.log(user);
   const randomUser = () => {
     let users = Math.floor(Math.random() * 10000000);
     setUser(users);
   };
-
 
   useEffect(() => {
     if (!matchLoaded) {
       getLiveMatches();
       updateLoaded(true);
     }
-  randomUser();
-
+    randomUser();
   }, [matchLoaded]);
 
   const gradients = [
     {
       id: 1,
       bgColor:
-        "linear-gradient(138deg, rgba(255,230,201,1) 0%, rgba(255,255,255,1) 50%, rgba(255,230,201,1) 100%)",
+        "linear-gradient(138deg, rgba(255,210,210,1) 0%, rgba(255,255,255,1) 50%, rgba(255,210,210,1) 100%)",
+      start: "#FCDDBC",
+      stop: "#f71b1b",
     },
     {
       id: 2,
       bgColor:
-        "linear-gradient(86deg, rgba(255,253,253,1) 0%, rgba(255,255,255,1) 50%, rgba(247,223,235,1) 100%)",
+        "linear-gradient(138deg, rgba(199,255,199,1) 0%, rgba(255,255,255,1) 50%, rgba(199,255,199,1) 100%)",
+      start: "#f7fff7",
+      stop: "#1aff1a",
     },
     {
       id: 3,
       bgColor:
-        "linear-gradient(138deg, rgba(255,201,253,1) 0%, rgba(255,255,255,1) 50%, rgba(255,185,255,1) 100%)",
+        "linear-gradient(138deg, rgba(255,197,255,1) 0%, rgba(255,255,255,1) 50%, rgba(255,197,255,1) 100%)",
+      start: "#ffedff",
+      stop: "#ff14ff",
     },
     {
       id: 4,
       bgColor:
-        "linear-gradient(138deg, rgba(252,185,252,1) 0%, rgba(255,255,255,1) 50%, rgba(252,185,252,1) 100%)",
+        "linear-gradient(138deg, rgba(255,225,195,1) 0%, rgba(255,255,255,1) 50%, rgba(255,225,195,1) 100%)",
+      start: "#fff9f4",
+      stop: "#ff8b17",
     },
     {
       id: 5,
       bgColor:
-        "linear-gradient(138deg, rgba(219,183,255,1) 0%, rgba(255,255,255,1) 50%, rgba(219,183,255,1) 100%)",
+        "linear-gradient(138deg, rgba(255,255,205,1) 0%, rgba(255,255,255,1) 50%, rgba(255,255,205,1) 100%)",
+      start: "#fffff0",
+      stop: "#ffff17",
     },
     {
       id: 6,
       bgColor:
-        "linear-gradient(138deg, rgba(180,180,251,1) 0%, rgba(255,255,255,1) 50%, rgba(180,180,251,1) 100%)",
+        "linear-gradient(138deg, rgba(223,255,190,1) 0%, rgba(255,255,255,1) 50%, rgba(223,255,190,1) 100%)",
+      start: "#f7ffef",
+      stop: "#8dff17",
     },
     {
       id: 7,
       bgColor:
-        "linear-gradient(138deg, rgba(180,255,218,1) 0%, rgba(255,255,255,1) 50%, rgba(180,255,218,1) 100%)",
-    },
-
-    {
-      id: 8,
-      bgColor:
-        "linear-gradient(138deg, rgba(183,255,184,1) 0%, rgba(255,255,255,1) 50%, rgba(183,253,183,1) 100%)",
-    },
-    {
-      id: 9,
-      bgColor:
-        "linear-gradient(138deg, rgba(252,252,172,1) 0%, rgba(255,255,255,1) 50%, rgba(252,252,172,1) 100%)",
-    },
-    {
-      id: 10,
-      bgColor:
-        "linear-gradient(138deg, rgba(252,221,188,1) 0%, rgba(255,255,255,1) 50%, rgba(252,221,188,1) 100%)",
+        "linear-gradient(138deg, rgba(215,255,254,1) 0%, rgba(255,255,255,1) 50%, rgba(215,255,254,1) 100%)",
+      start: "#fdffff",
+      stop: "#00ffff",
     },
   ];
+
+  const getRandomGradient = () => {
+    const randomIndex = Math.floor(Math.random() * gradients.length);
+    return gradients[randomIndex];
+  };
 
   return (
     <Layout>
@@ -135,7 +136,7 @@ export default function Home() {
               onClick={() => router.push("/profile/recharge")}
               className="flex place-items-center rounded-full bg-white w-max line-clamp-1 text-ellipsis "
             >
-              <span className=" flex place-items-center justify-center  line-clamp-1 text-ellipsis text-xs font-[500] px-3 py-1.5 ">
+              <span className=" flex place-items-center justify-center  line-clamp-1 text-ellipsis text-xs font-[500] px-3 py-1.5 min-w-[3rem] ">
                 <FaRupeeSign />
                 {userBalance}
               </span>
@@ -169,7 +170,7 @@ export default function Home() {
             <div className="flex  justify-between w-[90%] mr-auto ml-auto  ">
               <h1 className="font-bold ">Hot Matches</h1>
               <h1 className="flex text-[12px] font-light text-[#989898] line-clamp-1 text-ellipsis ">
-                Online Users : {user} 
+                Online Users : {user}
               </h1>
             </div>
           </div>
@@ -183,6 +184,7 @@ export default function Home() {
                   data={{ ...item }}
                   gradient={gradients[i]}
                   onClick={() => handleMatchCardClick(item)}
+                  color={getRandomGradient()}
                 />
               </div>
             ))}
@@ -284,8 +286,16 @@ function MatchPopup({ match, onClose }) {
   }, []);
 
   return (
-    <div className="h-full absolute  top-0 left-0 flex justify-center items-end bg-black/70 w-full  ">
-      <div className=" h-[80%] pt-[2rem] pb-[6rem]  bg-slate-100 overflow-y-scroll rounded-t-[2rem] w-[98%]">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="h-full absolute  top-0 left-0 flex justify-center items-end bg-black/70 w-full  "
+    >
+      <motion.div
+        initial={{ y: 100 }}
+        animate={{ y: 0 }}
+        className=" h-[80%] pt-[2rem] pb-[6rem]  bg-slate-100 overflow-y-scroll rounded-t-[2rem] w-[98%]"
+      >
         <div className="flex  relative px-2  justify-center">
           <h4 className="border-2 border-solid border-blue-700 min-w-[20%] rounded-full"></h4>
           <p
@@ -373,7 +383,8 @@ function MatchPopup({ match, onClose }) {
             s
           />
         </div>
-      </div>
+      </motion.div>
+
       {modalOpen && (
         <Modal
           message={modalMessage}
@@ -382,7 +393,7 @@ function MatchPopup({ match, onClose }) {
           onClose={handleCloseErrorPopup}
         />
       )}
-    </div>
+    </motion.div>
   );
 }
 
@@ -506,7 +517,7 @@ function ScoreCards({ placeBet, percent, Balance, Score_a, Score_b }) {
             all amount
           </button>
           <button
-            onClick={() => placeBet(percent, 1, 2, betAmount)}
+            onClick={() => placeBet(percent, Score_a , Score_b, betAmount)}
             className="py-2 px-2 w-[70%] bg-blue-600 font-bold text-sm text-white rounded-md capitalize"
           >
             confirm

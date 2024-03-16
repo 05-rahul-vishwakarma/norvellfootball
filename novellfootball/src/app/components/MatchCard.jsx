@@ -11,6 +11,7 @@ const colorArr = [
 ];
 
 function MatchCard({ id, data, index, gradient, onClick, color }) {
+  console.log();
   const [istTime, setISTTime] = useState("");
   const [timeString, setTimeString] = useState("");
 
@@ -64,6 +65,8 @@ function MatchCard({ id, data, index, gradient, onClick, color }) {
   let [percentage, updatePercentage] = useState(0);
   let [colors, updateColors] = useState({});
 
+
+
   useEffect(() => {
     updatePercentage(Math.random() * 105);
     let rand = Math.floor(Math.random() * colorArr.length);
@@ -75,7 +78,7 @@ function MatchCard({ id, data, index, gradient, onClick, color }) {
       onClick={onClick}
       style={{
         boxShadow: "0px 5px 5px 0px rgba(0,0,0,0.1)",
-        background: gradient.bgColor,
+        background: color.bgColor,
         // background: `linear-gradient(${gradient.direction}, ${gradient.colors.join(', ')})`
       }}
       className="   h-[100px] flex mr-auto ml-auto my-[1rem] w-[90%]  rounded-xl place-items-center justify-around"
@@ -95,7 +98,7 @@ function MatchCard({ id, data, index, gradient, onClick, color }) {
             </div>
           </div>
           <div className="absolute flex justify-center items-center h-full w-full">
-            <HomeGradient id={id} percentage={percentage} colors={colors} />
+            <HomeGradient id={id} percentage={percentage} start={color.start} stop={color.stop} />
           </div>
         </div>
       </div>

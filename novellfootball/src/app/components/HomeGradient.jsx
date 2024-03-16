@@ -1,6 +1,7 @@
 "use client";
 
-function HomeGradient({ colors, id, percentage }) {
+function HomeGradient({ colors, id, percentage , start, stop  }) {
+  // console.log(start,stop);
   const percent = percentage;
   const radius = 40;
   const strokeWidth = radius * 0.3;
@@ -17,9 +18,9 @@ function HomeGradient({ colors, id, percentage }) {
       <svg height={radius * 2} width={radius * 2}>
         <defs>
           <linearGradient id={`${id}`} x1="0" y1="0" x2="1" y2="1">
-            <stop offset="15%" stopColor={colors.stop} stopOpacity="1"></stop>
+            <stop offset="15%" stopColor={stop} stopOpacity="1"></stop>
 
-            <stop offset="85%" stopColor={colors.start} stopOpacity="1"></stop>
+            <stop offset="85%" stopColor={start} stopOpacity="1"></stop>
           </linearGradient>
         </defs>
         <circle
