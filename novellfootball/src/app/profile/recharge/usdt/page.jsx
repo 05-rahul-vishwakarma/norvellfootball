@@ -6,8 +6,9 @@ import { IoQrCodeOutline } from "react-icons/io5";
 import { FaRegCopy } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
 import Modal from "@/app/components/Modal";
+import { useSearchParams } from "next/navigation";
 
-function Page({ searchParams }) {
+function Page() {
   // Popup handling here //
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
@@ -21,11 +22,11 @@ function Page({ searchParams }) {
   const router = useRouter();
   // access the amount data that is passed by the recharge main page //
   const [receivedData, setReceivedData] = useState("");
+  const searchParams = useSearchParams()
   useEffect(() => {
-    const data = searchParams.data;
-    if (data) {
-      setReceivedData(decodeURIComponent(data));
-    }
+    const search = searchParams.get('data')
+    setReceivedData(search)
+
   }, [searchParams]);
 
   // implementing the function which converts indian rupees value into usdt values

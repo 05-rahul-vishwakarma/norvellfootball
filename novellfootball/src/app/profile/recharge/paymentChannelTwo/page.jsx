@@ -1,12 +1,12 @@
 "use client";
-
+import { useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { FaRegCopy } from "react-icons/fa6";
 import Modal from "@/app/components/Modal";
 import { useRouter } from "next/navigation";
 
-function Page({ searchParams }) {
+function Page() {
   // Popup handling here //
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
@@ -20,11 +20,11 @@ function Page({ searchParams }) {
   const router = useRouter();
   // access the amount data that is passed by the recharge main page //
   const [receivedData, setReceivedData] = useState("");
+  const searchParams = useSearchParams()
   useEffect(() => {
-    const data = searchParams.data;
-    if (data) {
-      setReceivedData(decodeURIComponent(data));
-    }
+    const search = searchParams.get('data')
+    setReceivedData(search)
+
   }, [searchParams]);
 
   // implementing the copy buttoon
@@ -191,6 +191,7 @@ function Page({ searchParams }) {
             </button>
           </div>
         </div>
+        
       </div>
 
       <div className="w-[90%] mr-auto ml-auto pb-2 ">
