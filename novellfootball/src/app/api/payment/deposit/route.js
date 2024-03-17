@@ -45,6 +45,7 @@ export async function POST(request) {
     let isTransactionExists = await TRANSACTION.findOne({
       UserName,
       TransactionId,
+      Type: "deposit",
     });
     if (isTransactionExists)
       throw new CustomError(604, "This transaction already exists", {});

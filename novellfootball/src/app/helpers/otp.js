@@ -6,7 +6,7 @@ export async function sendPhoneOtp(number, otp) {
     const querParams = new URLSearchParams({
       authorization:
         "w0d8sQkyt4aIiJ5BcKFfVPxLueZSXoMqATgmUlW1G97Y6NvjzRhBczyNPs9SXtpU6jMurlLqGwavWZJ5",
-      variables_values: "23423",
+      variables_values: `${otp}`,
       route: "otp",
       numbers: number,
     });

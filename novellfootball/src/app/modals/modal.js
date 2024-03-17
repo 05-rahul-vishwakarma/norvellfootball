@@ -8,6 +8,7 @@ const UserSchema = new Schema(
     VipLevel: { type: Number, default: 0 },
     UserName: { type: String, required: true },
     Password: { type: String, required: true },
+    FirstDeposit: { type: Boolean, default: true },
     PhoneNumber: { type: String },
     EmailId: { type: String },
     InvitationCode: { type: Number, required: true, unique: true },
@@ -91,6 +92,7 @@ const TransactionSchema = new Schema(
     Date: { type: String, required: true },
     Type: { type: String, required: true }, //withdrawal / deposit
     Bank: { type: Object, default: {} },
+    From: { type: String, default: "" },
   },
   { timestamps: true }
 );
