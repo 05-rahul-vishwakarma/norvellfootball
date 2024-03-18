@@ -21,8 +21,8 @@ const Page = async () => {
     deposits: [],
     withdrawal: [],
   });
-  deposits = res?.deposits;
-  withdrawals = res?.withdrawal;
+  deposits = res?.deposits || [];
+  withdrawals = res?.withdrawal || [];
 
   deposits.sort(customSort);
   withdrawals.sort(customSort);
@@ -62,7 +62,11 @@ const Page = async () => {
   async function gatherData() {
     console.log("called");
     let data = await getTransactionDetails();
-    updateRes(data);
+    if (data) {
+      updateRes(data);
+    } else {
+      alert("something went wrong");
+    }
   }
   useEffect(() => {
     gatherData();
