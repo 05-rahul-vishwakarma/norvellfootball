@@ -1,97 +1,18 @@
-"use client";
-import { useEffect, useState } from "react";
-import { Chart as ChartJS } from "chart.js/auto";
-import { Line } from "react-chartjs-2";
-import ChartDataLabels from "chartjs-adapter-date-fns";
-import { getTransactionDetails } from "../adminComponents/LineChart/Action";
+import { LineChart } from "../adminComponents/LineChart/LineChart";
+import { connect } from "@/app/modals/dbConfig";
+import { TRANSACTION } from "@/app/modals/modal";
 
-function Stats() {
-  const [deposits, updateDepositsData] = useState([]);
-  const [withdrawals, updateWithdrawalsData] = useState([]);
-  const [totalDeposits, updateTotalDeposits] = useState(0);
-  const [totalWithdrawals, updateTotalWithdrawals] = useState(0);
-  const [isLoaded, updateLoaded] = useState(false);
-
-  async function gatherData() {
-    let data = await getTransactionDetails();
-    if (data) {
-      let totalDeposits = data?.deposits.reduce(
-        (acc, currVal) => acc + currVal?.total / 100,
-        0
-      );
-      let totalWithdrawals = data?.withdrawals.reduce(
-        (acc, currVal) => acc + currVal?.total / 100,
-        0
-      );
-      updateDepositsData([...data?.deposits]);
-      updateWithdrawalsData([...data?.withdrawals]);
-      updateTotalDeposits(totalDeposits);
-      updateTotalWithdrawals(totalWithdrawals);
-    } else {
-      alert("something went wrong");
-    }
-  }
-  useEffect(() => {
-    async function getData() {
-      await gatherData();
-    }
-    if (!isLoaded) {
-      getData();
-      updateLoaded(true);
-    }
-    let revalidateData = setInterval(() => gatherData(), 60 * 1000);
-    return () => clearInterval(revalidateData);
-  }, [deposits, withdrawals, gatherData]);
-
+async function Stats() {
+  let data = [];
+  data = await getTransactionDetails();
+  // setTimeout(()=>{
+  //   data = await getTransactionDetails();
+  // }, 60 * 1000)
   return (
     <div className=" h-screen bg-[#352F44]">
-      <div className="text-center uppercase py-2 text-green-400">
+      <div className="text-center uppercase py-2 h-full text-green-400">
         <h1>Statistics</h1>
-      </div>
-      <div className="flex space-x-3 h-[90%] justify-evenly py-3 px-4">
-        <div className="w-[40%] relative rounded-xl shadow-md bg-[#3c364d] text-center h-full">
-          <h1 className="py-3 h-[10%] text-[#F4EEE0] font-bold">Deposit</h1>
-          <div className="mt-4 h-[90%] px-2 flex items-center">
-            <LineChart dataSet={deposits || []} type={"deposit"} />
-          </div>
-        </div>
-        <div className="w-[20%] h-full flex flex-col space-y-4 justify-center">
-          <div className="bg-[#433c56] text-slate-50 rounded-md text-center shadow-md py-2 space-y-3 px-1">
-            <h1 className="text-[0.9rem]">Finance Status</h1>
-            <div
-              style={{
-                background:
-                  totalDeposits - totalWithdrawals < 0
-                    ? "#f04650"
-                    : totalDeposits - totalWithdrawals > 600000
-                    ? "#4adb7f"
-                    : "#9ff046",
-              }}
-              className="rounded-md text-lg bg-green-400 py-4 text-center font-bold text-white"
-            >
-              <p>
-                {totalDeposits - totalWithdrawals < 0
-                  ? "BAD"
-                  : totalDeposits - totalWithdrawals > 600000
-                  ? "EXCELENT"
-                  : "GOOD"}
-              </p>
-            </div>
-          </div>
-          <div className="bg-[#433c56] text-slate-50 rounded-md text-center shadow-md py-2 space-y-3 px-1">
-            <h1 className="text-[0.9rem]">Total deposit/withdrawal</h1>
-            <div className="rounded-md flex px-2 flex-col text-start space-x-2 py-3 font-bold text-md bg-red-400 text-white">
-              <div>Deposit {totalDeposits}</div>
-              <div className="m-0">Withdrawal {totalWithdrawals}</div>
-            </div>
-          </div>
-        </div>
-        <div className="w-[40%] rounded-xl text-center shadow-md bg-[#3c364d] h-full">
-          <h1 className="py-3 h-[10%] text-[#F4EEE0] font-bold">Withdrawal</h1>
-          <div className="mt-4 h-[90%] flex px-2 items-center">
-            <LineChart type={"withdrawal"} dataSet={withdrawals || []} />
-          </div>
-        </div>
+        <LineChart deposit={data?.deposits} withdrawal={data?.withdrawals} />
       </div>
     </div>
   );
@@ -99,74 +20,36 @@ function Stats() {
 
 export default Stats;
 
-const LineChart = ({ dataSet, type }) => {
-  const [conf, updateConf] = useState({
-    labels: [],
-    datasets: [
+async function getTransactionDetails() {
+  "use server";
+  try {
+    await connect();
+    let deposits = await TRANSACTION.aggregate([
       {
-        label: "success",
-        data: [],
-        fill: false,
-        borderColor: "#00FFF5",
-        tension: 0.1,
+        $match: { Type: "deposit" },
       },
-    ],
-  });
-  useEffect(() => {
-    if (dataSet?.length > 0) {
-      let newConf = {
-        labels: dataSet?.map(
-          (ele) => new Date(ele?._id?.split("/").reverse().join("/"))
-        ),
-        datasets: [
-          {
-            label: "success",
-            data: (dataSet || [])?.map((ele) => ele?.total / 100),
-            fill: false,
-            borderColor: type === "deposit" ? "lime" : "#00FFF5",
-            tension: 0.1,
-          },
-        ],
-      };
-      updateConf(newConf);
-    }
-  }, [dataSet]);
+      {
+        $group: {
+          _id: "$Date",
+          total: { $sum: "$Amount" },
+        },
+      },
+    ]);
+    let withdrawals = await TRANSACTION.aggregate([
+      {
+        $match: { Type: "withdrawal" },
+      },
+      {
+        $group: {
+          _id: "$Date",
+          total: { $sum: "$Amount" },
+        },
+      },
+    ]);
 
-  return (
-    <>
-      {dataSet?.length > 0 && (
-        <Line
-          data={conf}
-          options={{
-            plugins: {
-              legend: {
-                labels: {
-                  // Change the color of the text
-                  color: "white",
-                },
-              },
-            },
-            scales: {
-              x: {
-                ticks: {
-                  color: "#F4EEE0",
-                },
-                grid: {
-                  color: "#6D5D6E",
-                },
-                type: "time",
-                time: {
-                  unit: "day",
-                },
-              },
-              y: {
-                ticks: { color: "#F4EEE0", maxTicksLimit: 10 },
-                grid: { color: "#6D5D6E" },
-              },
-            },
-          }}
-        />
-      )}
-    </>
-  );
-};
+    return { deposits, withdrawals };
+  } catch (error) {
+    console.log(error);
+    return JSON.stringify(error);
+  }
+}
