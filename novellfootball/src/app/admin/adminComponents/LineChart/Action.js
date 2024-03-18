@@ -17,7 +17,7 @@ export async function getTransactionDetails() {
         },
       },
     ]);
-    let withdrawal = await TRANSACTION.aggregate([
+    let withdrawals = await TRANSACTION.aggregate([
       {
         $match: { Type: "withdrawal" },
       },
@@ -29,8 +29,9 @@ export async function getTransactionDetails() {
       },
     ]);
 
-    return { deposits, withdrawal };
+    return { deposits, withdrawals };
   } catch (error) {
     console.log(error);
+    return JSON.stringify(error);
   }
 }
