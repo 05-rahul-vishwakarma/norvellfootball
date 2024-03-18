@@ -5,9 +5,7 @@ import { TRANSACTION } from "@/app/modals/modal";
 async function Stats() {
   let data = [];
   data = await getTransactionDetails();
-  // setTimeout(()=>{
-  //   data = await getTransactionDetails();
-  // }, 60 * 1000)
+
   return (
     <div className=" h-screen bg-[#352F44]">
       <div className="text-center uppercase py-2 h-full text-green-400">
