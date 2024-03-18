@@ -28,12 +28,13 @@ export const LineChart = ({ deposit, withdrawal }) => {
   }
   async function updateData() {
     try {
-      let data = await getTransactionDetails();
-      if (data) {
-        updateDepositsData(data?.deposits || []);
-        updateWithdrawalsData(data?.withdrawals || []);
+      let data = await fetch("/api/admin/stats");
+      data = await data.json();
+      if (data?.status === 200) {
+        updateDepositsData(data?.data?.deposits || []);
+        updateWithdrawalsData(data?.data?.withdrawals || []);
       } else {
-        alert(JSON.stringify(data));
+        alert(JSON.stringify(data?.message));
       }
     } catch (error) {
       alert(JSON.stringify(error));
@@ -41,7 +42,6 @@ export const LineChart = ({ deposit, withdrawal }) => {
   }
   useEffect(() => {
     async function getData() {
-      alert(deposit, withdrawal);
       await gatherData();
     }
     if (!isLoaded) {
