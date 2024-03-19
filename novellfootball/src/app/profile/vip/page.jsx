@@ -1,11 +1,15 @@
+"use client";
 import BackButton from "@/app/components/BackButton";
 import Layout from "@/app/components/Layout";
 import Vip from "@/app/components/Vip";
+import { UserContext } from "@/app/helpers/UserContext";
 import Link from "next/link";
-import React from "react";
+import React, { useContext } from "react";
 import { IoMdCheckmarkCircle } from "react-icons/io";
 import { IoCloseCircle } from "react-icons/io5";
 function Page() {
+  const { userOtherData } = useContext(UserContext);
+
   const VipData = [
     {
       id: 1,
@@ -88,13 +92,17 @@ function Page() {
     <Layout>
       <section>
         <Link href="/profile">
-          <div className="py-4" >
+          <div className="py-4">
             <BackButton pageName="See Membership" />
           </div>
         </Link>
         <section className=" mt-2 h-full fixed w-full overflow-y-scroll pb-[12rem]  ">
           {VipData.map((item, i) => (
-            <Vip key={i} data={{ ...item }} />
+            <Vip
+              key={i}
+              isActive={userOtherData?.VipLevel === i}
+              data={{ ...item }}
+            />
           ))}
         </section>
       </section>

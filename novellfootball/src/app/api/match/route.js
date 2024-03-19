@@ -136,8 +136,8 @@ export async function POST(request) {
       !Team_a_logo ||
       !Team_b_logo ||
       !StartsAt ||
-      !Score_a ||
-      !Score_b ||
+      (!Score_a && Score_a !== 0) ||
+      (!Score_b && Score_b !== 0) ||
       !Percentage ||
       !BetAmount
     )

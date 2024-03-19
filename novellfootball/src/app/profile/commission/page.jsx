@@ -1,8 +1,9 @@
 "use client";
 import CommissionPopModel from "@/app/components/CommissionPopModel";
 import Layout from "@/app/components/Layout";
+import { UserContext } from "@/app/helpers/UserContext";
 import { motion } from "framer-motion";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaRupeeSign } from "react-icons/fa";
 import { FaInfo, FaLink } from "react-icons/fa6";
 import { LiaAngleRightSolid, LiaAngleUpSolid } from "react-icons/lia";
@@ -20,6 +21,7 @@ const Page = () => {
   const [total_deposit, updateTotalDeposit] = useState(0);
   const [total_withdrawal, updateTotalWithdrawal] = useState(0);
   const [commissionData, updateCommissionData] = useState(0);
+  const { userBalance, userOtherData } = useContext(UserContext);
 
   const [RegisterData, updateRegisterData] = useState({
     level1: [],
@@ -121,7 +123,7 @@ const Page = () => {
 
   useEffect(() => {
     getCommissionData();
-    getRegisterData();
+    // getRegisterData();
     getTransactionData();
   }, []);
 
@@ -149,7 +151,7 @@ const Page = () => {
                relative text-gray-500 font-bold rounded-full capitalize text-sm text-center "
               >
                 <h2>Total commission</h2>
-                <h2>Earned by members</h2>
+                <h2>Earned from members</h2>
               </span>
               <span className="flex items-center text-4xl mt-4 text-white space-x-1">
                 <h2>
@@ -159,7 +161,7 @@ const Page = () => {
                   {new Intl.NumberFormat("en-US", {
                     style: "decimal",
                     maximumFractionDigits: 2,
-                  }).format(12983189)}
+                  }).format(userOtherData?.Commission || 0)}
                 </h2>
               </span>
             </div>
@@ -203,7 +205,8 @@ const Page = () => {
                   <FaLink />
                 </span>
                 <p className=" w-[80%] text-gray-600 truncate text-[0.6rem] px-1 rounded-md">
-                  https://hello there the name is novrvell
+                  {window.location.origin}/access/signup?id=
+                  {userOtherData?.InvitationCode}
                 </p>
                 <span className="w-[10%] flex justify-center items-center text-blue-500">
                   <MdOutlineContentCopy />
@@ -218,7 +221,9 @@ const Page = () => {
                 </span>
                 <p className=" w-[80%] capitalize text-gray-600 truncate text-[0.6rem] px-1 rounded-md">
                   <span>invite code - </span>
-                  <span className="text-blue-500">88689</span>
+                  <span className="text-blue-500">
+                    {userOtherData?.InvitationCode}
+                  </span>
                 </p>
                 <span className="w-[10%] flex justify-center items-center text-blue-500">
                   <MdOutlineContentCopy />

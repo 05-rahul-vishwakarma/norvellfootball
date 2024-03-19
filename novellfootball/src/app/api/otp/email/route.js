@@ -1,3 +1,4 @@
+const oneMinute = 60 * 1000;
 import { sendEmailOtp } from "@/app/helpers/otp";
 import { NextResponse } from "next/server";
 import { isValidUser } from "@/app/helpers/auth";
@@ -29,9 +30,7 @@ export async function GET(request) {
         message: "otp sent and valid for 5 minutes",
       });
       response.cookies.set("otp", `${otp}`, {
-        httpOnly: true,
-        maxAge: "5M",
-        secure: true,
+        expires: Date.now() + 5 * oneMinute,
       });
       return response;
     }
@@ -63,7 +62,7 @@ export async function PUT(request) {
         message: "otp sent and valid for 5 minutes",
       });
       response.cookies.set("otp", `${otp}`, {
-        maxAge: "5M",
+        expires: Date.now() + 5 * oneMinute,
       });
       return response;
     }

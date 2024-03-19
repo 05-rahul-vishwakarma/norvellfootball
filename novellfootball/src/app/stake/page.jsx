@@ -167,6 +167,12 @@ function Page() {
                   onClick={() => showPopup(match)}
                 />
               ))}
+              {pendingMatches?.length <= 0 && (
+                <p
+                  style={{ background: "url(/noData.svg) center norepeat" }}
+                  className="h-40 w-full"
+                ></p>
+              )}
             </div>
           ) : (
             <div className=" h-full absolute top-0 left-0 w-full  ">
@@ -180,6 +186,12 @@ function Page() {
                   resultbg={accentColors[match?.Status]?.remark_color}
                 />
               ))}
+              {settledMatches?.length <= 0 && (
+                <p
+                  style={{ background: "url(./noData.svg) center no-repeat" }}
+                  className="h-full w-full"
+                ></p>
+              )}
             </div>
           )}
         </div>

@@ -1,7 +1,7 @@
 "use client";
 const BACKEND = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IoIosArrowBack, IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -16,13 +16,20 @@ function CommissionPopModel({
   closeModel,
 }) {
   const [selectedLevel, updateLevel] = useState(1);
-
+  const [childrens, updateChildrens] = useState(0);
+  const dataBox = useRef();
   const [swipe, setSwipe] = useState(1);
+  const [searchKey, updateSearchKey] = useState("");
+  useEffect(() => {
+    if (dataBox?.current) {
+      updateChildrens(dataBox?.current?.children?.length);
+    }
+  }, [swipe, dataBox?.current?.childrens]);
 
   return (
     <div className="h-screen w-screen overflow-y-hidden bg-[#F8FCFF] ">
       <div className="py-[1rem] h-[10%] ">
-        <div className="grid grid-flow-col  place-items-center">
+        <div className="grid grid-flow-col grid-cols-3  place-items-center">
           <span
             onClick={() => closeModel(false)}
             className="flex place-items-center justify-self-start p-[0.5rem]"
@@ -30,7 +37,7 @@ function CommissionPopModel({
             <IoIosArrowBack className="text-[0.8rem]   " />
             <div className="text-[.7rem] font-medium ">Back</div>
           </span>
-          <div className="flex place-items-center justify-self-start">
+          <div className="flex place-items-center justify-self-center">
             <span className="font-bold text-[0.8rem] capitalize ">
               new {type}
             </span>
@@ -120,56 +127,165 @@ function CommissionPopModel({
         ) : (
           ""
         )}
-        <div className="h-[80%] mt-3 overflow-y-auto px-6 pb-[15rem] w-full">
+        <div
+          ref={dataBox}
+          className="h-[80%] mt-3 overflow-y-auto px-6 pb-[15rem] w-full"
+        >
           {selectedLevel === 1 &&
             type === "register" &&
-            level1.map((item, idx) => (
-              <div key={idx}>
-                <RegisterAcordian cardDetails={item} />
-              </div>
-            ))}
+            level1.map((item, idx) => {
+              if (
+                searchKey?.length >= 3 &&
+                item?.UserName?.toLowerCase()?.startsWith(
+                  searchKey.toLowerCase()
+                )
+              ) {
+                return (
+                  <div key={idx}>
+                    <RegisterAcordian cardDetails={item} />
+                  </div>
+                );
+              } else {
+                return (
+                  <div key={idx}>
+                    <RegisterAcordian cardDetails={item} />
+                  </div>
+                );
+              }
+            })}
           {selectedLevel === 2 &&
             type === "register" &&
-            level2.map((item, idx) => (
-              <div key={idx}>
-                <RegisterAcordian cardDetails={item} />
-              </div>
-            ))}
+            level2.map((item, idx) => {
+              if (
+                searchKey?.length >= 3 &&
+                item?.UserName?.toLowerCase()?.startsWith(
+                  searchKey.toLowerCase()
+                )
+              ) {
+                return (
+                  <div key={idx}>
+                    <RegisterAcordian cardDetails={item} />
+                  </div>
+                );
+              } else {
+                return (
+                  <div key={idx}>
+                    <RegisterAcordian cardDetails={item} />
+                  </div>
+                );
+              }
+            })}
           {selectedLevel === 3 &&
             type !== "register" &&
-            level3.map((item, idx) => (
-              <div key={idx}>
-                <RegisterAcordian cardDetails={item} />
-              </div>
-            ))}
+            level3.map((item, idx) => {
+              if (
+                searchKey?.length >= 3 &&
+                item?.UserName?.toLowerCase()?.startsWith(
+                  searchKey.toLowerCase()
+                )
+              ) {
+                return (
+                  <div key={idx}>
+                    <RegisterAcordian cardDetails={item} />
+                  </div>
+                );
+              } else {
+                return (
+                  <div key={idx}>
+                    <RegisterAcordian cardDetails={item} />
+                  </div>
+                );
+              }
+            })}
 
           {selectedLevel === 1 &&
             (type === "deposit" || type === "withdrawal") &&
-            level1.map((item, idx) => (
-              <div key={idx}>
-                <Transaction type={type} cardDetails={item} />
-              </div>
-            ))}
+            level1.map((item, idx) => {
+              if (
+                searchKey?.length >= 3 &&
+                item?.UserName?.toLowerCase()?.startsWith(
+                  searchKey.toLowerCase()
+                )
+              ) {
+                return (
+                  <div key={idx}>
+                    <Transaction type={type} cardDetails={item} />
+                  </div>
+                );
+              } else {
+                return (
+                  <div key={idx}>
+                    <Transaction type={type} cardDetails={item} />
+                  </div>
+                );
+              }
+            })}
           {selectedLevel === 2 &&
             (type === "deposit" || type === "withdrawal") &&
-            level2.map((item, idx) => (
-              <div key={idx}>
-                <Transaction type={type} cardDetails={item} />
-              </div>
-            ))}
+            level2.map((item, idx) => {
+              if (
+                searchKey?.length >= 3 &&
+                item?.UserName?.toLowerCase()?.startsWith(
+                  searchKey.toLowerCase()
+                )
+              ) {
+                return (
+                  <div key={idx}>
+                    <Transaction type={type} cardDetails={item} />
+                  </div>
+                );
+              } else {
+                return (
+                  <div key={idx}>
+                    <Transaction type={type} cardDetails={item} />
+                  </div>
+                );
+              }
+            })}
           {selectedLevel === 3 &&
             (type === "deposit" || type === "withdrawal") &&
-            level3.map((item, idx) => (
-              <div key={idx}>
-                <Transaction type={type} cardDetails={item} />
-              </div>
-            ))}
+            level3.map((item, idx) => {
+              if (
+                searchKey?.length >= 3 &&
+                item?.UserName?.toLowerCase()?.startsWith(
+                  searchKey.toLowerCase()
+                )
+              ) {
+                return (
+                  <div key={idx}>
+                    <Transaction type={type} cardDetails={item} />
+                  </div>
+                );
+              } else {
+                return (
+                  <div key={idx}>
+                    <Transaction type={type} cardDetails={item} />
+                  </div>
+                );
+              }
+            })}
 
           {(swipe === 1 ? todayCommission : overallCommission)?.map(
-            (item, idx) =>
-              item && (
-                <CommissionAcordian key={idx} idx={idx} cardDetails={item} />
-              )
+            (item, idx) => {
+              if (
+                searchKey?.length >= 3 &&
+                item?.UserName?.toLowerCase()?.startsWith(searchKey)
+              ) {
+                return (
+                  <CommissionAcordian key={idx} idx={idx} cardDetails={item} />
+                );
+              } else {
+                return (
+                  <CommissionAcordian key={idx} idx={idx} cardDetails={item} />
+                );
+              }
+            }
+          )}
+          {childrens <= 1 && (
+            <p
+              className="h-[20rem] w-full"
+              style={{ background: "url(/noData.svg) center no-repeat" }}
+            ></p>
           )}
         </div>
       </div>
@@ -181,9 +297,6 @@ export default CommissionPopModel;
 
 function CommissionAcordian({ cardDetails }) {
   const [isActive, updateActive] = useState(false);
-  useEffect(() => {
-    console.log(cardDetails);
-  }, []);
   return (
     <div
       style={{ boxShadow: "0 5px 5px rgba(0,0,0,0.02) " }}

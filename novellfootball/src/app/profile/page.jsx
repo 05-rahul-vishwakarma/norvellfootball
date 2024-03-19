@@ -4,73 +4,24 @@ import { FaRupeeSign } from "react-icons/fa";
 import { LiaAngleLeftSolid, LiaAngleRightSolid } from "react-icons/lia";
 import { FaPlus } from "react-icons/fa6";
 import { IoMdLogOut } from "react-icons/io";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import RecordAccordians from "../components/RecordAccordian";
 import { useRouter } from "next/navigation";
 import Layout from "../components/Layout";
-import VerificationPopup from "../components/VerificationPopup";
-import Vip from "../components/Vip";
 import { UserContext } from "../helpers/UserContext";
 import Loading from "../components/Loading";
 
 function Page() {
   const router = useRouter();
-  const { userBalance, getBalance } = useContext(UserContext);
+  const { userBalance, userOtherData } = useContext(UserContext);
 
   const [loading, setLoading] = useState(true);
   const [swipe, setSwipe] = useState(1);
   const [transactionData, updateTransaction] = useState([]);
   const [getRecord, updateRecord] = useState(false);
   const [getWithdrawal, updateWithdrawal] = useState(false);
-  const [scoreData, updateData] = useState([
-    {
-      score: "0-0",
-      percent: "4.5",
-      selected: false,
-    },
-    {
-      score: "0-1",
-      percent: "4.5",
-      selected: false,
-    },
-    {
-      score: "0-2",
-      percent: "4.5",
-      selected: false,
-    },
-    {
-      score: "0-3",
-      percent: "4.5",
-      selected: false,
-    },
-    {
-      score: "0-4",
-      percent: "4.5",
-      selected: false,
-    },
-    {
-      score: "0-0",
-      percent: "4.5",
-      selected: false,
-    },
-    {
-      score: "0-0",
-      percent: "4.5",
-      selected: false,
-    },
-  ]);
-  function setActive(idx) {
-    let newData = JSON.parse(JSON.stringify(scoreData));
-    newData.forEach((element, i) => {
-      idx === i ? (element.selected = true) : (element.selected = false);
-    });
-    updateData(newData);
-  }
-  function setDeactivated() {
-    updateData((prev) => {
-      return prev.map((ele) => ({ ...ele, selected: false }));
-    });
-  }
+  const dataBox = useRef();
+  const [childrens, updateChildrens] = useState(null);
 
   async function getTransactionData() {
     try {
@@ -91,8 +42,11 @@ function Page() {
   }
 
   useEffect(() => {
+    updateChildrens(dataBox?.current?.children?.length);
+  }, [dataBox?.current?.children, swipe]);
+
+  useEffect(() => {
     getTransactionData();
-    console.log(transactionData);
   }, []);
 
   return (
@@ -127,8 +81,8 @@ function Page() {
                   alt="logo"
                 ></Image>
               </span>
-              <h2 className="capitalize text-sm mt-2 truncate font-bold text-white">
-                hello there
+              <h2 className="capitalize text-[0.65rem] mt-2 truncate font-bold text-white">
+                {userOtherData?.UserName || "User Name"}
               </h2>
             </div>
 
@@ -192,9 +146,10 @@ function Page() {
             </div>
           </div>
           {/* reacharge and balance section */}
-          <div 
-           onClick={() => router.push('/profile/recharge') }
-           className="py-6 h-[20%] px-4">
+          <div
+            onClick={() => router.push("/profile/recharge")}
+            className="py-6 h-[20%] px-4"
+          >
             <div className="bg-white py-2 relative ring-1 flex justify-between ring-gray-200 rounded-full p-1">
               <div className="flex pl-1 justify-center items-center space-x-1">
                 <span
@@ -466,8 +421,11 @@ function Page() {
               </div>
             </div>
             {/* popup display make the same for withdrawal and overall the data will be fetched here in this file and transfered to the recordAccordian file */}
-            <section className="max-h-[80%] overflow-y-scroll pt-6 pb-40 px-4">
-              {transactionData.map((item, idx) => {
+            <section
+              ref={dataBox}
+              className="max-h-[80%] overflow-y-scroll pt-6 pb-40 px-4"
+            >
+              {transactionData?.map((item, idx) => {
                 if (swipe === 1 && item?.Type === "deposit") {
                   //  deposit type
                   return (
@@ -499,7 +457,6 @@ function Page() {
                   );
                 } else if (swipe === 3 && item?.Type === "overall") {
                   //overall
-
                   return (
                     <RecordAccordians
                       key={item?._id}
@@ -514,6 +471,14 @@ function Page() {
                 }
                 // <RecordAccordians key={idx} idx={idx} cardDetails={item} />;
               })}
+              {childrens <= 1 && (
+                <p
+                  style={{
+                    height: "20rem",
+                    background: "url(/noData.svg) center no-repeat",
+                  }}
+                ></p>
+              )}
             </section>
           </div>
         )}

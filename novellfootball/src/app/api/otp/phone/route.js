@@ -1,3 +1,4 @@
+const oneMinute = 60 * 1000;
 import { sendPhoneOtp } from "@/app/helpers/otp";
 import { NextResponse } from "next/server";
 import { isValidUser } from "@/app/helpers/auth";
@@ -30,6 +31,7 @@ export async function GET(request) {
       });
       cookies().set("otp", `${otp}`, {
         maxAge: "5m",
+        expires: Date.now() + 5 * oneMinute,
       });
       return response;
     }
@@ -56,7 +58,7 @@ export async function POST(request) {
         message: "otp sent and valid for 5 minutes",
       });
       cookies().set("otp", `${otp}`, {
-        maxAge: "5m",
+        expires: Date.now() + 5 * oneMinute,
       });
 
       return response;
@@ -89,7 +91,7 @@ export async function PUT(request) {
         message: "otp sent and valid for 5 minutes",
       });
       cookies().set("otp", `${otp}`, {
-        maxAge: "5m",
+        expires: Date.now() + 5 * oneMinute,
       });
       return response;
     }

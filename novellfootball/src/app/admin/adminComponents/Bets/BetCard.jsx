@@ -21,7 +21,6 @@ const BetCard = ({ data }) => {
   const [Score_a_result, updateScoreAResult] = useState(0);
   const [Score_b_result, updateScoreBResult] = useState(0);
   const [state, formAction] = useFormState(settle, initialState);
-  const formStatus = useFormStatus();
 
   return (
     <form action={formAction}>

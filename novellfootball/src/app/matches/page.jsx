@@ -18,6 +18,7 @@ function Page() {
 
   console.log(placeBetData);
 
+  const [searchKey, updateSearchKey] = useState("");
   const [matches, updateMatches] = useState([]);
   const [matchLoaded, updateLoaded] = useState(false);
 
@@ -63,7 +64,10 @@ function Page() {
   useEffect(() => {
     let box = matches_box.current;
     function handleScroll() {
-      if (box.clientHeight + box.scrollTop >= box.scrollHeight - 10) {
+      if (
+        box.clientHeight + box.scrollTop >= box.scrollHeight - 10 &&
+        matchLoaded === true
+      ) {
         let update_len =
           parseInt(slice_length.end) + 10 > matches.length
             ? Math.abs(parseInt(matches.length - slice_length.end))
@@ -87,29 +91,49 @@ function Page() {
         <div className="relative text-center py-4 h-[8%] ">
           <h2 className=" capitalize text-sm font-bold my-0">matches</h2>
         </div>
-        <main className=" space-y-4 grid h-[92%] ">
+        <main className=" space-y-4  h-[92%] ">
           {/* search box */}
-          <div className="relative px-4  h-full max-h-[4rem] flex items-center ">
-            <input
-              type="text"
-              name=""
-              className="text-center px-4 rounded-full py-1.5 outline-none shadow-md
+          <div className="relative px-4 flex-col  h-[15%] max-h-[4rem] flex items-center ">
+            <div className="w-full relative">
+              <input
+                type="text"
+                value={searchKey}
+                onChange={(e) => updateSearchKey(e.target.value?.toLowerCase())}
+                className="text-center px-4 rounded-full py-1.5 outline-none shadow-md
             border-none bg-white w-full"
-              placeholder="Search Matches"
-              id=""
-            />
-            <div className="absolute left-4 top-0 h-full flex justify-center items-center aspect-square ">
-              <Image
-                src="/search.png"
-                alt="logo"
-                height={25}
-                width={25}
-              ></Image>
+                placeholder="Search Matches"
+              />
+              <div className="absolute left-4 top-0 h-full flex justify-center items-center aspect-square ">
+                <Image
+                  src="/search.png"
+                  alt="logo"
+                  height={25}
+                  width={25}
+                ></Image>
+              </div>
             </div>
+            {searchKey?.length > 3 && (
+              <div className="absolute z-[3] top-[80%] max-h-[900px] bg-slate-100 w-full px-4 py-3 flex flex-col overflow-scroll justify-center">
+                {matches?.map((match, idx) => {
+                  if (match?.Team_a?.toLowerCase()?.startsWith(searchKey)) {
+                    return (
+                      <MatchCard2
+                        key={`key-${idx}`}
+                        placeBet={getPlaceBet}
+                        data={{ ...match }}
+                      />
+                    );
+                  }
+                })}
+              </div>
+            )}
           </div>
           <div
             ref={matches_box}
-            className="w-full px-4 overflow-y-scroll pb-[5rem] pt-4 max-h-[100%] space-y-4 "
+            style={{
+              filter: searchKey?.length > 3 ? "blur(0.66px)" : "blur(0px)",
+            }}
+            className="w-full px-4 overflow-y-scroll pb-[5rem] pt-0 h-[80%] max-h-[80%] space-y-4 "
           >
             {matches.length > 2 &&
               matches
@@ -117,12 +141,19 @@ function Page() {
                 .map((item, i) => (
                   <MatchCard2
                     key={item.StakeId}
-                    index={i}
                     placeBet={getPlaceBet}
                     data={{ ...item }}
                   />
                 ))}
-            {!!matchLoaded && (
+
+            {matchLoaded === true && matches?.length <= 0 && (
+              <p
+                style={{ background: "url(./noData.svg) center no-repeat" }}
+                className="h-full w-full"
+              ></p>
+            )}
+
+            {!matchLoaded && matches?.length >= 0 && (
               <div className="text-center w-full text-xl capitalize">
                 Loading...
               </div>
