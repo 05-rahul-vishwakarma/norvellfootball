@@ -37,8 +37,12 @@
 }
 
 @keyframes shadow {
-  50% {
-    /* opacity: 0.4; */
-    transform: scale(0.5);
+  0% {
+    width: 0;
+    height: 0;
+  }
+  100% {
+    width: 0;
+    height: 0;
   }
 }
