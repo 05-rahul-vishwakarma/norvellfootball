@@ -130,7 +130,7 @@ const PlaceBet = ({ data, togglePopup }) => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="h-full absolute  top-0 left-0 flex justify-center items-end bg-black/70 w-full"
+      className="h-full absolute z-[10]  top-0 left-0 flex justify-center items-end bg-black/70 w-full"
     >
       <motion.div
         initial={{ y: 100 }}
@@ -262,13 +262,10 @@ function ScoreCards({
   const [estimatedIncome, updateEstimated] = useState(0);
   const [betAmount, updateBetAmount] = useState(0);
 
-  function updateAmount(e) {
-    updateBetAmount(e?.target?.value);
+  function updateAmount(amount) {
+    updateBetAmount(amount);
     updateEstimated(() => {
-      let estimated = (
-        (Number(e?.target?.value) / 100) *
-        Number(percent)
-      ).toFixed(2);
+      let estimated = ((Number(amount) / 100) * Number(percent)).toFixed(2);
       return Math.abs(
         Number(estimated) - (Number(estimated) / 100) * 5
       ).toFixed(2);
@@ -353,7 +350,7 @@ function ScoreCards({
                   className="focus:outline-none h-8 w-[80%] border-none bg-transparent outline-none "
                   placeholder="Add"
                   name=""
-                  onChange={updateAmount}
+                  onChange={(e) => updateAmount(e.target.value)}
                   value={betAmount}
                   id=""
                 />
@@ -373,7 +370,10 @@ function ScoreCards({
             </div>
           </div>
           <div className="flex space-x-2">
-            <button className="py-2 px-1 font-bold w-[30%] text-sm text-white rounded-md capitalize bg-gray-900">
+            <button
+              onClick={() => updateAmount(Balance)}
+              className="py-2 px-1 font-bold w-[30%] text-sm text-white rounded-md capitalize bg-gray-900"
+            >
               all amount
             </button>
             <button

@@ -4,7 +4,7 @@ import { IoMdCheckmarkCircle } from "react-icons/io";
 import { FaStar } from "react-icons/fa6";
 import { IoCloseCircle } from "react-icons/io5";
 
-function Vip({ data }) {
+function Vip({ data, isActive }) {
   return (
     <div
       style={{ boxShadow: "0 5px 5px rgb(0,0,0,0.05)" }}
@@ -20,11 +20,16 @@ function Vip({ data }) {
       >
         <span className="">
           <h1 className="text-[.9rem] font-body -tracking-tighter text-white ">
-             {data.tittle}
+            {data.tittle}
           </h1>
           <span className="text-xs flex place-items-center text-[#5F5F5F] ">
-            Exclusive for users <p className="text-white ml-1 ">activated</p>{" "}
-            <IoMdCheckmarkCircle className="ml-1 text-[#00DB58] " />
+            Exclusive for users
+            {isActive && (
+              <>
+                <p className="text-white ml-1 ">activated</p>
+                <IoMdCheckmarkCircle className="ml-1 text-[#00DB58] " />
+              </>
+            )}
           </span>
         </span>
       </div>
@@ -41,9 +46,7 @@ function Vip({ data }) {
             <p className="text-xs font-light ">No Extra Plan</p>
           </span>
         </div>
-        <div className="mr-4 ">
-          {data.icons[0]}
-        </div>
+        <div className="mr-4 ">{data.icons[0]}</div>
       </div>
 
       <div className=" mt-4 flex justify-between place-items-center ">
@@ -56,9 +59,7 @@ function Vip({ data }) {
             </p>
           </span>
         </div>
-        <div className="mr-4 ">
-        {data.icons[1]}
-        </div>
+        <div className="mr-4 ">{data.icons[1]}</div>
       </div>
 
       <div className=" mt-4 flex justify-between place-items-center ">
@@ -71,10 +72,7 @@ function Vip({ data }) {
             <p className="text-xs font-light ">Free Add-on</p>
           </span>
         </div>
-        <div className="mr-4">
-        {data.icons[2]}
-
-        </div>
+        <div className="mr-4">{data.icons[2]}</div>
       </div>
 
       <div className=" mt-4 flex justify-between place-items-center ">
@@ -85,9 +83,7 @@ function Vip({ data }) {
             <p className="text-xs font-light "> {data.wideRange} </p>
           </span>
         </div>
-        <div className="mr-4">
-        {data.icons[3]}
-        </div>
+        <div className="mr-4">{data.icons[3]}</div>
       </div>
 
       <div className=" mt-4 flex justify-between place-items-center ">
@@ -98,9 +94,7 @@ function Vip({ data }) {
             <p className="text-xs font-light ">Free Add-on</p>
           </span>
         </div>
-        <div className="mr-4">
-        {data.icons[4]}
-        </div>
+        <div className="mr-4">{data.icons[4]}</div>
       </div>
 
       <div className=" mt-4 flex justify-between place-items-center ">
@@ -110,14 +104,10 @@ function Vip({ data }) {
             <p className="text-sm font-[500] ">
               To Attain Emerald membership status
             </p>
-            <p className="text-xs font-light ">
-              {data.depositRange}
-            </p>
+            <p className="text-xs font-light ">{data.depositRange}</p>
           </span>
         </div>
-        <div className="mr-4">
-        {data.icons[5]}
-        </div>
+        <div className="mr-4">{data.icons[5]}</div>
       </div>
 
       <div className="w-[70px] h-[5px] mt-[1rem]  mr-auto ml-auto rounded-2xl bg-blue-500 "></div>

@@ -15,13 +15,14 @@ const UserSchema = new Schema(
     ParentInv: { type: Number, default: 0 },
     Parent: { type: String, default: "" },
     Balance: { type: Number, default: 0 }, // balance * 100 is being stored
-    ValidAmount: { type: Number, default: 0 },
-    ValidDeposit: { type: Number, default: 0 },
+    ValidAmount: { type: Number, default: 0 }, // * 100
+    ValidDeposit: { type: Number, default: 0 }, // * 100
     Deposited: { type: Number, default: 0 },
     Withdrawal: { type: Number, default: 0 }, // Withdrawal * 100
     Members: { type: Number, default: 0 },
     LocalBankAdded: { type: Boolean, default: false },
     UsdtBankAdded: { type: Boolean, default: false },
+    Commission: { type: Number, default: 0 },
     LocalBank: {
       type: Object,
       default: {

@@ -10,15 +10,17 @@ import {
   FaPlus,
 } from "react-icons/fa6";
 import { GrFormEdit } from "react-icons/gr";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { IoIosClose } from "react-icons/io";
 import AddBank from "@/app/components/AddBank";
 import Layout from "@/app/components/Layout";
 import OtpInputs from "@/app/components/OtpInputs";
+import { UserContext } from "@/app/helpers/UserContext";
 
 function Page({ closePopup }) {
-  const [getVerification, updateGetVerif] = useState(false);
+  const [getVerification, updateGetVerif] = useState(true);
   const [verifPhone, updateVerificationMethod] = useState(true);
+  const { userBalance, userOtherData } = useContext(UserContext);
   const [editBank, updateEditBank] = useState(false);
   const [isVerified, setVerified] = useState(false);
   const [otpSent, updateOtpSent] = useState(false);
@@ -138,7 +140,7 @@ function Page({ closePopup }) {
                 ></Image>
               </span>
               <h2 className="capitalize text-sm mt-2 truncate font-extrabold text-white">
-                hello there
+                {userOtherData?.UserName || "user Name"}
               </h2>
             </div>
             <div className="w-full mt-1  px-2">
@@ -206,7 +208,12 @@ function Page({ closePopup }) {
                   <FaRupeeSign />
                 </span>
 
-                <span className="text-sm font-bold pr-3">109230</span>
+                <span className="text-sm font-bold pr-3">
+                  {new Intl.NumberFormat("en-US", {
+                    style: "decimal",
+                    maximumFractionDigits: 2,
+                  }).format(userBalance || 0)}
+                </span>
                 <span
                   className=" h-full aspect-square rounded-full text-white 
              bg-blue-500 flex text-[0.8rem] p-0.5 justify-center items-center"
@@ -235,9 +242,13 @@ function Page({ closePopup }) {
                     valid amount
                   </span>
                   <div className="flex text-xs text-red-500 font-medium space-x-0">
-                    <span>109230</span>
+                    <span>
+                      {(userOtherData?.ValidAmount / 100).toFixed(2) || 0}
+                    </span>
                     <span>/</span>
-                    <span>109230</span>
+                    <span>
+                      {(userOtherData?.ValidDeposit / 100).toFixed(2) || 0}
+                    </span>
                   </div>
                 </div>
 
@@ -482,6 +493,8 @@ function Page({ closePopup }) {
           <VerificationPopup
             getBankEdit={updateEditBank}
             verify={verify}
+            otp={otp}
+            setOtp={setOtp}
             toggleVerification={updateGetVerif}
           />
         )}
@@ -493,7 +506,13 @@ function Page({ closePopup }) {
 
 export default Page;
 
-function VerificationPopup({ getBankEdit, verify, toggleVerification }) {
+function VerificationPopup({
+  getBankEdit,
+  verify,
+  otp,
+  setOtp,
+  toggleVerification,
+}) {
   const [phone, updateVerificationMethod] = useState(true);
   async function editBank() {
     try {
@@ -572,39 +591,8 @@ function VerificationPopup({ getBankEdit, verify, toggleVerification }) {
             </span>
             <span className="uppercase font-bold text-xs">+91******9182</span>
           </div>
-          <div className="flex space-x-2 flex-row items-center justify-between mx-auto w-full max-w-xs">
-            <div className="w-16 h-16 ">
-              <input
-                className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-md border border-gray-300 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
-                type="text"
-                name=""
-                id=""
-              />
-            </div>
-            <div className="w-16 h-16 ">
-              <input
-                className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-md border border-gray-300 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
-                type="text"
-                name=""
-                id=""
-              />
-            </div>
-            <div className="w-16 h-16 ">
-              <input
-                className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-md border border-gray-300 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
-                type="text"
-                name=""
-                id=""
-              />
-            </div>
-            <div className="w-16 h-16 ">
-              <input
-                className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-md border border-gray-300 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
-                type="text"
-                name=""
-                id=""
-              />
-            </div>
+          <div className="flex space-x-2 flex-row items-center justify-between mx-auto w-3/4 max-w-xs">
+            <OtpInputs otp={otp} setOtp={setOtp} />
           </div>
           <div className="flex flex-row pt-2 items-center text-center text-sm font-medium space-x-1 uppercase text-gray-500">
             <a

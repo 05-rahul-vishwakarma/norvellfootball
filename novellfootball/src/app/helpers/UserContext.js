@@ -7,6 +7,8 @@ export const UserContext = React.createContext();
 
 const UserContextProvider = ({ children }) => {
   const [userBalance, setUserBalance] = React.useState(null);
+  const [userOtherData, setOtherUserDetails] = React.useState(null);
+
   let router = useRouter();
   useEffect(() => {
     if (
@@ -21,7 +23,10 @@ const UserContextProvider = ({ children }) => {
     try {
       let res = await fetch(`/api/user`);
       res = await res.json();
-      if (res?.status === 200) setUserBalance(res?.data?.Balance);
+      if (res?.status === 200) {
+        setUserBalance(res?.data?.Balance);
+        setOtherUserDetails(res?.data?.Other);
+      }
       if (res?.status === 302) {
         alert("sessioin time out");
         router.push("/access/login");
@@ -32,7 +37,7 @@ const UserContextProvider = ({ children }) => {
     }
   }
   return (
-    <UserContext.Provider value={{ userBalance, getBalance }}>
+    <UserContext.Provider value={{ userBalance, getBalance, userOtherData }}>
       {children}
     </UserContext.Provider>
   );

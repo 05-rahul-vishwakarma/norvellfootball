@@ -11,12 +11,17 @@ export async function GET(req) {
   try {
     let UserName = await isValidUser(token, session);
     if (!UserName) throw new CustomError(302, "Login session time out", {});
-    let res = await USER.findOne({ UserName }, { Balance: 1 });
+    let res = await USER.findOne(
+      { UserName },
+      {
+        _id: 0,
+      }
+    );
     if (!res) throw new CustomError(703, "somthing went wrong", {});
     return NextResponse.json({
       status: 200,
       message: "data fetched",
-      data: { Balance: Number(res?.Balance) / 100 },
+      data: { Balance: Number(res?.Balance) / 100, Other: res },
     });
   } catch (error) {
     console.log(error, "error from users");

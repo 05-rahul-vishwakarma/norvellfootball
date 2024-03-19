@@ -118,7 +118,7 @@ const Signup = () => {
     Invitation: "",
   });
 
-  const [getVerification, updateGetVerif] = useState(true);
+  const [getVerification, updateGetVerif] = useState(false);
   const [isInternational, updtInternational] = useState(false);
   const [isVerified, setVerified] = useState(false);
 

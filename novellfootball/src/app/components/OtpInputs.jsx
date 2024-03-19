@@ -32,7 +32,7 @@ const OtpInputs = ({ otp, setOtp }) => {
           <input
             ref={activeIdx == idx ? inputRef : null}
             className="w-full h-full  text-center outline-none rounded-xl border text-gray-600 border-gray-400 text-[0.9rem] bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
-            type="text"
+            type="number"
             onChange={updateOtp}
             onKeyDown={(e) => handleKeyDown(e, idx)}
             value={otp[idx]}

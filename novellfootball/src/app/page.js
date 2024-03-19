@@ -14,10 +14,9 @@ import { UserContext } from "./helpers/UserContext";
 import Modal from "./components/Modal";
 import { easeInOut, motion } from "framer-motion";
 
-
 export default function Home() {
   const router = useRouter();
-  const { userBalance, getBalance } = useContext(UserContext);
+  const { userBalance, userOtherData } = useContext(UserContext);
   const [matches, updateMatches] = useState([]);
   const [matchLoaded, updateLoaded] = useState(false);
 
@@ -151,7 +150,7 @@ export default function Home() {
           <div className="flex place-items-center">
             <span className="text-[0.7rem] font-semibold mt-1 leading-3 mr-1 text-white ">
               <p className="w-[6rem] text-right overflow-hidden  break-words  ">
-                Welcome User name
+                Welcome User {userOtherData?.UserName || "name"}
               </p>
             </span>
             <div className="h-[3rem] w-[3rem] flex justify-center place-items-center rounded-full bg-white ">
@@ -517,7 +516,7 @@ function ScoreCards({ placeBet, percent, Balance, Score_a, Score_b }) {
             all amount
           </button>
           <button
-            onClick={() => placeBet(percent, Score_a , Score_b, betAmount)}
+            onClick={() => placeBet(percent, Score_a, Score_b, betAmount)}
             className="py-2 px-2 w-[70%] bg-blue-600 font-bold text-sm text-white rounded-md capitalize"
           >
             confirm

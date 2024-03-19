@@ -1,3 +1,5 @@
+const oneDay = 24 * 60 * 60 * 1000;
+const oneMinute = 60 * 1000;
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { USER } from "@/app/modals/modal";
@@ -36,26 +38,18 @@ export async function POST(NextRequest) {
       { new: true }
     );
     const response = NextResponse.json({ status: 200, message: "logged in" });
+
     cookies().set("token", `${token}`, {
       httpOnly: true,
-      maxAge: "1d",
+      // maxAge: "1m",
+      expires: Date.now() + oneDay,
       secure: true,
     });
     cookies().set("session", `${sessionToken}`, {
       httpOnly: true,
-      maxAge: "1d",
+      expires: Date.now() + oneDay,
       secure: true,
     });
-    // response.cookies.set("token", `${token}`, {
-    //   httpOnly: true,
-    //   maxAge: "1d",
-    //   secure: true,
-    // });
-    // response.cookies.set("session", `${sessionToken}`, {
-    //   httpOnly: true,
-    //   maxAge: "1d",
-    //   secure: true,
-    // });
     return response;
   } catch (error) {
     console.log(error);
@@ -124,25 +118,15 @@ export async function PUT(NextRequest) {
     });
     cookies().set("token", `${token}`, {
       httpOnly: true,
-      maxAge: "1d",
+      expires: Date.now() + oneDay,
       secure: true,
     });
     cookies().set("session", `${sessionToken}`, {
       httpOnly: true,
-      maxAge: "1d",
+      expires: Date.now() + oneDay,
       secure: true,
     });
 
-    // response.cookies.set("token", token, {
-    //   httpOnly: true,
-    //   maxAge: "1d",
-    //   secure: true,
-    // });
-    // response.cookies.set("session", `${sessionToken}`, {
-    //   httpOnly: true,
-    //   maxAge: "1d",
-    //   secure: true,
-    // });
     return response;
   } catch (error) {
     return NextResponse.json({
