@@ -11,11 +11,13 @@ import Layout from "../components/Layout";
 import VerificationPopup from "../components/VerificationPopup";
 import Vip from "../components/Vip";
 import { UserContext } from "../helpers/UserContext";
+import Loading from "../components/Loading";
 
 function Page() {
   const router = useRouter();
   const { userBalance, getBalance } = useContext(UserContext);
 
+  const [loading, setLoading] = useState(true);
   const [swipe, setSwipe] = useState(1);
   const [transactionData, updateTransaction] = useState([]);
   const [getRecord, updateRecord] = useState(false);
@@ -73,6 +75,7 @@ function Page() {
   async function getTransactionData() {
     try {
       let res = await fetch("/api/profile");
+      setLoading(false); // Set loading to false when data is fetched
       if (res?.ok) {
         res = await res.json();
         if (res?.status === 200) {
@@ -95,6 +98,9 @@ function Page() {
   return (
     <Layout>
       <section className="bg-[#F8FCFF] overflow-hidden relative h-[100dvh]">
+
+        {loading && <Loading/> }
+
         <div className="relative text-center py-4 h-[8%] ">
           <h2 className=" capitalize text-[0.8rem] font-bold my-0">Profile</h2>
         </div>

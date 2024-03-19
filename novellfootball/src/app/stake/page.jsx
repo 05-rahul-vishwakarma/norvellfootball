@@ -11,6 +11,7 @@ import Image from "next/image";
 import teamlogo from "../../../public/logo.png";
 import Layout from "../components/Layout";
 import { useRouter } from "next/navigation";
+import Loading from "../components/Loading";
 
 const variantOne = {
   visible: {
@@ -47,6 +48,7 @@ function Page() {
   const [pendingMatches, updatePendingMatches] = useState([]);
   const [settledMatches, updateSettledMatches] = useState([]);
   const [isDltMatch, setDltMatch] = useState([]);
+  const [loading, setLoading] = useState(true);
   let router = useRouter();
 
   // # function to cancel the stake
@@ -74,7 +76,6 @@ function Page() {
       };
       let res = await fetch(`/api/stake`, config);
       res = await res.json();
-
       setShow(false);
     } catch (error) {
       console.log(error);
@@ -85,6 +86,7 @@ function Page() {
     try {
       let res = await fetch(`/api/stake`);
       res = await res.json();
+      setLoading(false); // Set loading to false when data is fetched
       if (res?.status === 200) {
         updatePendingMatches(res?.data?.pendingMatches);
         updateSettledMatches(res?.data?.settledMatches);
@@ -102,6 +104,7 @@ function Page() {
   return (
     <Layout>
       <div className="h-screen w-screen  bg-[#f8fcff]   ">
+        {loading && <Loading/> }
         <div onClick={() => router.back()} className="py-[1rem] ">
           <div className="grid grid-flow-col  place-items-center">
             <span className="flex place-items-center justify-self-start p-[.5rem]">

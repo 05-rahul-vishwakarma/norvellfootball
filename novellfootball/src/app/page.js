@@ -13,6 +13,7 @@ import Layout from "./components/Layout";
 import { UserContext } from "./helpers/UserContext";
 import Modal from "./components/Modal";
 import { easeInOut, motion } from "framer-motion";
+import Loading from "./components/Loading";
 
 
 export default function Home() {
@@ -20,6 +21,8 @@ export default function Home() {
   const { userBalance, getBalance } = useContext(UserContext);
   const [matches, updateMatches] = useState([]);
   const [matchLoaded, updateLoaded] = useState(false);
+  const [loading, setLoading] = useState(true);
+
 
   // states for access current data and popup handling //
   const [selectedMatch, setSelectedMatch] = useState(null);
@@ -44,13 +47,14 @@ export default function Home() {
       let res = await fetch(`/api/home`);
       if (!res.ok) throw new Error("Error while fetching matches");
       res = await res.json();
-      console.log(res);
+      setLoading(false); // Set loading to false when data is fetched
       if (res?.status === 200) {
         updateMatches(res?.data?.matches);
       } else {
         throw new Error("Somethign went wrong");
       }
     } catch (error) {
+      setLoading(false); // Handle errors and set loading to false
       alert(error);
       // router.push("/access/login");
     }
@@ -194,6 +198,9 @@ export default function Home() {
             <MatchPopup match={selectedMatch} onClose={closePopup} />
           )}
         </div>
+        
+        {/* loading component here */}
+        {loading && <Loading/> }
       </main>
     </Layout>
   );

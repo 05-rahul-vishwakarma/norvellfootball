@@ -83,9 +83,10 @@ function Page() {
       setModalMessage("UTR number should have 12 digitis");
       setModalOpen(true);
     } else {
+     
       try {
         let body = {
-          utrNumber: value,
+          TransactionId: value,
           Amount: receivedData,
           Channel: 1,
         };
@@ -104,9 +105,9 @@ function Page() {
           setopps("Pending");
           setModalMessage(res.message);
           setModalOpen(true);
-        } else {
+        } else if (res?.status === 500) {
           setStatusImage("/opps.png");
-          setopps("Pending");
+          setopps("Opps!");
           setModalMessage(res.message);
           setModalOpen(true);
         }

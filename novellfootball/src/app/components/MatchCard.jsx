@@ -88,7 +88,7 @@ function MatchCard({ id, data, index, gradient, onClick, color }) {
           <div className="h-[90%] flex justify-center items-center text-white ">
             <div style={{ lineHeight: 1 }} className="capitalize text-center">
               <p
-                style={{ color: `${colors.stop}` }}
+                style={{ color: `${color.stop}` }}
                 className={`text-md font-bold`}
               >
                 {Math.floor(percentage)}M

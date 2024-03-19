@@ -8,11 +8,13 @@ import Layout from "../components/Layout";
 import { useEffect, useState, useRef, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { UserContext } from "../helpers/UserContext";
+import Loading from "../components/Loading";
 
 function Page() {
   const { userBalance, getBalance } = useContext(UserContext);
   const [isPlaceBet, togglePlaceBet] = useState(false);
   const [placeBetData, updatePlaceBetData] = useState({});
+  const [loading, setLoading] = useState(true);
 
   console.log(placeBetData);
 
@@ -36,6 +38,7 @@ function Page() {
       let res = await fetch(`/api/match`);
       if (!res.ok) throw new Error("Error while fetching matches");
       res = await res.json();
+      setLoading(false); // Set loading to false when data is fetched
       if (res?.status === 200) {
         updateMatches(res?.data?.matches);
       } else {
@@ -52,6 +55,7 @@ function Page() {
     }
     if (!matchLoaded) {
       getLiveMatches();
+      setLoading(false); // Set loading to false when data is fetched
       updateLoaded(true);
     }
   }, [matchLoaded]);
@@ -79,6 +83,7 @@ function Page() {
   return (
     <Layout>
       <section className="bg-[#f7f8ff] relative h-[100dvh]">
+        {loading && <Loading/> }
         <div className="relative text-center py-4 h-[8%] ">
           <h2 className=" capitalize text-sm font-bold my-0">matches</h2>
         </div>
@@ -121,6 +126,7 @@ function Page() {
               <div className="text-center w-full text-xl capitalize">
                 Loading...
               </div>
+
             )}
           </div>
         </main>
