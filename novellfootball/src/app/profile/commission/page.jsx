@@ -45,15 +45,19 @@ const Page = () => {
 
   async function getCommissionData() {
     let res = await fetch("/api/profile/commission");
+    let today = new Date();
+    let date = `${today?.getDate()}/${
+      today?.getMonth() + 1
+    }/${today?.getFullYear()}`;
     let weeklyCommission = [];
     if (res.ok) {
       res = await res.json();
       let commissionObj = res?.data[0];
-      updateTodayCommission(commissionObj["8/3/2024"]);
+      updateTodayCommission(commissionObj[date]);
       updateCommissionData(() => {
         let total = 0;
-        if (commissionObj.hasOwnProperty("8/3/2024")) {
-          for (let data of commissionObj["8/3/2024"]) {
+        if (commissionObj.hasOwnProperty(date)) {
+          for (let data of commissionObj[date]) {
             total += Number(data?.Commission) / 100;
           }
           return total;
@@ -68,7 +72,7 @@ const Page = () => {
               todayCommission += Number(commission.Commission) / 100;
             }
             weeklyCommission.push(todayCommission);
-            if (key !== "8/3/2024") {
+            if (key !== date) {
               overall_obj.push(...commissionObj[key]);
             }
           }
@@ -121,9 +125,30 @@ const Page = () => {
     }
   }
 
+  async function claimCommission() {
+    try {
+      let config = {
+        method: "POST",
+        header: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({}),
+      };
+      let res = await fetch("/api/profile/commission", config);
+      res = await res.json();
+      if (res?.status === 200) {
+        alert("commission claimed");
+      } else {
+        alert(res?.message);
+      }
+    } catch (error) {
+      alert(error);
+    }
+  }
+
   useEffect(() => {
     getCommissionData();
-    // getRegisterData();
+    getRegisterData();
     getTransactionData();
   }, []);
 
@@ -258,7 +283,10 @@ const Page = () => {
                       ) / 100}
                     </h2>
                   </div>
-                  <div className="py-1 bg-blue-500 rounded-md px-3 capitalize text-white font-semibold text-[0.6rem]">
+                  <div
+                    onClick={claimCommission}
+                    className="py-1 bg-blue-500 rounded-md px-3 capitalize text-white font-semibold text-[0.6rem]"
+                  >
                     claim
                   </div>
                 </div>
@@ -308,7 +336,7 @@ const Page = () => {
                 new deposit
               </div>
               <div className="h-full  w-full flex-[2] capitalize font-bold text-[0.6rem] text-gray-400 flex items-center justify-between">
-                <h2>{total_deposit || 0} new deposit</h2>
+                <h2>{total_deposit || 0} total deposit</h2>
               </div>
               <div className="h-full w-full flex justify-center items-center flex-[1]">
                 <div className="p-1 rounded-full bg-gray-200 text-sm">

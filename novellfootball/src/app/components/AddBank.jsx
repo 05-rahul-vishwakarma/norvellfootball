@@ -51,7 +51,7 @@ const localBank = [
   },
 ];
 
-const AddBank = ({ closePopup }) => {
+const AddBank = ({ closePopup, localEditable, usdtEditable }) => {
   const [localBankCredentials, updateCredentials] = useState({
     AccHolderName: "",
     BankName: "",
@@ -63,7 +63,7 @@ const AddBank = ({ closePopup }) => {
     UsdtAddress: "",
     AppName: "",
   });
-  const [isLocalBank, updateBank] = useState(true);
+  const [isLocalBank, updateBank] = useState(localEditable);
 
   async function sendNewBankData() {
     try {
@@ -150,7 +150,13 @@ const AddBank = ({ closePopup }) => {
               <input
                 type="radio"
                 name="Editbank"
-                onChange={() => updateBank((prev) => !prev)}
+                onChange={() => {
+                  if (localEditable && usdtEditable) {
+                    updateBank((prev) => !prev);
+                  } else {
+                    updateBank(localEditable);
+                  }
+                }}
                 checked={isLocalBank}
                 value={"local"}
                 className="size-5"

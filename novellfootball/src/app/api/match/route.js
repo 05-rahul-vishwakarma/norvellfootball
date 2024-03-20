@@ -109,6 +109,9 @@ async function getExtractedMatches(matches) {
 // this function will handle functionality of bet placement;
 export async function POST(request) {
   let { token, session } = await getCookieData();
+  await connect();
+  const Session = await mongoose.startSession();
+  Session.startTransaction();
   try {
     let UserName = await isValidUser(token, session);
     if (!UserName)
@@ -143,8 +146,6 @@ export async function POST(request) {
     )
       throw new CustomError(700, "please fill all the details", {});
 
-    await connect();
-
     // check for existing bet on this match
     const isBetExists = await BET.findOne({
       UserName,
@@ -158,9 +159,6 @@ export async function POST(request) {
       );
 
     BetAmount = BetAmount * 100;
-
-    const Session = await mongoose.startSession();
-    Session.startTransaction();
 
     let user_updated = await USER.findOneAndUpdate(
       {
@@ -202,6 +200,7 @@ export async function POST(request) {
     await Session.commitTransaction();
     return NextResponse.json({ status: 200, message: "bet placed" });
   } catch (error) {
+    await Session.abortTransaction();
     return NextResponse.json({
       status: error?.status || error?.code || 500,
       message: error?.message || "something went wrong",

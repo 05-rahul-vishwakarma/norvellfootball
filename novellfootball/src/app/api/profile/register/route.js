@@ -10,11 +10,9 @@ import { isValidUser } from "@/app/helpers/auth";
 import { cookies } from "next/headers";
 
 export async function GET(request) {
+  let today = new Date();
   let { session, token } = await getCookieData();
   try {
-    // const session = request.cookies.get("session")?.value || "";
-    // const token = request?.cookies?.get("token")?.value || "";
-    // const UserName = await isAuthenticated(token, session);
     const UserName = await isValidUser(token, session);
 
     if (!UserName)
@@ -24,7 +22,15 @@ export async function GET(request) {
       });
     let level1_users = await USER.find(
       { Parent: UserName },
-      { UserName: 1, JoinedOn: 1 }
+      {
+        UserName: 1,
+        JoinedOn: 1,
+        Parent: 1,
+        Deposited: 1,
+        Withdrawal: 1,
+        Balance: 1,
+        createdAt: 1,
+      }
     );
     let level2_users = [];
     let level3_users = [];
@@ -33,27 +39,52 @@ export async function GET(request) {
     for (let user of level1_users) {
       let level2Users = await USER.find(
         { Parent: user?.UserName },
-        { UserName: 1, JoinedOn }
+        {
+          UserName: 1,
+          JoinedOn: 1,
+          Parent: 1,
+          Deposited: 1,
+          Withdrawal: 1,
+          Balance: 1,
+          createdAt: 1,
+        }
       );
-      if (user?.JoinedOn === "8/3/2024") {
+      if (
+        user?.JoinedOn ===
+        `${today.getDate()}/${today?.getMonth() + 1}/${today.getFullYear()}`
+      ) {
         joinedToday++;
       }
       level2_users.push(...level2Users);
       for (let user_lev2 of level2_users) {
         let users = await USER.find(
           { Parent: user_lev2?.UserName },
-          { UserName: 1, JoinedOn: 1 }
+          {
+            UserName: 1,
+            JoinedOn: 1,
+            Parent: 1,
+            Deposited: 1,
+            Withdrawal: 1,
+            Balance: 1,
+            createdAt: 1,
+          }
         );
         level3_users.push(...users);
       }
     }
     for (let user of level2_users) {
-      if (user?.JoinedOn === "8/3/2024") {
+      if (
+        user?.JoinedOn ===
+        `${today.getDate()}/${today?.getMonth() + 1}/${today.getFullYear()}`
+      ) {
         joinedToday++;
       }
     }
     for (let user of level3_users) {
-      if (user?.JoinedOn === "8/2/2024") {
+      if (
+        user?.JoinedOn ===
+        `${today.getDate()}/${today?.getMonth() + 1}/${today.getFullYear()}`
+      ) {
         joinedToday++;
       }
     }

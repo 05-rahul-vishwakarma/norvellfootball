@@ -17,14 +17,24 @@ function CommissionPopModel({
 }) {
   const [selectedLevel, updateLevel] = useState(1);
   const [childrens, updateChildrens] = useState(0);
+  const [today, updateToday] = useState("0/0/2024");
   const dataBox = useRef();
   const [swipe, setSwipe] = useState(1);
   const [searchKey, updateSearchKey] = useState("");
+
+  useEffect(() => {
+    let today = new Date();
+    let date = `${today?.getDate()}/${
+      today?.getMonth() + 1
+    }/${today?.getFullYear()}`;
+    updateToday(date);
+  }, []);
+
   useEffect(() => {
     if (dataBox?.current) {
       updateChildrens(dataBox?.current?.children?.length);
     }
-  }, [swipe, dataBox?.current?.childrens]);
+  }, [swipe, dataBox?.current?.children, searchKey, selectedLevel]);
 
   return (
     <div className="h-screen w-screen overflow-y-hidden bg-[#F8FCFF] ">
@@ -85,7 +95,8 @@ function CommissionPopModel({
               shadow-gray-500
             border-none bg-white w-full"
             placeholder="Search Username"
-            id=""
+            value={searchKey}
+            onChange={(e) => updateSearchKey(e.target.value)}
           />
           <div className="absolute left-4 top-0 h-full flex justify-center items-center aspect-square ">
             <Image src="/search.png" alt="logo" height={25} width={25}></Image>
@@ -140,17 +151,33 @@ function CommissionPopModel({
                   searchKey.toLowerCase()
                 )
               ) {
-                return (
-                  <div key={idx}>
-                    <RegisterAcordian cardDetails={item} />
-                  </div>
-                );
-              } else {
-                return (
-                  <div key={idx}>
-                    <RegisterAcordian cardDetails={item} />
-                  </div>
-                );
+                if (swipe === 1 && today === item?.JoinedOn) {
+                  return (
+                    <div key={idx}>
+                      <RegisterAcordian level={1} cardDetails={item} />
+                    </div>
+                  );
+                } else if (swipe === 2 && today !== item?.JoinedOn) {
+                  return (
+                    <div key={idx}>
+                      <RegisterAcordian level={1} cardDetails={item} />
+                    </div>
+                  );
+                }
+              } else if (searchKey?.length < 3) {
+                if (swipe === 1 && today === item?.JoinedOn) {
+                  return (
+                    <div key={idx}>
+                      <RegisterAcordian level={1} cardDetails={item} />
+                    </div>
+                  );
+                } else if (swipe === 2 && today !== item?.JoinedOn) {
+                  return (
+                    <div key={idx}>
+                      <RegisterAcordian level={1} cardDetails={item} />
+                    </div>
+                  );
+                }
               }
             })}
           {selectedLevel === 2 &&
@@ -162,17 +189,33 @@ function CommissionPopModel({
                   searchKey.toLowerCase()
                 )
               ) {
-                return (
-                  <div key={idx}>
-                    <RegisterAcordian cardDetails={item} />
-                  </div>
-                );
-              } else {
-                return (
-                  <div key={idx}>
-                    <RegisterAcordian cardDetails={item} />
-                  </div>
-                );
+                if (swipe === 1 && today === item?.JoinedOn) {
+                  return (
+                    <div key={idx}>
+                      <RegisterAcordian level={2} cardDetails={item} />
+                    </div>
+                  );
+                } else if (swipe === 2 && today !== item?.JoinedOn) {
+                  return (
+                    <div key={idx}>
+                      <RegisterAcordian level={2} cardDetails={item} />
+                    </div>
+                  );
+                }
+              } else if (searchKey?.length < 3) {
+                if (swipe === 1 && today === item?.JoinedOn) {
+                  return (
+                    <div key={idx}>
+                      <RegisterAcordian level={2} cardDetails={item} />
+                    </div>
+                  );
+                } else if (swipe === 2 && today !== item?.JoinedOn) {
+                  return (
+                    <div key={idx}>
+                      <RegisterAcordian level={2} cardDetails={item} />
+                    </div>
+                  );
+                }
               }
             })}
           {selectedLevel === 3 &&
@@ -184,17 +227,33 @@ function CommissionPopModel({
                   searchKey.toLowerCase()
                 )
               ) {
-                return (
-                  <div key={idx}>
-                    <RegisterAcordian cardDetails={item} />
-                  </div>
-                );
-              } else {
-                return (
-                  <div key={idx}>
-                    <RegisterAcordian cardDetails={item} />
-                  </div>
-                );
+                if (swipe === 1 && today === item?.JoinedOn) {
+                  return (
+                    <div key={idx}>
+                      <RegisterAcordian level={3} cardDetails={item} />
+                    </div>
+                  );
+                } else if (swipe === 2 && today !== item?.JoinedOn) {
+                  return (
+                    <div key={idx}>
+                      <RegisterAcordian level={3} cardDetails={item} />
+                    </div>
+                  );
+                }
+              } else if (searchKey?.length < 3) {
+                if (swipe === 1 && today === item?.JoinedOn) {
+                  return (
+                    <div key={idx}>
+                      <RegisterAcordian level={3} cardDetails={item} />
+                    </div>
+                  );
+                } else if (swipe === 2 && today !== item?.JoinedOn) {
+                  return (
+                    <div key={idx}>
+                      <RegisterAcordian level={3} cardDetails={item} />
+                    </div>
+                  );
+                }
               }
             })}
 
@@ -203,21 +262,35 @@ function CommissionPopModel({
             level1.map((item, idx) => {
               if (
                 searchKey?.length >= 3 &&
-                item?.UserName?.toLowerCase()?.startsWith(
-                  searchKey.toLowerCase()
-                )
+                item?.From?.toLowerCase()?.startsWith(searchKey.toLowerCase())
               ) {
-                return (
-                  <div key={idx}>
-                    <Transaction type={type} cardDetails={item} />
-                  </div>
-                );
-              } else {
-                return (
-                  <div key={idx}>
-                    <Transaction type={type} cardDetails={item} />
-                  </div>
-                );
+                if (swipe === 1 && today === item?.Date) {
+                  return (
+                    <div key={idx}>
+                      <Transaction type={type} cardDetails={item} />
+                    </div>
+                  );
+                } else if (swipe === 2 && today !== item?.Date) {
+                  return (
+                    <div key={idx}>
+                      <Transaction type={type} cardDetails={item} />
+                    </div>
+                  );
+                }
+              } else if (searchKey?.length < 3) {
+                if (swipe === 1 && today === item?.Date) {
+                  return (
+                    <div key={idx}>
+                      <Transaction type={type} cardDetails={item} />
+                    </div>
+                  );
+                } else if (swipe === 2 && today !== item?.Date) {
+                  return (
+                    <div key={idx}>
+                      <Transaction type={type} cardDetails={item} />
+                    </div>
+                  );
+                }
               }
             })}
           {selectedLevel === 2 &&
@@ -225,21 +298,35 @@ function CommissionPopModel({
             level2.map((item, idx) => {
               if (
                 searchKey?.length >= 3 &&
-                item?.UserName?.toLowerCase()?.startsWith(
-                  searchKey.toLowerCase()
-                )
+                item?.From?.toLowerCase()?.startsWith(searchKey.toLowerCase())
               ) {
-                return (
-                  <div key={idx}>
-                    <Transaction type={type} cardDetails={item} />
-                  </div>
-                );
-              } else {
-                return (
-                  <div key={idx}>
-                    <Transaction type={type} cardDetails={item} />
-                  </div>
-                );
+                if (swipe === 1 && today === item?.Date) {
+                  return (
+                    <div key={idx}>
+                      <Transaction type={type} cardDetails={item} />
+                    </div>
+                  );
+                } else if (swipe === 2 && today !== item?.Date) {
+                  return (
+                    <div key={idx}>
+                      <Transaction type={type} cardDetails={item} />
+                    </div>
+                  );
+                }
+              } else if (searchKey?.length < 3) {
+                if (swipe === 1 && today === item?.Date) {
+                  return (
+                    <div key={idx}>
+                      <Transaction type={type} cardDetails={item} />
+                    </div>
+                  );
+                } else if (swipe === 2 && today !== item?.Date) {
+                  return (
+                    <div key={idx}>
+                      <Transaction type={type} cardDetails={item} />
+                    </div>
+                  );
+                }
               }
             })}
           {selectedLevel === 3 &&
@@ -247,40 +334,63 @@ function CommissionPopModel({
             level3.map((item, idx) => {
               if (
                 searchKey?.length >= 3 &&
-                item?.UserName?.toLowerCase()?.startsWith(
-                  searchKey.toLowerCase()
-                )
+                item?.From?.toLowerCase()?.startsWith(searchKey.toLowerCase())
               ) {
-                return (
-                  <div key={idx}>
-                    <Transaction type={type} cardDetails={item} />
-                  </div>
-                );
-              } else {
-                return (
-                  <div key={idx}>
-                    <Transaction type={type} cardDetails={item} />
-                  </div>
-                );
+                if (swipe === 1 && today === item?.Date) {
+                  return (
+                    <div key={idx}>
+                      <Transaction type={type} cardDetails={item} />
+                    </div>
+                  );
+                } else if (swipe === 2 && today !== item?.Date) {
+                  return (
+                    <div key={idx}>
+                      <Transaction type={type} cardDetails={item} />
+                    </div>
+                  );
+                }
+              } else if (searchKey?.length < 3) {
+                if (swipe === 1 && today === item?.Date) {
+                  return (
+                    <div key={idx}>
+                      <Transaction type={type} cardDetails={item} />
+                    </div>
+                  );
+                } else if (swipe === 2 && today !== item?.Date) {
+                  return (
+                    <div key={idx}>
+                      <Transaction type={type} cardDetails={item} />
+                    </div>
+                  );
+                }
               }
             })}
 
-          {(swipe === 1 ? todayCommission : overallCommission)?.map(
-            (item, idx) => {
-              if (
-                searchKey?.length >= 3 &&
-                item?.UserName?.toLowerCase()?.startsWith(searchKey)
-              ) {
-                return (
-                  <CommissionAcordian key={idx} idx={idx} cardDetails={item} />
-                );
-              } else {
-                return (
-                  <CommissionAcordian key={idx} idx={idx} cardDetails={item} />
-                );
+          {type === "commission" &&
+            (swipe === 1 ? todayCommission : overallCommission)?.map(
+              (item, idx) => {
+                if (
+                  searchKey?.length >= 3 &&
+                  item?.UserName?.toLowerCase()?.startsWith(searchKey)
+                ) {
+                  return (
+                    <CommissionAcordian
+                      key={idx}
+                      idx={idx}
+                      cardDetails={item}
+                    />
+                  );
+                } else if (searchKey?.length < 3) {
+                  return (
+                    <CommissionAcordian
+                      key={idx}
+                      idx={idx}
+                      cardDetails={item}
+                    />
+                  );
+                }
               }
-            }
-          )}
+            )}
           {childrens <= 1 && (
             <p
               className="h-[20rem] w-full"
@@ -359,8 +469,12 @@ function CommissionAcordian({ cardDetails }) {
 }
 
 // new register accordian button
-function RegisterAcordian({ cardDetails, idx }) {
+function RegisterAcordian({ cardDetails, level, idx }) {
   const [isActive, updateActive] = useState(false);
+  const [createdAt, updateCreatedAt] = useState(new Date());
+  useEffect(() => {
+    updateCreatedAt(new Date(cardDetails?.createdAt));
+  }, []);
   return (
     <div
       style={{ boxShadow: "0 5px 5px rgba(0,0,0,0.02) " }}
@@ -373,11 +487,21 @@ function RegisterAcordian({ cardDetails, idx }) {
         >
           {!isActive && (
             <>
-              <h2 className="font-bold capitalize truncate text-sm">Deposit</h2>
+              <h2 className="font-bold capitalize truncate text-sm">
+                {cardDetails?.UserName || "no name"}
+              </h2>
               <div className="flex text-xs text-gray-600 font-bold items-center">
-                <h2>12/02/2023</h2>
+                <h2>
+                  {createdAt?.getDate()}/{createdAt?.getMonth() + 1}/
+                  {createdAt?.getFullYear()}
+                </h2>
                 <h2>-</h2>
-                <h2>10:00</h2>
+                <h2>
+                  {createdAt?.getHours() > 12
+                    ? createdAt?.getHours() - 12
+                    : createdAt?.getHours()}
+                  :{createdAt?.getMinutes()}
+                </h2>
               </div>
             </>
           )}
@@ -406,35 +530,57 @@ function RegisterAcordian({ cardDetails, idx }) {
           <div className=" space-y-1">
             <span className="space-x-1 flex">
               <h2 className="text-semibold">status -</h2>
-              <h2 className="text-green-400 font-semibold">Active</h2>
+              <h2
+                style={{ color: cardDetails?.Deposited > 0 ? "lime" : "red" }}
+                className=" font-semibold"
+              >
+                {cardDetails?.Deposited > 0 ? "Active" : "Deactive"}
+              </h2>
             </span>
             <span className="space-x-1 flex">
               <h2>username -</h2>
-              <h2 className=" font-semibold">tester</h2>
+              <h2 className=" font-semibold">
+                {cardDetails?.UserName || "not available"}
+              </h2>
             </span>
             <span className="space-x-1 flex">
               <h2>parent username -</h2>
-              <h2 className=" font-semibold">tester 0123</h2>
+              <h2 className=" font-semibold">
+                {cardDetails?.Parent || "not available"}
+              </h2>
             </span>
             <span className="space-x-1 flex">
               <h2>current balance -</h2>
-              <h2 className=" font-semibold">123987</h2>
+              <h2 className=" font-semibold">
+                {cardDetails?.Balance / 100 || "0"}
+              </h2>
             </span>
             <span className="space-x-1 flex">
               <h2>total deposit -</h2>
-              <h2 className=" font-semibold">309482</h2>
+              <h2 className=" font-semibold">
+                {cardDetails?.Deposited || "0"}
+              </h2>
             </span>
             <span className="space-x-1 flex">
               <h2>joining level -</h2>
-              <h2 className=" font-semibold">1</h2>
+              <h2 className=" font-semibold">{level || 0}</h2>
             </span>
             <span className="space-x-1 flex">
               <h2>total withdrawal -</h2>
-              <h2 className=" font-semibold">23904</h2>
+              <h2 className=" font-semibold">
+                {cardDetails?.Withdrawal || "not available"}
+              </h2>
             </span>
             <span className="space-x-1 flex">
               <h2>date/time -</h2>
-              <h2 className=" font-semibold">12/02/2020 - 10:10</h2>
+              <h2 className=" font-semibold">
+                {createdAt?.getDate()}/{createdAt?.getMonth() + 1}/
+                {createdAt?.getFullYear()} -{" "}
+                {createdAt?.getHours() > 12
+                  ? createdAt?.getHours() - 12
+                  : createdAt?.getHours()}
+                :{createdAt?.getMinutes()}
+              </h2>
             </span>
           </div>
         </motion.div>
@@ -447,8 +593,8 @@ function RegisterAcordian({ cardDetails, idx }) {
 function Transaction({ type, cardDetails }) {
   return (
     <div className="flex text-sm mb-4 bg-white text-gray-700 shadow-sm font-bold items-center capitalize justify-between px-3 py-2.5 rounded-md">
-      <h2>user name</h2>
-      <h2>109283</h2>
+      <h2>{cardDetails?.From || "no name"}</h2>
+      <h2>{cardDetails?.Amount / 100 || 0}</h2>
     </div>
   );
 }

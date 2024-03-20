@@ -149,7 +149,7 @@ async function initiateParallelProcess(
             $set: {
               Result_a: s_first,
               Result_b: s_second,
-              Remark: "Lose",
+              Remark: "lose",
               Status: 1,
             },
           },
@@ -162,9 +162,7 @@ async function initiateParallelProcess(
           filter: { UserName: match?.UserName },
           update: {
             $inc: {
-              ValidAmount: Number(
-                ((Number(match?.BetAmount) / 100) * 0.4).toFixed(2)
-              ),
+              ValidAmount: Number((Number(match?.BetAmount) * 0.4).toFixed(2)),
               Balance: Number(Number((BetAmount + Profit).toFixed(2)) * 100),
             },
           },
@@ -212,6 +210,7 @@ async function settle_bet(match, Profit, s_first, s_second, g_first, g_second) {
         Number(match?.BetAmount) / 100,
         win
       );
+
       if (!isBonusGiven)
         throw new CustomError(705, "something went wrong abort", {});
     }
@@ -261,7 +260,7 @@ async function give_parent_bonus(
             Date: `${today.getDate()}/${
               today.getMonth() + 1
             }/${today.getFullYear()}`,
-            Commission: rebade,
+            Commission: rebade * 100,
             From: UserName,
             StakeId,
             Level: LEVEL,

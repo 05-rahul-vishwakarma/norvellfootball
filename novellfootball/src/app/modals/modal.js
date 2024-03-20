@@ -71,7 +71,7 @@ const BetSchema = new Schema(
 const CommissionSchema = new Schema(
   {
     UserName: { type: String, required: true },
-    Commission: { type: Number, required: true },
+    Commission: { type: Number, required: true }, // * 100
     Date: { type: String, required: true }, //dd/mm/yyy
     Claimed: { type: Boolean, default: false },
     LeagueName: { type: String, default: "" },

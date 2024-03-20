@@ -16,9 +16,10 @@ import AddBank from "@/app/components/AddBank";
 import Layout from "@/app/components/Layout";
 import OtpInputs from "@/app/components/OtpInputs";
 import { UserContext } from "@/app/helpers/UserContext";
+import { useRouter } from "next/navigation";
 
 function Page({ closePopup }) {
-  const [getVerification, updateGetVerif] = useState(true);
+  const [getVerification, updateGetVerif] = useState(false);
   const [verifPhone, updateVerificationMethod] = useState(true);
   const { userBalance, userOtherData } = useContext(UserContext);
   const [editBank, updateEditBank] = useState(false);
@@ -26,6 +27,7 @@ function Page({ closePopup }) {
   const [otpSent, updateOtpSent] = useState(false);
   const [Amount, updateAmount] = useState(0);
   const [otp, setOtp] = useState(new Array(4).fill(""));
+  const router = useRouter();
 
   async function verify() {
     let EnteredOtp = otp.join("");
@@ -37,8 +39,11 @@ function Page({ closePopup }) {
       providedOtp = value;
     }
     if (EnteredOtp === Number(providedOtp)) {
+      setVerified(true);
+      updateEditBank(true);
       return true;
     }
+    setVerified(false);
     return false;
   }
 
@@ -150,12 +155,21 @@ function Page({ closePopup }) {
               gap-x-2 items-center justify-end"
                 >
                   <span className=" aspect-square relative flex justify-center items-center text-gray-600 rounded-full bg-gray-200  p-0.5 ">
-                    <Image
-                      src={"/tick_mark.png"}
-                      height={8}
-                      width={8}
-                      alt="added"
-                    />
+                    {userOtherData?.LocalBankAdded === true ? (
+                      <Image
+                        src={"/tick_mark.png"}
+                        height={8}
+                        width={8}
+                        alt="added"
+                      />
+                    ) : (
+                      <Image
+                        src={"/wrong.png"}
+                        height={8}
+                        width={8}
+                        alt="added"
+                      />
+                    )}
                   </span>
                   <p className="capitalize  font-bold text-[0.65rem]">
                     bank account
@@ -166,12 +180,21 @@ function Page({ closePopup }) {
               gap-x-2 items-center justify-end"
                 >
                   <span className=" aspect-square relative flex justify-center items-center text-gray-600 rounded-full bg-gray-200  p-0.5 ">
-                    <Image
-                      src={"/wrong.png"}
-                      height={8}
-                      width={8}
-                      alt="added"
-                    />
+                    {userOtherData?.UsdtBankAdded === true ? (
+                      <Image
+                        src={"/tick_mark.png"}
+                        height={8}
+                        width={8}
+                        alt="added"
+                      />
+                    ) : (
+                      <Image
+                        src={"/wrong.png"}
+                        height={8}
+                        width={8}
+                        alt="added"
+                      />
+                    )}
                   </span>
                   <p className="capitalize  font-bold text-[0.65rem]">
                     USDT account
@@ -191,7 +214,16 @@ function Page({ closePopup }) {
               </p>
             </div>
             <div
-              onClick={() => updateEditBank(true)}
+              onClick={() => {
+                if (
+                  !userOtherData?.UsdtBankAdded ||
+                  !userOtherData?.LocalBankAdded
+                ) {
+                  updateEditBank(true);
+                } else {
+                  alert("already added bank details you can edit them");
+                }
+              }}
               className=" absolute h-[30%] bg-blue-500 rounded-full text-white left-[50%] translate-x-[-50%] top-[100%] translate-y-[-50%] aspect-square flex text-[2rem] justify-center items-center"
             >
               <FaPlus />
@@ -215,6 +247,7 @@ function Page({ closePopup }) {
                   }).format(userBalance || 0)}
                 </span>
                 <span
+                  onClick={() => router.push("/profile/recharge")}
                   className=" h-full aspect-square rounded-full text-white 
              bg-blue-500 flex text-[0.8rem] p-0.5 justify-center items-center"
                 >
@@ -498,7 +531,16 @@ function Page({ closePopup }) {
             toggleVerification={updateGetVerif}
           />
         )}
-        {editBank && <AddBank closePopup={updateEditBank} />}
+        {editBank &&
+          (isVerified ||
+            !userOtherData?.LocalBankAdded ||
+            !userOtherData?.UsdtBankAdded) && (
+            <AddBank
+              localEditable={isVerified ? true : !userOtherData?.LocalBankAdded}
+              usdtEditable={isVerified ? true : !userOtherData?.UsdtBankAdded}
+              closePopup={updateEditBank}
+            />
+          )}
       </section>
     </Layout>
   );

@@ -41,7 +41,6 @@ export async function POST(NextRequest) {
 
     cookies().set("token", `${token}`, {
       httpOnly: true,
-      // maxAge: "1m",
       expires: Date.now() + oneDay,
       secure: true,
     });
@@ -92,12 +91,16 @@ export async function PUT(NextRequest) {
     }
     const sessionToken = await generateSessionToken();
     const token = generateToken({ UserName, session: sessionToken });
+    let today = new Date();
     let newUser = {
       Session: sessionToken,
       UserName,
       PhoneNumber: Phone,
       Email,
       Password,
+      JoinedOn: `${today.getDate()}/${
+        today?.getMonth() + 1
+      }/${today.getFullYear()}`,
       ParentInv: Invitation === "" ? 0 : Invitation,
       InvitationCode: await generateInvitationCode(),
       Parent: parentExists?.UserName || "",

@@ -1,3 +1,4 @@
+const oneDay = 24 * 60 * 60 * 1000;
 /**
  *
  * This file is responsible to take care of the commission center
@@ -9,27 +10,26 @@
  */
 import CustomError from "@/app/helpers/Error";
 import { NextResponse } from "next/server";
-import { COMMISSION } from "@/app/modals/modal";
+import { COMMISSION, USER } from "@/app/modals/modal";
 import { isValidUser } from "@/app/helpers/auth";
 import { cookies } from "next/headers";
-// function to retrive the commission and the corresponding bet data using aggregation pipeline
 
+// function to retrive the commission and the corresponding bet data using aggregation pipeline
 export async function GET(request) {
   let { token, session } = await getCookieData();
   try {
-    // const session = request.cookies.get("session")?.value || "";
-    // const token = request?.cookies?.get("token")?.value || "";
-
-    // const UserName = await isAuthenticated(token, session);
     const UserName = await isValidUser(token, session);
     if (!UserName)
       return NextResponse.json({
         status: 302,
         message: "Session Expired login again",
       });
+    let UserCreatedOn = await USER.findOne({ UserName }, { createdAt: 1 });
+    let registrationDate = new Date(UserCreatedOn?.createdAt);
+    let today = new Date();
+    const daysOfRegistration = Math.floor((today - registrationDate) / oneDay);
 
-    let previousDates = await getPreviousDates(7);
-
+    let previousDates = await getPreviousDates(daysOfRegistration % 7);
     let res = await getBetAndCommissionData(previousDates, UserName);
     return NextResponse.json({
       status: 200,
@@ -37,7 +37,12 @@ export async function GET(request) {
       data: res,
     });
   } catch (error) {
-    return NextResponse.json({ data: error });
+    console.log(error);
+    return NextResponse.json({
+      status: error?.status || 500,
+      message: error?.message,
+      data: {},
+    });
   }
 }
 
@@ -51,6 +56,7 @@ async function getBetAndCommissionData(commissionDates, UserName) {
           $match: {
             UserName: UserName,
             Date: date,
+            Claimed: false,
           },
         },
         {
@@ -102,14 +108,40 @@ async function getBetAndCommissionData(commissionDates, UserName) {
   }
 }
 
-async function POST(request) {
-  // have to work on this funciton since its possible the their dosenot exists any commission of some date in between 7 days yet 7 days is complete;
-  let prevDates = getPreviousDates(7);
-  let commissionData = [];
-  for (let date of prevDates) {
-    let res = await COMMISSION({ UserName, date });
-    if (!res) throw new CustomError(705, "somethign went wrong");
-    commissionData.push(...res);
+// claim functionality
+export async function POST(request) {
+  let { token, session } = await getCookieData();
+  try {
+    const UserName = await isValidUser(token, session);
+    if (!UserName)
+      return NextResponse.json({
+        status: 302,
+        message: "Session Expired login again",
+      });
+    let UserCreatedOn = await USER.findOne({ UserName }, { createdAt: 1 });
+    let registrationDate = new Date(UserCreatedOn?.createdAt);
+    let today = new Date();
+    const daysOfRegistration = Math.floor((today - registrationDate) / oneDay);
+
+    let previousDates = await getPreviousDates(daysOfRegistration % 7);
+    if (previousDates < 7)
+      throw Error("You can claim after " + 7 - (daysOfRegistration % 7));
+
+    let isClaimed = await claimBonusFor(previousDates);
+    if (!isClaimed)
+      throw Error("something went wrong while claiming commission");
+    return NextResponse.json({
+      status: 200,
+      message: "commission claimed",
+      data: {},
+    });
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({
+      status: error?.status || 500,
+      message: error?.message,
+      data: {},
+    });
   }
 }
 
@@ -119,12 +151,6 @@ async function getPreviousDates(tillDate) {
     let today = new Date();
     let prevDate = new Date(today);
     prevDate.setDate(prevDate.getDate() - i);
-
-    // let formattedDate = `${prevDate.getDate().toString().padStart(2, "0")}/${(
-    //   prevDate.getMonth() + 1
-    // )
-    //   .toString()
-    //   .padStart(2, "0")}/${prevDate.getFullYear()}`;
     let formattedDate = `${prevDate.getDate()}/${
       prevDate.getMonth() + 1
     }/${prevDate.getFullYear()}`;
@@ -143,4 +169,28 @@ async function getCookieData() {
       resolve(cookieData);
     }, 1000)
   );
+}
+
+// claim commission bonus;
+async function claimBonusFor(UserName, dates) {
+  try {
+    let totalCommission = 0;
+    for (let date of dates) {
+      let res = await COMMISSION.find({ UserName, Date: date, Claimed: false });
+      totalCommission += res?.Commission;
+    }
+    let isUserUpdated = USER.findOneAndUpdate(
+      { UserName },
+      {
+        $inc: {
+          Balance: totalCommission,
+          Commission: totalCommission,
+        },
+      }
+    );
+    if (!isUserUpdated) return false;
+    return true;
+  } catch (error) {
+    throw Error(error);
+  }
 }

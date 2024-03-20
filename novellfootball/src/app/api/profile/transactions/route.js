@@ -13,11 +13,7 @@ import { cookies } from "next/headers";
 export async function GET(request) {
   let { session, token } = await getCookieData();
   try {
-    // const session = request.cookies.get("session")?.value || "";
-    // const token = request?.cookies?.get("token")?.value || "";
-    // const UserName = await isAuthenticated(token, session);
     const UserName = await isValidUser(token, session);
-
     if (!UserName)
       return NextResponse.json({
         status: 302,
@@ -49,26 +45,26 @@ export async function GET(request) {
         level3_users.push(...lev3Trans);
       }
     }
-    let total_deposit,
-      total_withdrawal = 0;
+    let total_deposit = 0;
+    let total_withdrawal = 0;
     for (let data of level1_transactions) {
       if (data.Type == "deposit") {
         total_deposit += parseFloat(data.Amount) / 100;
-      } else {
+      } else if (data?.Type === "withdrawal") {
         total_withdrawal += parseFloat(data.Amount) / 100;
       }
     }
     for (let data of level2_transactions) {
       if (data.Type == "deposit") {
         total_deposit += parseFloat(data.Amount) / 100;
-      } else {
+      } else if (data?.Type === "withdrawal") {
         total_withdrawal += parseFloat(data.Amount) / 100;
       }
     }
     for (let data of level3_transactions) {
       if (data.Type == "deposit") {
         total_deposit += parseFloat(data.Amount) / 100;
-      } else {
+      } else if (data?.Type === "withdrawal") {
         total_withdrawal += parseFloat(data.Amount) / 100;
       }
     }
