@@ -43,7 +43,8 @@ export async function POST(request) {
       throw new CustomError(302, "Session time out login again", {});
 
     let { StakeId, StartsAt } = await request.json();
-    if (!StakeId) throw new CustomError(703, "Error in the data provided", {});
+    if (!StakeId || !StartsAt)
+      throw new CustomError(703, "Error in the data provided", {});
     else if (!(await isDeletable(StartsAt)))
       throw new CustomError(703, "Match cannot be deleted now", {});
 

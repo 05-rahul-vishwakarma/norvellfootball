@@ -11,7 +11,25 @@ const moment = require("moment-timezone");
 import cron from "node-cron";
 import { MATCH } from "@/app/modals/modal";
 import { connect } from "@/app/modals/dbConfig";
-
+const scores = [
+  "0-0",
+  "0-1",
+  "0-2",
+  "0-3",
+  "1-0",
+  "1-1",
+  "1-2",
+  "1-3",
+  "2-0",
+  "2-1",
+  "2-2",
+  "2-3",
+  "3-0",
+  "3-1",
+  "3-2",
+  "3-3",
+  "4-4",
+];
 export async function GET(request) {
   if (request?.nextUrl?.searchParams?.get("id") === "2002") {
     await scheduleMatches();
@@ -53,6 +71,7 @@ export async function scheduleMatches() {
       if (!res?.response) return false;
       let data = [];
       res.response.forEach((element) => {
+        let SCORE = scores[Math.floor(Math.random() * scores.length)];
         let match = {
           Team_a: element?.teams?.home?.name || "",
           Team_b: element?.teams?.away?.name || "",
@@ -62,8 +81,8 @@ export async function scheduleMatches() {
           Team_b_logo: element?.teams?.away?.logo || "",
           StartsAt: element?.fixture?.date || "",
           Percents: [],
-          Score_a: 0,
-          Score_b: 0,
+          Score_a: SCORE.split("-")[0] || 1,
+          Score_b: SCORE.split("-")[0] || 0,
           FixedPercent: (Math.random() * 6 + 1.5).toFixed(2),
         };
         for (let i = 0; i < 17; i++) {

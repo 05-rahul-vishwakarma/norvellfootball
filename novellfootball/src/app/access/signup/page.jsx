@@ -3,7 +3,7 @@ const BACKEND = process.env.NEXT_PUBLIC_BACKEND_URL;
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import Input from "@/app/components/Input";
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
@@ -125,15 +125,6 @@ const Signup = () => {
   function update(e) {
     updateCredentials((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
-
-  const searchParams = useSearchParams();
-
-  useEffect(() => {
-    let invitationCode = searchParams.get("id");
-    if (invitationCode) {
-      updateCredentials((prev) => ({ ...prev, Invitation: invitationCode }));
-    }
-  }, []);
 
   const sendData = async (e) => {
     e.preventDefault();
@@ -384,14 +375,13 @@ const Signup = () => {
               >
                 Invite Code
               </label>
-              <Input
-                credentials={credentials}
-                inputType="number"
-                image="invite.png"
-                id="Invitation"
-                update={update}
-                required={false}
-              />
+              <Suspense>
+                <InvitationInput
+                  credentials={credentials}
+                  update={update}
+                  updateCredentials={updateCredentials}
+                />
+              </Suspense>
             </motion.div>
             <div className="inline-flex mt-10 items-center">
               <label
@@ -464,3 +454,25 @@ const Signup = () => {
 };
 
 export default Signup;
+
+function InvitationInput({ credentials, updateCredentials, update }) {
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    let invitationCode = searchParams.get("id");
+    if (invitationCode) {
+      updateCredentials((prev) => ({ ...prev, Invitation: invitationCode }));
+    }
+  }, []);
+
+  return (
+    <Input
+      credentials={credentials}
+      inputType="number"
+      image="invite.png"
+      id="Invitation"
+      update={update}
+      required={false}
+    />
+  );
+}

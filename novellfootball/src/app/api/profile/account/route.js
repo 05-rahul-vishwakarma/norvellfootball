@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { USER } from "@/app/modals/modal";
 import { cookies } from "next/headers";
 import { isValidUser } from "@/app/helpers/auth";
+import { connect } from "@/app/modals/dbConfig";
 /*
   
 🏦🏧
@@ -17,9 +18,7 @@ import { isValidUser } from "@/app/helpers/auth";
 export async function POST(request) {
   let { token, session } = await getCookieData();
   try {
-    // const session = request.cookies.get("session")?.value || "";
-    // const token = request?.cookies?.get("token")?.value || "";
-    // const UserName = await isAuthenticated(token, session);
+    await connect();
     const UserName = await isValidUser(token, session);
     if (!UserName)
       return NextResponse.json({
@@ -89,6 +88,7 @@ export async function POST(request) {
 export async function PATCH(request) {
   let { session, token } = await getCookieData();
   try {
+    await connect();
     const UserName = await isValidUser(token, session);
     if (!UserName)
       return NextResponse.json({

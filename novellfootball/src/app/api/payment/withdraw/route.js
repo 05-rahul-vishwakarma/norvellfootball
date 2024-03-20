@@ -32,10 +32,23 @@ export async function POST(request) {
     if (!Amount) Amount = Number(Amount);
     if (!(await vipVerified(UserName, body?.Amount)))
       throw new CustomError(705, "Your vip level is low", {});
+    if (!Amount) throw new CustomError(705, "Missing Fields", {});
+    Amount = Amount * 100;
 
+    // check if the transaction already exists;
+    let today = new Date();
+    let isTodayWithdrawal = await TRANSACTION.findOne({
+      UserName,
+      Date: `${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`,
+      Type: "withdrawal",
+    });
+    if (isTodayWithdrawal)
+      throw new CustomError(
+        705,
+        "you have reached withdrawal limit for today",
+        {}
+      );
     if (body?.isLocalBank) {
-      if (!Amount) throw new CustomError(705, "Missing Fields", {});
-      Amount = Amount * 100;
       let updatedUser = await updateUser(
         UserName,
         Amount,
@@ -44,10 +57,8 @@ export async function POST(request) {
       );
 
       if (!updatedUser)
-        throw new CustomError(705, "Bank already added or error field", {});
+        throw new CustomError(705, "Bank not added or error field", {});
     } else {
-      if (!Amount) throw new CustomError(705, "Field missing", {});
-      Amount = Number(Amount) * 100;
       let updatedUser = await updateUser(
         UserName,
         Amount,
@@ -123,6 +134,7 @@ async function updateUser(UserName, Amount, Session, Bank) {
 }
 
 async function vipVerified(UserName, Ammount) {
+  await connect();
   let vipMax = [25000, 50000, 75000, 200000, 500000];
   try {
     // here the amount is not multiplied by 100 for  convenience reasons;

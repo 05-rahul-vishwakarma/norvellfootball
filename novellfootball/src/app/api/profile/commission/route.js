@@ -13,11 +13,13 @@ import { NextResponse } from "next/server";
 import { COMMISSION, USER } from "@/app/modals/modal";
 import { isValidUser } from "@/app/helpers/auth";
 import { cookies } from "next/headers";
+import { connect } from "@/app/modals/dbConfig";
 
 // function to retrive the commission and the corresponding bet data using aggregation pipeline
 export async function GET(request) {
   let { token, session } = await getCookieData();
   try {
+    await connect();
     const UserName = await isValidUser(token, session);
     if (!UserName)
       return NextResponse.json({
@@ -48,6 +50,7 @@ export async function GET(request) {
 
 async function getBetAndCommissionData(commissionDates, UserName) {
   try {
+    await connect();
     let aggregatedData = {};
 
     for (let date of commissionDates) {
@@ -112,6 +115,7 @@ async function getBetAndCommissionData(commissionDates, UserName) {
 export async function POST(request) {
   let { token, session } = await getCookieData();
   try {
+    await connect();
     const UserName = await isValidUser(token, session);
     if (!UserName)
       return NextResponse.json({
@@ -174,6 +178,7 @@ async function getCookieData() {
 // claim commission bonus;
 async function claimBonusFor(UserName, dates) {
   try {
+    await connect();
     let totalCommission = 0;
     for (let date of dates) {
       let res = await COMMISSION.find({ UserName, Date: date, Claimed: false });

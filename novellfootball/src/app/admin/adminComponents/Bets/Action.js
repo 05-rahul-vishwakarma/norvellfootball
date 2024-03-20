@@ -132,7 +132,9 @@ async function initiateParallelProcess(
   // Asynchronously perform operations in settle_bet
   try {
     let Profit =
-      Number(Number(match?.BetAmount) / 10000) * Number(match?.Percentage);
+      Number(Number(match?.BetAmount) / 10000) *
+      Number(match?.Percentage) *
+      0.05;
     let res = await settle_bet(
       match,
       Profit,

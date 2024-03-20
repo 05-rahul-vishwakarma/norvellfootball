@@ -32,6 +32,28 @@ export async function GET(req) {
     });
   }
 }
+
+export async function POST() {
+  const { token, session } = await getCookieData();
+  try {
+    let UserName = await isValidUser(token, session);
+    if (!UserName) throw new CustomError(302, "Login session time out", {});
+    cookies().delete("session");
+    cookies().delete("token");
+    return NextResponse.json({
+      status: 200,
+      message: "logged out successfull",
+      data: {},
+    });
+  } catch (error) {
+    return NextResponse.json({
+      status: 302,
+      message: "something went wrong while logging out",
+      data: {},
+    });
+  }
+}
+
 async function getCookieData() {
   let token = cookies().get("token")?.value || "";
   let session = cookies().get("session")?.value || "";

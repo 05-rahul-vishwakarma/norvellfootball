@@ -14,7 +14,6 @@ import Loading from "../components/Loading";
 function Page() {
   const router = useRouter();
   const { userBalance, userOtherData } = useContext(UserContext);
-
   const [loading, setLoading] = useState(true);
   const [swipe, setSwipe] = useState(1);
   const [transactionData, updateTransaction] = useState([]);
@@ -40,7 +39,25 @@ function Page() {
       alert("something went wrong");
     }
   }
-
+  async function logout() {
+    try {
+      let config = {
+        method: "POST",
+        header: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({}),
+      };
+      let res = await fetch("/api/user", config);
+      res = await res?.json();
+      if (res?.status === 200) {
+        alert("logged out successfully");
+      }
+      router.push("/access/login");
+    } catch (error) {
+      alert(error);
+    }
+  }
   useEffect(() => {
     updateChildrens(dataBox?.current?.children?.length);
   }, [dataBox?.current?.children, swipe]);
@@ -52,8 +69,7 @@ function Page() {
   return (
     <Layout>
       <section className="bg-[#F8FCFF] overflow-hidden relative h-[100dvh]">
-
-        {loading && <Loading/> }
+        {loading && <Loading />}
 
         <div className="relative text-center py-4 h-[8%] ">
           <h2 className=" capitalize text-[0.8rem] font-bold my-0">Profile</h2>
@@ -355,6 +371,7 @@ function Page() {
             </div>
 
             <div
+              onClick={logout}
               style={{ boxShadow: "0px 2px 8px 1px rgb(0,0,0,0.1) " }}
               className="flex mt-2 items-center py-2  rounded-[19px] bg-[#fff] px-2 text-red-600 "
             >

@@ -5,6 +5,7 @@ import { isValidUser } from "@/app/helpers/auth";
 import { USER } from "@/app/modals/modal";
 import CustomError from "@/app/helpers/Error";
 import { cookies } from "next/headers";
+import { connect } from "@/app/modals/dbConfig";
 
 export async function GET(request) {
   let { token, session } = await getCookieData();
@@ -44,6 +45,7 @@ export async function GET(request) {
 }
 
 export async function PUT(request) {
+  await connect();
   try {
     let { UserName } = await request.json();
     UserName = UserName?.trim();
