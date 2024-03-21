@@ -1,10 +1,9 @@
 "use client";
 import { useSearchParams } from "next/navigation";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Image from "next/image";
 import { FaRegCopy } from "react-icons/fa6";
 import Modal from "@/app/components/Modal";
-import { useRouter } from "next/navigation";
 
 function Page() {
   // Popup handling here //
@@ -17,15 +16,6 @@ function Page() {
     setModalOpen(false);
   };
 
-  const router = useRouter();
-  // access the amount data that is passed by the recharge main page //
-  const [receivedData, setReceivedData] = useState("");
-  const searchParams = useSearchParams()
-  useEffect(() => {
-    const search = searchParams.get('data')
-    setReceivedData(search)
-
-  }, [searchParams]);
 
   // implementing the copy buttoon
   const [copied, setCopied] = useState(false);
@@ -35,15 +25,14 @@ function Page() {
   const [value, setValue] = useState("");
   const handleChange = (e) => {
     const inputValue = e.target.value;
-    if (inputValue.length <= 12 ) {
+    if (inputValue.length <= 12) {
       setValue(inputValue);
     } else if (!inputValue) {
       setStatusImage("/opps.png");
       setopps("Opps!");
       setModalMessage("Kindly input utr number");
       setModalOpen(true);
-    }
-    else {
+    } else {
       setStatusImage("/opps.png");
       setopps("Opps!");
       setModalMessage("Please fill only 12 digits numbers");
@@ -86,7 +75,7 @@ function Page() {
       setopps("Pending");
       setModalMessage(res.message);
       setModalOpen(true);
-    }else if (res?.status === 500) {
+    } else if (res?.status === 500) {
       setStatusImage("/opps.png");
       setopps("Opps!");
       setModalMessage(res.message);
@@ -97,7 +86,10 @@ function Page() {
   return (
     <div className='className="bg-white w-screen h-screen overflow-y-scroll pb-[12rem]'>
       <div className="flex place-items-center w-[90%] mr-auto ml-auto border-b-2 border-[lightgray] mt-2 py-3 px-2 text-[.7rem] ">
-        $<p className="ml-1 text-[.65rem] font-semibold "> {receivedData} </p>
+        ${" "}
+        <Suspense>
+          <RechargeAmount />
+        </Suspense>
       </div>
 
       <div className="flex place-items-center w-[90%] mr-auto ml-auto  mt-2 py-3 px-2 justify-between text-[.6rem] ">
@@ -191,7 +183,6 @@ function Page() {
             </button>
           </div>
         </div>
-        
       </div>
 
       <div className="w-[90%] mr-auto ml-auto pb-2 ">
@@ -265,3 +256,24 @@ const CopyUPI = ({ upiId }) => {
     </div>
   );
 };
+
+function RechargeAmount() {
+  const [receivedAmount, setReceivedAmount] = useState("");
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    let amount = searchParams.get("data");
+    if (amount) {
+      setReceivedAmount(amount);
+    }
+  }, []);
+
+  return (
+    <div className="flex  items-center ">
+      <p className="ml-1 text-[.65rem] font-semibold text-[#2885F6] ">
+        {" "}
+        {receivedAmount}{" "}
+      </p>
+    </div>
+  );
+}

@@ -1,6 +1,6 @@
 "use client";
 import BackButton from "@/app/components/BackButton";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { RiSecurePaymentLine } from "react-icons/ri";
 import { IoQrCodeOutline } from "react-icons/io5";
 import { FaRegCopy } from "react-icons/fa6";
@@ -20,26 +20,6 @@ function Page() {
   };
 
   const router = useRouter();
-  // access the amount data that is passed by the recharge main page //
-  const [receivedData, setReceivedData] = useState("");
-  const searchParams = useSearchParams()
-  useEffect(() => {
-    const search = searchParams.get('data')
-    setReceivedData(search)
-
-  }, [searchParams]);
-
-  // implementing the function which converts indian rupees value into usdt values
-  const [usdt, SetUsdt] = useState("");
-  function usdtConvertor() {
-    let Value = receivedData;
-    let usdtValue = (receivedData / 80).toFixed(2);
-    SetUsdt(usdtValue);
-  }
-
-  useEffect(() => {
-    usdtConvertor();
-  });
 
   // implementing the function which copies the address value //
   const [text, setText] = useState("");
@@ -146,9 +126,10 @@ function Page() {
             <p className="font-light text-[gray] ">Norvell</p>
           </div>
           <div>
-            <p className="font-[500] ">
-              $<span> {usdt} </span> (USDT)
-            </p>
+            <Suspense>
+              {" "}
+              <RechargeAmount />{" "}
+            </Suspense>
           </div>
         </div>
 
@@ -239,3 +220,33 @@ function Page() {
 }
 
 export default Page;
+
+function RechargeAmount() {
+  const [receivedAmount, setReceivedAmount] = useState("");
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    let amount = searchParams.get("data");
+    if (amount) {
+      setReceivedAmount(amount);
+    }
+  }, []);
+
+  // implementing the function which converts indian rupees value into usdt values
+  const [usdt, SetUsdt] = useState("");
+  function usdtConvertor() {
+    let usdtValue = (receivedAmount / 80).toFixed(2);
+    SetUsdt(usdtValue);
+  }
+
+  useEffect(() => {
+    usdtConvertor();
+  });
+
+  return (
+    <div className="flex  items-center ">
+      <p className="ml-1 text-[.65rem] font-[500]"> ${usdt} </p>
+      <p className="ml-1 text-[.65rem] font-[500]">(USDT)</p>
+    </div>
+  );
+}

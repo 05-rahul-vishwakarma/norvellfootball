@@ -1,16 +1,13 @@
 "use client";
 
-import { TbCoinRupeeFilled } from "react-icons/tb";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { LiaRupeeSignSolid } from "react-icons/lia";
-
-import { LiaAngleDownSolid, LiaAngleRightSolid } from "react-icons/lia";
-import { IoIosArrowDropup } from "react-icons/io";
-import Modal from "@/app/components/Modal";
 import { useSearchParams } from "next/navigation";
+import { LiaAngleDownSolid, LiaAngleRightSolid } from "react-icons/lia";
+import { LiaRupeeSignSolid } from "react-icons/lia";
+import Modal from "@/app/components/Modal";
 
 const accorodient = {
   show: {
@@ -26,31 +23,17 @@ const accorodient = {
 };
 
 function Page() {
-
-
-
   // Popup handling here //
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [opps, setopps] = useState("Opps!");
   const [statusImage, setStatusImage] = useState("/success.png");
+  const [isVisible, setVisible] = useState(false);
+  const [isHide, setHide] = useState(true);
 
   const handleCloseErrorPopup = () => {
     setModalOpen(false);
   };
-
-  const [isVisible, setVisible] = useState(false);
-  const [isHide, setHide] = useState(true);
-
-  const router = useRouter();
-
-  const [receivedData, setReceivedData] = useState("");
-  const searchParams = useSearchParams()
-  useEffect(() => {
-    const search = searchParams.get('data')
-    setReceivedData(search)
-
-  }, [searchParams]);
 
   // immplementing the utr number value
   const [value, setValue] = useState("");
@@ -83,7 +66,6 @@ function Page() {
       setModalMessage("UTR number should have 12 digitis");
       setModalOpen(true);
     } else {
-     
       try {
         let body = {
           TransactionId: value,
@@ -124,13 +106,9 @@ function Page() {
           }}
           className="border-2 border-white shadow-md my-[2rem] w-[100%] py-3 flex  justify-center place-items-center flex-col rounded-lg "
         >
-          <h1 className="flex place-items-center">
-            <LiaRupeeSignSolid />{" "}
-            <p className="text-[.6rem] text-[#0000ffce] font-bold ">
-              {" "}
-              {receivedData}{" "}
-            </p>
-          </h1>
+          <Suspense>
+            <RechargeAmount />
+          </Suspense>
           <p className="text-[.6rem] ">Payment Amount</p>
         </div>
 
@@ -301,7 +279,7 @@ function Page() {
           style={{ boxShadow: "0 0 5px 0 #c0cad9" }}
           className="bg-[#9fa8b8] text-center p-3 mt-4 flex justify-center place-items-center text-white  text-[.7rem] "
         >
-          pay <LiaRupeeSignSolid /> <p className=" ">{receivedData}</p>
+          pay <LiaRupeeSignSolid /> <p className=" "></p>
         </div>
 
         <div
@@ -325,3 +303,24 @@ function Page() {
 }
 
 export default Page;
+
+function RechargeAmount() {
+  const [receivedAmount, setReceivedAmount] = useState("");
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    let amount = searchParams.get("data");
+    if (amount) {
+      setReceivedAmount(amount);
+    }
+  }, []);
+
+  return (
+    <div className="flex  items-center ">
+      <LiaRupeeSignSolid />
+      <h1 className="text-[.7rem] font-semibold text-[#2888f6] ">
+        {receivedAmount}
+      </h1>
+    </div>
+  );
+}

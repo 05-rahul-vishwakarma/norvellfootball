@@ -8,7 +8,6 @@ import StakeHistory from "../components/StakeHistory";
 import { motion } from "framer-motion";
 import Popup from "../components/Popup";
 import Image from "next/image";
-import teamlogo from "../../../public/logo.png";
 import Layout from "../components/Layout";
 import { useRouter } from "next/navigation";
 import Loading from "../components/Loading";
@@ -48,8 +47,19 @@ function Page() {
   const [pendingMatches, updatePendingMatches] = useState([]);
   const [settledMatches, updateSettledMatches] = useState([]);
   const [isDltMatch, setDltMatch] = useState([]);
+  const [amounts, setAmounts] = useState();
   const [loading, setLoading] = useState(true);
+
   let router = useRouter();
+  function stakeAmount() {
+    let totalAmount = 0;
+    pendingMatches.forEach((element) => {
+      totalAmount += element.BetAmount;
+    });
+    return (setAmounts(totalAmount))
+  }
+
+ 
 
   // # function to cancel the stake
   const showPopup = async (match) => {
@@ -86,8 +96,11 @@ function Page() {
     try {
       let res = await fetch(`/api/stake`);
       res = await res.json();
+      console.log(res);
       setLoading(false); // Set loading to false when data is fetched
       if (res?.status === 200) {
+        // setAmounts()
+        // console.log(res?.data?.pendingMatches[BetAmount])
         updatePendingMatches(res?.data?.pendingMatches);
         updateSettledMatches(res?.data?.settledMatches);
       }
@@ -99,12 +112,13 @@ function Page() {
 
   useEffect(() => {
     getStakeData();
+    stakeAmount();
   }, []);
 
   return (
     <Layout>
       <div className="h-screen w-screen  bg-[#f8fcff]   ">
-        {loading && <Loading/> }
+        {loading && <Loading />}
         <div onClick={() => router.back()} className="py-[1rem] ">
           <div className="grid grid-flow-col  place-items-center">
             <span className="flex place-items-center justify-self-start p-[.5rem]">
@@ -152,7 +166,7 @@ function Page() {
           className="h-[38px] font-[600] w-[90%] mr-auto ml-auto rounded-[15px]   border-2 border-black flex justify-center mt-[.7rem] place-items-center "
         >
           <span className="text-center flex text-[.7rem] ">
-            Total earned from stakes ₹ <p className="ml-1 ">10000</p>
+            Total earned from stakes ₹ <p className="ml-1 "> {amounts/100} </p>
           </span>
         </div>
 
