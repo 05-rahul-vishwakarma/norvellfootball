@@ -16,8 +16,6 @@ function Page() {
   const [placeBetData, updatePlaceBetData] = useState({});
   const [loading, setLoading] = useState(true);
 
-  console.log(placeBetData);
-
   const [searchKey, updateSearchKey] = useState("");
   const [matches, updateMatches] = useState([]);
   const [matchLoaded, updateLoaded] = useState(false);
@@ -87,7 +85,7 @@ function Page() {
   return (
     <Layout>
       <section className="bg-[#f7f8ff] relative h-[100dvh]">
-        {loading && <Loading/> }
+        {loading && <Loading />}
         <div className="relative text-center py-4 h-[8%] ">
           <h2 className=" capitalize text-sm font-bold my-0">matches</h2>
         </div>
@@ -157,7 +155,6 @@ function Page() {
               <div className="text-center w-full text-xl capitalize">
                 Loading...
               </div>
-
             )}
           </div>
         </main>

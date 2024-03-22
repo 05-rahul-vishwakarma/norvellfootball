@@ -80,6 +80,10 @@ const PlaceBet = ({ data, togglePopup }) => {
         },
         body: JSON.stringify(body),
       };
+      if (!(await isValidMatch(data?.StartsAt))) {
+        alert("match time out");
+        return;
+      }
       let res = await fetch(`/api/match`, config);
       res = await res.json();
       if (res?.status === 200) {
@@ -261,6 +265,7 @@ function ScoreCards({
 }) {
   const [estimatedIncome, updateEstimated] = useState(0);
   const [betAmount, updateBetAmount] = useState(0);
+  const [isLoading, updateLoading] = useState(false);
 
   function updateAmount(amount) {
     updateBetAmount(amount);
@@ -377,7 +382,11 @@ function ScoreCards({
               all amount
             </button>
             <button
-              onClick={() => placeBet(percent, cardDetails?.score, betAmount)}
+              disabled={isLoading}
+              onClick={() => {
+                updateLoading(true);
+                placeBet(percent, cardDetails?.score, betAmount);
+              }}
               className="py-2 px-2 w-[70%] bg-blue-600 font-bold text-sm text-white rounded-md capitalize"
             >
               confirm
@@ -391,7 +400,7 @@ function ScoreCards({
 
 // this function will return a boolean value wether the match is valid according to time or not;
 
-function isValidMatch(inputDateString) {
+async function isValidMatch(inputDateString) {
   // Convert the input date string to a Date object in the "Asia/Calcutta" timezone
   const inputDate = new Date(inputDateString);
   inputDate.setTime(

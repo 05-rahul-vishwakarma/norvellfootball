@@ -8,6 +8,7 @@ const UserSchema = new Schema(
     VipLevel: { type: Number, default: 0 },
     UserName: { type: String, required: true },
     Password: { type: String, required: true },
+    Spin: { type: Number, default: 0 },
     FirstDeposit: { type: Boolean, default: true },
     PhoneNumber: { type: String },
     EmailId: { type: String },
@@ -99,6 +100,7 @@ const TransactionSchema = new Schema(
 );
 
 const RewardsSchema = new Schema({
+  UserName: { type: String, required: true },
   Type: { type: String, required: true }, //any , invReward , weeklyCommission
   Amount: { type: Number, required: true }, //*100
   Status: { type: Number, default: 0 }, //0->pending , 1->done

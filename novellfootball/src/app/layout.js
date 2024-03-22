@@ -1,5 +1,7 @@
 import Footer from "./components/Footer";
+import Modal from "./components/Modal";
 import "./globals.css";
+import { AlertContextProvider } from "./helpers/AlertContext";
 import UserContextProvider from "./helpers/UserContext";
 
 export const metadata = {
@@ -20,7 +22,9 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
-        <UserContextProvider>{children}</UserContextProvider>
+        <UserContextProvider>
+          <AlertContextProvider>{children}</AlertContextProvider>
+        </UserContextProvider>
       </body>
     </html>
   );
