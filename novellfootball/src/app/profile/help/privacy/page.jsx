@@ -1,3 +1,4 @@
+"use client";
 import BackButton from "@/app/components/BackButton";
 import Layout from "@/app/components/Layout";
 import Link from "next/link";
@@ -7,7 +8,7 @@ function Privacy() {
   return (
     <Layout>
       <main className="">
-        <Link href= '/profile/help/' >
+        <Link href="/profile/help/">
           <div className="p-1 mt-3 ">
             <BackButton pageName="Privacy" />
           </div>
