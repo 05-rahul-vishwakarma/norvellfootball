@@ -94,10 +94,8 @@ function Page() {
     try {
       let res = await fetch(`/api/stake`);
       res = await res.json();
-      setLoading(false); // Set loading to false when data is fetched
       if (res?.status === 200) {
-        // setAmounts()
-        // console.log(res?.data?.pendingMatches[BetAmount])
+        setLoading(false); // Set loading to false when data is fetched
         updatePendingMatches(res?.data?.pendingMatches);
         updateSettledMatches(res?.data?.settledMatches);
       }
@@ -227,7 +225,7 @@ function Page() {
 
 export default Page;
 
-function Stake({ onClick, data, amount }) {
+function Stake({ onClick, data}) {
   const [Team_a_logo, update_logo_a] = useState(null);
   const [Team_b_logo, update_logo_b] = useState(null);
   const [MatchStartTime, updateTime] = useState(new Date());

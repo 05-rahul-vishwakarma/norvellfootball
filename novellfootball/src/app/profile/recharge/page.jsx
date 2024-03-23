@@ -7,19 +7,14 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Layout from "@/app/components/Layout";
 import Modal from "@/app/components/Modal";
-
+import { useContext } from "react";
+import { AlertContext } from "@/app/helpers/AlertContext";
 
 function Page() {
-  // Popup handling here //
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
-  const [opps, setopps] = useState("Opps!");
-  const [statusImage, setStatusImage] = useState("/success.png");
 
-  const handleCloseErrorPopup = () => {
-    setModalOpen(false);
-  };
 
+  //--------------------------------- popup handler ------------------------------------//
+  const { getAlert } = useContext(AlertContext);
 
   const router = useRouter();
 
@@ -44,10 +39,8 @@ function Page() {
   };
   const handleRedirect = () => {
     if (!inputValue) {
-      setStatusImage('/opps.png')
-      setopps('Opps!')
-      setModalMessage("please enter the deposit amount");
-      setModalOpen(true);
+
+      getAlert("opps", "please enter the deposit amount");
     } else {
       if (selectedOption === "option1") {
         router.push(
@@ -65,11 +58,8 @@ function Page() {
         router.push(
           `/profile/recharge/usdt?data=${encodeURIComponent(inputValue)}`
         );
-      }else if (selectedOption === "") {
-        setStatusImage('/opps.png')
-        setopps('Opps!')
-        setModalMessage("please choose any one payment method");
-        setModalOpen(true);
+      } else if (selectedOption === "") {
+        getAlert("opps", "please choose any one payment method");
       }
     }
   };
@@ -78,9 +68,7 @@ function Page() {
     <Layout>
       <div className="h-screen w-screen bg-[#F8FCFF] pb-[7rem] overflow-y-scroll ">
         <div className="h-screen w-screen ">
-          <div
-            onClick={() => router.back()}
-            className="pt-2 ">
+          <div onClick={() => router.back()} className="pt-2 ">
             <BackButton pageName="Recharge" />
           </div>
 
@@ -233,15 +221,6 @@ function Page() {
           </div>
         </div>
 
-        {modalOpen && (
-          <Modal
-            message={modalMessage}
-            statusImage={statusImage}
-            status={opps}
-            onClose={handleCloseErrorPopup}
-          />
-        )}
-        
       </div>
     </Layout>
   );

@@ -237,9 +237,9 @@ function MatchPopup({ match, onClose }) {
         getAlert("success", res.message);
         await getBalance();
       } else if (res?.status === 500 || res?.status === 302) {
-        getAlert("Opps!", res.message);
+        getAlert("Opps", res.message);
       } else {
-        getAlert("Opps!", res.message);
+        getAlert("Opps", res.message);
       }
     } catch (error) {
       getAlert("error", res.message);

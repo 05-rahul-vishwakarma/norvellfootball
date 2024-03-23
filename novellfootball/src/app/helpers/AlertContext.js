@@ -25,13 +25,12 @@ export const AlertContextProvider = ({ children }) => {
 
   function getAlert(type = "pending", message = "loading...") {
     let image = "/logo.png";
-    if (type === "Success") {
+    if (type === "success") {
       image = "/success.png";
     } else if (type === "opps") {
       image = "/opps.png";
     } else if (type === "pending") {
-      // updateImage("/pending.png")
-      image = "/opps.png";
+      image = "/pending.png";
     }
 
     updateAlertDetails({

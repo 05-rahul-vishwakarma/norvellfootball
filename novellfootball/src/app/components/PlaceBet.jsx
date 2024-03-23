@@ -83,16 +83,16 @@ const PlaceBet = ({ data, togglePopup }) => {
       let res = await fetch(`/api/match`, config);
       res = await res.json();
       if (res?.status === 200) {
-        getAlert("Success", res.message);
+        getAlert("success", res.message);
         await getBalance();
       } else if (res?.status === 302) {
-        getAlert("Opps!", res.message);
+        getAlert("opps", res.message);
         router.push("/access/login");
       } else {
-        getAlert("Opps!", res.message);
+        getAlert("opps", res.message);
       }
     } catch (error) {
-      getAlert("Opps!", res.message);
+      getAlert("opps", res.message);
     }
   }
 

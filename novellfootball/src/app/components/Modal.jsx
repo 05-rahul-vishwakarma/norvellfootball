@@ -24,14 +24,14 @@ function Modal() {
                 ? "opps!"
                 : AlertDetails?.status || "pending"}
             </h1>
-            <p className="w-[95%] text-[.7rem] text-center  ">
+            <p className="w-[95%] text-[.7rem] text-center capitalize ">
               {AlertDetails?.message || "Loading.."}
             </p>
           </div>
 
           <button
             onClick={closeAlert}
-            className="border-t-2 border-[#00000033] absolute bottom-0 w-full py-2 text-[#2885F6] font-semibold "
+            className="border-t-2 capitalize border-[#00000033] absolute bottom-0 w-full py-2 text-[#2885F6] font-semibold "
           >
             Done
           </button>
