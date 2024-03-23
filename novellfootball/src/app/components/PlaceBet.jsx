@@ -5,26 +5,21 @@ const BACKEND = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 import { easeInOut, motion } from "framer-motion";
 import Image from "next/image";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext  } from "react";
 import { IoIosAdd } from "react-icons/io";
 import { FaRupeeSign } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { UserContext } from "../helpers/UserContext";
 import Modal from "./Modal";
+import { AlertContext } from "../helpers/AlertContext";
 
 const PlaceBet = ({ data, togglePopup }) => {
-  // Popup handling here //
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
-  const [opps, setopps] = useState("Opps!");
-  const [statusImage, setStatusImage] = useState("/success.png");
-
   const handleCloseErrorPopup = () => {
     setModalOpen(false);
   };
 
   const { userBalance, getBalance } = useContext(UserContext);
-
+  const { getAlert } = useContext(AlertContext);
   const [Team_a_logo, updateSrcTeam_a] = useState();
   const [Team_b_logo, updateSrcTeam_b] = useState();
   const [MatchStartTime, updateTime] = useState(new Date());
@@ -64,6 +59,7 @@ const PlaceBet = ({ data, togglePopup }) => {
   }
 
   async function placeBet(Percentage, score, BetAmount) {
+    getAlert();
     try {
       let [Score_a, Score_b] = score.split("-");
       let body = {
@@ -87,35 +83,16 @@ const PlaceBet = ({ data, togglePopup }) => {
       let res = await fetch(`/api/match`, config);
       res = await res.json();
       if (res?.status === 200) {
-        setStatusImage("/success.png");
-        setopps("Success");
-        setModalMessage(res.message);
-        setModalOpen(true);
+        getAlert("Success", res.message);
         await getBalance();
-      } else if (res?.status === 500 || res?.status === 302) {
-        setStatusImage("/opps.png");
-        setopps("Opps!");
-        setModalMessage(res.message);
-        setModalOpen(true);
+      } else if (res?.status === 302) {
+        getAlert("Opps!", res.message);
         router.push("/access/login");
-      } else if (res?.status === 409) {
-        setStatusImage("/opps.png");
-        setopps("Opps!");
-        setModalMessage(res.message);
-        setModalOpen(true);
-      } else if (res?.status === 700) {
-        setStatusImage("/opps.png");
-        setopps("Opps!");
-        setModalMessage(res.message);
-        setModalOpen(true);
-      } else if (res?.status === 703) {
-        setStatusImage("/opps.png");
-        setopps("Opps!");
-        setModalMessage(res.message);
-        setModalOpen(true);
+      } else {
+        getAlert("Opps!", res.message);
       }
     } catch (error) {
-      console.log(error);
+      getAlert("Opps!", res.message);
     }
   }
 
@@ -240,15 +217,6 @@ const PlaceBet = ({ data, togglePopup }) => {
           ))}
         </div>
       </motion.div>
-
-      {modalOpen && (
-        <Modal
-          message={modalMessage}
-          statusImage={statusImage}
-          status={opps}
-          onClose={handleCloseErrorPopup}
-        />
-      )}
     </motion.div>
   );
 };
@@ -399,7 +367,6 @@ function ScoreCards({
 }
 
 // this function will return a boolean value wether the match is valid according to time or not;
-
 async function isValidMatch(inputDateString) {
   // Convert the input date string to a Date object in the "Asia/Calcutta" timezone
   const inputDate = new Date(inputDateString);

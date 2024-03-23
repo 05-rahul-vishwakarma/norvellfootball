@@ -14,6 +14,7 @@ import { UserContext } from "./helpers/UserContext";
 import Modal from "./components/Modal";
 import { easeInOut, motion } from "framer-motion";
 import Loading from "./components/Loading";
+import { AlertContext } from "./helpers/AlertContext";
 
 export default function Home() {
   const router = useRouter();
@@ -22,14 +23,9 @@ export default function Home() {
   const [matchLoaded, updateLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
 
-
   // states for access current data and popup handling //
   const [selectedMatch, setSelectedMatch] = useState(null);
   const [popupVisible, setPopupVisible] = useState(false);
-
-  //------------------------------popup handling ------------------------------//
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
 
   // event handlers for the popup and accesing current data //
   const handleMatchCardClick = (item) => {
@@ -197,9 +193,9 @@ export default function Home() {
             <MatchPopup match={selectedMatch} onClose={closePopup} />
           )}
         </div>
-        
+
         {/* loading component here */}
-        {loading && <Loading/> }
+        {loading && <Loading />}
       </main>
     </Layout>
   );
@@ -208,16 +204,7 @@ export default function Home() {
 function MatchPopup({ match, onClose }) {
   const router = useRouter();
 
-  // Popup handling here //
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
-  const [opps, setopps] = useState("Opps!");
-  const [statusImage, setStatusImage] = useState("/success.png");
-
-  const handleCloseErrorPopup = () => {
-    setModalOpen(false);
-  };
-
+  const { getAlert} = useContext(AlertContext);
   const { userBalance, getBalance } = useContext(UserContext);
   const [Team_a_logo, updateSrcTeam_a] = useState();
   const [Team_b_logo, updateSrcTeam_b] = useState();
@@ -226,6 +213,7 @@ function MatchPopup({ match, onClose }) {
   // placeBet function //
 
   async function placeBet(Percentage, Score_a, Score_b, BetAmount) {
+    getAlert();
     try {
       // let [Score_a, Score_b] = score.split("-");
       let body = {
@@ -246,35 +234,15 @@ function MatchPopup({ match, onClose }) {
       let res = await fetch(`/api/match`, config);
       res = await res.json();
       if (res?.status === 200) {
-        setStatusImage("/success.png");
-        setopps("Success");
-        setModalMessage(res.message);
-        setModalOpen(true);
+        getAlert("success", res.message);
         await getBalance();
       } else if (res?.status === 500 || res?.status === 302) {
-        setStatusImage("/opps.png");
-        setopps("Opps!");
-        setModalMessage(res.message);
-        setModalOpen(true);
-        router.push("/access/login");
-      } else if (res?.status === 409) {
-        setStatusImage("/opps.png");
-        setopps("Opps!");
-        setModalMessage(res.message);
-        setModalOpen(true);
-      } else if (res?.status === 700) {
-        setStatusImage("/opps.png");
-        setopps("Opps!");
-        setModalMessage(res.message);
-        setModalOpen(true);
-      } else if (res?.status === 703) {
-        setStatusImage("/opps.png");
-        setopps("Opps!");
-        setModalMessage(res.message);
-        setModalOpen(true);
+        getAlert("Opps!", res.message);
+      } else {
+        getAlert("Opps!", res.message);
       }
     } catch (error) {
-      console.log(error);
+      getAlert("error", res.message);
     }
   }
 
@@ -390,15 +358,6 @@ function MatchPopup({ match, onClose }) {
           />
         </div>
       </motion.div>
-
-      {modalOpen && (
-        <Modal
-          message={modalMessage}
-          statusImage={statusImage}
-          status={opps}
-          onClose={handleCloseErrorPopup}
-        />
-      )}
     </motion.div>
   );
 }

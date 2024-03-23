@@ -3,11 +3,12 @@ const BACKEND = process.env.NEXT_PUBLIC_BACKEND_URL;
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import Input from "@/app/components/Input";
-import { Suspense, useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState ,useContext } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import OtpInputs from "@/app/components/OtpInputs";
+import { AlertContext } from "@/app/helpers/AlertContext";
 
 const containerVariants = {
   hidden: { opacity: 1, scale: 1 },
@@ -37,6 +38,9 @@ function VerificationPopup({
   resend,
   setVerified,
 }) {
+  // -------------------------------- popup handling --------------------------
+  const { getAlert, closeAlert } = useContext(AlertContext);
+
   // have to create a funciton that will change the tab index on each click;
   const [otp, setOtp] = useState(new Array(4).fill(""));
 

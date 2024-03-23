@@ -37,8 +37,8 @@ function Page() {
       let res = await fetch(`/api/match`);
       if (!res.ok) throw new Error("Error while fetching matches");
       res = await res.json();
-      setLoading(false); // Set loading to false when data is fetched
       if (res?.status === 200) {
+        setLoading(false); // Set loading to false when data is fetched
         updateMatches(res?.data?.matches);
       } else {
         throw new Error("Somethign went wrong");

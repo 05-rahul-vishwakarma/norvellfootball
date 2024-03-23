@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Image from "next/image";
 import Input from "@/app/components/Input";
 import { motion } from "framer-motion";
@@ -23,6 +23,7 @@ const itemVariant = {
   visible: { opacity: 1, y: 0 },
 };
 const Login = () => {
+
   let router = useRouter();
   const [credentials, updateCredentials] = useState({
     UserName: "",
