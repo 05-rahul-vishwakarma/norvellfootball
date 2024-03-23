@@ -351,9 +351,10 @@ function ScoreCards({
             </button>
             <button
               disabled={isLoading}
-              onClick={() => {
+              onClick={async () => {
                 updateLoading(true);
-                placeBet(percent, cardDetails?.score, betAmount);
+                await placeBet(percent, cardDetails?.score, betAmount);
+                updateLoading(false);
               }}
               className="py-2 px-2 w-[70%] bg-blue-600 font-bold text-sm text-white rounded-md capitalize"
             >

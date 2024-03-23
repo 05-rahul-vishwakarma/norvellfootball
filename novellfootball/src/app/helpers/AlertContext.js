@@ -8,10 +8,10 @@ export const AlertContext = createContext();
 /**
  * this context will provide the alert box to every page and will export   getAlert function
  * get alert function take two arguments message "String" and type which can be "success" "pending" or error
+ * also 'redirect' can be passed as a argument for type and message as "Session time out login again as message";
  * this will return a promiss which will get resolve only when the user clicks the ok button
  *
- * close Alert function takes no argument but String redirect can be passed
- * to the function explisitly to redirect the user to login page if some error occurs;
+ * close Alert function takes no argument
  */
 
 export const AlertContextProvider = ({ children }) => {
@@ -19,7 +19,7 @@ export const AlertContextProvider = ({ children }) => {
   const [AlertDetails, updateAlertDetails] = useState({
     message: "Loading...",
     image: "/logo.png",
-    status: "pending...",
+    status: "pending",
   });
   const router = useRouter();
 
@@ -27,12 +27,11 @@ export const AlertContextProvider = ({ children }) => {
     let image = "/logo.png";
     if (type === "Success") {
       image = "/success.png";
-    } else if (type === "Opps!") {
-      // updateImage()
+    } else if (type === "opps") {
       image = "/opps.png";
     } else if (type === "pending") {
       // updateImage("/pending.png")
-      image = "/pending.png";
+      image = "/opps.png";
     }
 
     updateAlertDetails({
@@ -43,14 +42,14 @@ export const AlertContextProvider = ({ children }) => {
     updateActive(true);
   }
 
-  function closeAlert(type = "close") {
+  function closeAlert() {
     updateAlertDetails({
       message: "Loading...",
       status: "pending",
       image: "/logo.png",
     });
     updateActive(false);
-    if (type === "redirect") {
+    if (AlertDetails?.status === "redirect") {
       router.push("/access/login");
     }
   }

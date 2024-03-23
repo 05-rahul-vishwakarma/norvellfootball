@@ -20,7 +20,9 @@ function Modal() {
               height={70}
             />
             <h1 className=" font-extrabold capitalize  ">
-              {AlertDetails?.status || "pending"}
+              {AlertDetails?.status === "opps"
+                ? "opps!"
+                : AlertDetails?.status || "pending"}
             </h1>
             <p className="w-[95%] text-[.7rem] text-center  ">
               {AlertDetails?.message || "Loading.."}
