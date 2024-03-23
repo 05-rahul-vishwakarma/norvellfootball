@@ -3,11 +3,13 @@ const BACKEND = process.env.NEXT_PUBLIC_BACKEND_URL;
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import Input from "@/app/components/Input";
-import { Suspense, useEffect, useRef, useState } from "react";
+import { Suspense, useContext, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import OtpInputs from "@/app/components/OtpInputs";
+import Modal from "@/app/components/Modal";
+import { AlertContext } from "@/app/helpers/AlertContext";
 
 const containerVariants = {
   hidden: { opacity: 1, scale: 1 },
@@ -109,6 +111,7 @@ function VerificationPopup({
 }
 
 const Signup = () => {
+  const { isActive, getAlert } = useContext(AlertContext);
   const [credentials, updateCredentials] = useState({
     UserName: "",
     Phone: "",
@@ -166,6 +169,7 @@ const Signup = () => {
   };
   async function getPhoneOtp() {
     try {
+      getAlert();
       if (credentials?.Phone?.length === 12) {
         // setIsLoading(true);
         let config = {
@@ -178,16 +182,22 @@ const Signup = () => {
         let res = await fetch("/api/otp/phone", config);
         res = await res.json();
         if (res?.status === 200) {
-          alert(res?.message);
+          getAlert(
+            "success",
+            res?.message || "otp sent successfully and valid for 5 minutes."
+          );
           updateGetVerif(true);
         } else {
-          alert(res?.message);
+          getAlert(
+            "opps",
+            res?.message || "something went wrong while creating user"
+          );
         }
       } else {
-        alert("invalid phone number");
+        getAlert("opps", "invalid phone number");
       }
     } catch (error) {
-      alert(error.message);
+      getAlert("opps", "something went wrong try again after sometime.");
     }
   }
   return (
@@ -449,6 +459,7 @@ const Signup = () => {
           toggleVerification={updateGetVerif}
         />
       )}
+      {isActive && <Modal />}
     </div>
   );
 };

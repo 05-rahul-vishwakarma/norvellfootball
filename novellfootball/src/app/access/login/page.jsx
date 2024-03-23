@@ -1,10 +1,12 @@
 "use client";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import Input from "@/app/components/Input";
 import { motion } from "framer-motion";
 import VerificationPopup from "@/app/components/VerificationPopup";
 import { useRouter } from "next/navigation";
+import { AlertContext } from "@/app/helpers/AlertContext";
+import Modal from "@/app/components/Modal";
 
 const containerVariant = {
   hidden: {
@@ -23,6 +25,8 @@ const itemVariant = {
   visible: { opacity: 1, y: 0 },
 };
 const Login = () => {
+  const { getAlert, isActive } = useContext(AlertContext);
+
   let router = useRouter();
   const [credentials, updateCredentials] = useState({
     UserName: "",
@@ -35,6 +39,7 @@ const Login = () => {
   }
   const sendData = async (e) => {
     e.preventDefault();
+    getAlert();
     let config = {
       method: "POST",
       contentType: "application/json",
@@ -44,110 +49,118 @@ const Login = () => {
     let res = await fetch(`/api/access`, config);
     res = await res.json();
     if (res?.status === 200) {
-      router.push("/");
+      getAlert("success", "login successfull");
+      setTimeout(() => {
+        router.push("/");
+      }, 500);
+    } else {
+      getAlert("opps", res?.message || "something went wrong");
     }
   };
 
   return (
-    <div className="flex relative min-h-screen  flex-col justify-end px-6 pb-[8rem] lg:px-8">
-      <div className="absolute top-0 left-0 z-[-1]  h-full w-full">
-        <Image fill alt="company logo" src={"/login_bg.png"} />
-      </div>
-      <div className="sm:mx-auto pt-0 sm:w-full sm:max-w-sm">
-        <Image
-          className="mx-auto w-auto"
-          src={"/logo.png"}
-          height={150}
-          width={150}
-          alt="Norvell football"
-        />
-        <h2 className=" text-center text-md font-bold leading-9 tracking-tight to-blue-500 uppercase">
-          Welcome back
-        </h2>
-      </div>
+    <>
+      <div className="flex relative min-h-screen  flex-col justify-end px-6 pb-[8rem] lg:px-8">
+        <div className="absolute top-0 left-0 z-[-1]  h-full w-full">
+          <Image fill alt="company logo" src={"/login_bg.png"} />
+        </div>
+        <div className="sm:mx-auto pt-0 sm:w-full sm:max-w-sm">
+          <Image
+            className="mx-auto w-auto"
+            src={"/logo.png"}
+            height={150}
+            width={150}
+            alt="Norvell football"
+          />
+          <h2 className=" text-center text-md font-bold leading-9 tracking-tight to-blue-500 uppercase">
+            Welcome back
+          </h2>
+        </div>
 
-      <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-4" onSubmit={sendData}>
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={containerVariant}
-            className="space-y-4"
-          >
-            <motion.div variants={itemVariant}>
-              <label
-                htmlFor="User"
-                className="block text-sm font-bold leading-0 text-balance"
-              >
-                Username
-              </label>
-              <Input
-                credentials={credentials}
-                inputType="text"
-                image="user.png"
-                id="UserName"
-                update={update}
-              />
-            </motion.div>
-
-            <motion.div variants={itemVariant}>
-              <div className="flex items-center justify-between">
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-bold leading-6 text-black"
-                >
-                  Password
-                </label>
-              </div>
-              <Input
-                credentials={credentials}
-                inputType="password"
-                id="Password"
-                image="lock.png"
-                update={update}
-              />
-              <div className="mt-2">
-                <div className="text-sm flex uppercase justify-between">
-                  <a
-                    href="#"
-                    className="font-semibold text-slate-500 hover:text-slate-400"
-                  >
-                    Help
-                  </a>
-                  <a
-                    onClick={() => toggleVerification(true)}
-                    className="font-semibold text-slate-500 hover:text-slate-400"
-                  >
-                    Forgot password?
-                  </a>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-          <div>
-            <button
-              type="submit"
-              className="flex w-full justify-center rounded-md bg-blue-500 px-3 py-[0.6rem] font-semibold leading-6 text-white shadow-sm hover:bg-blue-400 "
+        <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-sm">
+          <form className="space-y-4" onSubmit={sendData}>
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={containerVariant}
+              className="space-y-4"
             >
-              Login
-            </button>
-          </div>
-        </form>
+              <motion.div variants={itemVariant}>
+                <label
+                  htmlFor="User"
+                  className="block text-sm font-bold leading-0 text-balance"
+                >
+                  Username
+                </label>
+                <Input
+                  credentials={credentials}
+                  inputType="text"
+                  image="user.png"
+                  id="UserName"
+                  update={update}
+                />
+              </motion.div>
 
-        <p className="mt-10 text-center font-semibold text-sm">
-          Signup/
-          <a
-            href="/access/signup"
-            className="font-semibold leading-6 hover:text-blue-800"
-          >
-            Create New Account
-          </a>
-        </p>
+              <motion.div variants={itemVariant}>
+                <div className="flex items-center justify-between">
+                  <label
+                    htmlFor="password"
+                    className="block text-sm font-bold leading-6 text-black"
+                  >
+                    Password
+                  </label>
+                </div>
+                <Input
+                  credentials={credentials}
+                  inputType="password"
+                  id="Password"
+                  image="lock.png"
+                  update={update}
+                />
+                <div className="mt-2">
+                  <div className="text-sm flex uppercase justify-between">
+                    <a
+                      href="#"
+                      className="font-semibold text-slate-500 hover:text-slate-400"
+                    >
+                      Help
+                    </a>
+                    <a
+                      onClick={() => toggleVerification(true)}
+                      className="font-semibold text-slate-500 hover:text-slate-400"
+                    >
+                      Forgot password?
+                    </a>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+            <div>
+              <button
+                type="submit"
+                className="flex w-full justify-center rounded-md bg-blue-500 px-3 py-[0.6rem] font-semibold leading-6 text-white shadow-sm hover:bg-blue-400 "
+              >
+                Login
+              </button>
+            </div>
+          </form>
+
+          <p className="mt-10 text-center font-semibold text-sm">
+            Signup/
+            <a
+              href="/access/signup"
+              className="font-semibold leading-6 hover:text-blue-800"
+            >
+              Create New Account
+            </a>
+          </p>
+        </div>
+        {resetPassword && (
+          <VerificationPopup toggleVerification={toggleVerification} />
+        )}
+        {isActive && <Modal />}
       </div>
-      {resetPassword && (
-        <VerificationPopup toggleVerification={toggleVerification} />
-      )}
-    </div>
+    </>
   );
 };
 

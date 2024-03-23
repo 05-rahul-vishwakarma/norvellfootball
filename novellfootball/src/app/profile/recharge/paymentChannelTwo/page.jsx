@@ -1,12 +1,15 @@
 "use client";
 import { useSearchParams } from "next/navigation";
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, useEffect, Suspense, useContext } from "react";
 import Image from "next/image";
 import { FaRegCopy } from "react-icons/fa6";
 import Modal from "@/app/components/Modal";
+import { AlertContext } from "@/app/helpers/AlertContext";
 
 function Page() {
   // Popup handling here //
+  let { getAlert } = useContext(AlertContext);
+
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [opps, setopps] = useState("Opps!");
@@ -15,7 +18,6 @@ function Page() {
   const handleCloseErrorPopup = () => {
     setModalOpen(false);
   };
-
 
   // implementing the copy buttoon
   const [copied, setCopied] = useState(false);
@@ -28,58 +30,49 @@ function Page() {
     if (inputValue.length <= 12) {
       setValue(inputValue);
     } else if (!inputValue) {
-      setStatusImage("/opps.png");
-      setopps("Opps!");
-      setModalMessage("Kindly input utr number");
-      setModalOpen(true);
+      getAlert("opps", "fill the utr number first");
     } else {
-      setStatusImage("/opps.png");
-      setopps("Opps!");
-      setModalMessage("Please fill only 12 digits numbers");
-      setModalOpen(true);
+      getAlert("opps", "fill 12 digit values only");
     }
   };
 
   // post request from the front-end
   async function submitDeposit() {
     let utrNumber, amount;
+    getAlert();
+    try {
+      if (value == "" || receivedData == "") {
+        getAlert("opps", "fill the utr number first");
+      } else {
+        utrNumber = value;
+        amount = receivedData;
+      }
 
-    if (value == "" || receivedData == "") {
-      setStatusImage("/opps.png");
-      setopps("Opps!");
-      setModalMessage("Kindly input utr number");
-      setModalOpen(true);
-    } else {
-      utrNumber = value;
-      amount = receivedData;
-    }
+      let body = {
+        TransactionId: utrNumber,
+        Amount: amount,
+        Channel: 2,
+      };
 
-    let body = {
-      TransactionId: utrNumber,
-      Amount: amount,
-      Channel: 2,
-    };
+      let config = {
+        method: "POST",
+        headers: {
+          "content-type": "applicaiton/json",
+        },
+        body: JSON.stringify(body),
+      };
 
-    let config = {
-      method: "POST",
-      headers: {
-        "content-type": "applicaiton/json",
-      },
-      body: JSON.stringify(body),
-    };
-
-    let res = await fetch("/api/payment/deposit", config);
-    res = await res.json();
-    if (res?.status === 200) {
-      setStatusImage("/opps.png");
-      setopps("Pending");
-      setModalMessage(res.message);
-      setModalOpen(true);
-    } else if (res?.status === 500) {
-      setStatusImage("/opps.png");
-      setopps("Opps!");
-      setModalMessage(res.message);
-      setModalOpen(true);
+      let res = await fetch("/api/payment/deposit", config);
+      res = await res.json();
+      if (res?.status === 200) {
+        getAlert("success", "your deposit is under verification");
+      } else if (res?.status === 500 || res?.status === 302) {
+        getAlert("redirect", "something went wrong login again");
+      } else {
+        getAlert("opps", res?.message || "something went wrong login again");
+      }
+    } catch (error) {
+      getAlert("redirect", "something went wrong login again");
     }
   }
 
@@ -214,15 +207,6 @@ function Page() {
           className="object-contain w-[100%] h-full  "
         />
       </div>
-
-      {modalOpen && (
-        <Modal
-          message={modalMessage}
-          statusImage={statusImage}
-          status={opps}
-          onClose={handleCloseErrorPopup}
-        />
-      )}
     </div>
   );
 }

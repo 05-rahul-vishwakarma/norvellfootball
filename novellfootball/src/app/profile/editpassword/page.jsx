@@ -3,10 +3,11 @@ import Input from "@/app/components/Input";
 import Layout from "@/app/components/Layout";
 import Modal from "@/app/components/Modal";
 import OtpInputs from "@/app/components/OtpInputs";
+import { AlertContext } from "@/app/helpers/AlertContext";
 import { motion } from "framer-motion";
 
 // import VerificationPopup from "@/app/components/VerificationPopup";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaPlay } from "react-icons/fa6";
 
 const Page = () => {
@@ -23,6 +24,7 @@ export default Page;
 
 const VerificationPopup = ({ toggleVerification }) => {
   // Popup handling here //
+  const { getAlert } = useContext(AlertContext);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [opps, setopps] = useState("Opps!");
@@ -45,11 +47,7 @@ const VerificationPopup = ({ toggleVerification }) => {
       providedOtp = value;
     }
     if (EnteredOtp === Number(providedOtp)) {
-      setStatusImage('/success.png')
-      setopps('Success')
-      setModalMessage("verified");
-      setModalOpen(true);
-      setVerified(true);
+      getAlert("success", "otp  verified successfully");
     }
   }
 
@@ -65,48 +63,33 @@ const VerificationPopup = ({ toggleVerification }) => {
 
   async function getOtp() {
     try {
+      getAlert();
       let res = await fetch("/api/otp/" + `${verifPhone ? "phone" : "email"}`);
       res = await res.json();
       if (res?.status === 200) {
-        updateOtpSent(true);
-        setStatusImage('/success.png')
-        setopps('Success')
-        setModalMessage(res.message);
-        setModalOpen(true);
+        getAlert("success", "otp sent successfully and valid for 5 minutes");
+      } else if (res?.status === 500 || res?.status === 302) {
+        getAlert("redirect", "something went wrong login again");
       } else {
-        setStatusImage('/opps.png')
-        setopps('Opps!')
-        setModalMessage(res.message);
-        setModalOpen(true);
+        getAlert("opps", res?.message || "something went wrong");
       }
     } catch (error) {
-      setStatusImage('/opps.png')
-      setopps('Opps!')
-      setModalMessage(error);
-      setModalOpen(true);
+      getAlert("redirect", "something went wrong login again");
     }
   }
 
   async function resetPassword() {
     try {
+      getAlert();
       if (!isVerified) {
-        setStatusImage('/opps.png')
-        setopps('Opps!')
-        setModalMessage("verify first");
-        setModalOpen(true);
+        getAlert("opps", "verify first");
         return;
       }
       if (credentials?.confPassword !== credentials?.Password) {
-        setStatusImage('/opps.png')
-        setopps('Opps!')
-        setModalMessage("both password fields are not matching");
-        setModalOpen(true);
+        getAlert("opps", "password mismatch enter same password");
         return;
       } else if (!UserName) {
-        setStatusImage('/opps.png')
-        setopps('Opps!')
-        setModalMessage("Username is needed");
-        setModalOpen(true);
+        getAlert("opps", "username is needed");
         return;
       }
 
@@ -120,21 +103,14 @@ const VerificationPopup = ({ toggleVerification }) => {
       let res = await fetch("/api/access/resetPassword", config);
       res = await res.json();
       if (res?.status === 200) {
-        setStatusImage('/success.png')
-        setopps('Success')
-        setModalMessage(res.message);
-        setModalOpen(true);
+        getAlert("redirect", "password updated successfull");
+      } else if (res?.status === 500 || res?.status === 302) {
+        getAlert("redirect", res?.message || "something went wrong");
       } else {
-        setStatusImage('/opps.png')
-        setopps('Opps!')
-        setModalMessage(res.message);
-        setModalOpen(true);
+        getAlert("opps", res?.message || "something went wrong");
       }
     } catch (error) {
-      setStatusImage('/opps.png')
-      setopps('Opps!')
-      setModalMessage(error);
-      setModalOpen(true);
+      getAlert("redirect", "something went wrong login again");
     }
   }
 

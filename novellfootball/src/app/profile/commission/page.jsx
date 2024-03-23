@@ -1,6 +1,7 @@
 "use client";
 import CommissionPopModel from "@/app/components/CommissionPopModel";
 import Layout from "@/app/components/Layout";
+import { AlertContext } from "@/app/helpers/AlertContext";
 import { UserContext } from "@/app/helpers/UserContext";
 import { motion } from "framer-motion";
 import React, { useContext, useEffect, useState } from "react";
@@ -10,6 +11,7 @@ import { LiaAngleRightSolid, LiaAngleUpSolid } from "react-icons/lia";
 import { MdOutlineContentCopy, MdOutlineShare } from "react-icons/md";
 
 const Page = () => {
+  let { getAlert } = useContext(AlertContext);
   const [infoModel, updateInfoModel] = useState(false);
   const [claimModel, updateclaimModel] = useState(false);
   const [isShairing, updateShairing] = useState(false);
@@ -50,8 +52,8 @@ const Page = () => {
       today?.getMonth() + 1
     }/${today?.getFullYear()}`;
     let weeklyCommission = [];
-    if (res.ok) {
-      res = await res.json();
+    res = await res.json();
+    if (res.status === 200) {
       let commissionObj = res?.data[0];
       updateTodayCommission(commissionObj[date]);
       updateCommissionData(() => {
@@ -80,6 +82,8 @@ const Page = () => {
         return overall_obj;
       });
       updateWeeklyCommission(weeklyCommission);
+    } else {
+      getAlert("redirect", "something went wrong login again");
     }
   }
   async function getTransactionData() {
@@ -102,7 +106,7 @@ const Page = () => {
           level3: level3_transactions,
         });
       } else {
-        alert(res?.message);
+        getAlert("redirect", "something went wrong login again");
       }
     }
   }
@@ -120,13 +124,14 @@ const Page = () => {
         });
         updateUserJoinedToday(joinedToday);
       } else {
-        alert(res?.message);
+        getAlert("redirect", "something went wrong login again");
       }
     }
   }
 
   async function claimCommission() {
     try {
+      getAlert();
       let config = {
         method: "POST",
         header: {
@@ -137,12 +142,14 @@ const Page = () => {
       let res = await fetch("/api/profile/commission", config);
       res = await res.json();
       if (res?.status === 200) {
-        alert("commission claimed");
+        getAlert("success", res?.message);
+      } else if (res?.status === 302 || res?.status === 500) {
+        getAlert("redirect", "something went wrong login again");
       } else {
-        alert(res?.message);
+        getAlert("opps", res?.message || "something went wrong");
       }
     } catch (error) {
-      alert(error);
+      getAlert("redirect", "something went wrong login again");
     }
   }
 
