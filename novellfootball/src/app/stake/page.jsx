@@ -56,10 +56,8 @@ function Page() {
     pendingMatches.forEach((element) => {
       totalAmount += element.BetAmount;
     });
-    return (setAmounts(totalAmount))
+    return setAmounts(totalAmount);
   }
-
- 
 
   // # function to cancel the stake
   const showPopup = async (match) => {
@@ -96,7 +94,6 @@ function Page() {
     try {
       let res = await fetch(`/api/stake`);
       res = await res.json();
-      console.log(res);
       setLoading(false); // Set loading to false when data is fetched
       if (res?.status === 200) {
         // setAmounts()
@@ -166,7 +163,8 @@ function Page() {
           className="h-[38px] font-[600] w-[90%] mr-auto ml-auto rounded-[15px]   border-2 border-black flex justify-center mt-[.7rem] place-items-center "
         >
           <span className="text-center flex text-[.7rem] ">
-            Total earned from stakes ₹ <p className="ml-1 "> {amounts/100} </p>
+            Total earned from stakes ₹{" "}
+            <p className="ml-1 "> {amounts / 100} </p>
           </span>
         </div>
 

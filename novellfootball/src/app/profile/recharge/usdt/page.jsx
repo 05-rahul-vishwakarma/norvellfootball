@@ -1,15 +1,17 @@
 "use client";
 import BackButton from "@/app/components/BackButton";
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, useEffect, Suspense, useContext } from "react";
 import { RiSecurePaymentLine } from "react-icons/ri";
 import { IoQrCodeOutline } from "react-icons/io5";
 import { FaRegCopy } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
 import Modal from "@/app/components/Modal";
 import { useSearchParams } from "next/navigation";
+import { AlertContext } from "@/app/helpers/AlertContext";
 
 function Page() {
   // Popup handling here //
+  let { getAlert } = useContext(AlertContext);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [opps, setopps] = useState("Opps!");
@@ -29,42 +31,42 @@ function Page() {
 
   const copyAddress = async () => {
     if (text.trim() === "") {
-      alert("Please enter some text to copy");
+      getAlert("Enter some text to copy");
       return;
     }
     try {
       await navigator.clipboard.writeText(text);
-      alert("copied");
+      getAlert("success", "text copied");
       return true; // Return true if successful
     } catch (error) {
-      alert("something went wrong");
+      getAlert("opps", "Failed to copy text");
       return false; // Return false if failed
     }
   };
 
   const copyTransactionId = async () => {
     if (transactionId.trim() === "") {
-      alert("Please enter some text to copy");
+      getAlert("opps", "enter some text to copy ");
       return;
     }
     try {
       await navigator.clipboard.writeText(transactionId);
-      alert("copied");
+      getAlert("success", "text copied");
+
       return true; // Return true if successful
     } catch (error) {
-      alert("something went wrong");
+      getAlert("opps", "something went wrong while coping");
       return false; // Return false if failed
     }
   };
 
   async function usdtDetails() {
     let depositAddress;
+    getAlert();
     let transId, usdtAmount;
     if (!transactionId || !text || !receivedData) {
-      setStatusImage("/opps.png");
-      setopps("Opps!");
-      setModalMessage("Please fill the details");
-      setModalOpen(true);
+      getAlert("opps", "please fill each input field.");
+      return;
     } else {
       depositAddress = text;
       transId = transactionId;
@@ -87,17 +89,15 @@ function Page() {
         let res = await fetch("/api/payment/deposit", config);
         res = await res.json();
         if (res?.status === 200) {
-          setStatusImage("/opps.png");
-          setopps("Pending");
-          setModalMessage(res.message);
-          setModalOpen(true);
-        } else if (res?.status === 500) {
-          setStatusImage("/opps.png");
-          setopps("Opps!");
-          setModalMessage(res.message);
-          setModalOpen(true);
+          getAlert("success", "your payment is under verification");
+        } else if (res?.status === 500 || res?.status === 302) {
+          getAlert("redirect", "something went wrong");
+        } else {
+          getAlert("opps", res?.message || "something went wrong");
         }
-      } catch (error) {}
+      } catch (error) {
+        getAlert("redirect", "something went wrong");
+      }
     }
   }
 

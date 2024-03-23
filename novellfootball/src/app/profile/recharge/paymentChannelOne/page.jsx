@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, useEffect, Suspense, useContext } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -8,6 +8,7 @@ import { useSearchParams } from "next/navigation";
 import { LiaAngleDownSolid, LiaAngleRightSolid } from "react-icons/lia";
 import { LiaRupeeSignSolid } from "react-icons/lia";
 import Modal from "@/app/components/Modal";
+import { AlertContext } from "@/app/helpers/AlertContext";
 
 const accorodient = {
   show: {
@@ -24,6 +25,7 @@ const accorodient = {
 
 function Page() {
   // Popup handling here //
+  let { getAlert } = useContext(AlertContext);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [opps, setopps] = useState("Opps!");
@@ -42,29 +44,18 @@ function Page() {
     if (inputValue.length <= 12) {
       setValue(inputValue);
     } else if (!inputValue) {
-      setStatusImage("/opps.png");
-      setopps("Opps!");
-      setModalMessage("Kindly input utr number");
-      setModalOpen(true);
+      getAlert("opps", "fill the utr number first");
     } else {
-      setStatusImage("/opps.png");
-      setopps("Opps!");
-      setModalMessage("Please fill only 12 digits numbers");
-      setModalOpen(true);
+      getAlert("opps", "fill 12 digit values only");
     }
   };
 
   const submitData = async () => {
+    getAlert();
     if (!value || !receivedData) {
-      setStatusImage("/opps.png");
-      setopps("Opps!");
-      setModalMessage("Kindly input utr number");
-      setModalOpen(true);
+      getAlert("opps", "kindly fill the  form completely");
     } else if (value.length !== 12) {
-      setStatusImage("/opps.png");
-      setopps("Opps!");
-      setModalMessage("UTR number should have 12 digitis");
-      setModalOpen(true);
+      getAlert("opps", "fill 12 digit values only");
     } else {
       try {
         let body = {
@@ -83,17 +74,15 @@ function Page() {
         let res = await fetch("/api/payment/deposit", config);
         res = await res.json();
         if (res?.status === 200) {
-          setStatusImage("/opps.png");
-          setopps("Pending");
-          setModalMessage(res.message);
-          setModalOpen(true);
-        } else if (res?.status === 500) {
-          setStatusImage("/opps.png");
-          setopps("Opps!");
-          setModalMessage(res.message);
-          setModalOpen(true);
+          getAlert("success", "your deposit is under verification");
+        } else if (res?.status === 500 || res?.status === 302) {
+          getAlert("redirect", "something went wrong login again");
+        } else {
+          getAlert("opps", res?.message || "something went wrong login again");
         }
-      } catch (error) {}
+      } catch (error) {
+        getAlert("redirect", "something went wrong login again");
+      }
     }
   };
 
