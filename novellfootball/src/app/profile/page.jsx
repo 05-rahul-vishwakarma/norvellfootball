@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import Layout from "../components/Layout";
 import { UserContext } from "../helpers/UserContext";
 import Loading from "../components/Loading";
+import { AlertContext } from "../helpers/AlertContext";
 
 function Page() {
   const router = useRouter();
@@ -21,6 +22,7 @@ function Page() {
   const [getWithdrawal, updateWithdrawal] = useState(false);
   const dataBox = useRef();
   const [childrens, updateChildrens] = useState(null);
+  const { getAlert } = useContext(AlertContext);
 
   async function getTransactionData() {
     try {
@@ -41,6 +43,7 @@ function Page() {
   }
   async function logout() {
     try {
+      getAlert();
       let config = {
         method: "POST",
         header: {
@@ -50,12 +53,9 @@ function Page() {
       };
       let res = await fetch("/api/user", config);
       res = await res?.json();
-      if (res?.status === 200) {
-        alert("logged out successfully");
-      }
-      router.push("/access/login");
+      getAlert("redirect", res?.message || "logged out successfull");
     } catch (error) {
-      alert(error);
+      getAlert("redirect", res?.message || "logged out successfull");
     }
   }
   useEffect(() => {

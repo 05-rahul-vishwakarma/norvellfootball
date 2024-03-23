@@ -17,8 +17,9 @@ import Layout from "@/app/components/Layout";
 import OtpInputs from "@/app/components/OtpInputs";
 import { UserContext } from "@/app/helpers/UserContext";
 import { useRouter } from "next/navigation";
+import { AlertContext } from "@/app/helpers/AlertContext";
 
-function Page({ closePopup }) {
+function Page() {
   const [getVerification, updateGetVerif] = useState(false);
   const [verifPhone, updateVerificationMethod] = useState(true);
   const { userBalance, userOtherData } = useContext(UserContext);
@@ -28,6 +29,7 @@ function Page({ closePopup }) {
   const [Amount, updateAmount] = useState(0);
   const [otp, setOtp] = useState(new Array(4).fill(""));
   const router = useRouter();
+  let { getAlert } = useContext(AlertContext);
 
   async function verify() {
     let EnteredOtp = otp.join("");
@@ -51,38 +53,46 @@ function Page({ closePopup }) {
 
   async function getOtp() {
     try {
+      getAlert();
       let res = await fetch("/api/otp/" + `${verifPhone ? "phone" : "email"}`);
       res = await res.json();
       if (res?.status === 200) {
         updateOtpSent(true);
+        getAlert("success", res?.message || "Success");
         alert(res?.message);
+      } else if (res?.status === 302) {
+        getAlert("redirect", res?.message || "session time out");
       } else {
-        alert(res?.message);
+        getAlert("opps", res?.message || "something went wrong");
       }
     } catch (error) {
-      alert(error);
+      getAlert("redirect", res?.message || "something went wrong");
     }
   }
   async function getEditOtp() {
     try {
+      getAlert();
       let res = await fetch("/api/otp/" + `${verifPhone ? "phone" : "email"}`);
       res = await res.json();
       if (res?.status === 200) {
-        alert(res?.message);
         updateGetVerif(true);
+        getAlert("success", res?.message || "success");
+      } else if (res?.status === 302) {
+        getAlert("redirect", res?.message || "session time out");
       } else {
-        alert(res?.message);
+        getAlert("opps", res?.message || "something went wrong");
       }
     } catch (error) {
-      alert(error);
+      getAlert("redirect", res?.message || "something went wrong");
     }
   }
 
   async function withdraw() {
     try {
+      getAlert();
       let isVerified = await verify();
       if (!isVerified) {
-        alert("not verified");
+        getAlert("opps", "Please verify first");
         return;
       }
       let config = {
@@ -96,13 +106,15 @@ function Page({ closePopup }) {
       if (res?.ok) {
         res = await res.json();
         if (res?.status === 200) {
-          alert("pending done");
+          getAlert("success", res?.message || "success");
+        } else if (res?.status === 302) {
+          getAlert("redirect", res?.message || "session time out");
         } else {
-          alert(res?.message);
+          getAlert("opps", res?.message || "something went wrong");
         }
       }
     } catch (error) {
-      alert(error);
+      getAlert("redirect", res?.message || "session time out");
     }
   }
 
@@ -558,14 +570,15 @@ function VerificationPopup({
   const [phone, updateVerificationMethod] = useState(true);
   async function editBank() {
     try {
+      getAlert();
       let isVerified = await verify();
       if (isVerified) {
-        alert("verified");
+        getAlert("success", "otp verified");
         toggleVerification(false);
         getBankEdit(true);
       }
     } catch (error) {
-      alert("not verified");
+      getAlert("opps", "invalid otp");
     }
   }
   return (
