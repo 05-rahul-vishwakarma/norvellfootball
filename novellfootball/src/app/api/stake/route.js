@@ -43,6 +43,7 @@ export async function POST(request) {
       throw new CustomError(302, "Session time out login again", {});
 
     let { StakeId, StartsAt } = await request.json();
+
     if (!StakeId || !StartsAt)
       throw new CustomError(703, "Error in the data provided", {});
     else if (!(await isDeletable(StartsAt)))
@@ -109,6 +110,6 @@ async function isDeletable(StartsAt) {
       timeZone: "Asia/Calcutta",
     })
   );
-  if (match_date.getTime() - today.getTime() < 5 * 60 * 1000) return true;
-  return false;
+  if (match_date.getTime() - today.getTime() < 5 * 60 * 1000) return false;
+  return true;
 }

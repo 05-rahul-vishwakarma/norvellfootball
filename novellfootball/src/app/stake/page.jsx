@@ -72,7 +72,7 @@ function Page() {
 
       let body = {
         StakeId,
-        StartTime,
+        StartsAt: StartTime,
       };
 
       let config = {
@@ -84,6 +84,8 @@ function Page() {
       };
       let res = await fetch(`/api/stake`, config);
       res = await res.json();
+      alert(JSON.stringify(res));
+      getStakeData();
       setShow(false);
     } catch (error) {
       console.log(error);
@@ -225,7 +227,7 @@ function Page() {
 
 export default Page;
 
-function Stake({ onClick, data}) {
+function Stake({ onClick, data }) {
   const [Team_a_logo, update_logo_a] = useState(null);
   const [Team_b_logo, update_logo_b] = useState(null);
   const [MatchStartTime, updateTime] = useState(new Date());
