@@ -38,6 +38,7 @@ const Login = () => {
     let config = {
       method: "POST",
       contentType: "application/json",
+
       body: JSON.stringify(credentials),
     };
     let res = await fetch(`/api/access`, config);
