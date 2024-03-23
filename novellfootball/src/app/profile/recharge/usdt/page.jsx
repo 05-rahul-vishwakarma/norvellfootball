@@ -12,14 +12,9 @@ import { AlertContext } from "@/app/helpers/AlertContext";
 function Page() {
   // Popup handling here //
   let { getAlert } = useContext(AlertContext);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
-  const [opps, setopps] = useState("Opps!");
-  const [statusImage, setStatusImage] = useState("/success.png");
+  const [amount,setAmount] = useState();
 
-  const handleCloseErrorPopup = () => {
-    setModalOpen(false);
-  };
+
 
   const router = useRouter();
 
@@ -63,19 +58,14 @@ function Page() {
   async function usdtDetails() {
     let depositAddress;
     getAlert();
-    let transId, usdtAmount;
-    if (!transactionId || !text || !receivedData) {
+    if (!transactionId || !text || !amount) {
       getAlert("opps", "please fill each input field.");
       return;
     } else {
-      depositAddress = text;
-      transId = transactionId;
-      usdtAmount = receivedData;
-
       try {
         let body = {
-          TransactionId: transId,
-          Amount: usdtAmount,
+          TransactionId: transactionId,
+          Amount: amount,
           Channel: 3,
         };
         let config = {
@@ -128,7 +118,7 @@ function Page() {
           <div>
             <Suspense>
               {" "}
-              <RechargeAmount />{" "}
+              <RechargeAmount getAmount = {setAmount}  />{" "}
             </Suspense>
           </div>
         </div>
@@ -207,21 +197,13 @@ function Page() {
         </div>
       </div>
 
-      {modalOpen && (
-        <Modal
-          message={modalMessage}
-          statusImage={statusImage}
-          status={opps}
-          onClose={handleCloseErrorPopup}
-        />
-      )}
     </div>
   );
 }
 
 export default Page;
 
-function RechargeAmount() {
+function RechargeAmount({getAmount}) {
   const [receivedAmount, setReceivedAmount] = useState("");
   const searchParams = useSearchParams();
 
@@ -237,6 +219,7 @@ function RechargeAmount() {
   function usdtConvertor() {
     let usdtValue = (receivedAmount / 80).toFixed(2);
     SetUsdt(usdtValue);
+    getAmount(usdt)
   }
 
   useEffect(() => {

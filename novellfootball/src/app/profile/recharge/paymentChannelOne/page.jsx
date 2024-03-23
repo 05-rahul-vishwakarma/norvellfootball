@@ -26,16 +26,13 @@ const accorodient = {
 function Page() {
   // Popup handling here //
   let { getAlert } = useContext(AlertContext);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
-  const [opps, setopps] = useState("Opps!");
-  const [statusImage, setStatusImage] = useState("/success.png");
   const [isVisible, setVisible] = useState(false);
   const [isHide, setHide] = useState(true);
+  const [amount,setAmount] = useState();
 
-  const handleCloseErrorPopup = () => {
-    setModalOpen(false);
-  };
+
+
+
 
   // immplementing the utr number value
   const [value, setValue] = useState("");
@@ -52,7 +49,7 @@ function Page() {
 
   const submitData = async () => {
     getAlert();
-    if (!value || !receivedData) {
+    if (!value || !amount) {
       getAlert("opps", "kindly fill the  form completely");
     } else if (value.length !== 12) {
       getAlert("opps", "fill 12 digit values only");
@@ -60,7 +57,7 @@ function Page() {
       try {
         let body = {
           TransactionId: value,
-          Amount: receivedData,
+          Amount: amount,
           Channel: 1,
         };
         let config = {
@@ -96,7 +93,7 @@ function Page() {
           className="border-2 border-white shadow-md my-[2rem] w-[100%] py-3 flex  justify-center place-items-center flex-col rounded-lg "
         >
           <Suspense>
-            <RechargeAmount />
+            <RechargeAmount getAmount = {setAmount} />
           </Suspense>
           <p className="text-[.6rem] ">Payment Amount</p>
         </div>
@@ -268,7 +265,7 @@ function Page() {
           style={{ boxShadow: "0 0 5px 0 #c0cad9" }}
           className="bg-[#9fa8b8] text-center p-3 mt-4 flex justify-center place-items-center text-white  text-[.7rem] "
         >
-          pay  <p className=" "></p>
+          pay <LiaRupeeSignSolid /> <p className=" "></p>
         </div>
 
         <div
@@ -279,14 +276,13 @@ function Page() {
         </div>
       </div>
 
-      
     </div>
   );
 }
 
 export default Page;
 
-function RechargeAmount() {
+function RechargeAmount({getAmount}) {
   const [receivedAmount, setReceivedAmount] = useState("");
   const searchParams = useSearchParams();
 
@@ -294,6 +290,7 @@ function RechargeAmount() {
     let amount = searchParams.get("data");
     if (amount) {
       setReceivedAmount(amount);
+      getAmount(amount)
     }
   }, []);
 

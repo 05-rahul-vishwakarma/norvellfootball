@@ -10,14 +10,9 @@ function Page() {
   // Popup handling here //
   let { getAlert } = useContext(AlertContext);
 
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
-  const [opps, setopps] = useState("Opps!");
-  const [statusImage, setStatusImage] = useState("/success.png");
+  const [amount,setAmount] = useState();
 
-  const handleCloseErrorPopup = () => {
-    setModalOpen(false);
-  };
+   console.log(amount);
 
   // implementing the copy buttoon
   const [copied, setCopied] = useState(false);
@@ -38,21 +33,18 @@ function Page() {
 
   // post request from the front-end
   async function submitDeposit() {
-    let utrNumber, amount;
     getAlert();
     try {
-      if (value == "" || receivedData == "") {
+      if (value == "" || amount == "") {
         getAlert("opps", "fill the utr number first");
-      } else {
-        utrNumber = value;
-        amount = receivedData;
       }
-
       let body = {
-        TransactionId: utrNumber,
+        TransactionId: value,
         Amount: amount,
         Channel: 2,
       };
+
+      console.log(body);
 
       let config = {
         method: "POST",
@@ -81,7 +73,7 @@ function Page() {
       <div className="flex place-items-center w-[90%] mr-auto ml-auto border-b-2 border-[lightgray] mt-2 py-3 px-2 text-[.7rem] ">
         ${" "}
         <Suspense>
-          <RechargeAmount />
+          <RechargeAmount getAmount = {setAmount} />
         </Suspense>
       </div>
 
@@ -241,7 +233,7 @@ const CopyUPI = ({ upiId }) => {
   );
 };
 
-function RechargeAmount() {
+function RechargeAmount({getAmount}) {
   const [receivedAmount, setReceivedAmount] = useState("");
   const searchParams = useSearchParams();
 
@@ -249,6 +241,7 @@ function RechargeAmount() {
     let amount = searchParams.get("data");
     if (amount) {
       setReceivedAmount(amount);
+      getAmount(amount)
     }
   }, []);
 
