@@ -33,6 +33,7 @@ export async function GET(request) {
     let matches = await getLiveBets();
     if (!userData || !matches) throw new CustomError(703, "Login again", {});
 
+    //extracted match will return the live matches that are going to start 6 minutes from now;
     let ExtractedMatches = await getExtractedMatches(matches);
 
     return NextResponse.json({

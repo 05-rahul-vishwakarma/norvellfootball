@@ -266,6 +266,7 @@ function Page() {
           className="bg-[#9fa8b8] text-center p-3 mt-4 flex justify-center place-items-center text-white  text-[.7rem] "
         >
           pay <LiaRupeeSignSolid /> <p className=" "></p>
+          pay <LiaRupeeSignSolid /> <p className=" "></p>
         </div>
 
         <div
@@ -276,6 +277,7 @@ function Page() {
         </div>
       </div>
 
+      
     </div>
   );
 }
