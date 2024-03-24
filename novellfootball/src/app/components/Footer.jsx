@@ -58,6 +58,9 @@ function SecondFooter() {
     }
 
     if (
+      pathname ==="/profile/recharge/usdt"||
+      pathname ==="//profile/recharge/paymentChannelOne"||
+      pathname ==="/profile/recharge/paymentChannelTwo"||
       pathname ==="/profile/help/helps"||
       pathname ==="/profile/help/privacy"||
       pathname == "/profile" ||

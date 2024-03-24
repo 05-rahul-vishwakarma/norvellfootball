@@ -1,6 +1,5 @@
 import React from "react";
 import "@/app/style/loading.css";
-
 import Image from "next/image";
 function Loading() {
   return (

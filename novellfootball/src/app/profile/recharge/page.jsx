@@ -2,19 +2,19 @@
 
 import BackButton from "@/app/components/BackButton";
 import { TbCoinRupeeFilled } from "react-icons/tb";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Layout from "@/app/components/Layout";
 import Modal from "@/app/components/Modal";
 import { useContext } from "react";
 import { AlertContext } from "@/app/helpers/AlertContext";
+import Loading from "@/app/components/Loading";
 
 function Page() {
-
-
   //--------------------------------- popup handler ------------------------------------//
   const { getAlert } = useContext(AlertContext);
+  const [loading, setLoading] = useState(true);
 
   const router = useRouter();
 
@@ -32,6 +32,12 @@ function Page() {
     setSelectedDiv(divNumber);
   };
 
+  useEffect(() =>{
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  })
+
   // implementing condtion based redireacting
   const [selectedOption, setSelectedOption] = useState("");
   const handleOptionChange = (e) => {
@@ -39,7 +45,6 @@ function Page() {
   };
   const handleRedirect = () => {
     if (!inputValue) {
-
       getAlert("opps", "please enter the deposit amount");
     } else {
       if (selectedOption === "option1") {
@@ -66,6 +71,9 @@ function Page() {
 
   return (
     <Layout>
+      {/* loading component here */}
+      {loading && <Loading />}
+
       <div className="h-screen w-screen bg-[#F8FCFF] pb-[7rem] overflow-y-scroll ">
         <div className="h-screen w-screen ">
           <div onClick={() => router.back()} className="pt-2 ">
@@ -220,7 +228,6 @@ function Page() {
             </div>
           </div>
         </div>
-
       </div>
     </Layout>
   );

@@ -196,6 +196,7 @@ export default function Home() {
 
         {/* loading component here */}
         {loading && <Loading />}
+        
       </main>
     </Layout>
   );
@@ -204,7 +205,7 @@ export default function Home() {
 function MatchPopup({ match, onClose }) {
   const router = useRouter();
 
-  const { getAlert} = useContext(AlertContext);
+  const { getAlert } = useContext(AlertContext);
   const { userBalance, getBalance } = useContext(UserContext);
   const [Team_a_logo, updateSrcTeam_a] = useState();
   const [Team_b_logo, updateSrcTeam_b] = useState();
@@ -354,7 +355,6 @@ function MatchPopup({ match, onClose }) {
             Balance={userBalance}
             Score_a={match.Score_a}
             Score_b={match.Score_b}
-            s
           />
         </div>
       </motion.div>
