@@ -17,7 +17,7 @@ import Loading from "./components/Loading";
 import { AlertContext } from "./helpers/AlertContext";
 
 export default function Home() {
-  const router = useRouter();
+  let router = useRouter();
   const { userBalance, userOtherData } = useContext(UserContext);
   const [matches, updateMatches] = useState([]);
   const [matchLoaded, updateLoaded] = useState(false);
@@ -26,6 +26,10 @@ export default function Home() {
   // states for access current data and popup handling //
   const [selectedMatch, setSelectedMatch] = useState(null);
   const [popupVisible, setPopupVisible] = useState(false);
+
+  useEffect(() => {
+    router = useRouter();
+  }, []);
 
   // event handlers for the popup and accesing current data //
   const handleMatchCardClick = (item) => {
