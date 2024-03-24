@@ -27,10 +27,6 @@ export default function Home() {
   const [selectedMatch, setSelectedMatch] = useState(null);
   const [popupVisible, setPopupVisible] = useState(false);
 
-  useEffect(() => {
-    router = useRouter();
-  }, []);
-
   // event handlers for the popup and accesing current data //
   const handleMatchCardClick = (item) => {
     setSelectedMatch(item);
