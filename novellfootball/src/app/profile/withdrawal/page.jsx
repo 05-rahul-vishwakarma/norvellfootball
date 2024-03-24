@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { FaRupeeSign } from "react-icons/fa";
+import { FaInfoCircle, FaRupeeSign } from "react-icons/fa";
 import { LiaAngleLeftSolid, LiaAngleRightSolid } from "react-icons/lia";
 import {
   FaArrowDown,
@@ -531,6 +531,37 @@ function Page() {
               >
                 transfer to bank
               </button>
+            </div>
+            <div className="px-2  py-1 space-y-2 mt-3">
+              <div className="flex pl-4 space-x-1">
+                <FaInfoCircle color="red" />
+                <p className=" text-sm font-bold">
+                  Withdrawal instruction&apos;s
+                </p>
+              </div>
+              <ul className=" pl-8 text-[0.65rem] list-decimal">
+                <li>
+                  Please ensure that the amount is properly rolled over before
+                  proceeding with the withdrawal.
+                </li>
+                <li>
+                  During the specified time frame of 10:00 to 17:00, withdrawals
+                  will be processed. Please note that the bank is closed on
+                  Sundays, hence withdrawals cannot be facilitated on that day.
+                  Thank you for your understanding.
+                </li>
+                <li>
+                  Limit to one withdrawal per day according to company policy.
+                </li>
+                <li>
+                  Please review the membersip page for information regarding
+                  your withdrawal eligibility range.
+                </li>
+                <li>
+                  If you encounter any issues, please don&apos;t hesitate to
+                  reach out to our customer support team for assistance.
+                </li>
+              </ul>
             </div>
           </div>
         </div>

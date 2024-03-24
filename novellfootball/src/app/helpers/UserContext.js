@@ -28,12 +28,10 @@ const UserContextProvider = ({ children }) => {
         setOtherUserDetails(res?.data?.Other);
       }
       if (res?.status === 302) {
-        alert("sessioin time out");
         router.push("/access/login");
       }
     } catch (error) {
-      alert(error);
-      // router.push("/access/login");
+      router.push("/access/login");
     }
   }
   return (

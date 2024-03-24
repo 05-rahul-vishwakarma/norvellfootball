@@ -164,7 +164,7 @@ async function initiateParallelProcess(
           filter: { UserName: match?.UserName },
           update: {
             $inc: {
-              ValidAmount: Number((Number(match?.BetAmount) * 0.4).toFixed(2)),
+              ValidAmount: Number((Number(match?.BetAmount) * 0.2).toFixed(2)),
               Balance: Number(Number((BetAmount + Profit).toFixed(2)) * 100),
             },
           },
