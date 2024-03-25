@@ -23,7 +23,7 @@ const DepositCard = ({ data, idx }) => {
   const [showExtra, getExtraData] = useState(false);
   return (
     <div className="p-1.5 flex shadow-md rounded-md bg-white">
-      <div className="w-[5%] text-sm font-bold text-red-500 mt-1 text-center">
+      <div className="w-[5%] text-sm font-bold text-red-500 mt-2 text-center">
         {idx + 1}.
       </div>
       <div className="w-[95%] text-sm">
@@ -32,16 +32,20 @@ const DepositCard = ({ data, idx }) => {
             type="text"
             className="sr-only"
             value={prevTransactionId}
+            name="prevTransactionId"
             onChange={updateId}
           />
           <div
-            style={{ borderColor: isDocEditable ? "skyblue" : "transparent" }}
-            className="flex justify-between border-dashed border-2 py-1.5"
+            style={{
+              border: isDocEditable ? "1.5px dashed skyblue" : "",
+            }}
+            className="flex justify-between py-1.5"
           >
             <p className="w-[60%]">Referance no.</p>
             <input
               disabled={!isDocEditable}
               type="text"
+              name="RefrenceNo"
               className="w-[40%]"
               onChange={(e) => updateReferance(e.target.value)}
               value={ReferanceNo}
@@ -66,7 +70,7 @@ const DepositCard = ({ data, idx }) => {
                   background:
                     Status === 1 ? "lime" : Status === 2 ? "red" : "yellow",
                 }}
-                className="py-0.5 px-2 bg-yellow-300 rounded-md text-white"
+                className="py-0.5 px-2 bg-yellow-400 font-bold rounded-md text-white"
               >
                 {Status === 1
                   ? "success"
@@ -94,6 +98,7 @@ const DepositCard = ({ data, idx }) => {
                 <input
                   type="text"
                   value={UserName}
+                  name="UserName"
                   onChange={(e) => updateUserName(UserName)}
                   className="w-[40%]"
                   placeholder="293847"
@@ -102,14 +107,15 @@ const DepositCard = ({ data, idx }) => {
 
               <div
                 style={{
-                  borderColor: isDocEditable ? "skyblue" : "transparent",
+                  border: isDocEditable ? "1.5px dashed skyblue" : "",
                 }}
-                className="flex justify-between py-1.5 border-2 border-dashed"
+                className="flex justify-between py-1.5"
               >
                 <p className="w-[60%]">amount</p>
                 <input
                   type="text"
                   value={Amount}
+                  name="Amount"
                   disabled={!isDocEditable}
                   onChange={(e) => updateAmount(e.target.value)}
                   className="w-[40%]"
@@ -119,15 +125,25 @@ const DepositCard = ({ data, idx }) => {
 
               <div
                 style={{
-                  borderColor: isDocEditable ? "skyblue" : "transparent",
+                  border: isDocEditable ? "1.5px dashed skyblue" : "",
                 }}
-                className="flex justify-between py-1.5 border-2 border-dashed"
+                className="flex justify-between py-1.5 "
               >
                 <p className="w-[60%]">remark</p>
+                <select
+                  name="remark"
+                  onChange={(e) => updateRemark(e.target.value)}
+                  className="w-[40%]"
+                >
+                  <option value="something 1">something 1</option>
+                  <option value="something 2">something 2</option>
+                  <option value="something 3">something 3</option>
+                  <option value="something 4">something 4</option>
+                </select>
                 <input
                   type="text"
                   disabled={!isDocEditable}
-                  className="w-[40%]"
+                  className="w-[40%] sr-only "
                   placeholder="enter a remark"
                   value={Remark}
                   onChange={(e) => updateRemark(e.target.value)}
@@ -169,9 +185,9 @@ const DepositCard = ({ data, idx }) => {
                 >
                   Edit
                 </button>
-                <Button isDisabled={!isDocEditable} />
+                <Button isDisabled={!isDocEditable || !!state?.message} />
               </div>
-              <Listeners />
+              <Listeners message={state?.message} />
             </>
           )}
         </form>
