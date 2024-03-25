@@ -15,7 +15,6 @@ import Modal from "./components/Modal";
 import { easeInOut, motion } from "framer-motion";
 import Loading from "./components/Loading";
 import { AlertContext } from "./helpers/AlertContext";
-import Link from "next/link";
 
 export default function Home() {
   let router = useRouter();
@@ -132,12 +131,11 @@ export default function Home() {
       <main className="h-screen bg-no-repeat bg- bg-center bg-gradient-to-b from-[#2885F6] to-[#000] overflow-hidden  ">
         <div className="  flex justify-between place-items-center  w-[90%] mr-auto ml-auto   ">
           <div className="w-max mt-2 flex flex-col justify-center  pt-2 ">
-            <Link
-              href={"/profile/recharge"}
-              // onClick={() => {
-              //   alert("clicked");
-              //   router.push("/profile/recharge");
-              // }}
+            <div
+              onClick={() => {
+                alert("clicked");
+                router.push("/profile/recharge");
+              }}
               className="flex place-items-center rounded-full bg-white w-max line-clamp-1 text-ellipsis "
             >
               <span className=" flex place-items-center justify-center  line-clamp-1 text-ellipsis text-xs font-[500] px-3 py-1.5 min-w-[3rem] ">
@@ -145,7 +143,7 @@ export default function Home() {
                 {userBalance}
               </span>
               <FaCirclePlus className="text-[.9rem] mr-2 text-[#2885F6] " />
-            </Link>
+            </div>
 
             <h1 className=" font-bold text-[white] mt-3 text-center  ">
               Top Events
