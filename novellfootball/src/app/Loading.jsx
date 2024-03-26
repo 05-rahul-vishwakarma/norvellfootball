@@ -1,7 +1,8 @@
 import React from "react";
 import "@/app/style/loading.css";
+
 import Image from "next/image";
-function Loading() {
+function loading() {
   return (
     <div className="w-dvw h-dvh absolute top-0 left-0  z-[20] ">
       <div className="suport  h-full grid place-items-center ">
@@ -17,4 +18,4 @@ function Loading() {
   );
 }
 
-export default Loading;
+export default loading;

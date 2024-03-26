@@ -1,6 +1,7 @@
 "use client";
 import CommissionPopModel from "@/app/components/CommissionPopModel";
 import Layout from "@/app/components/Layout";
+import Loading from "@/app/components/Loading";
 import { AlertContext } from "@/app/helpers/AlertContext";
 import { UserContext } from "@/app/helpers/UserContext";
 import { motion } from "framer-motion";
@@ -24,6 +25,7 @@ const Page = () => {
   const [total_withdrawal, updateTotalWithdrawal] = useState(0);
   const [commissionData, updateCommissionData] = useState(0);
   const { userBalance, userOtherData } = useContext(UserContext);
+  const [loading, setLoading] = useState(true);
 
   const [RegisterData, updateRegisterData] = useState({
     level1: [],
@@ -54,6 +56,7 @@ const Page = () => {
     let weeklyCommission = [];
     res = await res.json();
     if (res.status === 200) {
+      setLoading(false)
       let commissionObj = res?.data[0];
       updateTodayCommission(commissionObj[date]);
       updateCommissionData(() => {
@@ -442,7 +445,12 @@ const Page = () => {
               />
             </section>
           )}
+
+      {/* loading component here */}
+      {loading && <Loading/>}
+
       </section>
+
     </Layout>
   );
 };

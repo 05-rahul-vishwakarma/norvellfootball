@@ -18,6 +18,8 @@ import OtpInputs from "@/app/components/OtpInputs";
 import { UserContext } from "@/app/helpers/UserContext";
 import { useRouter } from "next/navigation";
 import { AlertContext } from "@/app/helpers/AlertContext";
+import Loading from "@/app/components/Loading";
+import { useEffect } from "react";
 
 function Page() {
   const [getVerification, updateGetVerif] = useState(false);
@@ -30,7 +32,8 @@ function Page() {
   const [otp, setOtp] = useState(new Array(4).fill(""));
   const router = useRouter();
   let { getAlert } = useContext(AlertContext);
-
+  const [loading, setLoading] = useState(true);
+  
   async function verify() {
     let EnteredOtp = otp.join("");
     EnteredOtp = Number(EnteredOtp);
@@ -118,9 +121,18 @@ function Page() {
     }
   }
 
+  useEffect(()=>{
+    setTimeout(() => {
+      setLoading(false)
+    }, 1000);
+  })
+
   return (
     <Layout>
       <section className="bg-[#F8FCFF] relative top-0 left-0 overflow-hidden w-full h-[100dvh]">
+        {/* loading component here */}
+        {loading && <Loading />}
+
         <div className="h-[10%] flex justify-center relative items-center">
           <span className="font-bold capitalize text-sm">
             payment withdrawal
