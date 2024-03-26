@@ -239,7 +239,7 @@ function Page() {
             </div>
 
             <div
-              onClick={() => updateWithdrawal(true)}
+              onClick={() => router.push("/profile/withdrawal")}
               style={{ boxShadow: "0px 2px 8px 1px rgb(0,0,0,0.1) " }}
               className="flex mt-2 items-center py-2  rounded-[19px]  px-2 bg-[#fff] "
             >
@@ -261,10 +261,7 @@ function Page() {
                   />
                 </svg>
               </div>
-              <div
-                onClick={() => router.push("/profile/withdrawal")}
-                className="h-full w-full flex-[4] capitalize font-bold text-[0.75rem]"
-              >
+              <div className="h-full w-full flex-[4] capitalize font-bold text-[0.75rem]">
                 payment withdrawal
               </div>
               <div className="h-full w-full flex justify-center items-center flex-[1]">
@@ -273,6 +270,7 @@ function Page() {
             </div>
 
             <div
+              onClick={() => router.push("/profile/editpassword")}
               style={{ boxShadow: "0px 2px 8px 1px rgb(0,0,0,0.1) " }}
               className="flex mt-2 items-center py-2  rounded-[19px] bg-[#fff]  px-2"
             >
@@ -294,10 +292,7 @@ function Page() {
                   />
                 </svg>
               </div>
-              <div
-                onClick={() => router.push("/profile/editpassword")}
-                className="h-full w-full flex-[4] capitalize font-bold text-[0.75rem]"
-              >
+              <div className="h-full w-full flex-[4] capitalize font-bold text-[0.75rem]">
                 change password
               </div>
               <div className="h-full w-full flex justify-center items-center flex-[1]">
@@ -306,6 +301,7 @@ function Page() {
             </div>
 
             <div
+              onClick={() => router.push("/profile/help")}
               style={{ boxShadow: "0px 2px 8px 1px rgb(0,0,0,0.1) " }}
               className="flex mt-2 items-center py-2  rounded-[19px] bg-[#fff] px-2"
             >
@@ -323,10 +319,7 @@ function Page() {
                   />
                 </svg>
               </div>
-              <div
-                onClick={() => router.push("/profile/help")}
-                className="h-full w-full flex-[4] capitalize font-bold text-[0.75rem]"
-              >
+              <div className="h-full w-full flex-[4] capitalize font-bold text-[0.75rem]">
                 get help
               </div>
               <div className="h-full w-full flex justify-center items-center flex-[1]">

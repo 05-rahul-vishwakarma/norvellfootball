@@ -2,17 +2,16 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import { useFormState } from "react-dom";
-import { FaEdit } from "react-icons/fa";
-import { MdPending } from "react-icons/md";
 import { updateTransaction } from "./Action";
 import { Button, Listeners } from "../Bets/BetCard";
+import { IoIosArrowDown } from "react-icons/io";
 
 const initialState = {
   message: "",
 };
 
-const DepositCard = ({ data }) => {
-  const [isDocEditable, toggleEditable] = useState(true);
+const DepositCard = ({ data, idx }) => {
+  const [isDocEditable, toggleEditable] = useState(false);
   const [ReferanceNo, updateReferance] = useState(data?.TransactionId);
   const [Amount, updateAmount] = useState(Number(data?.Amount) / 100);
   const [Status, updateStatus] = useState(data?.Status);
@@ -21,137 +20,179 @@ const DepositCard = ({ data }) => {
   const [Remark, updateRemark] = useState(data?.Remark);
   const [prevTransactionId, updateId] = useState(data?.TransactionId);
   const [state, formAction] = useFormState(updateTransaction, initialState);
-
+  const [showExtra, getExtraData] = useState(false);
   return (
-    <form action={formAction}>
-      <div className="grid py-2 px-2 items-center grid-cols-9 md:text-[0.66rem]  text-[0.6rem] gap-x-2 bg-white">
-        <div className=" sr-only ">
-          <input
-            type="text"
-            name="prevTransactionId"
-            value={data?.TransactionId}
-            onChange={(e) => updateId(prevTransactionId)}
-          />
-        </div>
-        <div
-          style={{ border: !isDocEditable ? "1px dashed blue" : "none" }}
-          className="truncate size-full flex items-center "
-        >
-          {/* <h1>293874829307</h1> */}
-          <input
-            type="number"
-            value={ReferanceNo}
-            onChange={(e) =>
-              !isDocEditable ? updateReferance(e.target.value) : null
-            }
-            name="RefrenceNo"
-          />
-        </div>
-        <div>
-          <input
-            type="text"
-            onChange={(e) => updateUserName(UserName)}
-            value={UserName}
-            name="UserName"
-          />
-        </div>
-        <div
-          style={{ border: !isDocEditable ? "1px dashed blue" : "none" }}
-          className="truncate size-full flex items-center "
-        >
-          <input
-            type="text"
-            value={Amount}
-            onChange={(e) =>
-              !isDocEditable ? updateAmount(e.target.value) : null
-            }
-            name="Amount"
-          />
-        </div>
-        <div className="truncate size-full flex items-center ">
-          <h1>
-            {data?.Date}-
-            {createdAt?.getHours() > 12
-              ? createdAt?.getHours() - 12
-              : createdAt.getHours()}
-            :{createdAt?.getMinutes()}:{createdAt?.getSeconds()}
-          </h1>
-        </div>
-        <div className="truncate size-full flex items-center ">
-          <h1>{data?.Method}</h1>
-        </div>
-        <div className="flex justify-start gap-x-2">
-          <div className="space-y-1">
-            <span className="flex justify-center items-center">
-              <MdPending className="h-[12px] w-[12px] text-yellow-500 " />
-            </span>
-            <input
-              type="radio"
-              checked={Status === 0}
-              onChange={(e) => updateStatus(0)}
-              name="stat_0"
-            />
-          </div>
-          <div className="space-y-1">
-            <span className="flex justify-center items-center">
-              <Image
-                src="/tick_mark.png"
-                height={12}
-                width={12}
-                alt="correct"
-              />
-            </span>
-            <input
-              checked={Status === 1}
-              onChange={(e) => updateStatus(1)}
-              type="radio"
-              name="stat_1"
-            />
-          </div>
-          <div className="space-y-1">
-            <span className="flex justify-center items-center">
-              <Image src="/wrong.png" height={12} width={12} alt="correct" />
-            </span>
-            <input
-              type="radio"
-              checked={Status === 2}
-              onChange={(e) => updateStatus(2)}
-              name="stat_2"
-            />
-          </div>
-        </div>
-        <div
-          style={{ border: !isDocEditable ? "1px dashed blue" : "none" }}
-          className="truncate size-full flex items-center "
-        >
-          <input
-            type="text"
-            value={Remark}
-            style={{
-              background:
-                Status === 0 ? "#ffff8c" : Status === 1 ? "#adffad" : "#ffbfbf",
-              color:
-                Status === 0 ? "#be7e25" : Status === 1 ? "#00cd00" : "#f02f52",
-            }}
-            className="bg-green-300 w-[50%] font-bold capitalize rounded-md py-0.5 px-1 "
-            onChange={(e) =>
-              !isDocEditable ? updateRemark(e.target.value) : null
-            }
-            name="Remark"
-          />
-        </div>
-        <div
-          onClick={() => toggleEditable((prev) => !prev)}
-          className="flex  items-center"
-        >
-          <FaEdit className="size-4 text-blue-700" />
-        </div>
-        <div>
-          <Button />
-        </div>
+    <div className="p-1.5 flex shadow-md rounded-md bg-white">
+      <div className="w-[5%] text-sm font-bold text-red-500 mt-2 text-center">
+        {idx + 1}.
       </div>
-      <Listeners message={state?.message} />
-    </form>
+      <div className="w-[95%] text-sm">
+        <form className="capitalize divide-y-2" action={formAction}>
+          <input
+            type="text"
+            className="sr-only"
+            value={prevTransactionId}
+            name="prevTransactionId"
+            onChange={updateId}
+          />
+          <div
+            style={{
+              border: isDocEditable ? "1.5px dashed skyblue" : "",
+            }}
+            className="flex justify-between py-1.5"
+          >
+            <p className="w-[60%]">Referance no.</p>
+            <input
+              disabled={!isDocEditable}
+              type="text"
+              name="RefrenceNo"
+              className="w-[40%]"
+              onChange={(e) => updateReferance(e.target.value)}
+              value={ReferanceNo}
+              placeholder="293847"
+            />
+          </div>
+          <div className="flex justify-between py-1.5">
+            <p className="w-[60%]">date/time</p>
+            <p className="w-[40%]">
+              {data?.Date}-
+              {createdAt?.getHours() > 12
+                ? createdAt?.getHours() - 12
+                : createdAt.getHours()}
+              :{createdAt?.getMinutes()}:{createdAt?.getSeconds()}
+            </p>
+          </div>
+          <div className="flex justify-between py-1.5">
+            <p className="w-[60%]">status</p>
+            <div className="w-[40%] flex items-center space-x-4">
+              <p
+                style={{
+                  background:
+                    Status === 1 ? "lime" : Status === 2 ? "red" : "yellow",
+                }}
+                className="py-0.5 px-2 bg-yellow-400 font-bold rounded-md text-white"
+              >
+                {Status === 1
+                  ? "success"
+                  : Status === 2
+                  ? "canceled"
+                  : "pending"}
+              </p>
+              <p
+                onClick={(e) => getExtraData((prev) => !prev)}
+                className="rounded-full bg-gray-300 p-0.5"
+              >
+                <IoIosArrowDown />
+              </p>
+            </div>
+          </div>
+
+          {showExtra && (
+            <>
+              <div className="flex justify-between py-1.5">
+                <p className="w-[60%]">payment method</p>
+                <p className="w-[40%]">{data?.Method}</p>
+              </div>
+              <div className="flex justify-between py-1.5">
+                <p className="w-[60%]">username</p>
+                <input
+                  type="text"
+                  value={UserName}
+                  name="UserName"
+                  onChange={(e) => updateUserName(UserName)}
+                  className="w-[40%]"
+                  placeholder="293847"
+                />
+              </div>
+
+              <div
+                style={{
+                  border: isDocEditable ? "1.5px dashed skyblue" : "",
+                }}
+                className="flex justify-between py-1.5"
+              >
+                <p className="w-[60%]">amount</p>
+                <input
+                  type="text"
+                  value={Amount}
+                  name="Amount"
+                  disabled={!isDocEditable}
+                  onChange={(e) => updateAmount(e.target.value)}
+                  className="w-[40%]"
+                  placeholder="293847"
+                />
+              </div>
+
+              <div
+                style={{
+                  border: isDocEditable ? "1.5px dashed skyblue" : "",
+                }}
+                className="flex justify-between py-1.5 "
+              >
+                <p className="w-[60%]">remark</p>
+                <select
+                  name="remark"
+                  onChange={(e) => updateRemark(e.target.value)}
+                  className="w-[40%]"
+                >
+                  <option value="something 1">something 1</option>
+                  <option value="something 2">something 2</option>
+                  <option value="something 3">something 3</option>
+                  <option value="something 4">something 4</option>
+                </select>
+                <input
+                  type="text"
+                  disabled={!isDocEditable}
+                  className="w-[40%] sr-only "
+                  placeholder="enter a remark"
+                  value={Remark}
+                  onChange={(e) => updateRemark(e.target.value)}
+                />
+              </div>
+              <div className="flex justify-between py-1.5">
+                <p className="w-[60%]">choose</p>
+                <div className="flex w-[40%] space-x-4 justify-start">
+                  <div className="space-y-1">
+                    <p>
+                      <Image src={"/wrong.png"} width={12} height={12} />{" "}
+                    </p>
+                    <input
+                      checked={Status === 2}
+                      onChange={(e) => updateStatus(2)}
+                      type="radio"
+                      name="stat_2"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <p>
+                      <Image src={"/tick_mark.png"} width={12} height={12} />{" "}
+                    </p>
+                    <input
+                      checked={Status === 1}
+                      onChange={(e) => updateStatus(1)}
+                      type="radio"
+                      name="stat_1"
+                    />
+                  </div>
+                </div>
+              </div>
+              {/* controll buttons */}
+              <div className="flex space-x-12 justify-center py-2 pt-4">
+                <button
+                  type="button"
+                  onClick={(e) => toggleEditable((prev) => !prev)}
+                  className="rounded-md px-4 py-0.5 text-white bg-yellow-500"
+                >
+                  Edit
+                </button>
+                <Button isDisabled={!isDocEditable || !!state?.message} />
+              </div>
+              <Listeners message={state?.message} />
+            </>
+          )}
+        </form>
+      </div>
+    </div>
   );
 };
 

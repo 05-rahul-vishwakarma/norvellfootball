@@ -168,11 +168,11 @@ export function Listeners({ message }) {
     </p>
   );
 }
-export function Button() {
+export function Button({ isDisabled }) {
   let { pending } = useFormStatus();
   return (
     <button
-      disabled={pending}
+      disabled={isDisabled || pending}
       aria-disabled={"loading"}
       className="bg-blue-600 disabled:bg-blue-400 rounded-md text-white px-1.5 font-bold capitalize py-0.5"
       type="submit"

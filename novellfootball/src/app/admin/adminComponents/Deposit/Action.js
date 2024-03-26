@@ -66,6 +66,7 @@ async function settleDeposit(data) {
           },
           { session: Session }
         );
+        let today = new Date();
         let createBonusReward = await TRANSACTION.create(
           [
             {
@@ -75,7 +76,9 @@ async function settleDeposit(data) {
               Type: "invitation reward",
               Remard: "success",
               Status: 1,
-              Date: "3/2/23234",
+              Date: `${today.getDate()}/${
+                today.getMonth() + 1
+              }/${today.getFullYear()}`,
               Parent: isParentUpdated?.Parent,
               From: data?.UserName,
               Method: "reward",
