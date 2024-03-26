@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import VerificationPopup from "@/app/components/VerificationPopup";
 import { AlertContext } from "@/app/helpers/AlertContext";
 import Modal from "@/app/components/Modal";
+import { useRouter } from "next/navigation";
 
 const containerVariant = {
   hidden: {
@@ -24,6 +25,7 @@ const itemVariant = {
   visible: { opacity: 1, y: 0 },
 };
 const Login = () => {
+  const router = useRouter();
   const { getAlert, isActive } = useContext(AlertContext);
 
   const [credentials, updateCredentials] = useState({
@@ -47,7 +49,8 @@ const Login = () => {
     let res = await fetch(`/api/access`, config);
     res = await res.json();
     if (res?.status === 200) {
-      getAlert("redirect", "login successfull");
+      getAlert("success", "login successfull");
+      router.push("/");
     } else {
       getAlert("opps", res?.message || "something went wrong");
     }

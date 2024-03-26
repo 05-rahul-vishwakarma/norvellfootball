@@ -10,6 +10,7 @@ import { LiaRupeeSignSolid } from "react-icons/lia";
 import Modal from "@/app/components/Modal";
 import { AlertContext } from "@/app/helpers/AlertContext";
 import Layout from "@/app/components/Layout";
+import { UserContext } from "@/app/helpers/UserContext";
 
 const accorodient = {
   show: {
@@ -27,6 +28,7 @@ const accorodient = {
 function Page() {
   // Popup handling here //
   let { getAlert } = useContext(AlertContext);
+  let { extraDetails } = useContext(UserContext);
   const [isVisible, setVisible] = useState(false);
   const [isHide, setHide] = useState(true);
   const [amount, setAmount] = useState();
@@ -229,7 +231,11 @@ function Page() {
                 className="text-[#00000091] h-[18vh] text-[0.6rem] overflow-scroll  flex flex-col  justify-center place-items-center px-4 relative  "
               >
                 <Image
-                  src={"/logo.png"}
+                  src={
+                    extraDetails?.QrChannel1
+                      ? `data:image/jpeg;base64,${extraDetails?.QrChannel1}`
+                      : "/logo.png"
+                  }
                   alt="barCode"
                   height={80}
                   width={80}

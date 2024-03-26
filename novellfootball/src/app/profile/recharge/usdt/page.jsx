@@ -5,15 +5,19 @@ import { RiSecurePaymentLine } from "react-icons/ri";
 import { IoQrCodeOutline } from "react-icons/io5";
 import { FaRegCopy } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
-import Modal from "@/app/components/Modal";
 import { useSearchParams } from "next/navigation";
 import { AlertContext } from "@/app/helpers/AlertContext";
 import Layout from "@/app/components/Layout";
+import { UserContext } from "@/app/helpers/UserContext";
+import Image from "next/image";
 
 function Page() {
   // Popup handling here //
   let { getAlert } = useContext(AlertContext);
+  let { extraDetails, getExtraDetails } = useContext(UserContext);
+
   const [amount, setAmount] = useState();
+  const [depositAddress, updateDepositAddress] = useState("");
 
   const router = useRouter();
 
@@ -90,6 +94,15 @@ function Page() {
     }
   }
 
+  useEffect(() => {
+    let adress = extraDetails?.UpiIds;
+    if (!adress) {
+      getExtraDetails();
+    } else {
+      updateDepositAddress(extraDetails?.UpiIds[2] || "213123");
+    }
+  }, [extraDetails]);
+
   return (
     <Layout>
       <div className="w-screen h-screen bg-[#F8FCFF]  pb-[12rem] overflow-y-scroll  flex flex-col place-items-center  ">
@@ -131,7 +144,19 @@ function Page() {
               <IoQrCodeOutline className="mr-1  " /> Scan QR code{" "}
             </span>
 
-            <div className="w-[40vw] h-[20vh] border-2 border-black mr-auto ml-auto my-3 "></div>
+            <div className="w-[40vw] h-[20vh] border-2 border-black mr-auto ml-auto my-3 ">
+              <Image
+                src={
+                  extraDetails?.QrChannel3
+                    ? `data:image/jpeg;base64,${extraDetails?.QrChannel3}`
+                    : "/logo.png"
+                }
+                alt="barCode"
+                height={80}
+                width={80}
+                className="object-contain "
+              />
+            </div>
 
             <div className="flex justify-between ">
               <div className="w-[30%] ">
@@ -162,7 +187,8 @@ function Page() {
               <input
                 type="text"
                 placeholder="Enter Your Deposit Address"
-                value={text}
+                value={depositAddress}
+                disabled
                 onChange={(e) => setText(e.target.value)}
                 className="w-[80%] bg-transparent text-[.65rem] "
               />

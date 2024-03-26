@@ -1,8 +1,9 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Listeners } from "./BetCard";
 import { useFormState, useFormStatus } from "react-dom";
 import { BlockUnblockUser } from "./Action";
+import { useRouter } from "next/navigation";
 
 const initialState = {
   message: "",
@@ -24,6 +25,12 @@ const BlockUnblockCard = ({ UserName }) => {
       formRef?.current?.requestSubmit();
     }
   }
+  let router = useRouter();
+  useEffect(() => {
+    if (blockUnblock?.message) {
+      router.refresh();
+    }
+  }, [blockUnblock]);
   return (
     <form ref={formRef} action={formAction}>
       <div
@@ -67,6 +74,12 @@ const BlockUnblockCard = ({ UserName }) => {
 };
 export function BlockNew() {
   const [state, formAction] = useFormState(BlockUnblockUser, initialState);
+  let router = useRouter();
+  useEffect(() => {
+    if (state?.message) {
+      router.refresh();
+    }
+  }, [state]);
   return (
     <form action={formAction}>
       <div className="flex px-2 my-2 border-2 border-dashed border-sky-300 py-1.5 text-sm">

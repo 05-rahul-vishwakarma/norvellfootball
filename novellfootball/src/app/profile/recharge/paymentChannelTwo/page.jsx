@@ -6,18 +6,17 @@ import { FaRegCopy } from "react-icons/fa6";
 import Modal from "@/app/components/Modal";
 import { AlertContext } from "@/app/helpers/AlertContext";
 import Layout from "@/app/components/Layout";
+import { UserContext } from "@/app/helpers/UserContext";
 
 function Page() {
   // Popup handling here //
   let { getAlert } = useContext(AlertContext);
+  let { extraDetails, getExtraDetails } = useContext(UserContext);
 
   const [amount, setAmount] = useState();
-
-  console.log(amount);
-
+  const [upiId, updateUpi] = useState([]);
   // implementing the copy buttoon
   const [copied, setCopied] = useState(false);
-  const upiId = "example@upi";
 
   // immplementing the utr number value
   const [value, setValue] = useState("");
@@ -45,8 +44,6 @@ function Page() {
         Channel: 2,
       };
 
-      console.log(body);
-
       let config = {
         method: "POST",
         headers: {
@@ -69,6 +66,14 @@ function Page() {
     }
   }
 
+  useEffect(() => {
+    if (!extraDetails?.UpiIds) {
+      getExtraDetails();
+    } else {
+      updateUpi(extraDetails?.UpiIds || []);
+    }
+  }, [extraDetails]);
+
   return (
     <Layout>
       <div className='className="bg-white w-screen h-screen overflow-y-scroll pb-[12rem]'>
@@ -81,11 +86,29 @@ function Page() {
 
         <div className="flex place-items-center w-[90%] mr-auto ml-auto  mt-2 py-3 px-2 justify-between text-[.6rem] ">
           <p>UPI ID</p>
-          <CopyUPI upiId={upiId} />
+          <CopyUPI
+            upiId={
+              upiId?.length > 1
+                ? upiId[Math.floor(Math.random() * upiId?.length)]
+                : "something@upi"
+            }
+          />
         </div>
 
         <div className="h-[35%] mt-3 flex flex-col justify-center place-items-center  text-[.6rem] ">
-          <div className="w-[60%] h-[90%] border-2 border-[lightgray] "></div>
+          <div className="w-[60%] h-[90%] border-2 border-[lightgray] ">
+            <Image
+              src={
+                extraDetails?.QrChannel2
+                  ? `data:image/jpeg;base64,${extraDetails?.QrChannel2}`
+                  : "/logo.png"
+              }
+              alt="barCode"
+              height={80}
+              width={80}
+              className="object-contain "
+            />
+          </div>
           <p className="mt-2 font-[500] text-[#cf4b4b] ">
             have you paid successfully?
           </p>

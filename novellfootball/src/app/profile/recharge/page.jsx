@@ -10,10 +10,13 @@ import Modal from "@/app/components/Modal";
 import { useContext } from "react";
 import { AlertContext } from "@/app/helpers/AlertContext";
 import Loading from "@/app/components/Loading";
+import { UserContext } from "@/app/helpers/UserContext";
 
 function Page() {
   //--------------------------------- popup handler ------------------------------------//
   const { getAlert } = useContext(AlertContext);
+  const { getExtraDetails } = useContext(UserContext);
+
   const [loading, setLoading] = useState(true);
 
   const router = useRouter();
@@ -32,11 +35,15 @@ function Page() {
     setSelectedDiv(divNumber);
   };
 
-  useEffect(() =>{
+  useEffect(() => {
+    getExtraDetails();
+  }, []);
+
+  useEffect(() => {
     setTimeout(() => {
       setLoading(false);
     }, 1000);
-  })
+  });
 
   // implementing condtion based redireacting
   const [selectedOption, setSelectedOption] = useState("");
