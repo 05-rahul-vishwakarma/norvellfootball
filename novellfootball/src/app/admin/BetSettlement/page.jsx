@@ -117,7 +117,7 @@ const Page = async () => {
           <div className="text-sm font-bold capitalize px-2  py-2">
             <h1>Upload upi id's</h1>
           </div>
-          <UpiEdit data={adminData?.UpiIds || []} />
+          {/* <UpiEdit data={adminData?.UpiIds || []} /> */}
         </div>
       </div>
     </div>
