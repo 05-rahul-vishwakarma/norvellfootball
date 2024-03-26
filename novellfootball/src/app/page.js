@@ -423,7 +423,9 @@ function ScoreCards({ placeBet, percent, Balance, Score_a, Score_b }) {
                 <FaRupeeSign />
               </span>
 
-              <span className="text-xs font-bold pr-3">
+              <span 
+                onClick={() => router.push('/profile/recharge')}
+                className="text-xs font-bold pr-3">
                 {new Intl.NumberFormat().format(Balance || 0)}
               </span>
             </div>
