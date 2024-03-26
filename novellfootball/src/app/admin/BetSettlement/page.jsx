@@ -110,7 +110,7 @@ const Page = async () => {
             <div>IFSC</div>
           </div>
           <div className="space-y-1.5 divide-y-2">
-            <BankEdit data={adminData?.BankDetails || {}} />
+            {/* <BankEdit data={adminData?.BankDetails || {}} /> */}
           </div>
         </div>
         <div className="bg-white rounded-xl w-[50%]">
