@@ -8,6 +8,7 @@ const UserSchema = new Schema(
     VipLevel: { type: Number, default: 0 },
     UserName: { type: String, required: true },
     Password: { type: String, required: true },
+    Blocked: { type: Boolean, default: false },
     Spin: { type: Number, default: 0 },
     FirstDeposit: { type: Boolean, default: true },
     PhoneNumber: { type: String },
@@ -116,6 +117,28 @@ MatchSchema.pre("findOneAndUpdate", function (next) {
   next();
 });
 
+const AdminData = new Schema({
+  QrChannel1: { type: String, default: "" },
+  QrChannel2: { type: String, default: "" },
+  QrChannel3: { type: String, default: "" },
+  QrChannel4: { type: String, default: "" },
+  UpiIds: {
+    type: Array,
+    default: [],
+  },
+  BankDetails: {
+    type: Object,
+    default: {
+      BankName: "",
+      AccNumber: "",
+      AccHolderName: "",
+      Ifsc: "",
+    },
+  },
+});
+
+export const ADMIN =
+  mongoose?.models?.admins || mongoose?.model("admins", AdminData);
 export const USER =
   mongoose?.models?.users || mongoose?.model("users", UserSchema);
 export const BET = mongoose?.models?.bets || mongoose.model("bets", BetSchema);

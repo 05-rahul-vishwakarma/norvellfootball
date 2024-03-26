@@ -1,9 +1,20 @@
 import { connect } from "@/app/modals/dbConfig";
-import { BET } from "@/app/modals/modal";
+import { ADMIN, BET, USER } from "@/app/modals/modal";
 import BetCard from "../adminComponents/Bets/BetCard";
+import BlockUnblockCard, {
+  BlockNew,
+} from "../adminComponents/Bets/BlockUnblockCard";
+import QrUpdate from "../adminComponents/Qrcode/QrUpdate";
+import { BankEdit } from "../adminComponents/BankDetails/BankEdit";
+import UpiEdit from "../adminComponents/UpiDetails/UpiEdit";
 const Page = async () => {
   let data = [];
   data = await getAllBets();
+  let blockedUsers = [];
+  blockedUsers = (await getBlockedUsers()) || [];
+
+  let adminData = [];
+  adminData = (await getAdminDetails()) || [];
 
   return (
     <div className="bg-orange-100 pb-8 min-h-screen ">
@@ -52,6 +63,63 @@ const Page = async () => {
           ))}
         </div>
       </div>
+
+      <div className="rounded-xl py-1 mx-auto w-[95%] mt-6 flex justify-between space-x-4 ">
+        <div className="bg-white rounded-xl w-[50%] ">
+          <div className="text-sm font-bold capitalize px-2  py-2">
+            <h1>Account block</h1>
+          </div>
+          <div>
+            <BlockNew />
+          </div>
+          <div
+            style={{ gridTemplateColumns: "1fr 1fr 1fr 1fr" }}
+            className="grid capitalize text-[0.65rem] px-2 py-1.5 text-center bg-gray-300"
+          >
+            <div className="text-start">username</div>
+            <div>status</div>
+            <div>block</div>
+            <div>unblock</div>
+          </div>
+          <div className="space-y-1.5 divide-y-2">
+            {(blockedUsers || []).map((ele, idx) => (
+              <BlockUnblockCard key={ele?._id} UserName={ele?.UserName} />
+            ))}
+          </div>
+        </div>
+        <div className="bg-white rounded-xl w-[50%]">
+          <div className="text-sm font-bold capitalize px-2  py-2">
+            <h1>Upload qr code</h1>
+          </div>
+          <QrUpdate />
+        </div>
+      </div>
+      {/* bank details and upi edit section */}
+      <div className="rounded-xl py-1 mx-auto w-[95%] mt-6 flex justify-between space-x-4 ">
+        <div className="bg-white rounded-xl w-[50%] ">
+          <div className="text-sm font-bold capitalize px-2  py-2">
+            <h1>update bank details</h1>
+          </div>
+          <div
+            style={{ gridTemplateColumns: "1fr 1fr 1fr 1fr" }}
+            className="grid capitalize text-[0.65rem] px-2 py-1.5  bg-gray-300"
+          >
+            <div className="text-start">bank name</div>
+            <div>account number</div>
+            <div>holder name</div>
+            <div>IFSC</div>
+          </div>
+          <div className="space-y-1.5 divide-y-2">
+            <BankEdit data={adminData?.BankDetails || {}} />
+          </div>
+        </div>
+        <div className="bg-white rounded-xl w-[50%]">
+          <div className="text-sm font-bold capitalize px-2  py-2">
+            <h1>Upload upi id's</h1>
+          </div>
+          <UpiEdit data={adminData?.UpiIds || []} />
+        </div>
+      </div>
     </div>
   );
 };
@@ -64,7 +132,7 @@ async function getAllBets() {
     await connect();
     let data = await BET.aggregate([
       {
-        $match: { Status: 0 },
+        $match: { Status: 1 },
       },
       {
         $group: {
@@ -83,5 +151,26 @@ async function getAllBets() {
     return data;
   } catch (error) {
     console.log(error);
+  }
+}
+async function getBlockedUsers() {
+  "use server";
+  try {
+    await connect();
+    let data = USER.find({ Blocked: true }, { UserName: 1 });
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function getAdminDetails() {
+  try {
+    await connect();
+    let data = ADMIN.findOne({ _id: "6602ad529ec6624c93d770ce" });
+    return data || [];
+  } catch (error) {
+    console.log(error);
+    return [];
   }
 }

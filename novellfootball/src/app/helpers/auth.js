@@ -26,13 +26,13 @@ export const isAuthenticated = async (token, sessionToken) => {
         Session: sessionToken,
         UserName: decoded?.payload?.UserName || "",
       });
-      if (!user) {
+      if (!user || user?.Blocked) {
         return false;
       }
       return decoded?.payload?.UserName;
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return false;
   }
 };

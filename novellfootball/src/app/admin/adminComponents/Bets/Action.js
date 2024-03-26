@@ -337,3 +337,27 @@ async function cancelBet({ StakeId }) {
     };
   }
 }
+
+// ===================== functions to block unblock ==========================
+export async function BlockUnblockUser(prevState, formData) {
+  try {
+    await connect();
+    let UserName = formData?.get("userName") || "";
+    let toBlock = formData?.get("block") === "block";
+    let isUpdated = await USER.findOneAndUpdate(
+      { UserName },
+      {
+        Blocked: toBlock,
+      }
+    );
+    if (!isUpdated)
+      throw new Error(`No user with username "${UserName}" found`);
+    return {
+      message: toBlock ? "blocked" : "unblocked",
+    };
+  } catch (error) {
+    return {
+      message: error?.message || "something went wrong",
+    };
+  }
+}

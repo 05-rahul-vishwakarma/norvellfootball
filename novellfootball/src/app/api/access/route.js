@@ -24,6 +24,7 @@ export async function POST(NextRequest) {
 
     let res = await USER.findOne({ UserName });
     if (!res) throw new CustomError(700, "User not found.", {});
+    if (res?.Blocked) throw new CustomError(705, "You have been blocked", {});
     else if (Password !== res.Password)
       throw new CustomError(700, "Invalid Password!", {});
 

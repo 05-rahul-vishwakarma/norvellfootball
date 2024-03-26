@@ -1,0 +1,78 @@
+"use client";
+import React, { useRef, useState } from "react";
+import { Button, Listeners } from "../Bets/BetCard";
+import { useFormState, useFormStatus } from "react-dom";
+import { editBank } from "./Action";
+
+const initialState = {
+  message: "",
+  received: false,
+};
+
+export const BankEdit = ({ data }) => {
+  const [isDocEditable, toggleEditable] = useState(false);
+  const [BankName, updateBankName] = useState(data?.BankName);
+  const [AccNumber, updateAccNumber] = useState(data?.AccNumber);
+  const [AccHolderName, updateAccHolderName] = useState(data?.AccHolderName);
+  const [Ifsc, updateIfsc] = useState(data?.Ifsc);
+  const [state, formAction] = useFormState(editBank, initialState);
+  return (
+    <form action={formAction}>
+      <div
+        style={{
+          gridTemplateColumns: "1fr 1fr 1fr 1fr",
+          border: isDocEditable ? "2px dashed skyblue" : "",
+        }}
+        className="text-sm grid py-2 mt-1  px-2 divide-x-2 divide-gray-300 items-center justify-center"
+      >
+        <input
+          disabled={!isDocEditable}
+          type="text"
+          className="max-w-full"
+          name="BankName"
+          onChange={(e) => updateBankName(e.target.value)}
+          value={BankName}
+          placeholder="293847"
+        />
+        <input
+          disabled={!isDocEditable}
+          type="text"
+          name="AccNumber"
+          onChange={(e) => updateAccNumber(e.target.value)}
+          className="max-w-full"
+          value={AccNumber}
+          placeholder="293847"
+        />
+        <input
+          disabled={!isDocEditable}
+          type="text"
+          name="AccHolderName"
+          onChange={(e) => updateAccHolderName(e.target.value)}
+          className="max-w-full"
+          value={AccHolderName}
+          placeholder="293847"
+        />
+        <input
+          disabled={!isDocEditable}
+          type="text"
+          name="Ifsc"
+          onChange={(e) => updateIfsc(e.target.value)}
+          className="max-w-full"
+          value={Ifsc}
+          placeholder="293847"
+        />
+      </div>
+      <div className="flex space-x-8 justify-center text-sm items-center py-6">
+        <button
+          onClick={(e) => toggleEditable((prev) => !prev)}
+          type="button"
+          className="bg-yellow-400 text-white rounded-md px-4 py-0.5"
+        >
+          Edit
+        </button>
+        <Button isDisabled={!isDocEditable} />
+      </div>
+      <Listeners message={state?.message} />
+    </form>
+  );
+};

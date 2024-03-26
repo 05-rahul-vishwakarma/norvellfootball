@@ -4,7 +4,6 @@ import Image from "next/image";
 import Input from "@/app/components/Input";
 import { motion } from "framer-motion";
 import VerificationPopup from "@/app/components/VerificationPopup";
-import { useRouter } from "next/navigation";
 import { AlertContext } from "@/app/helpers/AlertContext";
 import Modal from "@/app/components/Modal";
 
@@ -27,7 +26,6 @@ const itemVariant = {
 const Login = () => {
   const { getAlert, isActive } = useContext(AlertContext);
 
-  let router = useRouter();
   const [credentials, updateCredentials] = useState({
     UserName: "",
     Password: "",
@@ -49,10 +47,7 @@ const Login = () => {
     let res = await fetch(`/api/access`, config);
     res = await res.json();
     if (res?.status === 200) {
-      getAlert("success", "login successfull");
-      setTimeout(() => {
-        router.push("/");
-      }, 500);
+      getAlert("redirect", "login successfull");
     } else {
       getAlert("opps", res?.message || "something went wrong");
     }
