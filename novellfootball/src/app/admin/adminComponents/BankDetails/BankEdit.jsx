@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Listeners } from "../Bets/BetCard";
 import { useFormState, useFormStatus } from "react-dom";
 import { editBank } from "./Action";
@@ -11,13 +11,17 @@ const initialState = {
 
 export const BankEdit = ({ data }) => {
   const [isDocEditable, toggleEditable] = useState(false);
-  const [BankName, updateBankName] = useState(data?.BankName ?? "");
-  const [AccNumber, updateAccNumber] = useState(data?.AccNumber ?? "");
-  const [AccHolderName, updateAccHolderName] = useState(
-    data?.AccHolderName ?? ""
-  );
-  const [Ifsc, updateIfsc] = useState(data?.Ifsc ?? "");
+  const [BankName, updateBankName] = useState("");
+  const [AccNumber, updateAccNumber] = useState("");
+  const [AccHolderName, updateAccHolderName] = useState("");
+  const [Ifsc, updateIfsc] = useState("");
   const [state, formAction] = useFormState(editBank, initialState);
+  useEffect(() => {
+    updateAccHolderName(data?.AccHolderName);
+    updateAccNumber(data?.AccNumber);
+    updateBankName(data?.BankName);
+    updateIfsc(data?.Ifsc);
+  }, [data]);
   return (
     <form action={formAction}>
       <div

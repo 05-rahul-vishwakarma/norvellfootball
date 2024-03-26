@@ -11,7 +11,7 @@ const initialState = {
 };
 
 const BlockUnblockCard = ({ UserName }) => {
-  const [userName, updateUserName] = useState(UserName || "");
+  const [userName, updateUserName] = useState("");
   const [blockUnblock, formAction] = useFormState(
     BlockUnblockUser,
     initialState
@@ -31,6 +31,9 @@ const BlockUnblockCard = ({ UserName }) => {
       router.refresh();
     }
   }, [blockUnblock]);
+  useEffect(() => {
+    updateUserName(UserName);
+  }, []);
   return (
     <form ref={formRef} action={formAction}>
       <div
