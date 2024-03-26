@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Listeners } from "../Bets/BetCard";
 import { updateUpi } from "./Action";
 import { useFormState, useFormStatus } from "react-dom";
@@ -10,7 +10,7 @@ const initialState = {
 };
 const UpiEdit = ({ data }) => {
   const [isDocEditable, toggleEditable] = useState(false);
-  const [demoUpi, updateDemo] = useState(data || []);
+  const [demoUpi, updateDemo] = useState([]);
   const [state, formAction] = useFormState(updateUpi, initialState);
 
   function updateUpiDetails(e, idx) {
@@ -27,6 +27,9 @@ const UpiEdit = ({ data }) => {
     });
   }
 
+  useEffect(() => {
+    updateDemo(data || []);
+  }, []);
   return (
     <form action={formAction} className="bg-white rounded-xl  ">
       <div className="flex flex-wrap gap-2 capitalize  font-bold text-[0.65rem] px-2 py-1.5 text-center">

@@ -165,6 +165,7 @@ async function getBlockedUsers() {
 }
 
 async function getAdminDetails() {
+  "use server";
   try {
     await connect();
     let data = ADMIN.findOne({ _id: "6602ad529ec6624c93d770ce" });

@@ -15,6 +15,7 @@ export async function updateUpi(prevState, formData) {
         UpiIds: data,
       }
     );
+
     if (isUpdated)
       return {
         message: `Updated ${data}`,
