@@ -10,7 +10,7 @@ const initialState = {
 };
 const UpiEdit = ({ data }) => {
   const [isDocEditable, toggleEditable] = useState(false);
-  const [demoUpi, updateDemo] = useState([]);
+  const [demoUpi, updateDemo] = useState(data || []);
   const [state, formAction] = useFormState(updateUpi, initialState);
 
   function updateUpiDetails(e, idx) {
@@ -29,11 +29,12 @@ const UpiEdit = ({ data }) => {
 
   useEffect(() => {
     updateDemo(data || []);
-  }, []);
+  }, [data]);
+
   return (
     <form action={formAction} className="bg-white rounded-xl  ">
       <div className="flex flex-wrap gap-2 capitalize  font-bold text-[0.65rem] px-2 py-1.5 text-center">
-        {demoUpi.map((ele, idx) => (
+        {(demoUpi || []).map((ele, idx) => (
           <div className="relative" key={idx}>
             <input
               type="text"
