@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { FaEdit } from "react-icons/fa";
 import { MdPending } from "react-icons/md";
@@ -13,14 +13,22 @@ const initialState = {
 
 const BetCard = ({ data }) => {
   const [isDocEditable, toggleEditable] = useState(true);
-  const [Status, updateStatus] = useState(data?.Status);
-  const [createdAt, updateCreatedAt] = useState(new Date(data?.StartsAt));
+  const [Status, updateStatus] = useState(0);
+  const [createdAt, updateCreatedAt] = useState(null);
   const [Score_a_own, updateScoreAOwn] = useState(0);
-  const [StakeId, updateStakeId] = useState(data?.StakeId);
+  const [StakeId, updateStakeId] = useState("");
   const [Score_b_own, updateScoreBOwn] = useState(0);
   const [Score_a_result, updateScoreAResult] = useState(0);
   const [Score_b_result, updateScoreBResult] = useState(0);
   const [state, formAction] = useFormState(settle, initialState);
+
+  useEffect(() => {
+    if (data) {
+      updateStatus(data?.Status);
+      updateCreatedAt(new Date(data?.StartsAt));
+      updateStakeId(data?.StakeId);
+    }
+  }, [data]);
 
   return (
     <form action={formAction}>
@@ -145,12 +153,15 @@ const BetCard = ({ data }) => {
         </div>
       </div>
       <div className="text-sm font-semibold flex text-purple-600 space-x-2 px-2">
-        {createdAt.getDate()}/{createdAt?.getMonth() + 1} /{" "}
-        {createdAt?.getFullYear()}-
-        {createdAt?.getHours() > 12
-          ? createdAt?.getHours() - 12
-          : createdAt.getHours()}
-        :{createdAt?.getMinutes()}:{createdAt?.getSeconds()}
+        {createdAt &&
+          `${createdAt.getDate()}/${createdAt?.getMonth() + 1} /
+            ${createdAt?.getFullYear()}-
+            ${
+              createdAt?.getHours() > 12
+                ? createdAt?.getHours() - 12
+                : createdAt.getHours()
+            }
+            :${createdAt?.getMinutes()}:${createdAt?.getSeconds()}`}
       </div>
       <Listeners message={state?.message} />
     </form>

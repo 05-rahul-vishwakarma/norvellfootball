@@ -99,6 +99,7 @@ export async function PUT(NextRequest) {
       PhoneNumber: Phone,
       Email,
       Password,
+      Avatar: Math.floor(Math.random() * 11 + 1),
       JoinedOn: `${today.getDate()}/${
         today?.getMonth() + 1
       }/${today.getFullYear()}`,

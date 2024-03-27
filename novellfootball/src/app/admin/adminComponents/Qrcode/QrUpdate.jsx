@@ -33,7 +33,6 @@ const QrUpdate = () => {
       reader.onerror = (error) => {
         alert("error", error);
       };
-      console.log(qrCode);
     }
   }
   return (

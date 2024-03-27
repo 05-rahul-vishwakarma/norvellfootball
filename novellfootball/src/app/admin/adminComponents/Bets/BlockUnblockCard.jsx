@@ -18,22 +18,25 @@ const BlockUnblockCard = ({ UserName }) => {
   );
   let formRef = useRef();
   let blockRef = useRef();
-  function initiate_submit(block) {
+  let router = useRouter();
+
+  useEffect(() => {
+    if (blockUnblock?.message) {
+      router.refresh();
+    }
+  }, [blockUnblock, router]);
+  useEffect(() => {
+    updateUserName(UserName);
+  }, [UserName]);
+
+  const initiate_submit = (block) => {
     const blockVal = blockRef?.current;
     if (blockVal && formRef?.current) {
       blockVal.value = block ? "block" : "unblock";
       formRef?.current?.requestSubmit();
     }
-  }
-  let router = useRouter();
-  useEffect(() => {
-    if (blockUnblock?.message) {
-      router.refresh();
-    }
-  }, [blockUnblock]);
-  useEffect(() => {
-    updateUserName(UserName);
-  }, []);
+  };
+
   return (
     <form ref={formRef} action={formAction}>
       <div
@@ -82,7 +85,7 @@ export function BlockNew() {
     if (state?.message) {
       router.refresh();
     }
-  }, [state]);
+  }, [state, router]);
   return (
     <form action={formAction}>
       <div className="flex px-2 my-2 border-2 border-dashed border-sky-300 py-1.5 text-sm">

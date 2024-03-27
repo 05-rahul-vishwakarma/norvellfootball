@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFormState } from "react-dom";
 import { updateTransaction } from "./Action";
 import { Button, Listeners } from "../Bets/BetCard";
@@ -12,15 +12,29 @@ const initialState = {
 
 const DepositCard = ({ data, idx }) => {
   const [isDocEditable, toggleEditable] = useState(false);
-  const [ReferanceNo, updateReferance] = useState(data?.TransactionId);
-  const [Amount, updateAmount] = useState(Number(data?.Amount) / 100);
-  const [Status, updateStatus] = useState(data?.Status);
-  const [createdAt] = useState(new Date(data?.createdAt));
-  const [UserName, updateUserName] = useState(data?.UserName);
-  const [Remark, updateRemark] = useState(data?.Remark);
-  const [prevTransactionId, updateId] = useState(data?.TransactionId);
+  const [ReferanceNo, updateReferance] = useState("");
+  const [Amount, updateAmount] = useState(0);
+  const [Status, updateStatus] = useState(0);
+  const [createdAt, setCreatedAt] = useState(null);
+  const [UserName, updateUserName] = useState("");
+  const [Remark, updateRemark] = useState("");
+  const [prevTransactionId, updateId] = useState("");
+
   const [state, formAction] = useFormState(updateTransaction, initialState);
   const [showExtra, getExtraData] = useState(false);
+
+  useEffect(() => {
+    if (data) {
+      updateReferance(data?.TransactionId);
+      updateAmount(Number(data?.Amount) / 100);
+      updateStatus(data?.Status);
+      setCreatedAt(new Date(data?.createdAt));
+      updateUserName(data?.UserName);
+      updateRemark(data?.Remark);
+      updateId(data?.TransactionId);
+    }
+  }, [data]);
+
   return (
     <div className="p-1.5 flex shadow-md rounded-md bg-white">
       <div className="w-[5%] text-sm font-bold text-red-500 mt-2 text-center">
@@ -56,10 +70,12 @@ const DepositCard = ({ data, idx }) => {
             <p className="w-[60%]">date/time</p>
             <p className="w-[40%]">
               {data?.Date}-
-              {createdAt?.getHours() > 12
-                ? createdAt?.getHours() - 12
-                : createdAt.getHours()}
-              :{createdAt?.getMinutes()}:{createdAt?.getSeconds()}
+              {createdAt &&
+                (createdAt?.getHours() > 12
+                  ? createdAt?.getHours() - 12
+                  : createdAt.getHours())}
+              :{createdAt && createdAt?.getMinutes()}:
+              {createdAt && createdAt?.getSeconds()}
             </p>
           </div>
           <div className="flex justify-between py-1.5">

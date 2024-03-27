@@ -10,7 +10,7 @@ const initialState = {
 };
 const UpiEdit = ({ data }) => {
   const [isDocEditable, toggleEditable] = useState(false);
-  const [demoUpi, updateDemo] = useState(data || []);
+  const [demoUpi, updateDemo] = useState([]);
   const [state, formAction] = useFormState(updateUpi, initialState);
 
   function updateUpiDetails(e, idx) {
@@ -28,7 +28,9 @@ const UpiEdit = ({ data }) => {
   }
 
   useEffect(() => {
-    updateDemo(data || []);
+    if (data) {
+      updateDemo(data || []);
+    }
   }, [data]);
 
   return (

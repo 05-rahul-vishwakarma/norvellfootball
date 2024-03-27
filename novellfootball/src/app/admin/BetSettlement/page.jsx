@@ -23,7 +23,7 @@ const Page = async () => {
       </div>
       <div className="rounded-xl py-1 mx-auto w-[95%] mt-6 bg-[#ffff]">
         <div className="py-2 px-3">
-          <h1 className="font-bold text-sm">UPI/USDT Withdrawal request</h1>
+          <h1 className="font-bold text-sm">Pending matches</h1>
         </div>
         <div
           className=" bg-gray-200 px-2 items-center divide-x-[1.2px]  divide-secondary-400 gap-x-2 sm:text-[0.66rem] text-[0.5rem]
@@ -110,14 +110,14 @@ const Page = async () => {
             <div>IFSC</div>
           </div>
           <div className="space-y-1.5 divide-y-2">
-            {/* <BankEdit data={adminData?.BankDetails || {}} /> */}
+            <BankEdit data={adminData?.BankDetails || {}} />
           </div>
         </div>
         <div className="bg-white rounded-xl w-[50%]">
           <div className="text-sm font-bold capitalize px-2  py-2">
             <h1>Upload upi id's</h1>
           </div>
-          {/* <UpiEdit data={adminData?.UpiIds || []} /> */}
+          <UpiEdit data={adminData?.UpiIds || []} />
         </div>
       </div>
     </div>
@@ -148,6 +148,7 @@ async function getAllBets() {
       let count = await BET.find({ StakeId: bet?.StakeId }).count();
       data[data.indexOf(bet)]["Count"] = count;
     }
+    data.reverse();
     return data;
   } catch (error) {
     console.log(error);

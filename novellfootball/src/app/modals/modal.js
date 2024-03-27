@@ -9,6 +9,7 @@ const UserSchema = new Schema(
     UserName: { type: String, required: true },
     Password: { type: String, required: true },
     Blocked: { type: Boolean, default: false },
+    Avatar: { type: Number, default: 0 },
     Spin: { type: Number, default: 0 },
     FirstDeposit: { type: Boolean, default: true },
     PhoneNumber: { type: String },

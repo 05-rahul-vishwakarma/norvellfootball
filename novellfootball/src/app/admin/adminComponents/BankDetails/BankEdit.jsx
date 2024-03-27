@@ -17,10 +17,12 @@ export const BankEdit = ({ data }) => {
   const [Ifsc, updateIfsc] = useState("");
   const [state, formAction] = useFormState(editBank, initialState);
   useEffect(() => {
-    updateAccHolderName(data?.AccHolderName);
-    updateAccNumber(data?.AccNumber);
-    updateBankName(data?.BankName);
-    updateIfsc(data?.Ifsc);
+    if (data) {
+      updateAccHolderName(data?.AccHolderName);
+      updateAccNumber(data?.AccNumber);
+      updateBankName(data?.BankName);
+      updateIfsc(data?.Ifsc);
+    }
   }, [data]);
   return (
     <form action={formAction}>
