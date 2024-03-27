@@ -10,7 +10,7 @@
  */
 
 import { NextResponse } from "next/server";
-import { TRANSACTION } from "@/app/modals/modal";
+import { REWARD, TRANSACTION } from "@/app/modals/modal";
 import { cookies } from "next/headers";
 import { isValidUser } from "@/app/helpers/auth";
 import { connect } from "@/app/modals/dbConfig";
@@ -26,7 +26,8 @@ export async function GET() {
         message: "Session Expired login again",
       });
     let res = await TRANSACTION.find({ UserName });
-
+    let reward = await REWARD.find({ UserName });
+    res = [...res, ...reward]; // merge both arrays
     if (!res) throw new Error("somethign went wrong");
     return NextResponse.json({
       status: 200,

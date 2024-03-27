@@ -7,6 +7,7 @@ import BlockUnblockCard, {
 import QrUpdate from "../adminComponents/Qrcode/QrUpdate";
 import { BankEdit } from "../adminComponents/BankDetails/BankEdit";
 import UpiEdit from "../adminComponents/UpiDetails/UpiEdit";
+import BonusProvider from "../adminComponents/Bonus/BonusProvider";
 
 const Page = async () => {
   let data = [];
@@ -119,6 +120,18 @@ const Page = async () => {
             <h1>Upload upi id's</h1>
           </div>
           <UpiEdit data={adminData?.UpiIds || []} />
+        </div>
+      </div>
+
+      {/* bonus section */}
+      <div className="rounded-xl py-1 mx-auto w-[95%] mt-6 flex justify-center space-x-4 ">
+        <div className="bg-white rounded-xl w-[50%] ">
+          <div className="text-sm font-bold capitalize px-2  py-2">
+            <h1>extra bonus</h1>
+          </div>
+          <div className="px-2">
+            <BonusProvider />
+          </div>
         </div>
       </div>
     </div>

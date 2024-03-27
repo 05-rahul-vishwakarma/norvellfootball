@@ -17,9 +17,12 @@ function Page() {
   const { userBalance, userOtherData } = useContext(UserContext);
   const [loading, setLoading] = useState(true);
   const [swipe, setSwipe] = useState(1);
+  const [vipInfo, updateVipInfo] = useState({
+    Vip: "emerald",
+    img: "/emerald.png",
+  });
   const [transactionData, updateTransaction] = useState([]);
   const [getRecord, updateRecord] = useState(false);
-  const [getWithdrawal, updateWithdrawal] = useState(false);
   const dataBox = useRef();
   const [childrens, updateChildrens] = useState(null);
   const { getAlert } = useContext(AlertContext);
@@ -33,12 +36,12 @@ function Page() {
         if (res?.status === 200) {
           updateTransaction(res?.data);
         } else {
-          alert(res?.message);
+          getAlert("redirect", "session expired login again");
           return;
         }
       }
     } catch (error) {
-      alert("something went wrong");
+      getAlert("redirect", "session expired login again");
     }
   }
   async function logout() {
@@ -61,6 +64,26 @@ function Page() {
   useEffect(() => {
     updateChildrens(dataBox?.current?.children?.length);
   }, [dataBox?.current?.children, swipe]);
+
+  useEffect(() => {
+    if (userOtherData?.VipLevel) {
+      switch (userOtherData?.VipLevel) {
+        case 1:
+          updateVipInfo({ Vip: "ruby", img: "/ruby.png" });
+          break;
+
+        case 2:
+          updateVipInfo({ Vip: "sapphire", img: "/sapphire.png" });
+          break;
+        case 3:
+          updateVipInfo({ Vip: "diamond", img: "/diamond.png" });
+          break;
+        case 4:
+          updateVipInfo({ Vip: "blue diamond", img: "bluediamond" });
+          break;
+      }
+    }
+  }, [userOtherData]);
 
   useEffect(() => {
     getTransactionData();
@@ -87,11 +110,15 @@ function Page() {
             <div className="flex flex-col w-full justify-center items-center py-3">
               <span
                 className=" size-16
-              ring-[3px] relative ring-white rounded-full "
+              ring-[3px] relative ring-white overflow-hidden rounded-full "
               >
                 <Image
                   style={{ height: "100%", width: "100%" }}
-                  src="/logo.png"
+                  src={
+                    userOtherData?.Avatar
+                      ? `/avatar/${userOtherData?.Avatar}.png`
+                      : "/logo.png"
+                  }
                   height={40}
                   width={40}
                   alt="logo"
@@ -107,12 +134,12 @@ function Page() {
                 <div className="flex px-2 space-x-1 items-center">
                   <Image
                     alt="logo"
-                    src={"/logo.png"}
+                    src={vipInfo?.img ? `/vip${vipInfo?.img}` : "/logo.png"}
                     height={20}
                     width={20}
                   ></Image>
                   <p className="capitalize text-gray-600 font-bold text-[0.65rem]">
-                    emerald member
+                    {vipInfo?.Vip} member
                   </p>
                 </div>
                 <div
@@ -465,7 +492,11 @@ function Page() {
                       cardDetails={item}
                     />
                   );
-                } else if (swipe === 3 && item?.Type === "overall") {
+                } else if (
+                  swipe === 3 &&
+                  item?.Type !== "withdrawal" &&
+                  item?.Type !== "deposit"
+                ) {
                   //overall
                   return (
                     <RecordAccordians

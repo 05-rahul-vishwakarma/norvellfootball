@@ -101,12 +101,16 @@ const TransactionSchema = new Schema(
   { timestamps: true }
 );
 
-const RewardsSchema = new Schema({
-  UserName: { type: String, required: true },
-  Type: { type: String, required: true }, //any , invReward , weeklyCommission
-  Amount: { type: Number, required: true }, //*100
-  Status: { type: Number, default: 0 }, //0->pending , 1->done
-});
+const RewardsSchema = new Schema(
+  {
+    UserName: { type: String, required: true },
+    Type: { type: String, required: true }, //any , invReward , weeklyCommission
+    Amount: { type: Number, required: true }, //*100
+    Remark: { type: String, required: true },
+    Status: { type: Number, default: 0 }, //0->pending , 1->done
+  },
+  { timestamps: true }
+);
 
 const MatchSchema = new Schema({
   data: { type: String, default: "0" },

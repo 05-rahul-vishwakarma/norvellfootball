@@ -18,7 +18,8 @@ import { AlertContext } from "./helpers/AlertContext";
 
 export default function Home() {
   let router = useRouter();
-  const { userBalance, userOtherData } = useContext(UserContext);
+  const { userBalance, userOtherData, getBalance } = useContext(UserContext);
+  const [balance, updateBalance] = useState(0);
   const [matches, updateMatches] = useState([]);
   const [matchLoaded, updateLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -60,6 +61,14 @@ export default function Home() {
     let users = Math.floor(Math.random() * 10000000);
     setUser(users);
   };
+
+  useEffect(() => {
+    if (userBalance) {
+      updateBalance(userBalance);
+    } else {
+      getBalance();
+    }
+  }, [userBalance]);
 
   useEffect(() => {
     if (!matchLoaded) {
@@ -423,9 +432,10 @@ function ScoreCards({ placeBet, percent, Balance, Score_a, Score_b }) {
                 <FaRupeeSign />
               </span>
 
-              <span 
-                onClick={() => router.push('/profile/recharge')}
-                className="text-xs font-bold pr-3">
+              <span
+                onClick={() => router.push("/profile/recharge")}
+                className="text-xs font-bold pr-3"
+              >
                 {new Intl.NumberFormat().format(Balance || 0)}
               </span>
             </div>

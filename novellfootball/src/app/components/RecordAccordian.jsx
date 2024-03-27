@@ -1,6 +1,7 @@
 import { isDragActive, motion } from "framer-motion";
 import { useState } from "react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+
 export default function RecordAccordians({ details, cardDetails, idx }) {
   const [isActive, setActive] = useState(false);
   return (
@@ -23,7 +24,11 @@ export default function RecordAccordians({ details, cardDetails, idx }) {
               style={{ color: cardDetails?.Status === 0 ? "red" : "#38ff3e" }}
               className="font-medium capitalize text-[0.7rem]"
             >
-              {cardDetails?.Remark}
+              {cardDetails?.Status === 0
+                ? "Pending"
+                : cardDetails?.Status === 1
+                ? "success"
+                : "canceled"}
             </h2>
           </div>
           <div

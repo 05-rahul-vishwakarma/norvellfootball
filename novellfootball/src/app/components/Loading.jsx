@@ -14,7 +14,13 @@ function Loading() {
           </div>
         </div> */}
 
-       <Image src={'/loading.gif'} alt="loading" width={100} height={100} />
+        <Image
+          src={"/loading.gif"}
+          unoptimized
+          alt="loading"
+          width={100}
+          height={100}
+        />
       </div>
     </div>
   );
