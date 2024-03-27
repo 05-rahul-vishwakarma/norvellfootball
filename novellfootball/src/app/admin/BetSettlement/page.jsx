@@ -7,6 +7,7 @@ import BlockUnblockCard, {
 import QrUpdate from "../adminComponents/Qrcode/QrUpdate";
 import { BankEdit } from "../adminComponents/BankDetails/BankEdit";
 import UpiEdit from "../adminComponents/UpiDetails/UpiEdit";
+
 const Page = async () => {
   let data = [];
   data = await getAllBets();

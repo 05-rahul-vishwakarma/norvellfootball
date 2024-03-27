@@ -2,10 +2,10 @@
 import { connect } from "@/app/modals/dbConfig";
 import { TRANSACTION, USER } from "@/app/modals/modal";
 import mongoose from "mongoose";
+import { revalidatePath } from "next/cache";
 
 export async function updateTransaction(prevState, formData) {
   try {
-    console.log(formData);
     let data = {
       prevTransactionId: formData.get("prevTransactionId"),
       TransactionId: formData.get("RefrenceNo"),
@@ -20,6 +20,7 @@ export async function updateTransaction(prevState, formData) {
       // confirm the deposit
       let res = await settleWithdraw(data);
       if (res === "ok") {
+        revalidatePath("/withdraw");
         return {
           message: "done",
         };
@@ -32,6 +33,7 @@ export async function updateTransaction(prevState, formData) {
       // cancel the deposit
       let res = await cancelWithdraw(data);
       if (res === "ok") {
+        revalidatePath("/withdraw");
         return {
           message: "done",
         };
@@ -45,17 +47,7 @@ export async function updateTransaction(prevState, formData) {
     console.log(error);
   }
 }
-export async function test() {
-  try {
-    await connect();
-    let data = await TRANSACTION.find({ Type: "withdrawal" }).sort({
-      createdAt: -1,
-    });
-    return JSON.stringify(data);
-  } catch (error) {
-    return false;
-  }
-}
+
 async function settleWithdraw(data) {
   await connect();
   let Session = await mongoose.startSession();

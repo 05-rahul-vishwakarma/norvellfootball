@@ -5,6 +5,7 @@ import { mongoose } from "mongoose";
 import { performance } from "perf_hooks";
 import { USER, BET, COMMISSION } from "@/app/modals/modal";
 import { connect } from "@/app/modals/dbConfig";
+import { revalidatePath } from "next/cache";
 
 const CHUNK_SIZE = 100;
 
@@ -84,6 +85,7 @@ async function betParser({ StakeId, s_first, s_second, g_first, g_second }) {
       session,
     });
     await session.commitTransaction();
+    revalidatePath("betsettlement");
     return {
       message: JSON.stringify(
         `users_updated -> ${JSON.stringify(
@@ -323,7 +325,8 @@ async function cancelBet({ StakeId }) {
     }
     let updatedBets = await BET.bulkWrite(betsToCancel, { session: Session });
     let updatedUsers = await USER.bulkWrite(updateUsers, { session: Session });
-    // await Session.commitTransaction();
+    await Session.commitTransaction();
+    revalidatePath("/betsettlement");
     return {
       message: `updated bets ===> ${JSON.stringify(
         updatedBets
@@ -352,6 +355,7 @@ export async function BlockUnblockUser(prevState, formData) {
     );
     if (!isUpdated)
       throw new Error(`No user with username "${UserName}" found`);
+    revalidatePath("/betsettlement");
     return {
       message: toBlock ? "blocked" : "unblocked",
     };

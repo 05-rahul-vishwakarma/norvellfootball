@@ -2,6 +2,7 @@
 
 import { connect } from "@/app/modals/dbConfig";
 import { ADMIN } from "@/app/modals/modal";
+import { revalidatePath } from "next/cache";
 
 export async function updateUpi(prevState, formData) {
   try {
@@ -16,10 +17,12 @@ export async function updateUpi(prevState, formData) {
       }
     );
 
-    if (isUpdated)
+    if (isUpdated) {
+      revalidatePath("/betsettlement");
       return {
         message: `Updated ${data}`,
       };
+    }
     return {
       message: "Something went wrong",
     };

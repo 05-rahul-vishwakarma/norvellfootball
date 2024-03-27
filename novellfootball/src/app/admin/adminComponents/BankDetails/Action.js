@@ -2,6 +2,7 @@
 
 import { connect } from "@/app/modals/dbConfig";
 import { ADMIN } from "@/app/modals/modal";
+import { revalidatePath } from "next/cache";
 
 export async function editBank(prevState, formData) {
   try {
@@ -25,6 +26,7 @@ export async function editBank(prevState, formData) {
       }
     );
     if (!isUpdated) throw new Error("something went wrong with the data");
+    revalidatePath("/betsettlement");
     return {
       message: "updated details",
     };

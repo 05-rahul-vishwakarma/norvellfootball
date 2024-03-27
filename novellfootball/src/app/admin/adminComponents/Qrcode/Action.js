@@ -2,6 +2,7 @@
 
 import { connect } from "@/app/modals/dbConfig";
 import { ADMIN } from "@/app/modals/modal";
+import { revalidatePath } from "next/cache";
 
 export async function updateQr(prevState, formData) {
   try {
@@ -16,10 +17,12 @@ export async function updateQr(prevState, formData) {
         [updateChannelFor]: qrFile,
       }
     );
-    if (isUpdated)
+    if (isUpdated) {
+      revalidatePath("/betsettlement");
       return {
         message: `Updated ${channel}`,
       };
+    }
     return {
       message: "Something went wrong",
     };

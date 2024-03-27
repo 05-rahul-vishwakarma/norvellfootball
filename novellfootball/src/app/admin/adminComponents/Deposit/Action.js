@@ -2,6 +2,7 @@
 import { connect } from "@/app/modals/dbConfig";
 import { TRANSACTION, USER } from "@/app/modals/modal";
 import mongoose from "mongoose";
+import { revalidatePath } from "next/cache";
 
 export async function updateTransaction(prevState, formData) {
   try {
@@ -19,6 +20,7 @@ export async function updateTransaction(prevState, formData) {
       // confirm the deposit
       let res = await settleDeposit(data);
       if (res === "ok") {
+        revalidatePath("/deposit");
         return {
           message: "done",
         };
@@ -31,6 +33,7 @@ export async function updateTransaction(prevState, formData) {
       // cancel the deposit
       let res = await cancelDeposit(data);
       if (res === "ok") {
+        revalidatePath("/deposit");
         return {
           message: "done",
         };
