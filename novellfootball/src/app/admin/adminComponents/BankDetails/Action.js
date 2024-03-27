@@ -26,7 +26,7 @@ export async function editBank(prevState, formData) {
       }
     );
     if (!isUpdated) throw new Error("something went wrong with the data");
-    revalidatePath("/betsettlement");
+    revalidatePath("/admin/betsettlement");
     return {
       message: "updated details",
     };

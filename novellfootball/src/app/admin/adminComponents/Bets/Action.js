@@ -85,7 +85,7 @@ async function betParser({ StakeId, s_first, s_second, g_first, g_second }) {
       session,
     });
     await session.commitTransaction();
-    revalidatePath("betsettlement");
+    revalidatePath("/admin/betsettlement");
     return {
       message: JSON.stringify(
         `users_updated -> ${JSON.stringify(

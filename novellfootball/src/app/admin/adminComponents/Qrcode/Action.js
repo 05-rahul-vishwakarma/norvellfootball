@@ -18,7 +18,7 @@ export async function updateQr(prevState, formData) {
       }
     );
     if (isUpdated) {
-      revalidatePath("/betsettlement");
+      revalidatePath("/admin/betsettlement");
       return {
         message: `Updated ${channel}`,
       };

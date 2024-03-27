@@ -33,7 +33,7 @@ export async function updateTransaction(prevState, formData) {
       // cancel the deposit
       let res = await cancelDeposit(data);
       if (res === "ok") {
-        revalidatePath("/deposit");
+        revalidatePath("/admin/deposit");
         return {
           message: "done",
         };

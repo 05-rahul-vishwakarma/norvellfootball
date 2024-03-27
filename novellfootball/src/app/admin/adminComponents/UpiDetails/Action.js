@@ -18,7 +18,7 @@ export async function updateUpi(prevState, formData) {
     );
 
     if (isUpdated) {
-      revalidatePath("/betsettlement");
+      revalidatePath("/admin/betsettlement");
       return {
         message: `Updated ${data}`,
       };

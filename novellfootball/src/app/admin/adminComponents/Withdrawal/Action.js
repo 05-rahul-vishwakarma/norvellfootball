@@ -20,7 +20,7 @@ export async function updateTransaction(prevState, formData) {
       // confirm the deposit
       let res = await settleWithdraw(data);
       if (res === "ok") {
-        revalidatePath("/withdraw");
+        revalidatePath("/admin/withdraw");
         return {
           message: "done",
         };
