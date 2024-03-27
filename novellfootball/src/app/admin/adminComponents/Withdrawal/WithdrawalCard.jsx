@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFormState } from "react-dom";
 import { updateTransaction } from "./Action";
 import { Button, Listeners } from "../Bets/BetCard";
