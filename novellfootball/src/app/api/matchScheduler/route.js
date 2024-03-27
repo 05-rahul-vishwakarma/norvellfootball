@@ -7,7 +7,7 @@
 */
 
 import { NextResponse } from "next/server";
-const moment = require("moment-timezone");
+import moment from "moment-timezone";
 import cron from "node-cron";
 import { MATCH } from "@/app/modals/modal";
 import { connect } from "@/app/modals/dbConfig";
@@ -31,17 +31,18 @@ const scores = [
   "4-4",
 ];
 export async function GET(request) {
+  let test = "not";
   if (request?.nextUrl?.searchParams?.get("id") === "2002") {
-    await scheduleMatches();
+    test = await scheduleMatches();
     cron.schedule("0 0 * * *", async () => {
       await scheduleMatches();
     });
   }
-  return NextResponse.json({ status: 200, msg: "done" });
+  return NextResponse.json({ status: 200, msg: "done", data: test });
 }
 
 export async function scheduleMatches() {
-  connect();
+  await connect();
   let today = getDate();
   today = new Intl.DateTimeFormat("en-GB", {
     year: "numeric",
