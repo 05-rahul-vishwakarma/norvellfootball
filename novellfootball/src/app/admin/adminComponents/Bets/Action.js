@@ -355,7 +355,7 @@ export async function BlockUnblockUser(prevState, formData) {
     );
     if (!isUpdated)
       throw new Error(`No user with username "${UserName}" found`);
-    revalidatePath("/betsettlement");
+    revalidatePath("/admin/betsettlement");
     return {
       message: toBlock ? "blocked" : "unblocked",
     };
