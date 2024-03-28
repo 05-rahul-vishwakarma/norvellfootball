@@ -142,7 +142,6 @@ export default function Home() {
           <div className="w-max mt-2 flex flex-col justify-center  pt-2 ">
             <div
               onClick={() => {
-                alert("clicked");
                 router.push("/profile/recharge");
               }}
               className="flex place-items-center rounded-full bg-white w-max line-clamp-1 text-ellipsis "

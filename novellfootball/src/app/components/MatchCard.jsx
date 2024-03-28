@@ -1,31 +1,14 @@
 "use client";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import HomeGradient from "./HomeGradient";
-import { IoColorFilterSharp } from "react-icons/io5";
-import Login from "../access/login/page";
-const colorArr = [
-  { start: "#FFBFBF", stop: "#EC2020" },
-  { start: "#F0FFF6", stop: "#00DB58" },
-  { start: "#DFFAFE", stop: "#1FE4FF" },
-  { start: "#FFEBC9", stop: "#F7A928" },
-];
 
-function MatchCard({ id, data, index, gradient, onClick, color }) {
-  const [istTime, setISTTime] = useState("");
-  const [timeString, setTimeString] = useState("");
+// extracting the counter such that only counter get updated on every render;
 
-  const convertToIST = () => {
-    const currentTime = new Date(data.StartsAt); // Get the current time
-    const istTime = new Date(
-      currentTime.toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
-    );
-    setISTTime(istTime.toLocaleString());
-  };
-
+const Countdown = ({ StartsAt }) => {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
   function calculateTimeLeft() {
-    const difference = +new Date(data.StartsAt) - +new Date();
+    const difference = +new Date(StartsAt) - +new Date();
     let timeLeft = {};
 
     if (difference > 0) {
@@ -47,39 +30,39 @@ function MatchCard({ id, data, index, gradient, onClick, color }) {
     return () => clearInterval(timer);
   }, []);
 
-  useEffect(() => {
-    if (data.StartsAt) {
-      const dateObject = new Date(data.StartsAt);
-      const hours = dateObject.getHours().toString().padStart(2, "0"); // Get hours
-      const minutes = dateObject.getMinutes().toString().padStart(2, "0"); // Get minutes
-      const seconds = dateObject.getSeconds().toString().padStart(2, "0"); // Get seconds
-      const formattedTime = `${hours}:${minutes}:${seconds}`;
+  return (
+    <p>
+      start in {`0${timeLeft.hours}`} : {timeLeft.minutes} : {timeLeft.seconds}
+    </p>
+  );
+};
 
-      setTimeString(formattedTime);
-      convertToIST();
-    }
-    let rand = Math.floor(Math.random() * colorArr.length);
-    updateColors({ ...colorArr[rand] });
-  }, [data.StartsAt]);
+const MemoizedCountdown = React.memo(Countdown);
 
-  // circular bar pecentage//
+function MatchCard({ id, data, onClick, color }) {
+  const [istTime, setISTTime] = useState("");
   let [percentage, updatePercentage] = useState(0);
-  let [colors, updateColors] = useState({});
+
+  const convertToIST = () => {
+    const currentTime = new Date(data.StartsAt); // Get the current time
+    const istTime = new Date(
+      currentTime.toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
+    );
+    setISTTime(istTime.toLocaleString());
+  };
 
   useEffect(() => {
     let circle_percent = percent(data?.StartsAt || new Date());
+    convertToIST();
     updatePercentage(circle_percent);
-  }, [timeLeft]);
-
-  // increment million value ->
+  }, []);
 
   return (
     <div
       onClick={onClick}
       style={{
         boxShadow: "0px 5px 5px 0px rgba(0,0,0,0.1)",
-        background: color.bgColor,
-        // background: `linear-gradient(${gradient.direction}, ${gradient.colors.join(', ')})`
+        background: color?.bgColor,
       }}
       className="h-[100px] flex mr-auto ml-auto my-[1rem] w-[90%]  rounded-xl place-items-center justify-around"
     >
@@ -88,7 +71,7 @@ function MatchCard({ id, data, index, gradient, onClick, color }) {
           <div className="h-[90%] flex justify-center items-center text-white ">
             <div style={{ lineHeight: 1 }} className="capitalize text-center">
               <p
-                style={{ color: `${color.stop}` }}
+                style={{ color: `${color?.stop}` }}
                 className={`text-md font-bold`}
               >
                 {Math.floor(
@@ -107,8 +90,8 @@ function MatchCard({ id, data, index, gradient, onClick, color }) {
             <HomeGradient
               id={id}
               percentage={percentage}
-              start={color.start}
-              stop={color.stop}
+              start={color?.start}
+              stop={color?.stop}
             />
           </div>
         </div>
@@ -145,10 +128,7 @@ function MatchCard({ id, data, index, gradient, onClick, color }) {
         </div>
 
         <div className="font-light text-[#2885F6] text-[.6rem] ">
-          <p>
-            start in {`0${timeLeft.hours}`} : {timeLeft.minutes} :{" "}
-            {timeLeft.seconds}
-          </p>
+          <MemoizedCountdown StartsAt={data?.StartsAt || new Date()} />
         </div>
       </div>
     </div>

@@ -136,6 +136,7 @@ function Page() {
                     alt="logo"
                     src={vipInfo?.img ? `/vip${vipInfo?.img}` : "/logo.png"}
                     height={20}
+                    unoptimized
                     width={20}
                   ></Image>
                   <p className="capitalize text-gray-600 font-bold text-[0.65rem]">

@@ -16,8 +16,8 @@ export async function sendPhoneOtp(number, otp) {
     const url = `${baseUrl}?${querParams.toString()}`;
 
     let res = await fetch(url, { method: "GET", headers });
-
     res = await res.json();
+
     if (!res) throw Error("Server error");
     if (res?.return === true) return true;
     return false;

@@ -54,7 +54,6 @@ export async function POST(request) {
     phoneNumber = phoneNumber.slice(2);
     let otp = Math.ceil(Math.random() * 9000 + 999);
     let res = await sendPhoneOtp(phoneNumber, otp);
-
     if (res === true) {
       let response = NextResponse.json({
         status: 200,
