@@ -83,6 +83,7 @@ export async function POST(request) {
     });
   }
 }
+
 async function getCookieData() {
   let token = cookies().get("token")?.value || "";
   let session = cookies().get("session")?.value || "";

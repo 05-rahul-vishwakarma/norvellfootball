@@ -56,8 +56,8 @@ function SecondFooter() {
     } else {
       setMatch(false);
     }
-
     if (
+      pathname ==="/profile/recharge/paymentChannelThree"||
       pathname ==="/profile/recharge/usdt"||
       pathname ==="/profile/recharge/paymentChannelOne"||
       pathname ==="/profile/recharge/paymentChannelTwo"||
@@ -139,7 +139,8 @@ function SecondFooter() {
             className="flex place-items-center  w-full justify-center h-full "
           >
             <Image
-              src={match ? "/footballTwo.svg" : "/football.svg"}
+              // src={match ? "/football.svg" : "/football.svg"}
+              src={match ? "/matchOpen.svg" : "/matchClose.svg"}
               alt="matches"
               width={28}
               height={28}

@@ -68,9 +68,15 @@ function Page() {
         );
       } else if (selectedOption === "option3") {
         router.push(
+          ` /profile/recharge/paymentChannelThree?data=${encodeURIComponent(inputValue)}`
+        );
+      }
+      else if (selectedOption === "option4") {
+        router.push(
           `/profile/recharge/usdt?data=${encodeURIComponent(inputValue)}`
         );
-      } else if (selectedOption === "") {
+      }
+      else if (selectedOption === "") {
         getAlert("opps", "please choose any one payment method");
       }
     }
@@ -196,6 +202,7 @@ function Page() {
                   onChange={handleOptionChange}
                 />
               </div>
+
               <div
                 style={{ boxShadow: "0 2px 5px rgb(0,0,0,0.06)" }}
                 className="flex justify-between  px-2 py-3 place-items-center mt-2 w-[98%] mr-auto ml-auto rounded-lg  "
@@ -210,6 +217,24 @@ function Page() {
                   onChange={handleOptionChange}
                 />
               </div>
+          
+              
+              <div
+                style={{ boxShadow: "0 2px 5px rgb(0,0,0,0.06)" }}
+                className="flex justify-between  px-2 py-3 place-items-center mt-2 w-[98%] mr-auto ml-auto rounded-lg  "
+              >
+                <p className="text-[0.7rem] ">Payment link 3</p>
+                <input
+                  type="radio"
+                  name="link"
+                  id=""
+                  value="option3"
+                  checked={selectedOption === "option3"}
+                  onChange={handleOptionChange}
+                />
+              </div>
+
+
               <div
                 style={{ boxShadow: "0 2px 5px rgb(0,0,0,0.06)" }}
                 className="flex justify-between px-2 py-3 place-items-center mt-2 w-[98%] mr-auto ml-auto rounded-lg  "
@@ -219,8 +244,8 @@ function Page() {
                   type="radio"
                   name="link"
                   id=""
-                  value="option3"
-                  checked={selectedOption === "option3"}
+                  value="option4"
+                  checked={selectedOption === "option4"}
                   onChange={handleOptionChange}
                 />
               </div>
