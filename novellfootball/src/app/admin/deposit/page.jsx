@@ -62,3 +62,5 @@ async function getAllTransactions() {
     console.log(error);
   }
 }
+
+export const dynamic = "force-dynamic";
