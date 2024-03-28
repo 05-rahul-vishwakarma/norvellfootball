@@ -11,7 +11,6 @@ const colorArr = [
 ];
 
 function MatchCard({ id, data, index, gradient, onClick, color }) {
-  console.log();
   const [istTime, setISTTime] = useState("");
   const [timeString, setTimeString] = useState("");
 
@@ -41,12 +40,12 @@ function MatchCard({ id, data, index, gradient, onClick, color }) {
   }
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
 
-    return () => clearTimeout(timer);
-  });
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     if (data.StartsAt) {
@@ -59,6 +58,8 @@ function MatchCard({ id, data, index, gradient, onClick, color }) {
       setTimeString(formattedTime);
       convertToIST();
     }
+    let rand = Math.floor(Math.random() * colorArr.length);
+    updateColors({ ...colorArr[rand] });
   }, [data.StartsAt]);
 
   // circular bar pecentage//
@@ -66,10 +67,11 @@ function MatchCard({ id, data, index, gradient, onClick, color }) {
   let [colors, updateColors] = useState({});
 
   useEffect(() => {
-    updatePercentage(Math.random() * 105);
-    let rand = Math.floor(Math.random() * colorArr.length);
-    updateColors({ ...colorArr[rand] });
-  }, []);
+    let circle_percent = percent(data?.StartsAt || new Date());
+    updatePercentage(circle_percent);
+  }, [timeLeft]);
+
+  // increment million value ->
 
   return (
     <div
@@ -79,7 +81,7 @@ function MatchCard({ id, data, index, gradient, onClick, color }) {
         background: color.bgColor,
         // background: `linear-gradient(${gradient.direction}, ${gradient.colors.join(', ')})`
       }}
-      className="   h-[100px] flex mr-auto ml-auto my-[1rem] w-[90%]  rounded-xl place-items-center justify-around"
+      className="h-[100px] flex mr-auto ml-auto my-[1rem] w-[90%]  rounded-xl place-items-center justify-around"
     >
       <div className="w-[27%] flex place-items-center h-[90%] justify-center ">
         <div className="h-[100%] aspect-square relative rounded-full bg-[#000000] flex place-items-center justify-center ">
@@ -89,7 +91,13 @@ function MatchCard({ id, data, index, gradient, onClick, color }) {
                 style={{ color: `${color.stop}` }}
                 className={`text-md font-bold`}
               >
-                {Math.floor(percentage)}M
+                {Math.floor(
+                  percentage +
+                    Math.min(8, data?.Team_a?.length) +
+                    Math.min(7, data?.Team_b?.length) +
+                    Math.floor(Number(data?.FixedPercent))
+                )}
+                M
               </p>
               <p className="text-[0.5rem] ">total </p>
               <p className="text-[0.5rem] ">quantity</p>
@@ -148,3 +156,16 @@ function MatchCard({ id, data, index, gradient, onClick, color }) {
 }
 
 export default MatchCard;
+
+function percent(startTime) {
+  let x = new Date(startTime);
+  let time_left = x.getTime() - new Date().getTime();
+  let total_time =
+    x.getTime() -
+    new Date(x.getFullYear(), x.getMonth(), x.getDate(), 10, 0, 0);
+  let elapsedPercent = Math.min(
+    80,
+    ((total_time - time_left) / total_time) * 100
+  );
+  return elapsedPercent;
+}

@@ -6,7 +6,7 @@ import Input from "@/app/components/Input";
 import { Suspense, useContext, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import OtpInputs from "@/app/components/OtpInputs";
 import Modal from "@/app/components/Modal";
 import { AlertContext } from "@/app/helpers/AlertContext";
@@ -123,7 +123,7 @@ const Signup = () => {
     Password: "",
     Invitation: "",
   });
-
+  const router = useRouter();
   const [getVerification, updateGetVerif] = useState(false);
   const [isInternational, updtInternational] = useState(false);
   const [isVerified, setVerified] = useState(false);
@@ -135,7 +135,7 @@ const Signup = () => {
   const sendData = async (e) => {
     e.preventDefault();
     if (!isVerified) {
-      alert("not verified");
+      getAlert("opps", "not verified");
       return;
     }
     if (
@@ -144,21 +144,21 @@ const Signup = () => {
       !credentials.Password ||
       credentials.ConfPassword !== credentials.Password
     ) {
-      alert("get error some fields are not filled");
+      getAlert("opps", "some required fields are empty");
       return;
     }
     if (isInternational && !credentials.Email) {
       // also validate that this user has validated the email after otp;
-      alert("email is required for international");
+      getAlert("opps", "email is required for international");
       return;
     }
     if (!isInternational && credentials.Email) {
-      alert("If you want to have a email please verify it first");
+      getAlert("opps", "If you want to have a email please verify it first");
       return;
     }
     if (!isInternational && !credentials.Phone) {
       // also validate that this user has validated the phone after otp;
-      alert("phone is required for indian");
+      getAlert("opps", "phone number is required");
       return;
     }
     let config = {
@@ -169,6 +169,12 @@ const Signup = () => {
     let res = await fetch("/api/access", config);
     res = await res.json();
     console.log(res);
+    if (res?.status === 200) {
+      getAlert("success", "account created successfully");
+      router.push("/");
+    } else {
+      getAlert("opps", res?.message || "something went wrong");
+    }
   };
   async function getPhoneOtp() {
     try {
