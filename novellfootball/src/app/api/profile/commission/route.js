@@ -126,12 +126,15 @@ export async function POST(request) {
     let registrationDate = new Date(UserCreatedOn?.createdAt);
     let today = new Date();
     const daysOfRegistration = Math.floor((today - registrationDate) / oneDay);
-
+    if (daysOfRegistration < 7)
+      throw new CustomError(
+        705,
+        `You can claim after ${7 - (daysOfRegistration % 7)} days`,
+        {}
+      );
     let previousDates = await getPreviousDates(daysOfRegistration % 7);
-    if (previousDates < 7)
-      throw Error("You can claim after " + 7 - (daysOfRegistration % 7));
 
-    let isClaimed = await claimBonusFor(previousDates);
+    let isClaimed = await claimBonusFor(UserName, previousDates);
     if (!isClaimed)
       throw Error("something went wrong while claiming commission");
     return NextResponse.json({
@@ -140,7 +143,6 @@ export async function POST(request) {
       data: {},
     });
   } catch (error) {
-    console.log(error);
     return NextResponse.json({
       status: error?.status || 500,
       message: error?.message,
@@ -181,9 +183,18 @@ async function claimBonusFor(UserName, dates) {
     await connect();
     let totalCommission = 0;
     for (let date of dates) {
-      let res = await COMMISSION.find({ UserName, Date: date, Claimed: false });
-      totalCommission += res?.Commission;
+      let res = await COMMISSION.find({
+        UserName,
+        Date: date,
+        Claimed: false,
+      });
+      if (res) {
+        for (let commission of res) {
+          totalCommission += Number(commission?.Commission);
+        }
+      }
     }
+    if (totalCommission === 0) return true; // no unclaimed commission found
     let isUserUpdated = USER.findOneAndUpdate(
       { UserName },
       {

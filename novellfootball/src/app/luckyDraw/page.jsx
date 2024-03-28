@@ -3,6 +3,8 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import Layout from "../components/Layout";
 import { useRouter } from "next/navigation";
 import { UserContext } from "../helpers/UserContext";
+import { AlertContext } from "../helpers/AlertContext";
+import Image from "next/image";
 
 const colorWheel = [
   { value: 1, bg: "#ff3737" },
@@ -21,7 +23,9 @@ const Page = () => {
   const [rotate, updateRotate] = useState(0);
   const [winningAmount, updateWinningAmount] = useState(0);
   const { userOtherData } = useContext(UserContext);
+  const { getAlert } = useContext(AlertContext);
   const wheel = useRef();
+
   function startRotate() {
     const startRotating = setInterval(() => {
       updateRotate((prev) => prev + 5.4);
@@ -55,23 +59,29 @@ const Page = () => {
       if (res?.ok) {
         res = await res.json();
         if (res?.status === 200) {
-          alert("reward claimed");
+          getAlert("success", "reward claimed");
           return;
         } else if (res?.status === 302) {
-          router.push("/access/login");
+          getAlert("redirect", "login session time out ");
           return;
         } else {
-          alert(res?.message);
+          getAlert("opps", res?.message || "something went wrong");
         }
       }
     } catch (error) {
-      alert(error);
+      getAlert("redirect", "login session time out ");
     }
   }
 
   return (
     <Layout>
-      <main className="flex h-screen items-center flex-col bg-blue-600 ">
+      <main
+        style={{
+          background: `url(/spinner_bg.png) center no-repeat`,
+          backgroundSize: "cover",
+        }}
+        className="flex h-screen items-center flex-col bg-blue-600 "
+      >
         <div className="min-h-[30%] flex justify-center items-center">
           <div className="text-xl capitalize text-white">lucky wheel</div>
         </div>

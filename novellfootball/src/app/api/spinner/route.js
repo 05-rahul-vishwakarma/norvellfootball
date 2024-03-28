@@ -1,5 +1,6 @@
 import CustomError from "@/app/helpers/Error";
 import { isValidUser } from "@/app/helpers/auth";
+import { connect } from "@/app/modals/dbConfig";
 import { REWARD, USER } from "@/app/modals/modal";
 import mongoose from "mongoose";
 import { cookies } from "next/headers";
@@ -16,7 +17,8 @@ export async function POST(request) {
 
     await connect();
     let { Amount } = await request.json();
-    let user = USER.find({ UserName });
+    let user = await USER.findOne({ UserName });
+
     if (
       Number(user?.Spin) === Number(new Date().getDate()) &&
       Number(user?.spin) !== 0
@@ -40,6 +42,7 @@ export async function POST(request) {
           Amount: Amount * 100,
           Type: "spin reward",
           Status: 1,
+          Remark: "lucky draw reward",
         },
       ],
       { session: Session }

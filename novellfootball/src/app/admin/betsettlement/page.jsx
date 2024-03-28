@@ -190,3 +190,5 @@ async function getAdminDetails() {
     return [];
   }
 }
+
+export const dynamic = "force-dynamic";
