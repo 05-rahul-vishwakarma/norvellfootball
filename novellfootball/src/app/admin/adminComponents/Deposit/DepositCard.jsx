@@ -25,13 +25,12 @@ const DepositCard = ({ data, idx }) => {
 
   useEffect(() => {
     if (data) {
-      updateReferance(data?.TransactionId);
-      updateAmount(Number(data?.Amount) / 100);
-      updateStatus(data?.Status);
-      setCreatedAt(new Date(data?.createdAt));
-      updateUserName(data?.UserName);
-      updateRemark(data?.Remark);
-      updateId(data?.TransactionId);
+      updateReferance(data?.TransactionId || "");
+      updateAmount(Number(data?.Amount || 0) / 100);
+      updateStatus(data?.Status || 0);
+      setCreatedAt(new Date(data?.createdAt || new Date()));
+      updateUserName(data?.UserName || "");
+      updateId(data?.TransactionId || "");
     }
   }, [data]);
 
@@ -48,6 +47,13 @@ const DepositCard = ({ data, idx }) => {
             value={prevTransactionId}
             name="prevTransactionId"
             onChange={updateId}
+          />
+          <input
+            type="text"
+            className="sr-only"
+            value={Remark}
+            name="Remark"
+            onChange={updateRemark}
           />
           <div
             style={{
@@ -170,7 +176,12 @@ const DepositCard = ({ data, idx }) => {
                 <div className="flex w-[40%] space-x-4 justify-start">
                   <div className="space-y-1">
                     <p>
-                      <Image src={"/wrong.png"} width={12} height={12} />{" "}
+                      <Image
+                        src={"/wrong.png"}
+                        alt="wrong"
+                        width={12}
+                        height={12}
+                      />{" "}
                     </p>
                     <input
                       checked={Status === 2}
@@ -181,7 +192,12 @@ const DepositCard = ({ data, idx }) => {
                   </div>
                   <div className="space-y-1">
                     <p>
-                      <Image src={"/tick_mark.png"} width={12} height={12} />{" "}
+                      <Image
+                        src={"/tick_mark.png"}
+                        alt="tick"
+                        width={12}
+                        height={12}
+                      />{" "}
                     </p>
                     <input
                       checked={Status === 1}

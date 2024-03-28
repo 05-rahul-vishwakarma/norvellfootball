@@ -25,13 +25,13 @@ const WithdrawCard = ({ data, idx }) => {
 
   useEffect(() => {
     if (data) {
-      updateReferance(data?.TransactionId);
-      updateAmount(Number(data?.Amount) / 100);
-      updateStatus(data?.Status);
-      setCreatedAt(new Date(data?.createdAt));
-      updateUserName(data?.UserName);
-      updateRemark(data?.Remark);
-      updateId(data?.TransactionId);
+      updateReferance(data?.TransactionId || "");
+      updateAmount(Number(data?.Amount || 0) / 100);
+      updateStatus(data?.Status || 0);
+      setCreatedAt(new Date(data?.createdAt) || new Date());
+      updateUserName(data?.UserName || "");
+      updateRemark(data?.Remark || "");
+      updateId(data?.TransactionId || "");
     }
   }, [data]);
 
@@ -48,6 +48,13 @@ const WithdrawCard = ({ data, idx }) => {
             value={prevTransactionId}
             name="prevTransactionId"
             onChange={updateId}
+          />
+          <input
+            type="text"
+            className="sr-only"
+            value={Remark}
+            name="Remark"
+            onChange={updateRemark}
           />
           <div
             style={{

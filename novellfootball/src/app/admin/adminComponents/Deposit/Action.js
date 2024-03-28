@@ -74,10 +74,10 @@ async function settleDeposit(data) {
           [
             {
               UserName: isParentUpdated?.UserName,
-              TransactionId: genTransactionID(),
+              TransactionId: await genTransactionID(),
               Amount: data?.Amount * 0.02,
               Type: "invitation reward",
-              Remard: "success",
+              Remark: "success",
               Status: 1,
               Date: `${today.getDate()}/${
                 today.getMonth() + 1
@@ -160,7 +160,7 @@ async function cancelDeposit(data) {
   await connect();
   try {
     let isUpdatedTransaction = await TRANSACTION.findOneAndUpdate(
-      { UserName: data?.Username, TransactionId: data?.prevTransactionId },
+      { UserName: data?.UserName, TransactionId: data?.prevTransactionId },
       {
         Status: 2,
         Remark: data?.Remark,

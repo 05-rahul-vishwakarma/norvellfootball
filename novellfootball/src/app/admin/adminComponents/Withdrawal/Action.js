@@ -82,6 +82,8 @@ async function settleWithdraw(data) {
 
 async function cancelWithdraw(data) {
   await connect();
+  let Session = await mongoose.startSession();
+  Session.startTransaction();
   try {
     let isUpdatedTransaction = await TRANSACTION.findOneAndUpdate(
       { UserName: data?.UserName, TransactionId: data?.prevTransactionId },
@@ -89,7 +91,8 @@ async function cancelWithdraw(data) {
         Status: 2,
         Remark: data?.Remark,
         TransactionId: data?.TransactionId,
-      }
+      },
+      { session: Session }
     );
     let isUserUpdated = await USER.findOneAndUpdate(
       { UserName: data?.UserName },
@@ -98,21 +101,18 @@ async function cancelWithdraw(data) {
           Balance: data?.Amount,
           Withdrawal: -data?.Amount,
         },
-      }
+      },
+      { session: Session }
     );
-    if (isUpdatedTransaction) {
+    if (isUpdatedTransaction && isUserUpdated) {
+      await Session.commitTransaction();
       return "done";
     } else {
       throw Error("error while canceling the transaction");
     }
   } catch (error) {
+    await Session.abortTransaction();
     console.log(error);
     return error?.message || "something went wrong";
   }
-}
-
-async function genTransactionID() {
-  const PART_A = Math.floor(Math.random() * 90000 + 10000).toString();
-  const PART_B = Math.floor(Math.random() * 90000 + 10000).toString();
-  return PART_A + PART_B;
 }
