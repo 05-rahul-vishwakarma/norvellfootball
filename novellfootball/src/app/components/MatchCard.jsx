@@ -65,8 +65,6 @@ function MatchCard({ id, data, index, gradient, onClick, color }) {
   let [percentage, updatePercentage] = useState(0);
   let [colors, updateColors] = useState({});
 
-
-
   useEffect(() => {
     updatePercentage(Math.random() * 105);
     let rand = Math.floor(Math.random() * colorArr.length);
@@ -98,7 +96,12 @@ function MatchCard({ id, data, index, gradient, onClick, color }) {
             </div>
           </div>
           <div className="absolute flex justify-center items-center h-full w-full">
-            <HomeGradient id={id} percentage={percentage} start={color.start} stop={color.stop} />
+            <HomeGradient
+              id={id}
+              percentage={percentage}
+              start={color.start}
+              stop={color.stop}
+            />
           </div>
         </div>
       </div>
@@ -118,7 +121,7 @@ function MatchCard({ id, data, index, gradient, onClick, color }) {
           </span>
           <span className="mx-1 "> VS </span>
           <span className="line-clamp-1 text-ellipsis  text-center truncate max-w-xs  ">
-             {data?.Team_b || "no team a"}
+            {data?.Team_b || "no team a"}
           </span>
         </div>
 
