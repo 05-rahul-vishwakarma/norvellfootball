@@ -146,7 +146,7 @@ async function getAllBets() {
     await connect();
     let data = await BET.aggregate([
       {
-        $match: { Status: 1 },
+        $match: { Status: 0 },
       },
       {
         $group: {
