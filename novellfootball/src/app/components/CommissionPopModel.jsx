@@ -407,6 +407,10 @@ export default CommissionPopModel;
 
 function CommissionAcordian({ cardDetails }) {
   const [isActive, updateActive] = useState(false);
+  const [createdAt, updateCreatedAt] = useState(null);
+  useEffect(() => {
+    updateCreatedAt(new Date(cardDetails?.createdAt) || new Date());
+  }, []);
   return (
     <div
       style={{ boxShadow: "0 5px 5px rgba(0,0,0,0.02) " }}
@@ -418,9 +422,23 @@ function CommissionAcordian({ cardDetails }) {
         </h2>
         <div className="space-y-0.5 flex col-span-1 justify-center ">
           <div className="flex text-xs text-gray-600 font-bold items-center">
-            <h2>12/02/2023</h2>
+            <h2>
+              {createdAt &&
+                `${createdAt.getDate()}/${
+                  createdAt?.getMonth() + 1
+                }/${createdAt?.getFullYear()}`}
+            </h2>
             <h2>-</h2>
-            <h2>10:00</h2>
+            <h2>
+              {createdAt &&
+                `${createdAt
+                  ?.getHours()
+                  ?.toString()
+                  ?.padStart(2, "0")} : ${createdAt
+                  ?.getMinutes()
+                  ?.toString()
+                  .padStart(2, "0")}`}
+            </h2>
           </div>
         </div>
         <div className="flex justify-self-end items-center space-x-4">
@@ -429,7 +447,7 @@ function CommissionAcordian({ cardDetails }) {
               style={{ color: cardDetails?.Commission < 0 ? "red" : "black" }}
               className="text-sm font-bold"
             >
-              {cardDetails?.Commission || 0}
+              {cardDetails?.Commission / 100 || 0}
             </h2>
           </div>
           <div

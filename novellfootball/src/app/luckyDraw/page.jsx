@@ -22,7 +22,7 @@ const values = [25, 1, 7, 3, 5, 12, 56, 22];
 const Page = () => {
   const [rotate, updateRotate] = useState(0);
   const [winningAmount, updateWinningAmount] = useState(0);
-  const { userOtherData } = useContext(UserContext);
+  const { getBalance, userOtherData } = useContext(UserContext);
   const { getAlert } = useContext(AlertContext);
   const wheel = useRef();
 
@@ -35,7 +35,7 @@ const Page = () => {
       let newRotation = Math.floor(Math.random() * 8) * 44;
       updateRotate(newRotation);
       updateWinningAmount(values[newRotation / 44]);
-      claimAmount();
+      claimAmount(values[newRotation / 44]);
     }, 4.5 * 1000);
   }
 
@@ -46,19 +46,21 @@ const Page = () => {
   }, [rotate]);
   const router = useRouter();
 
-  async function claimAmount() {
+  async function claimAmount(amount) {
+    getAlert();
     try {
       let config = {
         method: "POST",
         header: {
           "content-type": "application/json",
         },
-        body: JSON.stringify({ Amount: winningAmount }),
+        body: JSON.stringify({ Amount: amount }),
       };
       let res = await fetch("/api/spinner", config);
       if (res?.ok) {
         res = await res.json();
         if (res?.status === 200) {
+          await getBalance();
           getAlert("success", "reward claimed");
           return;
         } else if (res?.status === 302) {

@@ -86,6 +86,19 @@ async function betParser({ StakeId, s_first, s_second, g_first, g_second }) {
     });
     await session.commitTransaction();
     revalidatePath("/admin/betsettlement");
+    // dev only
+
+    // return {
+    //   message: JSON.stringify(
+    //     `users_updated -> ${JSON.stringify(
+    //       update_user
+    //     )} , updated_Bets -> ${JSON.stringify(
+    //       update_bet
+    //     )} , created_commissions -> ${JSON.stringify(create_commission)}`
+    //   ),
+    // };
+
+    // dev only
     return {
       message: JSON.stringify(
         `users_updated -> ${JSON.stringify(
@@ -134,9 +147,9 @@ async function initiateParallelProcess(
   // Asynchronously perform operations in settle_bet
   try {
     let Profit =
-      Number(Number(match?.BetAmount) / 10000) *
-      Number(match?.Percentage) *
-      0.05;
+      Number(Number(match?.BetAmount) / 10000) * Number(match?.Percentage);
+    Profit -= Profit * 0.05;
+    console.log(Profit);
     let res = await settle_bet(
       match,
       Profit,
