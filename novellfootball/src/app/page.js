@@ -24,6 +24,8 @@ export default function Home() {
   const [matchLoaded, updateLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  
+
   // states for access current data and popup handling //
   const [selectedMatch, setSelectedMatch] = useState(null);
   const [popupVisible, setPopupVisible] = useState(false);
@@ -146,25 +148,26 @@ export default function Home() {
               }}
               className="flex place-items-center rounded-full bg-white w-max line-clamp-1 text-ellipsis "
             >
-              <span className=" flex place-items-center justify-center  line-clamp-1 text-ellipsis text-xs font-[500] px-3 py-1.5 min-w-[3rem] ">
+              <span className=" flex place-items-center justify-center  line-clamp-1 text-ellipsis text-xs font-[500] px-3 py-1 min-w-[3rem] ">
                 <FaRupeeSign />
                 {userBalance}
               </span>
               <FaCirclePlus className="text-[.9rem] mr-2 text-[#2885F6] " />
             </div>
 
-            <h1 className=" font-bold text-[white] mt-3 text-center  ">
+            <h1 className=" font-bold text-[1.3rem] text-[white] mt-3 text-center  ">
               Top Events
             </h1>
           </div>
 
           <div className="flex place-items-center">
-            <span className="text-[0.7rem] font-semibold mt-1 leading-3 mr-1 text-white ">
-              <p className="w-[6rem] text-right overflow-hidden  break-words  ">
-                Welcome User {userOtherData?.UserName || "name"}
+            <span className=" mt-1 leading-3 mr-1 text-white ">
+              <p className="w-[8rem] flex flex-col items-end  text-right overflow-hidden   break-words  ">
+               <span className="text-[.9rem] font-semibold w-[90%] text-right " >Welcome Back</span>
+                <span className="text-[.7rem] font-[500] w-[4rem] overflow-ellipsis line-clamp-1 " > {userOtherData?.UserName || "name"} </span> 
               </p>
             </span>
-            <div className="h-[3rem] w-[3rem] flex justify-center place-items-center rounded-full bg-white ">
+            <div className="h-[3.3rem] w-[3.3rem] flex justify-center place-items-center rounded-full bg-white ">
               <Image src={"/logo.png"} alt="logo" width={45} height={45} />
             </div>
           </div>
@@ -389,6 +392,8 @@ function ScoreCards({ placeBet, percent, Balance, Score_a, Score_b }) {
     });
   }
 
+  let router = useRouter();
+
   return (
     <div className="w-[100%] ">
       <div
@@ -422,7 +427,12 @@ function ScoreCards({ placeBet, percent, Balance, Score_a, Score_b }) {
           <span className=" text-[0.65rem] text-gray-600 font-bold">
             Handling fee 5%
           </span>
-          <div className=" rounded-full py-0.5 ring-1 ring-gray-600/30 px-1 w-fit bg-white space-x-1 flex justify-center items-center">
+          <div
+            onClick={() => {
+              router.push("/profile/recharge");
+            }}
+            className=" rounded-full py-0.5 ring-1 ring-gray-600/30 px-1 w-fit bg-white space-x-1 flex justify-center items-center"
+          >
             <div className="flex pl-1 justify-center items-center h-[90%] space-x-1">
               <span
                 className=" h-full aspect-square rounded-full text-white 

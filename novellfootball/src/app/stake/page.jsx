@@ -168,7 +168,7 @@ function Page() {
           </span>
         </div>
 
-        <div className="h-[65%] mt-[.6rem]  overflow-y-scroll relative  pb-[12rem] ">
+        <div className="h-[60%] mt-[.6rem]  overflow-y-scroll relative  pb-[12rem] ">
           {swipe ? (
             <div className=" h-full absolute top-0 left-0 w-full  ">
               {pendingMatches?.map((match, idx) => (
@@ -276,7 +276,7 @@ function Stake({ onClick, data }) {
   // ------------------------------------------------------------------------------------
 
   return (
-    <div className="border-2 border-gray-[#e2dbd3] min-h-min w-[90%] mr-auto ml-auto rounded-[15px] mt-[.5rem] bg-[#fbf3eb] shadow-sm relative pb-4 ">
+    <div className="border-2 mb-2 border-gray-[#e2dbd3] min-h-min w-[90%] mr-auto ml-auto rounded-[15px] mt-[.5rem] bg-[#fbf3eb] shadow-sm relative pb-4 ">
       <div className="w-max mr-auto ml-auto px-[1rem] py-[.2rem] rounded-b-lg font-semibold bg-[#ec8220] text-white text-[.6rem] ">
         Pending
       </div>

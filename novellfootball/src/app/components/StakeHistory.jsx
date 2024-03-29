@@ -22,7 +22,7 @@ function StakeHistory({ bgColor, result, resultbg, data }) {
   return (
     <div
       style={{ background: bgColor }}
-      className="border-2 border-gray-[#e2dbd3] min-h-min  w-[90%] mr-auto ml-auto rounded-[10px] mt-[.5rem] bg-[#fbf3eb] shadow-sm pb-2 text-[.6rem] "
+      className="border-2 border-gray-[#e2dbd3] min-h-min mb-2  w-[90%] mr-auto ml-auto rounded-[10px] mt-[.5rem] bg-[#fbf3eb] shadow-sm pb-2 text-[.6rem] "
     >
       <div
         style={{ background: resultbg }}
