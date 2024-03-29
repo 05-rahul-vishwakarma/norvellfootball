@@ -97,7 +97,7 @@ function Page() {
         <div className="relative text-center py-4 h-[8%] ">
           <h2 className=" capitalize text-[0.8rem] font-bold my-0">Profile</h2>
         </div>
-        <main className=" space-y-1  h-[40%] px-4 ">
+        <main className=" space-y-1  px-4 ">
           {/* hero section */}
           <div
             style={{
@@ -120,23 +120,23 @@ function Page() {
                       : "/logo.png"
                   }
                   height={40}
+                  unoptimized
                   width={40}
                   alt="logo"
                 ></Image>
               </span>
-              <h2 className="capitalize text-[0.65rem] mt-2 truncate font-bold text-white">
+              <h2 className="capitalize text-md mt-2 truncate font-bold text-white">
                 {userOtherData?.UserName || "User Name"}
               </h2>
             </div>
 
             <div className="w-full mt-1  px-4">
-              <div className="rounded-full  bg-white py-0.5 flex justify-between">
+              <div className="rounded-full bg-white py-0.5 flex justify-between">
                 <div className="flex px-2 space-x-1 items-center">
                   <Image
                     alt="logo"
                     src={vipInfo?.img ? `/vip${vipInfo?.img}` : "/logo.png"}
                     height={20}
-                    unoptimized
                     width={20}
                   ></Image>
                   <p className="capitalize text-gray-600 font-bold text-[0.65rem]">
@@ -145,7 +145,7 @@ function Page() {
                 </div>
                 <div
                   onClick={() => router.push("/profile/vip")}
-                  className="flex flex-row-reverse  space-x-1
+                  className="flex pr-2 flex-row-reverse  space-x-1
               gap-x-2 items-center justify-end"
                 >
                   <span className=" aspect-square relative flex justify-center items-center rounded-full bg-gray-200 text-gray-500 p-1">

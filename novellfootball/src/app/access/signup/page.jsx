@@ -134,6 +134,7 @@ const Signup = () => {
 
   const sendData = async (e) => {
     e.preventDefault();
+    getAlert();
     if (!isVerified) {
       getAlert("opps", "not verified");
       return;
@@ -168,7 +169,6 @@ const Signup = () => {
     };
     let res = await fetch("/api/access", config);
     res = await res.json();
-    console.log(res);
     if (res?.status === 200) {
       getAlert("success", "account created successfully");
       router.push("/");

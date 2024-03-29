@@ -88,7 +88,7 @@ const TransactionSchema = new Schema(
   {
     UserName: { type: String, required: true },
     Amount: { type: Number, required: true },
-    TransactionId: { type: String, required: true },
+    TransactionId: { type: String, required: true, unique: true },
     Method: { type: String, required: true },
     Status: { type: Number, default: 0 }, // 0->pending , 1->done , 2->canceled
     Remark: { type: String, required: true },

@@ -21,8 +21,9 @@ const MatchCard2 = ({ data, placeBet }) => {
   return (
     <div
       onClick={() => placeBet(true, data)}
-      style={{ boxShadow: "0px 7px 17px 6px #e2e2e2" }}
-      className=" rounded-lg py-1.5 px-3  "
+      // style={{ boxShadow: "0px 7px 17px 6px #e2e2e2" }}
+      style={{ boxShadow: "rgb(0 0 0 / 15%) 0px 2px 10px 0.01px" }}
+      className=" rounded-lg py-1.5 px-3  bg-white "
     >
       <div
         style={{ gridTemplateColumns: "1fr 0.5fr 1fr" }}
@@ -44,20 +45,11 @@ const MatchCard2 = ({ data, placeBet }) => {
         </div>
         <div className="text-center">
           <h2 className="text-xs font-extrabold text-red-500">
-            {MatchStartTime.getHours() > 12
-              ? `${MatchStartTime.getHours() - 12}`
-              : `${
-                  MatchStartTime.getHours() < 10 ? "0" : ""
-                }${MatchStartTime.getHours()}`}
-            :
-            {MatchStartTime.getMinutes() < 10
-              ? `0${MatchStartTime.getMinutes()}`
-              : `${MatchStartTime.getMinutes()}`}
+            {MatchStartTime.getHours().toString().padStart(2, "0")}:
+            {MatchStartTime.getMinutes().toString().padStart(2, "0")}
           </h2>
           <h2 className="text-xs font-semibold">
-            {(MatchStartTime.getDate() < 10
-              ? "0" + MatchStartTime.getDate()
-              : MatchStartTime.getDate()) +
+            {MatchStartTime.getDate().toString().padStart(2, 0) +
               MatchStartTime?.toString().slice(3, 7)}{" "}
           </h2>
         </div>

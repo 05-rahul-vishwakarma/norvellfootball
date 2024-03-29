@@ -52,10 +52,11 @@ export async function POST(request) {
     let isDeleted = await BET.findOneAndDelete(
       { UserName, StakeId },
       {
-        new: true,
         session: Session,
       }
     );
+    if (!isDeleted)
+      throw new CustomError(705, "no bets were found with this id.");
 
     let isUpdatedUser = await USER.findOneAndUpdate(
       { UserName },
@@ -67,7 +68,7 @@ export async function POST(request) {
       { session: Session }
     );
 
-    if (!isDeleted || !isUpdatedUser)
+    if (!isUpdatedUser)
       throw new CustomError(
         703,
         "Something went wrong while canceling the stake",

@@ -33,7 +33,7 @@ function Page() {
   const router = useRouter();
   let { getAlert } = useContext(AlertContext);
   const [loading, setLoading] = useState(true);
-  
+
   async function verify() {
     let EnteredOtp = otp.join("");
     EnteredOtp = Number(EnteredOtp);
@@ -121,11 +121,11 @@ function Page() {
     }
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     setTimeout(() => {
-      setLoading(false)
+      setLoading(false);
     }, 1000);
-  })
+  });
 
   return (
     <Layout>
@@ -158,12 +158,17 @@ function Page() {
             <div className="flex  flex-col w-full justify-center items-center py-3">
               <span
                 className=" size-16
-              ring-[3px] relative ring-white rounded-full "
+              ring-[3px] relative ring-white overflow-hidden rounded-full "
               >
                 <Image
                   style={{ height: "100%", width: "100%" }}
-                  src="/logo.png"
+                  src={
+                    userOtherData?.Avatar
+                      ? `/avatar/${userOtherData?.Avatar}.png`
+                      : "/logo.png"
+                  }
                   height={40}
+                  unoptimized
                   width={40}
                   alt="logo"
                 ></Image>
@@ -411,7 +416,7 @@ function Page() {
                           value={Amount}
                           onChange={(e) => updateAmount(e.target.value)}
                           placeholder="Enter value"
-                          className="w-full h-full outline-none text-gray-600"
+                          className="w-full h-full bg-transparent outline-none text-gray-600"
                           name=""
                         />
                       </div>
@@ -460,7 +465,7 @@ function Page() {
                           value={Amount}
                           onChange={(e) => updateAmount(e.target.value)}
                           placeholder="Enter value"
-                          className="w-full h-full outline-none text-gray-600"
+                          className="w-full bg-transparent h-full outline-none text-gray-600"
                           name=""
                         />
                       </div>
@@ -547,7 +552,7 @@ function Page() {
             <div className="px-2  py-1 space-y-2 mt-3">
               <div className="flex pl-4 space-x-1">
                 <FaInfoCircle color="red" />
-                <p className=" text-sm font-bold">
+                <p className=" text-[0.65rem] font-bold">
                   Withdrawal instruction&apos;s
                 </p>
               </div>

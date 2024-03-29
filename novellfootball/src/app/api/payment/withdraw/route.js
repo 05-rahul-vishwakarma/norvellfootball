@@ -126,9 +126,7 @@ async function updateUser(UserName, Amount, Session, Bank) {
     parent = user?.Parent;
     return true;
   } catch (error) {
-    console.log(error);
     parent = "";
-    console.log(error);
     throw new CustomError(705, "Low balance or bank not added");
   }
 }

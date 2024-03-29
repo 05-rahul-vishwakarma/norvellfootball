@@ -88,6 +88,11 @@ export async function PUT(request) {
     let otp = Math.ceil(Math.random() * 9000 + 999);
     let res = await sendPhoneOtp(userExists?.PhoneNumber, otp);
 
+    // dev only;
+    // let res = true;
+    // console.log(otp);
+    // dev only;
+
     if (res === true) {
       let response = NextResponse.json({
         status: 200,

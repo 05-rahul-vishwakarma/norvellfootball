@@ -2,7 +2,7 @@
 
 const BACKEND = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import StakeHistory from "../components/StakeHistory";
 import { motion } from "framer-motion";
@@ -11,6 +11,7 @@ import Image from "next/image";
 import Layout from "../components/Layout";
 import { useRouter } from "next/navigation";
 import Loading from "../components/Loading";
+import { UserContext } from "../helpers/UserContext";
 
 const variantOne = {
   visible: {
@@ -49,6 +50,7 @@ function Page() {
   const [isDltMatch, setDltMatch] = useState([]);
   const [amounts, setAmounts] = useState();
   const [loading, setLoading] = useState(true);
+  const { getAlert, getBalance } = useContext(UserContext);
 
   let router = useRouter();
   function stakeAmount() {
@@ -67,6 +69,7 @@ function Page() {
 
   const backBtn = async () => {
     try {
+      getAlert();
       let StakeId = isDltMatch.StakeId;
       let StartTime = isDltMatch.StartsAt;
 
@@ -97,6 +100,7 @@ function Page() {
       let res = await fetch(`/api/stake`);
       res = await res.json();
       if (res?.status === 200) {
+        await getBalance();
         setLoading(false); // Set loading to false when data is fetched
         updatePendingMatches(res?.data?.pendingMatches);
         updateSettledMatches(res?.data?.settledMatches);
