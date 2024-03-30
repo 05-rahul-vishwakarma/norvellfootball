@@ -98,7 +98,6 @@ function Page() {
             </div>
           </div>
 
-          {isHide ? (
             <div
               style={{ boxShadow: "0 10px 10px rgba(0,0,0,0.05) " }}
               className="mt-3 py-3  rounded-xl bg-[#fff] text-[0.7rem] "
@@ -158,9 +157,6 @@ function Page() {
                 </motion.div>
               </div>
             </div>
-          ) : (
-            ""
-          )}
         </div>
 
         {showTerms ? <Terms setTerms={setTerms} /> : ""}

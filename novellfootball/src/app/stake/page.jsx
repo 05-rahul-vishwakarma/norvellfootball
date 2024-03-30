@@ -87,10 +87,15 @@ function Page() {
       alert(JSON.stringify(res));
       getStakeData();
       setShow(false);
+      router.push('/matches')
     } catch (error) {
       console.log(error);
     }
   };
+
+  function cancel() {
+    setShow(false);
+  }
 
   async function getStakeData() {
     try {
@@ -176,13 +181,13 @@ function Page() {
                   key={match?.StakeId || idx}
                   data={match}
                   amount={match?.BetAmount}
-                  onClick={() => showPopup(match)}
+                  onClick={() => showPopup(match) }
                 />
               ))}
               {pendingMatches?.length <= 0 && (
                 <p
                   style={{ background: "url(/noData.svg) center norepeat" }}
-                  className="h-40 w-full"
+                  className="h-full w-full"
                 ></p>
               )}
             </div>
@@ -218,6 +223,7 @@ function Page() {
             image="/cancel.svg"
             condtions="Cancelled Success!"
             onClick={() => backBtn()}
+            cancel ={()=> cancel()}
           />
         </motion.div>
       </div>

@@ -3,16 +3,20 @@ import BackButton from "./BackButton";
 import Image from "next/image";
 import Link from "next/link";
 
-function Popup({ image, condtions, onClick,}) {
+function Popup({ image, condtions, onClick, cancel}) {
+console.log(onClick)
   
   
   function PopUpDlt() {
     onClick();
   }
 
+  function popUpBack() {
+    cancel();
+  }
   return (
     <div className="h-full w-full bg-[#F8FCFF]  z-[3]  ">
-      <div onClick={() => PopUpDlt} className="pt-[2rem]">
+      <div onClick={() => popUpBack()} className="pt-[2rem]">
         <BackButton pageName="stake" />
       </div>
       <div className=" h-[80%] mt-[2rem]    ">
@@ -27,7 +31,7 @@ function Popup({ image, condtions, onClick,}) {
         </div>
 
         <div
-          
+          onClick={popUpBack}
           className="text-center p-3 mt-4 rounded-lg flex justify-center place-items-center text-[#000] w-[90%] mr-auto ml-auto  "
         >
           Cancel Stake

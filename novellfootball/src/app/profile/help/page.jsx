@@ -6,12 +6,10 @@ import React, { useState } from "react";
 import { FaTelegram } from "react-icons/fa6";
 import { LiaAngleDownSolid, LiaAngleRightSolid } from "react-icons/lia";
 import { useRouter } from "next/navigation";
- 
-
 
 const Page = () => {
   const [getAgents, toggleAgents] = useState(false);
-  const router = useRouter()
+  const router = useRouter();
 
   return (
     <Layout>
@@ -24,7 +22,10 @@ const Page = () => {
             <Image src={"/get_help_svg.svg"} fill alt="get help" />
           </div>
           <div className="h-[50%] overflow-y-auto px-1 space-y-3 pb-40">
-            <div className="flex items-center capitalize bg-white shadow-md rounded-md py-2 px-2 font-semibold text-sm">
+            <div
+              style={{ boxShadow: "0 3px 8px rgba(0,0,0,0.1) " }}
+              className="flex items-center capitalize bg-white  rounded-md py-2 px-2 font-semibold text-sm"
+            >
               <div className="flex-[1]">
                 <span className="bg-blue-500 text-blue-500 text-3xl size-8 rounded-full">
                   <FaTelegram />
@@ -39,7 +40,11 @@ const Page = () => {
                 </span>
               </div>
             </div>
-            <div className=" capitalize bg-white shadow-md rounded-md py-2 px-2 font-semibold text-sm">
+
+            <div
+              style={{ boxShadow: "0 3px 8px rgba(0,0,0,0.1) " }}
+              className=" capitalize bg-white  rounded-md py-2 px-2 font-semibold text-sm"
+            >
               <div className="flex items-center">
                 <div className="flex-[1]">
                   <span className="bg-blue-500 text-blue-500 text-3xl size-8 rounded-full">
@@ -116,9 +121,12 @@ const Page = () => {
                 </motion.div>
               )}
             </div>
-            <div 
-             onClick={() =>router.push('/profile/help/privacy')}
-             className=" capitalize bg-white shadow-md rounded-md py-2 px-2 font-semibold text-sm">
+
+            <div
+              style={{ boxShadow: "0 3px 8px rgba(0,0,0,0.1) " }}
+              onClick={() => router.push("/profile/help/privacy")}
+              className=" capitalize bg-white  rounded-md py-2 px-2 font-semibold text-sm"
+            >
               <div className="flex items-center">
                 <div className="flex-[1]">
                   <span className="flex justify-center items-center text-3xl size-8 rounded-full">
@@ -151,9 +159,11 @@ const Page = () => {
               </div>
             </div>
 
-            <div 
-             onClick={() =>router.push('/profile/help/helps')}
-             className=" capitalize bg-white shadow-md rounded-md py-2 px-2 font-semibold text-sm">
+            <div
+              style={{ boxShadow: "0 3px 8px rgba(0,0,0,0.1) " }}
+              onClick={() => router.push("/profile/help/helps")}
+              className=" capitalize bg-white  rounded-md py-2 px-2 font-semibold text-sm"
+            >
               <div className="flex items-center">
                 <div className="flex-[1]">
                   <span className="flex justify-center items-center  text-3xl size-8 rounded-full">

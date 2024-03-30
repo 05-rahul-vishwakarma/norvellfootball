@@ -15,6 +15,7 @@ import Modal from "./components/Modal";
 import { easeInOut, motion } from "framer-motion";
 import Loading from "./components/Loading";
 import { AlertContext } from "./helpers/AlertContext";
+import Popup from "./components/Popup";
 
 export default function Home() {
   let router = useRouter();
@@ -23,8 +24,6 @@ export default function Home() {
   const [matches, updateMatches] = useState([]);
   const [matchLoaded, updateLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
-
-  
 
   // states for access current data and popup handling //
   const [selectedMatch, setSelectedMatch] = useState(null);
@@ -45,9 +44,9 @@ export default function Home() {
       let res = await fetch(`/api/home`);
       if (!res.ok) throw new Error("Error while fetching matches");
       res = await res.json();
-      setLoading(false); // Set loading to false when data is fetched
       if (res?.status === 200) {
         updateMatches(res?.data?.matches);
+        setLoading(false); // Set loading to false when data is fetched
       } else {
         throw new Error("Somethign went wrong");
       }
@@ -148,14 +147,14 @@ export default function Home() {
               }}
               className="flex place-items-center rounded-full bg-white w-max line-clamp-1 text-ellipsis "
             >
-              <span className=" flex place-items-center justify-center  line-clamp-1 text-ellipsis text-xs font-[500] px-3 py-1 min-w-[3rem] ">
+              <span className=" flex place-items-center justify-center  line-clamp-1 text-ellipsis text-xs font-bold px-3 py-1 min-w-[3rem] ">
                 <FaRupeeSign />
                 {userBalance}
               </span>
               <FaCirclePlus className="text-[.9rem] mr-2 text-[#2885F6] " />
             </div>
 
-            <h1 className=" font-bold text-[1.3rem] text-[white] mt-3 text-center  ">
+            <h1 className=" font-extrabold text-[1.3rem] text-[white] mt-3 text-center  ">
               Top Events
             </h1>
           </div>
@@ -163,8 +162,13 @@ export default function Home() {
           <div className="flex place-items-center">
             <span className=" mt-1 leading-3 mr-1 text-white ">
               <p className="w-[8rem] flex flex-col items-end  text-right overflow-hidden   break-words  ">
-               <span className="text-[.9rem] font-semibold w-[90%] text-right " >Welcome Back</span>
-                <span className="text-[.7rem] font-[500] w-[4rem] overflow-ellipsis line-clamp-1 " > {userOtherData?.UserName || "name"} </span> 
+                <span className="text-[.9rem] font-semibold w-[90%] text-right ">
+                  Welcome Back
+                </span>
+                <span className="text-[.7rem] font-[500] w-[4rem] overflow-ellipsis line-clamp-1 ">
+                  {" "}
+                  {userOtherData?.UserName || "name"}{" "}
+                </span>
               </p>
             </span>
             <div className="h-[3.3rem] w-[3.3rem] flex justify-center place-items-center rounded-full bg-white ">
@@ -183,7 +187,7 @@ export default function Home() {
             <div className="flex  justify-between w-[90%] mr-auto ml-auto  ">
               <h1 className="font-bold ">Hot Matches</h1>
               <h1 className="flex text-[12px] font-light text-[#989898] line-clamp-1 text-ellipsis ">
-                Online Users : {user}
+                Online Users : {new Intl.NumberFormat().format(user ? user : 0)}
               </h1>
             </div>
           </div>
