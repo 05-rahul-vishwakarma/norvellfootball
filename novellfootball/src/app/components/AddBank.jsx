@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Image from "next/image";
 import { easeInOut, motion } from "framer-motion";
 import Input from "./Input";
 import { LiaAngleLeftSolid, LiaAngleRightSolid } from "react-icons/lia";
+import { AlertContext } from "../helpers/AlertContext";
+import { useRouter } from "next/navigation";
 const usdtBank = [
   {
     name: "UsdtAddress",
@@ -52,6 +54,8 @@ const localBank = [
 ];
 
 const AddBank = ({ closePopup, localEditable, usdtEditable }) => {
+  const { getAlert } = useContext(AlertContext);
+
   const [localBankCredentials, updateCredentials] = useState({
     AccHolderName: "",
     BankName: "",
@@ -67,6 +71,7 @@ const AddBank = ({ closePopup, localEditable, usdtEditable }) => {
 
   async function sendNewBankData() {
     try {
+      getAlert();
       let config = {
         method: "POST",
         header: {
@@ -81,12 +86,17 @@ const AddBank = ({ closePopup, localEditable, usdtEditable }) => {
       let res = await fetch("/api/profile/account", config);
       res = await res.json();
       if (res?.status === 200) {
-        alert(res?.message);
+        getAlert("success", res?.message || "success");
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
+      } else if (res?.status === 302) {
+        getAlert("redirect", "Login session time out login again.");
       } else {
-        alert(res?.message);
+        getAlert("opps", res?.message || "something went wrong");
       }
     } catch (error) {
-      alert(error);
+      getAlert("redirect", "something went wrong login again");
     }
   }
 

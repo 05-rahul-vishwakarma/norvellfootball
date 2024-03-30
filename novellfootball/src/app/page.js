@@ -1,5 +1,4 @@
 "use client";
-const BACKEND = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 import Image from "next/image";
 import { FaCirclePlus } from "react-icons/fa6";
@@ -11,7 +10,6 @@ import { FaRupeeSign } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import Layout from "./components/Layout";
 import { UserContext } from "./helpers/UserContext";
-import Modal from "./components/Modal";
 import { easeInOut, motion } from "framer-motion";
 import Loading from "./components/Loading";
 import { AlertContext } from "./helpers/AlertContext";
@@ -52,7 +50,6 @@ export default function Home() {
       }
     } catch (error) {
       setLoading(false); // Handle errors and set loading to false
-      alert(error);
       // router.push("/access/login");
     }
   }
@@ -149,7 +146,7 @@ export default function Home() {
             >
               <span className=" flex place-items-center justify-center  line-clamp-1 text-ellipsis text-xs font-bold px-3 py-1 min-w-[3rem] ">
                 <FaRupeeSign />
-                {userBalance}
+                {userBalance || 0}
               </span>
               <FaCirclePlus className="text-[.9rem] mr-2 text-[#2885F6] " />
             </div>

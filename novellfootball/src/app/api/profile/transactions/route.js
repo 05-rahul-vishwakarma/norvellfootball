@@ -44,7 +44,7 @@ export async function GET(request) {
           Status: 1,
           Type: { $in: ["withdrawal", "deposit"] },
         });
-        level3_users.push(...lev3Trans);
+        level3_transactions.push(...lev3Trans);
       }
     }
     let total_deposit = 0;

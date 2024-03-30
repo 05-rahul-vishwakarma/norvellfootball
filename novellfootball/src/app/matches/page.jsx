@@ -146,7 +146,9 @@ function Page() {
 
             {matchLoaded === true && matches?.length <= 0 && (
               <p
-                style={{ background: "url(./noData.svg) center no-repeat" }}
+                style={{
+                  background: "url(./match_noData.svg) center no-repeat",
+                }}
                 className="h-full w-full"
               ></p>
             )}

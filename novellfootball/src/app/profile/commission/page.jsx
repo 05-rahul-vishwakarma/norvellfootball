@@ -48,45 +48,49 @@ const Page = () => {
   }
 
   async function getCommissionData() {
-    let res = await fetch("/api/profile/commission");
-    let today = new Date();
-    let date = `${today?.getDate()}/${
-      today?.getMonth() + 1
-    }/${today?.getFullYear()}`;
-    let weeklyCommission = [];
-    res = await res.json();
-    if (res.status === 200) {
-      setLoading(false)
-      let commissionObj = res?.data[0];
-      updateTodayCommission(commissionObj[date]);
-      updateCommissionData(() => {
-        let total = 0;
-        if (commissionObj.hasOwnProperty(date)) {
-          for (let data of commissionObj[date]) {
-            total += Number(data?.Commission) / 100;
-          }
-          return total;
-        }
-      });
-      updateOverallCommission(() => {
-        let overall_obj = [];
-        for (let key in commissionObj) {
-          if (commissionObj.hasOwnProperty(key)) {
-            let todayCommission = 0;
-            for (let commission of commissionObj[key]) {
-              todayCommission += Number(commission.Commission) / 100;
+    try {
+      let res = await fetch("/api/profile/commission");
+      let today = new Date();
+      let date = `${today?.getDate()}/${
+        today?.getMonth() + 1
+      }/${today?.getFullYear()}`;
+      let weeklyCommission = [];
+      res = await res.json();
+      if (res.status === 200) {
+        setLoading(false);
+        let commissionObj = res?.data[0];
+        updateTodayCommission(commissionObj[date]);
+        updateCommissionData(() => {
+          let total = 0;
+          if (commissionObj.hasOwnProperty(date)) {
+            for (let data of commissionObj[date]) {
+              total += Number(data?.Commission) / 100;
             }
-            weeklyCommission.push(todayCommission);
-            if (key !== date) {
-              overall_obj.push(...commissionObj[key]);
+            return total;
+          }
+        });
+        updateOverallCommission(() => {
+          let overall_obj = [];
+          for (let key in commissionObj) {
+            if (commissionObj.hasOwnProperty(key)) {
+              let todayCommission = 0;
+              for (let commission of commissionObj[key]) {
+                todayCommission += Number(commission.Commission) / 100;
+              }
+              weeklyCommission.push(todayCommission);
+              if (key !== date) {
+                overall_obj.push(...commissionObj[key]);
+              }
             }
           }
-        }
-        return overall_obj;
-      });
-      updateWeeklyCommission(weeklyCommission);
-    } else {
-      getAlert("redirect", "something went wrong login again");
+          return overall_obj;
+        });
+        updateWeeklyCommission(weeklyCommission);
+      } else {
+        getAlert("redirect", "something went wrong login again");
+      }
+    } catch (error) {
+      alert(error);
     }
   }
   async function getTransactionData() {
@@ -290,7 +294,7 @@ const Page = () => {
                       {weekCommission.reduce(
                         (acc, currentVal) => acc + currentVal,
                         ""
-                      ) / 100}
+                      )}
                     </h2>
                   </div>
                   <div
@@ -446,11 +450,9 @@ const Page = () => {
             </section>
           )}
 
-      {/* loading component here */}
-      {loading && <Loading/>}
-
+        {/* loading component here */}
+        {loading && <Loading />}
       </section>
-
     </Layout>
   );
 };

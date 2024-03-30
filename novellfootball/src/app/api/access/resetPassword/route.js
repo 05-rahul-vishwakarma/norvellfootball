@@ -1,4 +1,5 @@
 import { USER } from "@/app/modals/modal";
+import { NextResponse } from "next/server";
 
 export async function POST(request) {
   try {
