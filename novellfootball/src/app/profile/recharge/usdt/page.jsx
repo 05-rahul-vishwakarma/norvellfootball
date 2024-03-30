@@ -5,7 +5,7 @@ import { RiSecurePaymentLine } from "react-icons/ri";
 import { IoQrCodeOutline } from "react-icons/io5";
 import { FaRegCopy } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams ,useRouter } from "next/navigation";
 import { AlertContext } from "@/app/helpers/AlertContext";
 import Layout from "@/app/components/Layout";
 import { UserContext } from "@/app/helpers/UserContext";
@@ -15,10 +15,8 @@ function Page() {
   // Popup handling here //
   let { getAlert } = useContext(AlertContext);
   let { extraDetails, getExtraDetails } = useContext(UserContext);
-
   const [amount, setAmount] = useState();
   const [depositAddress, updateDepositAddress] = useState("");
-
   const router = useRouter();
 
   // implementing the function which copies the address value //
@@ -83,6 +81,7 @@ function Page() {
         res = await res.json();
         if (res?.status === 200) {
           getAlert("success", "your payment is under verification");
+          router.push('/')
         } else if (res?.status === 500 || res?.status === 302) {
           getAlert("redirect", "something went wrong");
         } else {

@@ -1,5 +1,5 @@
 "use client";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams ,useRouter } from "next/navigation";
 import React, { useState, useEffect, Suspense, useContext } from "react";
 import Image from "next/image";
 import { FaRegCopy } from "react-icons/fa6";
@@ -12,6 +12,8 @@ function Page() {
   // Popup handling here //
   let { getAlert } = useContext(AlertContext);
   let { extraDetails, getExtraDetails } = useContext(UserContext);
+  let router = useRouter();
+
 
   const [amount, setAmount] = useState();
   const [upiId, updateUpi] = useState([]);
@@ -56,6 +58,7 @@ function Page() {
       res = await res.json();
       if (res?.status === 200) {
         getAlert("success", "your deposit is under verification");
+        router.push('/')
       } else if (res?.status === 500 || res?.status === 302) {
         getAlert("redirect", "something went wrong login again");
       } else {
@@ -96,7 +99,7 @@ function Page() {
         </div>
 
         <div className="h-[35%] mt-3 flex flex-col justify-center place-items-center  text-[.6rem] ">
-          <div className="w-[60%] h-[90%] border-2 border-[lightgray] ">
+          <div className="w-[60%] h-[90%] border-2 border-[lightgray] flex justify-center items-center ">
             <Image
               src={
                 extraDetails?.QrChannel2

@@ -142,9 +142,9 @@ export default function Home() {
               onClick={() => {
                 router.push("/profile/recharge");
               }}
-              className="flex place-items-center rounded-full bg-white w-max line-clamp-1 text-ellipsis "
+              className=" flex place-items-center h-6 rounded-full bg-white w-max line-clamp-1 text-ellipsis   "
             >
-              <span className=" flex place-items-center justify-center  line-clamp-1 text-ellipsis text-xs font-bold px-3 py-1 min-w-[3rem] ">
+              <span className="flex items-center   line-clamp-1 text-ellipsis text-[.65rem] font-bold px-2  min-w-[4rem] ">
                 <FaRupeeSign />
                 {userBalance || 0}
               </span>

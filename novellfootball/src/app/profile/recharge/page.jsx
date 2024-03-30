@@ -16,9 +16,7 @@ function Page() {
   //--------------------------------- popup handler ------------------------------------//
   const { getAlert } = useContext(AlertContext);
   const { getExtraDetails } = useContext(UserContext);
-
   const [loading, setLoading] = useState(true);
-
   const router = useRouter();
 
   // change the value of input box whenever user click any div
@@ -39,11 +37,6 @@ function Page() {
     getExtraDetails();
   }, []);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-  });
 
   // implementing condtion based redireacting
   const [selectedOption, setSelectedOption] = useState("");
@@ -84,9 +77,7 @@ function Page() {
 
   return (
     <Layout>
-      {/* loading component here */}
-      {loading && <Loading />}
-
+ 
       <div className="h-screen w-screen bg-[#F8FCFF] pb-[7rem] overflow-y-scroll ">
         <div className="h-screen w-screen ">
           <div onClick={() => router.back()} className="pt-2 ">
@@ -190,7 +181,7 @@ function Page() {
               </div>
               <div
                 style={{ boxShadow: "0 2px 5px rgb(0,0,0,0.06)" }}
-                className="flex justify-between px-2 py-3 place-items-center mt-2 w-[98%] mr-auto ml-auto rounded-lg   "
+                className="flex justify-between px-2 py-3 place-items-center mt-2 w-[98%] mr-auto ml-auto rounded-lg bg-white  "
               >
                 <p className="text-[0.7rem] ">Payment link 1</p>
                 <input
@@ -205,7 +196,7 @@ function Page() {
 
               <div
                 style={{ boxShadow: "0 2px 5px rgb(0,0,0,0.06)" }}
-                className="flex justify-between  px-2 py-3 place-items-center mt-2 w-[98%] mr-auto ml-auto rounded-lg  "
+                className="flex justify-between  px-2 py-3 place-items-center mt-2 w-[98%] mr-auto ml-auto rounded-lg bg-white "
               >
                 <p className="text-[0.7rem] ">Payment link 2</p>
                 <input
@@ -221,7 +212,7 @@ function Page() {
               
               <div
                 style={{ boxShadow: "0 2px 5px rgb(0,0,0,0.06)" }}
-                className="flex justify-between  px-2 py-3 place-items-center mt-2 w-[98%] mr-auto ml-auto rounded-lg  "
+                className="flex justify-between  px-2 py-3 place-items-center mt-2 w-[98%] mr-auto ml-auto rounded-lg bg-white "
               >
                 <p className="text-[0.7rem] ">Payment link 3</p>
                 <input
@@ -237,7 +228,7 @@ function Page() {
 
               <div
                 style={{ boxShadow: "0 2px 5px rgb(0,0,0,0.06)" }}
-                className="flex justify-between px-2 py-3 place-items-center mt-2 w-[98%] mr-auto ml-auto rounded-lg  "
+                className="flex justify-between px-2 py-3 place-items-center mt-2 w-[98%] mr-auto ml-auto rounded-lg bg-white  "
               >
                 <p className="text-[0.7rem] ">Usdt</p>
                 <input

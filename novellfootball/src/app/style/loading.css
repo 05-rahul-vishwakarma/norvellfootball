@@ -1,12 +1,12 @@
-:root{
-  --animation-duration:1s;
+:root {
+  --animation-duration: 1s;
 }
-.suport{
+.suport {
   position: absolute;
   width: 100%;
   text-align: center;
 }
-.smash{
+.smash {
   animation-name: smash;
   animation-duration: var(--animation-duration);
   animation-direction: alternate;
@@ -14,48 +14,49 @@
   animation-timing-function: ease-in-out;
   transform-origin: bottom;
 }
-.shadow  {
+.shadow {
   border-radius: 50%;
   display: inline-block;
   width: 50px;
   height: 50px;
 }
-.shadow{
+.shadow {
   animation-name: shadow;
   animation-duration: var(--animation-duration);
-  animation-direction:alternate;
+  animation-direction: alternate;
   animation-timing-function: ease-out;
   animation-iteration-count: infinite;
 }
-.rotateimg{
+.rotateimg {
   animation-name: rotate;
-  animation-duration: calc(var(--animation-duration)*5.3);
+  animation-duration: calc(var(--animation-duration) * 5.3);
   animation-timing-function: linear3;
   animation-iteration-count: infinite;
 }
 
 @keyframes shadow {
- 0%{
-  transform: translateY(0);
-  box-shadow: 20px 20px 10px #444466;
- }
- 100%{
-  transform: translateY(-100px);
-  box-shadow: 20px 350px 250px rgba(255, 255, 255, 0.3);
- } 
+  0% {
+    transform: translateY(0);
+    box-shadow: 20px 20px 10px #444466;
+  }
+  100% {
+    transform: translateY(-100px);
+    box-shadow: 20px 350px 250px rgba(255, 255, 255, 0.3);
+  }
 }
 
 @keyframes smash {
-  0%{
+  0% {
     transform: scale(0.7);
   }
-  15%{
+  15% {
     transform: scale(1);
   }
 }
 
 @keyframes rotate {
-  100%{
+  100% {
     transform: rotate(360deg);
   }
 }
+

@@ -24,7 +24,7 @@ const Page = () => {
           <div className="h-[50%] overflow-y-auto px-1 space-y-3 pb-40">
             <div
               style={{ boxShadow: "0 3px 8px rgba(0,0,0,0.1) " }}
-              className="flex items-center capitalize bg-white  rounded-md py-2 px-2 font-semibold text-sm"
+              className="flex items-center capitalize bg-white  rounded-lg py-2 px-2 font-semibold text-sm"
             >
               <div className="flex-[1]">
                 <span className="bg-blue-500 text-blue-500 text-3xl size-8 rounded-full">
@@ -35,7 +35,7 @@ const Page = () => {
                 <p>telegram group</p>
               </div>
               <div className="flex-[2] flex justify-end items-center">
-                <span className="h-full rounded-md bg-blue-500 text-white px-8 py-2">
+                <span className="h-full rounded-lg bg-blue-500 text-white px-8 py-2">
                   join
                 </span>
               </div>
@@ -43,7 +43,7 @@ const Page = () => {
 
             <div
               style={{ boxShadow: "0 3px 8px rgba(0,0,0,0.1) " }}
-              className=" capitalize bg-white  rounded-md py-2 px-2 font-semibold text-sm"
+              className=" capitalize bg-white  rounded-lg py-2 px-2 font-semibold text-sm"
             >
               <div className="flex items-center">
                 <div className="flex-[1]">
@@ -80,7 +80,7 @@ const Page = () => {
                     <div className="w-[50%]">
                       <a
                         href="#"
-                        className="bg-blue-500 h-full w-full py-1 px-2 rounded-md text-center text-[0.6rem] text-white font-bold "
+                        className="bg-blue-500 h-full w-full py-1 px-2 rounded-lg text-center text-[0.6rem] text-white font-bold "
                       >
                         connect to mark
                       </a>
@@ -96,7 +96,7 @@ const Page = () => {
                     <div className="w-[50%]">
                       <a
                         href="#"
-                        className="bg-blue-500 h-full w-full py-1 px-2 rounded-md text-center text-[0.6rem] text-white font-bold "
+                        className="bg-blue-500 h-full w-full py-1 px-2 rounded-lg text-center text-[0.6rem] text-white font-bold "
                       >
                         connect to mark
                       </a>
@@ -112,7 +112,7 @@ const Page = () => {
                     <div className="w-[50%]">
                       <a
                         href="#"
-                        className="bg-blue-500 h-full w-full py-1 px-2 rounded-md text-center text-[0.6rem] text-white font-bold "
+                        className="bg-blue-500 h-full w-full py-1 px-2 rounded-lg text-center text-[0.6rem] text-white font-bold "
                       >
                         connect to mark
                       </a>
@@ -125,7 +125,7 @@ const Page = () => {
             <div
               style={{ boxShadow: "0 3px 8px rgba(0,0,0,0.1) " }}
               onClick={() => router.push("/profile/help/privacy")}
-              className=" capitalize bg-white  rounded-md py-2 px-2 font-semibold text-sm"
+              className=" capitalize bg-white  rounded-lg py-2 px-2 font-semibold text-sm"
             >
               <div className="flex items-center">
                 <div className="flex-[1]">
@@ -162,7 +162,7 @@ const Page = () => {
             <div
               style={{ boxShadow: "0 3px 8px rgba(0,0,0,0.1) " }}
               onClick={() => router.push("/profile/help/helps")}
-              className=" capitalize bg-white  rounded-md py-2 px-2 font-semibold text-sm"
+              className=" capitalize bg-white  rounded-lg py-2 px-2 font-semibold text-sm"
             >
               <div className="flex items-center">
                 <div className="flex-[1]">

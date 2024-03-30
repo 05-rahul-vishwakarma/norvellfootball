@@ -8,6 +8,7 @@ import { UserContext } from "@/app/helpers/UserContext";
 import Loading from "@/app/components/Loading";
 import { AlertContext } from "@/app/helpers/AlertContext";
 import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 function page() {
   const [data, setData] = useState("");
@@ -15,6 +16,7 @@ function page() {
   const [loading, setLoading] = useState(true);
   const { getAlert } = useContext(AlertContext);
   const [amount, setAmount] = useState();
+  let router = useRouter();
 
   async function getExtraDetails() {
     try {
@@ -70,6 +72,7 @@ function page() {
         res = await res.json();
         if (res?.status === 200) {
           getAlert("success", "your deposit is under verification");
+          router.push("/");
         } else if (res?.status === 500 || res?.status === 302) {
           getAlert("redirect", "something went wrong login again");
         } else {

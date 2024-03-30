@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState ,useEffect } from "react";
 import Link from "next/link";
 import BackButton from "@/app/components/BackButton";
 import { LiaAngleDownSolid, LiaAngleRightSolid } from "react-icons/lia";
 import { IoIosArrowDropup } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
 import { motion } from "framer-motion";
+import Loading from "@/app/components/Loading";
 
 import {
   MdOutlineKeyboardArrowDown,
@@ -46,10 +47,20 @@ function Page() {
   const [isVisibleTwo, setVisibleTwo] = useState(false);
   const [isHide, setHide] = useState(true);
   const [showTerms, setTerms] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  });
+
 
   return (
     <Layout>
       <section className="h-screen bg-[#F8FCFF] ">
+      {loading && <Loading />}
+
         <Link href="/profile/help/">
           <div className="pt-3   ">
             <BackButton pageName="Help?" />
@@ -77,7 +88,8 @@ function Page() {
             <div className="flex justify-between place-items-center px-3 ">
               <p>Game Rule</p>
               <span
-                onClick={() => setVisible(!isVisible) || setHide(!isHide)}
+              // (prev) => !prev
+                onClick={() => setVisible((isVisible) =>!isVisible) || setHide((isHide) =>(!isHide))}
                 className="h-full rounded-full bg-gray-300 text-black p-1"
               >
                 {isVisible ? <IoIosArrowUp /> : <LiaAngleDownSolid />}

@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, Suspense, useContext } from "react";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { LiaAngleDownSolid, LiaAngleRightSolid } from "react-icons/lia";
@@ -11,6 +10,7 @@ import Modal from "@/app/components/Modal";
 import { AlertContext } from "@/app/helpers/AlertContext";
 import Layout from "@/app/components/Layout";
 import { UserContext } from "@/app/helpers/UserContext";
+import { useRouter } from "next/navigation";
 
 const accorodient = {
   show: {
@@ -32,6 +32,7 @@ function Page() {
   const [isVisible, setVisible] = useState(false);
   const [isHide, setHide] = useState(true);
   const [amount, setAmount] = useState();
+  let router = useRouter();
 
   // immplementing the utr number value
   const [value, setValue] = useState("");
@@ -71,6 +72,7 @@ function Page() {
         res = await res.json();
         if (res?.status === 200) {
           getAlert("success", "your deposit is under verification");
+          router.push('/')
         } else if (res?.status === 500 || res?.status === 302) {
           getAlert("redirect", "something went wrong login again");
         } else {
