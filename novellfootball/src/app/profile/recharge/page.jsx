@@ -17,6 +17,7 @@ function Page() {
   const { getAlert } = useContext(AlertContext);
   const { getExtraDetails } = useContext(UserContext);
   const [loading, setLoading] = useState(true);
+  const [disabled, setDisabled] = useState(false);
   const router = useRouter();
 
   // change the value of input box whenever user click any div
@@ -44,6 +45,12 @@ function Page() {
     setSelectedOption(e.target.value);
   };
   const handleRedirect = () => {
+    setDisabled(true);
+
+    setTimeout(() => {
+      setDisabled(false);
+    }, 60000); // 1 minute in milliseconds
+
     if (!inputValue) {
       getAlert("opps", "please enter the deposit amount");
     } else {
@@ -243,7 +250,7 @@ function Page() {
 
               <div
                 onClick={handleRedirect}
-                style={{ boxShadow: "0 0 5px 0 #c0cad9" }}
+                disabled={disabled} style={{ backgroundColor: disabled ? '#5A5A5A' : '#2885F6' , boxShadow: "0 0 5px 0 #c0cad9" }}
                 className="bg-[#2885F6] text-center p-3 mt-[2rem] rounded-lg flex justify-center place-items-center text-[#fff] "
               >
                 Recharge

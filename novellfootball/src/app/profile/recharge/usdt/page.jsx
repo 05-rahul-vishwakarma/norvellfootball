@@ -5,7 +5,7 @@ import { RiSecurePaymentLine } from "react-icons/ri";
 import { IoQrCodeOutline } from "react-icons/io5";
 import { FaRegCopy } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
-import { useSearchParams ,useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { AlertContext } from "@/app/helpers/AlertContext";
 import Layout from "@/app/components/Layout";
 import { UserContext } from "@/app/helpers/UserContext";
@@ -18,6 +18,8 @@ function Page() {
   const [amount, setAmount] = useState();
   const [depositAddress, updateDepositAddress] = useState("");
   const router = useRouter();
+  const [disabled, setDisabled] = useState(false);
+
 
   // implementing the function which copies the address value //
   const [text, setText] = useState("");
@@ -57,6 +59,12 @@ function Page() {
   };
 
   async function usdtDetails() {
+    setDisabled(true);
+
+    setTimeout(() => {
+      setDisabled(false);
+    }, 60000); // 1 minute in milliseconds
+
     let depositAddress;
     getAlert();
     if (!transactionId || !text || !amount) {
@@ -143,7 +151,7 @@ function Page() {
               <IoQrCodeOutline className="mr-1  " /> Scan QR code{" "}
             </span>
 
-            <div className="w-[40vw] h-[20vh] border-2 border-black mr-auto ml-auto my-3 ">
+            <div className="w-[40vw] h-[20vh] grid place-items-center mr-auto ml-auto my-3 ">
               <Image
                 src={
                   extraDetails?.QrChannel3
@@ -162,7 +170,7 @@ function Page() {
                 <span className="text-[rgb(0,0,0,0.5)] text-[.65rem] ">
                   Network
                 </span>
-                <button className="border-2 border-[#808080]  py-1 flex place-items-center justify-evenly w-[90%] rounded-md ">
+                <button style={{border:"1px solid #808080"}} className="py-1 flex place-items-center justify-evenly w-[90%] rounded-md ">
                   <IoQrCodeOutline />
                   <p className="text-[rgb(0,0,0,0.5)] text-[.65rem] ">TRC20</p>
                 </button>
@@ -172,7 +180,7 @@ function Page() {
                 <span className="text-[rgb(0,0,0,0.5)] text-[.65rem] ">
                   Coin
                 </span>
-                <button className="border-2 border-[#808080]  py-1 flex place-items-center justify-evenly w-[90%] rounded-md ">
+                <button style={{border:"1px solid #808080"}} className="py-1 flex place-items-center justify-evenly w-[90%] rounded-md ">
                   <IoQrCodeOutline />
                   <p className="text-[rgb(0,0,0,0.5)] text-[.65rem] ">USDT</p>
                 </button>
@@ -182,7 +190,7 @@ function Page() {
 
           <div className="mt-4 ">
             <p className="font-[500] text-[.7rem] ">Deposit Address</p>
-            <div className="flex justify-between bg-transparent border-2 border-[#2885F6] p-2 ">
+            <div className="flex justify-between rounded-lg bg-transparent border-2 border-[#2885F6] p-2 ">
               <input
                 type="text"
                 placeholder="Enter Your Deposit Address"
@@ -200,7 +208,7 @@ function Page() {
 
           <div className="mt-4 ">
             <p className="font-[500] text-[.7rem] ">Transaction Id</p>
-            <div className="flex justify-between bg-transparent border-2 border-[#2885F6] p-2 ">
+            <div className="flex justify-between rounded-lg bg-transparent border-2 border-[#2885F6] p-2 ">
               <input
                 type="text"
                 value={transactionId}
@@ -217,7 +225,7 @@ function Page() {
 
           <div
             onClick={() => usdtDetails()}
-            style={{ boxShadow: "0 0 5px 0 #c0cad9" }}
+            disabled={disabled} style={{ backgroundColor: disabled ? '#5A5A5A' : '#2885F6' ,boxShadow: "0 0 5px 0 #c0cad9" }}
             className="bg-[#2885F6] text-center p-3 mt-4 rounded-lg flex justify-center place-items-center text-[#fff] text-[.7rem] "
           >
             Recharge
@@ -233,6 +241,7 @@ export default Page;
 function RechargeAmount({ getAmount }) {
   const [receivedAmount, setReceivedAmount] = useState("");
   const searchParams = useSearchParams();
+
 
   useEffect(() => {
     let amount = searchParams.get("data");

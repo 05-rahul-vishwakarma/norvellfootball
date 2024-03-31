@@ -32,6 +32,9 @@ function Page() {
   const [isVisible, setVisible] = useState(false);
   const [isHide, setHide] = useState(true);
   const [amount, setAmount] = useState();
+  const [disabled, setDisabled] = useState(false);
+
+
   let router = useRouter();
 
   // immplementing the utr number value
@@ -48,6 +51,11 @@ function Page() {
   };
 
   const submitData = async () => {
+    setDisabled(true);
+
+    setTimeout(() => {
+      setDisabled(false);
+    }, 30000); // 1/2 minute in milliseconds
     getAlert();
     if (!value || !amount) {
       getAlert("opps", "kindly fill the  form completely");
@@ -72,7 +80,7 @@ function Page() {
         res = await res.json();
         if (res?.status === 200) {
           getAlert("success", "your deposit is under verification");
-          router.push('/')
+          router.push("/");
         } else if (res?.status === 500 || res?.status === 302) {
           getAlert("redirect", "something went wrong login again");
         } else {
@@ -252,9 +260,9 @@ function Page() {
 
           <div
             style={{ boxShadow: "0 0 5px 0 #c0cad9" }}
-            className="bg-[white] mt-4 flex place-items-center border-2 border-[#2885F6] "
+            className="bg-[white] mt-4 flex place-items-center border-2 rounded-lg border-[#2885F6] "
           >
-            <p className="w-[20%] text-center bg-[#2885F6] text-white py-2  text-[.8rem] font-semibold focus-wit  ">
+            <p className="w-[20%] rounded-l-sm text-center bg-[#2885F6] text-white py-2  text-[.8rem] font-semibold focus-wit  ">
               UTR
             </p>
             <input
@@ -262,23 +270,17 @@ function Page() {
               value={value}
               onChange={handleChange}
               placeholder="Enter the utr number"
-              className="w-[80%] outline-none  bg-[white] pl-3 text-[.7rem] "
+              className="w-[80%] outline-none  bg-[white] pl-3 text-[.7rem] rounded-lg "
             />
           </div>
 
           <div
             onClick={() => submitData()}
-            style={{ boxShadow: "0 0 5px 0 #c0cad9" }}
-            className="bg-[#9fa8b8] text-center p-3 mt-4 flex justify-center items-center text-white  text-[.7rem] "
+            disabled={disabled}
+            style={{ backgroundColor: disabled ? "#5A5A5A" : "#2888f6" , boxShadow: "0 0 5px 0 #c0cad9"  }}
+            className="bg-[#2888f6] rounded-lg text-center p-3 mt-4 flex justify-center items-center text-white  text-[.7rem] "
           >
             pay
-          </div>
-
-          <div
-            style={{ boxShadow: "0 0 5px 0 #c0cad9" }}
-            className="bg-white text-center p-3 mt-4 flex justify-center place-items-center text-[#9fa8b8]  text-[.7rem] "
-          >
-            Payment Failed
           </div>
         </div>
       </div>

@@ -16,6 +16,7 @@ function page() {
   const [loading, setLoading] = useState(true);
   const { getAlert } = useContext(AlertContext);
   const [amount, setAmount] = useState();
+  const [disabled, setDisabled] = useState(false);
   let router = useRouter();
 
   async function getExtraDetails() {
@@ -52,6 +53,12 @@ function page() {
   }, []);
 
   async function rechargebtn() {
+    setDisabled(true);
+
+    setTimeout(() => {
+      setDisabled(false);
+    }, 30000); 
+
     if (!amount || !value) {
       getAlert("opps", "kindly fill the  form completely");
     } else {
@@ -212,7 +219,7 @@ function page() {
 
           <div
             onClick={() => rechargebtn()}
-            style={{ boxShadow: "0 0 5px 0 #c0cad9" }}
+            disabled={disabled} style={{ backgroundColor: disabled ? '#5A5A5A' : '#2885F6',boxShadow: "0 0 5px 0 #c0cad9"  }}
             className="bg-[#2885F6] text-center p-3 mt-2 rounded-lg flex justify-center place-items-center text-[#fff] "
           >
             Recharge

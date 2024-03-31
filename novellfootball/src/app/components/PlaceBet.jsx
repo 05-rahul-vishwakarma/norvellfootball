@@ -85,6 +85,7 @@ const PlaceBet = ({ data, togglePopup }) => {
       if (res?.status === 200) {
         getAlert("success", res.message);
         await getBalance();
+        router.push('/stake')
       } else if (res?.status === 302) {
         getAlert("opps", res.message);
         router.push("/access/login");
@@ -356,7 +357,7 @@ function ScoreCards({
                 await placeBet(percent, cardDetails?.score, betAmount);
                 updateLoading(false);
               }}
-              className="py-2 px-2 w-[70%] bg-blue-600 font-bold text-sm text-white rounded-md capitalize"
+              className="py-2 px-2 w-[70%] bg-[#2885F6] font-bold text-sm text-white rounded-md capitalize"
             >
               confirm
             </button>

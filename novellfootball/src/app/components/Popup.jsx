@@ -3,9 +3,9 @@ import BackButton from "./BackButton";
 import Image from "next/image";
 import Link from "next/link";
 
-function Popup({ image, condtions, onClick, cancel}) {
-console.log(onClick)
-  
+function Popup({ image, condtions, onClick, cancel , disabled , Style}) {
+ 
+  console.log(disabled,Style)
   
   function PopUpDlt() {
     onClick();
@@ -40,7 +40,8 @@ console.log(onClick)
         <div
           // href="/matches"
           onClick={PopUpDlt}
-          style={{ boxShadow: "0 0 5px 0 #c0cad9" }}
+          disabled={disabled}
+          style={{boxShadow: "0 0 5px 0 #c0cad9",background:Style.backgroundColor}}
           className="bg-[#2885F6] text-center p-3 mt-4 rounded-lg flex justify-center place-items-center text-[#fff] w-[90%] mr-auto ml-auto  "
         >
           Done

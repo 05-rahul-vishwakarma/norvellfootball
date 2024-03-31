@@ -14,7 +14,7 @@ function Page() {
   let { extraDetails, getExtraDetails } = useContext(UserContext);
   let router = useRouter();
 
-
+  const [disabled, setDisabled] = useState(false);
   const [amount, setAmount] = useState();
   const [upiId, updateUpi] = useState([]);
   // implementing the copy buttoon
@@ -35,6 +35,11 @@ function Page() {
 
   // post request from the front-end
   async function submitDeposit() {
+    setDisabled(true);
+
+    setTimeout(() => {
+      setDisabled(false);
+    }, 30000); // 1/2 minute in milliseconds
     getAlert();
     try {
       if (value == "" || amount == "") {
@@ -190,6 +195,7 @@ function Page() {
 
               <button
                 onClick={() => submitDeposit()}
+                disabled={disabled} style={{ backgroundColor: disabled ? '#5A5A5A' : '#2885F6' }}
                 className="bg-[#2885F6] text-white  w-[23%]  text-[.65rem] "
               >
                 Submit

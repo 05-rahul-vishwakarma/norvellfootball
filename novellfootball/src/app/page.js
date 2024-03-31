@@ -22,7 +22,6 @@ export default function Home() {
   const [matches, updateMatches] = useState([]);
   const [matchLoaded, updateLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
-
   // states for access current data and popup handling //
   const [selectedMatch, setSelectedMatch] = useState(null);
   const [popupVisible, setPopupVisible] = useState(false);
@@ -44,7 +43,7 @@ export default function Home() {
       res = await res.json();
       if (res?.status === 200) {
         updateMatches(res?.data?.matches);
-        setLoading(false); // Set loading to false when data is fetched
+        // setLoading(false); // Set loading to false when data is fetched
       } else {
         throw new Error("Somethign went wrong");
       }
@@ -218,7 +217,7 @@ export default function Home() {
 
 function MatchPopup({ match, onClose }) {
   const router = useRouter();
-
+  const [disabled, setDisabled] = useState(false);
   const { getAlert } = useContext(AlertContext);
   const { userBalance, getBalance } = useContext(UserContext);
   const [Team_a_logo, updateSrcTeam_a] = useState();
@@ -228,6 +227,11 @@ function MatchPopup({ match, onClose }) {
   // placeBet function //
 
   async function placeBet(Percentage, Score_a, Score_b, BetAmount) {
+    setDisabled(true);
+
+    setTimeout(() => {
+      setDisabled(false);
+    }, 30000); // 1/2 minute in milliseconds
     getAlert();
     try {
       // let [Score_a, Score_b] = score.split("-");
@@ -251,6 +255,7 @@ function MatchPopup({ match, onClose }) {
       if (res?.status === 200) {
         getAlert("success", res.message);
         await getBalance();
+        router.push('/stake')
       } else if (res?.status === 500 || res?.status === 302) {
         getAlert("Opps", res.message);
       } else {
@@ -369,6 +374,8 @@ function MatchPopup({ match, onClose }) {
             Balance={userBalance}
             Score_a={match.Score_a}
             Score_b={match.Score_b}
+            disabled={disabled}
+            style={{ backgroundColor: disabled ? "gray" : "blue" }}
           />
         </div>
       </motion.div>
@@ -376,7 +383,9 @@ function MatchPopup({ match, onClose }) {
   );
 }
 
-function ScoreCards({ placeBet, percent, Balance, Score_a, Score_b }) {
+function ScoreCards({ placeBet, percent, Balance, Score_a, Score_b , disabled ,style }) {
+  console.log(style)
+  console.log(disabled);
   const [estimatedIncome, updateEstimated] = useState(0);
   const [betAmount, updateBetAmount] = useState(0);
 
@@ -507,7 +516,8 @@ function ScoreCards({ placeBet, percent, Balance, Score_a, Score_b }) {
           </button>
           <button
             onClick={() => placeBet(percent, Score_a, Score_b, betAmount)}
-            className="py-2 px-2 w-[70%] bg-blue-600 font-bold text-sm text-white rounded-md capitalize"
+            disabled={disabled} style={{ backgroundColor: disabled ? '#5A5A5A' : '#2885F6' }}
+            className="py-2 px-2 w-[70%] bg-[#2885F6] font-bold text-sm text-white rounded-md capitalize"
           >
             confirm
           </button>

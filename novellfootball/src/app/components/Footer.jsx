@@ -99,7 +99,7 @@ function SecondFooter() {
             className="flex place-items-center  w-full justify-center h-full "
           >
             <Image
-              src={home ? "/homeTwo.svg" : "/home.svg"}
+              src={home ? "/homeOpen.svg" : "/homeClose.svg"}
               alt="home"
               width={28}
               height={28}

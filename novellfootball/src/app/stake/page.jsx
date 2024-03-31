@@ -51,6 +51,7 @@ function Page() {
   const [amounts, setAmounts] = useState();
   const [loading, setLoading] = useState(true);
   const { getAlert, getBalance } = useContext(UserContext);
+  const [disabled, setDisabled] = useState(false);
 
   let router = useRouter();
   function stakeAmount() {
@@ -68,8 +69,12 @@ function Page() {
   };
 
   const backBtn = async () => {
+    setDisabled(true);
+
+    setTimeout(() => {
+      setDisabled(false);
+    }, 60000); 
     try {
-      getAlert();
       let StakeId = isDltMatch.StakeId;
       let StartTime = isDltMatch.StartsAt;
 
@@ -90,7 +95,7 @@ function Page() {
       alert(JSON.stringify(res));
       getStakeData();
       setShow(false);
-      router.push('/matches')
+      router.push("/matches");
     } catch (error) {
       console.log(error);
     }
@@ -185,7 +190,7 @@ function Page() {
                   key={match?.StakeId || idx}
                   data={match}
                   amount={match?.BetAmount}
-                  onClick={() => showPopup(match) }
+                  onClick={() => showPopup(match)}
                 />
               ))}
               {pendingMatches?.length <= 0 && (
@@ -227,7 +232,9 @@ function Page() {
             image="/cancel.svg"
             condtions="Cancelled Success!"
             onClick={() => backBtn()}
-            cancel ={()=> cancel()}
+            cancel={() => cancel()}
+            disabled={disabled}
+            Style={{ backgroundColor: disabled ? "#5A5A5A" : "#2885F6" }}
           />
         </motion.div>
       </div>
@@ -243,6 +250,7 @@ function Stake({ onClick, data }) {
   const [MatchStartTime, updateTime] = useState(new Date());
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
   const [showCancelButton, setShowCancelButton] = useState(false);
+  const [disabled, setDisabled] = useState(false);
 
   useEffect(() => {
     const MatchTime = new Date(
@@ -284,6 +292,14 @@ function Stake({ onClick, data }) {
   }, [timeLeft]);
 
   // ------------------------------------------------------------------------------------
+  const btnControl = () => {
+    setDisabled(true);
+
+    setTimeout(() => {
+      setDisabled(false);
+    }, 60000); // 1 minute in milliseconds
+    onClick();
+  };
 
   return (
     <div className="border-2 mb-2 border-gray-[#e2dbd3] min-h-min w-[90%] mr-auto ml-auto rounded-[15px] mt-[.5rem] bg-[#fbf3eb] shadow-sm relative pb-4 ">
@@ -403,7 +419,9 @@ function Stake({ onClick, data }) {
 
       {showCancelButton && (
         <button
-          onClick={() => onClick()}
+          onClick={() => btnControl()}
+          disabled={disabled}
+          style={{ backgroundColor: disabled ? "#5A5A5A" : "#2885f6" }}
           className=" bg-[#2885f6]  w-[85%] h-[2.5rem] mr-auto ml-auto block  mt-[1rem] rounded-[5px] font-bold text-white  text-[0.8rem] "
         >
           Cancel Stake
