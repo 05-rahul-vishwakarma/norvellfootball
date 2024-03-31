@@ -40,7 +40,7 @@ function Loading() {
               <stop offset="1" stopColor="#f1eefb" />
             </radialGradient>
           </defs>
-          <circle id="fillDot" cx="400" cy="300" fill="#6334fb" r="100" />
+          <circle id="fillDot" cx="400" cy="300" fill="#2885F6" r="100" />
           <circle
             id="gradDot"
             cx="400"
