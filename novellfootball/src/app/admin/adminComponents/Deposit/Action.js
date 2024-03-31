@@ -49,10 +49,10 @@ export async function updateTransaction(prevState, formData) {
 }
 
 async function settleDeposit(data) {
-  await connect();
   let Session = await mongoose.startSession();
   Session.startTransaction();
   try {
+    await connect();
     //  if first deposit give 2% reward to the parent;
     let isFirstDeposit = await USER.findOne({ UserName: data?.UserName });
     if (!isFirstDeposit) {
@@ -100,6 +100,7 @@ async function settleDeposit(data) {
           $inc: {
             Balance: data?.Amount + data?.Amount * 0.05,
             Deposited: data?.Amount,
+            ValidDeposit: data?.Amount,
           },
           FirstDeposit: false,
         },
@@ -128,6 +129,7 @@ async function settleDeposit(data) {
           $inc: {
             Balance: data?.Amount,
             Deposited: data?.Amount,
+            ValidDeposit: data?.Amount,
           },
         },
         { session: Session }

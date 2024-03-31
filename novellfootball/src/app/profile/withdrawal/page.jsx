@@ -22,9 +22,9 @@ import Loading from "@/app/components/Loading";
 import { useEffect } from "react";
 
 function Page() {
-  const [getVerification, updateGetVerif] = useState(false);
+  const [getVerification, updateGetVerif] = useState(true);
   const [verifPhone, updateVerificationMethod] = useState(true);
-  const { userBalance, userOtherData } = useContext(UserContext);
+  const { userBalance, userOtherData, getBalance } = useContext(UserContext);
   const [editBank, updateEditBank] = useState(false);
   const [isVerified, setVerified] = useState(false);
   const [otpSent, updateOtpSent] = useState(false);
@@ -62,7 +62,6 @@ function Page() {
       if (res?.status === 200) {
         updateOtpSent(true);
         getAlert("success", res?.message || "Success");
-        alert(res?.message);
       } else if (res?.status === 302) {
         getAlert("redirect", res?.message || "session time out");
       } else {
@@ -98,6 +97,14 @@ function Page() {
         getAlert("opps", "Please verify first");
         return;
       }
+      let isValidTime = await validateTime();
+      if (!isValidTime) {
+        getAlert(
+          "opps",
+          "you can withdraw from 10:00 AM to 17:00 PM UTC on working days i.e Monday to Saturday."
+        );
+        return;
+      }
       let config = {
         method: "POST",
         header: {
@@ -126,6 +133,15 @@ function Page() {
       setLoading(false);
     }, 1000);
   });
+
+  useEffect(() => {
+    if (!userBalance && !userOtherData?.UserName) {
+      getBalance();
+    } else {
+      // update the verifPhone to tru if not international;
+      updateVerificationMethod(!userOtherData?.International);
+    }
+  }, [userBalance, userOtherData]);
 
   return (
     <Layout>
@@ -588,6 +604,10 @@ function Page() {
             verify={verify}
             otp={otp}
             setOtp={setOtp}
+            otpSentTo={
+              verifPhone ? userOtherData?.PhoneNumber : userOtherData?.EmailId
+            }
+            isPhoneVerified={verifPhone}
             toggleVerification={updateGetVerif}
           />
         )}
@@ -611,11 +631,13 @@ export default Page;
 function VerificationPopup({
   getBankEdit,
   verify,
+  isPhoneVerified,
   otp,
+  otpSentTo,
   setOtp,
   toggleVerification,
 }) {
-  const [phone, updateVerificationMethod] = useState(true);
+  // const [phone, updateVerificationMethod] = useState(true);
   async function editBank() {
     try {
       getAlert();
@@ -662,8 +684,8 @@ function VerificationPopup({
                 <input
                   type="radio"
                   name="verification"
-                  onChange={() => updateVerificationMethod((prev) => !prev)}
-                  checked={phone}
+                  onChange={() => updateVerificationMethod((prev) => prev)}
+                  checked={isPhoneVerified}
                   value={"phone"}
                   className="size-5"
                   id=""
@@ -679,8 +701,8 @@ function VerificationPopup({
                 <input
                   type="radio"
                   name="verification"
-                  onChange={() => updateVerificationMethod((prev) => !prev)}
-                  checked={!phone}
+                  onChange={() => updateVerificationMethod((prev) => prev)}
+                  checked={!isPhoneVerified}
                   value={"email"}
                   className="size-5"
                   id=""
@@ -692,7 +714,11 @@ function VerificationPopup({
             <span className="uppercase font-regular text-gray-500 text-[0.6rem]">
               Enter the otp you received on
             </span>
-            <span className="uppercase font-bold text-xs">+91******9182</span>
+            <span className="uppercase font-bold text-xs">
+              {isPhoneVerified
+                ? `+91 ${otpSentTo.slice(0, 3)}*****${otpSentTo.slice(-3)}`
+                : `${otpSentTo.slice(0, 3)}*****${otpSentTo.slice(-10)}`}
+            </span>
           </div>
           <div className="flex space-x-2 flex-row items-center justify-between mx-auto w-3/4 max-w-xs">
             <OtpInputs otp={otp} setOtp={setOtp} />
@@ -723,4 +749,17 @@ function VerificationPopup({
       </div>
     </div>
   );
+}
+
+async function validateTime() {
+  const currentDate = new Date();
+  const currentDay = currentDate.getDay(); // Sunday is 0, Monday is 1, ..., Saturday is 6
+  const currentHour = currentDate.getHours();
+
+  // Check if it's Sunday or outside the working hours (10 am to 5 pm)
+  if (currentDay === 0 || currentHour < 10 || currentHour >= 17) {
+    return false;
+  }
+
+  return true;
 }

@@ -24,7 +24,8 @@ function Page() {
   const [transactionData, updateTransaction] = useState([]);
   const [getRecord, updateRecord] = useState(false);
   const dataBox = useRef();
-  const [childrens, updateChildrens] = useState(null);
+  const noData = useRef();
+  const [childrens, updateChildrens] = useState(2);
   const { getAlert } = useContext(AlertContext);
 
   async function getTransactionData() {
@@ -62,8 +63,13 @@ function Page() {
     }
   }
   useEffect(() => {
-    updateChildrens(dataBox?.current?.children?.length);
-  }, [dataBox?.current?.children, swipe]);
+    if (dataBox?.current && noData?.current) {
+      let toExclue = noData?.current;
+      let childrens = Array.from(dataBox?.current?.children);
+      const filteredList = childrens.filter((child) => child !== toExclue);
+      updateChildrens(filteredList?.length);
+    }
+  }, [swipe, dataBox?.current, transactionData]);
 
   useEffect(() => {
     if (userOtherData?.VipLevel) {
@@ -473,6 +479,7 @@ function Page() {
                       details={{
                         "transaction id": item?.TransactionId,
                         "recharge method": item?.Method,
+                        remark: item?.Remark,
                       }}
                       cardDetails={item}
                     />
@@ -513,14 +520,15 @@ function Page() {
                 }
                 // <RecordAccordians key={idx} idx={idx} cardDetails={item} />;
               })}
-              {childrens <= 1 && (
-                <p
-                  style={{
-                    height: "20rem",
-                    background: "url(/noData.svg) center no-repeat",
-                  }}
-                ></p>
-              )}
+
+              <p
+                ref={noData}
+                hidden={!(childrens <= 0)}
+                style={{
+                  height: "20rem",
+                  background: "url(/noData.svg) center no-repeat",
+                }}
+              ></p>
             </section>
           </div>
         )}

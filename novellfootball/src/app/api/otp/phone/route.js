@@ -8,9 +8,9 @@ import { cookies } from "next/headers";
 import { connect } from "@/app/modals/dbConfig";
 
 export async function GET(request) {
-  await connect();
   let { token, session } = await getCookieData();
   try {
+    await connect();
     let UserName = await isValidUser(token, session);
     if (!UserName)
       return NextResponse.json({
@@ -47,8 +47,8 @@ export async function GET(request) {
 }
 
 export async function POST(request) {
-  await connect();
   try {
+    await connect();
     let { Phone } = await request.json();
     let phoneNumber = Phone || "";
     phoneNumber = phoneNumber.slice(2);
@@ -75,8 +75,8 @@ export async function POST(request) {
 }
 
 export async function PUT(request) {
-  await connect();
   try {
+    await connect();
     let { UserName } = await request.json();
     UserName = UserName?.trim();
 

@@ -25,7 +25,6 @@ const itemVariant = {
   visible: { opacity: 1, y: 0 },
 };
 const Login = () => {
-  const router = useRouter();
   const { getAlert, isActive } = useContext(AlertContext);
 
   const [credentials, updateCredentials] = useState({
@@ -50,7 +49,7 @@ const Login = () => {
     res = await res.json();
     if (res?.status === 200) {
       getAlert("success", "login successfull");
-      router.push("/");
+      window.location.href = window.location.origin;
     } else {
       getAlert("opps", res?.message || "something went wrong");
     }

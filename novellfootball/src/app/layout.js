@@ -25,6 +25,10 @@ export default function RootLayout({ children }) {
         <UserContextProvider>
           <AlertContextProvider>{children}</AlertContextProvider>
         </UserContextProvider>
+        <script
+          src="//code.tidio.co/vxwslfiqavslfshkzjnnixbjimwewctv.js"
+          async
+        ></script>
       </body>
     </html>
   );

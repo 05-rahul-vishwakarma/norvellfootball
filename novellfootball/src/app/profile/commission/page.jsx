@@ -77,7 +77,7 @@ const Page = () => {
               for (let commission of commissionObj[key]) {
                 todayCommission += Number(commission.Commission) / 100;
               }
-              weeklyCommission.push(todayCommission);
+              weeklyCommission.unshift(todayCommission);
               if (key !== date) {
                 overall_obj.push(...commissionObj[key]);
               }
@@ -161,10 +161,13 @@ const Page = () => {
   }
 
   useEffect(() => {
-    getCommissionData();
-    getRegisterData();
-    getTransactionData();
-  }, []);
+    if (!loadedOnce) {
+      getCommissionData();
+      getRegisterData();
+      getTransactionData();
+      updateLoaded(true);
+    }
+  }, [RegisterData, TransactionData, commissionData]);
 
   return (
     <Layout>
@@ -291,10 +294,9 @@ const Page = () => {
                       <FaRupeeSign />
                     </h2>
                     <h2>
-                      {weekCommission.reduce(
-                        (acc, currentVal) => acc + currentVal,
-                        ""
-                      )}
+                      {(weekCommission || [0])?.reduce((acc, currentVal) => {
+                        return acc + currentVal;
+                      }, 0)}
                     </h2>
                   </div>
                   <div

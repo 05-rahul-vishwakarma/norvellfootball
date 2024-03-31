@@ -40,7 +40,6 @@ function VerificationPopup({
   setVerified,
 }) {
   // -------------------------------- popup handling --------------------------
-  const { getAlert, closeAlert } = useContext(AlertContext);
 
   // have to create a funciton that will change the tab index on each click;
   const [otp, setOtp] = useState(new Array(4).fill(""));
@@ -165,7 +164,7 @@ const Signup = () => {
     let config = {
       method: "PUT",
       contentType: "application/json",
-      body: JSON.stringify({ ...credentials }),
+      body: JSON.stringify({ ...credentials, isInternational }),
     };
     let res = await fetch("/api/access", config);
     res = await res.json();

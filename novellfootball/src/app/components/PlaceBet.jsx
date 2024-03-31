@@ -5,7 +5,7 @@ const BACKEND = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 import { easeInOut, motion } from "framer-motion";
 import Image from "next/image";
-import { useState, useEffect, useContext  } from "react";
+import { useState, useEffect, useContext } from "react";
 import { IoIosAdd } from "react-icons/io";
 import { FaRupeeSign } from "react-icons/fa";
 import { useRouter } from "next/navigation";
@@ -85,7 +85,7 @@ const PlaceBet = ({ data, togglePopup }) => {
       if (res?.status === 200) {
         getAlert("success", res.message);
         await getBalance();
-        router.push('/stake')
+        router.push("/stake");
       } else if (res?.status === 302) {
         getAlert("opps", res.message);
         router.push("/access/login");
@@ -357,7 +357,7 @@ function ScoreCards({
                 await placeBet(percent, cardDetails?.score, betAmount);
                 updateLoading(false);
               }}
-              className="py-2 px-2 w-[70%] bg-[#2885F6] font-bold text-sm text-white rounded-md capitalize"
+              className="py-2 px-2 w-[70%] disabled:bg-[#5A5A5A] bg-[#2885F6] font-bold text-sm text-white rounded-md capitalize"
             >
               confirm
             </button>

@@ -255,7 +255,7 @@ function MatchPopup({ match, onClose }) {
       if (res?.status === 200) {
         getAlert("success", res.message);
         await getBalance();
-        router.push('/stake')
+        router.push("/stake");
       } else if (res?.status === 500 || res?.status === 302) {
         getAlert("Opps", res.message);
       } else {
@@ -383,9 +383,15 @@ function MatchPopup({ match, onClose }) {
   );
 }
 
-function ScoreCards({ placeBet, percent, Balance, Score_a, Score_b , disabled ,style }) {
-  console.log(style)
-  console.log(disabled);
+function ScoreCards({
+  placeBet,
+  percent,
+  Balance,
+  Score_a,
+  Score_b,
+  disabled,
+  style,
+}) {
   const [estimatedIncome, updateEstimated] = useState(0);
   const [betAmount, updateBetAmount] = useState(0);
 
@@ -516,7 +522,8 @@ function ScoreCards({ placeBet, percent, Balance, Score_a, Score_b , disabled ,s
           </button>
           <button
             onClick={() => placeBet(percent, Score_a, Score_b, betAmount)}
-            disabled={disabled} style={{ backgroundColor: disabled ? '#5A5A5A' : '#2885F6' }}
+            disabled={disabled}
+            style={{ backgroundColor: disabled ? "#5A5A5A" : "#2885F6" }}
             className="py-2 px-2 w-[70%] bg-[#2885F6] font-bold text-sm text-white rounded-md capitalize"
           >
             confirm

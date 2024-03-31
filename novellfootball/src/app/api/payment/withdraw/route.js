@@ -29,7 +29,14 @@ export async function POST(request) {
 
     let body = await request.json();
     let { Amount } = body;
-    if (!Amount) Amount = Number(Amount);
+    if (!(await validateTime()))
+      throw new CustomError(
+        705,
+        "you can withdraw from 10:00 AM to 17:00 PM UTC on working days i.e Monday to Saturday.",
+        {}
+      );
+    if (!Amount) throw new CustomError(705, "Enter a valid amount", {});
+    Amount = Number(Amount);
     if (!(await vipVerified(UserName, body?.Amount)))
       throw new CustomError(705, "Your vip level is low", {});
     if (!Amount) throw new CustomError(705, "Missing Fields", {});
@@ -166,4 +173,17 @@ async function getCookieData() {
       resolve(cookieData);
     }, 1000)
   );
+}
+
+async function validateTime() {
+  const currentDate = new Date();
+  const currentDay = currentDate.getDay(); // Sunday is 0, Monday is 1, ..., Saturday is 6
+  const currentHour = currentDate.getHours();
+
+  // Check if it's Sunday or outside the working hours (10 am to 5 pm)
+  if (currentDay === 0 || currentHour < 10 || currentHour >= 17) {
+    return false;
+  }
+
+  return true;
 }

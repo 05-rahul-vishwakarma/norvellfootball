@@ -32,6 +32,21 @@ export async function POST(request) {
       if (!AccHolderName || !BankName || !AccNumber || !Ifsc || !BankName)
         throw new CustomError(705, "Missing Fields", {});
 
+      let detailsExists = await USER.findOne({
+        LocalBank: {
+          AccHolderName,
+          BankName,
+          AccNumber,
+          Ifsc,
+          BranchName,
+        },
+      });
+      if (detailsExists)
+        throw new CustomError(
+          705,
+          "bank details already registered with another user",
+          {}
+        );
       let isLocalBankAdded = await USER.findOneAndUpdate(
         { UserName, LocalBankAdded: false },
         {
@@ -56,7 +71,18 @@ export async function POST(request) {
       let { UsdtAddress, AppName } = body;
       if (!UsdtAddress || !AppName)
         throw new CustomError(705, "Field missing", {});
-
+      let isUsdtExists = await USER.findOne({
+        UsdtBank: {
+          UsdtAddress,
+          AppName,
+        },
+      });
+      if (isUsdtExists)
+        throw new CustomError(
+          705,
+          "bank details already registered with another user",
+          {}
+        );
       let isUsdtBankAdded = await USER.findOneAndUpdate(
         { UserName, UsdtBankAdded: false },
         {
