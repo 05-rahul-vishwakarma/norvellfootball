@@ -716,8 +716,8 @@ function VerificationPopup({
             </span>
             <span className="uppercase font-bold text-xs">
               {isPhoneVerified
-                ? `+91 ${otpSentTo.slice(0, 3)}*****${otpSentTo.slice(-3)}`
-                : `${otpSentTo.slice(0, 3)}*****${otpSentTo.slice(-10)}`}
+                ? `+91 ${otpSentTo?.slice(0, 3)}*****${otpSentTo?.slice(-3)}`
+                : `${otpSentTo?.slice(0, 3)}*****${otpSentTo?.slice(-10)}`}
             </span>
           </div>
           <div className="flex space-x-2 flex-row items-center justify-between mx-auto w-3/4 max-w-xs">
