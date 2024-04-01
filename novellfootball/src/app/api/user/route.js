@@ -25,9 +25,6 @@ export async function GET(req) {
       data: { Balance: Number(res?.Balance) / 100, Other: res },
     });
   } catch (error) {
-    if (error?.code === 500 || error?.status === 500 || !error?.status) {
-      ErrorReport(error);
-    }
     return NextResponse.json({
       status: error?.status || error?.code || 500,
       message: error,

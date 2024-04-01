@@ -9,11 +9,12 @@ const OlarkChat = () => {
   useEffect(() => {
     // if (!window.olark) {
     // Ensure Olark is not already loaded
-    const script = document.createElement("script");
-    script.async = true;
-    script.src = "//code.tidio.co/vxwslfiqavslfshkzjnnixbjimwewctv.js";
-    document.body.appendChild(script);
-
+    if (!document.querySelector("#tidio-chat")) {
+      const script = document.createElement("script");
+      script.async = true;
+      script.src = "//code.tidio.co/vxwslfiqavslfshkzjnnixbjimwewctv.js";
+      document.body.appendChild(script);
+    }
     // }
     return () => {
       document.querySelector("#tidio-chat")?.remove();

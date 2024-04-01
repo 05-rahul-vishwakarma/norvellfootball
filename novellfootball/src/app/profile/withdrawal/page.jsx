@@ -22,7 +22,7 @@ import Loading from "@/app/components/Loading";
 import { useEffect } from "react";
 
 function Page() {
-  const [getVerification, updateGetVerif] = useState(true);
+  const [getVerification, updateGetVerif] = useState(false);
   const [verifPhone, updateVerificationMethod] = useState(true);
   const { userBalance, userOtherData, getBalance } = useContext(UserContext);
   const [editBank, updateEditBank] = useState(false);

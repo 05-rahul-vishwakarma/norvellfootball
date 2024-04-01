@@ -11,6 +11,7 @@ import Layout from "../components/Layout";
 import { UserContext } from "../helpers/UserContext";
 import Loading from "../components/Loading";
 import { AlertContext } from "../helpers/AlertContext";
+import { IoGameControllerOutline } from "react-icons/io5";
 
 function Page() {
   const router = useRouter();
@@ -237,17 +238,17 @@ function Page() {
 
         <div
           style={{ boxShadow: "0px -1px 20px 4px #dddee5" }}
-          className="h-[55%]  shadow-gray-900 rounded-t-[1.5rem]"
+          className="h-[60%]  shadow-gray-900 rounded-t-[1.5rem]"
         >
           <div className="w-full  flex justify-center items-center py-4">
             <h2 className="py-0.5 w-[20%] bg-blue-500 rounded-full"></h2>
           </div>
 
-          <div className="h-full overflow-y-scroll pb-[15rem] px-4">
+          <div className="h-full space-y-2.5 overflow-y-scroll pb-[15rem] px-4">
             <div
               onClick={() => router.push("/profile/commission")}
               style={{ boxShadow: "0px 2px 8px 1px rgb(0,0,0,0.1) " }}
-              className="flex mt-2 items-center py-2  rounded-[19px]  px-2 bg-[#fff] "
+              className="flex  items-center py-2  rounded-[19px]  px-2 bg-[#fff] "
             >
               <div className="h-full w-full flex justify-center items-center flex-[1]">
                 <svg
@@ -275,7 +276,7 @@ function Page() {
             <div
               onClick={() => router.push("/profile/withdrawal")}
               style={{ boxShadow: "0px 2px 8px 1px rgb(0,0,0,0.1) " }}
-              className="flex mt-2 items-center py-2  rounded-[19px]  px-2 bg-[#fff] "
+              className="flex  items-center py-2  rounded-[19px]  px-2 bg-[#fff] "
             >
               <div className="h-full w-full flex justify-center items-center flex-[1]">
                 <svg
@@ -306,7 +307,7 @@ function Page() {
             <div
               onClick={() => router.push("/profile/editpassword")}
               style={{ boxShadow: "0px 2px 8px 1px rgb(0,0,0,0.1) " }}
-              className="flex mt-2 items-center py-2  rounded-[19px] bg-[#fff]  px-2"
+              className="flex  items-center py-2  rounded-[19px] bg-[#fff]  px-2"
             >
               <div className="h-full w-full flex justify-center items-center flex-[1]">
                 <svg
@@ -333,11 +334,26 @@ function Page() {
                 <LiaAngleRightSolid />
               </div>
             </div>
+            <div
+              onClick={() => router.push("/luckyDraw")}
+              style={{ boxShadow: "0px 2px 8px 1px rgb(0,0,0,0.1) " }}
+              className="flex  items-center py-2  rounded-[19px] bg-[#fff]  px-2"
+            >
+              <div className="h-full w-full flex justify-center items-center flex-[1]">
+                <IoGameControllerOutline size={24} />
+              </div>
+              <div className="h-full w-full flex-[4] capitalize font-bold text-[0.75rem]">
+                lucky draw
+              </div>
+              <div className="h-full w-full flex justify-center items-center flex-[1]">
+                <LiaAngleRightSolid />
+              </div>
+            </div>
 
             <div
               onClick={() => router.push("/profile/help")}
               style={{ boxShadow: "0px 2px 8px 1px rgb(0,0,0,0.1) " }}
-              className="flex mt-2 items-center py-2  rounded-[19px] bg-[#fff] px-2"
+              className="flex  items-center py-2  rounded-[19px] bg-[#fff] px-2"
             >
               <div className="h-full w-full flex justify-center items-center flex-[1]">
                 <svg
@@ -363,7 +379,7 @@ function Page() {
 
             <div
               style={{ boxShadow: "0px 2px 8px 1px rgb(0,0,0,0.1) " }}
-              className="flex mt-2 items-center py-3  rounded-[19px] bg-[#fff]  px-2"
+              className="flex  items-center py-3  rounded-[19px] bg-[#fff]  px-2"
             >
               <div className="h-full w-full flex justify-center items-center flex-[1]">
                 <svg
@@ -400,7 +416,7 @@ function Page() {
             <div
               onClick={logout}
               style={{ boxShadow: "0px 2px 8px 1px rgb(0,0,0,0.1) " }}
-              className="flex mt-2 items-center py-2  rounded-[19px] bg-[#fff] px-2 text-red-600 "
+              className="flex  items-center py-2  rounded-[19px] bg-[#fff] px-2 text-red-600 "
             >
               <div className="h-full w-full flex justify-center items-center flex-[1]">
                 <IoMdLogOut className="text-red-500 text-[1.7rem] " />
