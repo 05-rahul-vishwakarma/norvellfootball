@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 import Image from "next/image";
-import teamlogo from "../../../public/logo.png";
 
 function StakeHistory({ bgColor, result, resultbg, data }) {
   const [MatchStartTime, updateTime] = useState(new Date());
@@ -36,8 +35,8 @@ function StakeHistory({ bgColor, result, resultbg, data }) {
 
       <div className=" flex justify-between place-items-center w-[95%] mr-auto ml-auto ">
         <div className="w-[35%]  flex flex-col place-items-center   ">
-          <div className="border-2 h-[40px] w-[40px] rounded-[100%] ">
-            <Image src={teamlogo} alt="teamlogo" width={150} height={150} />
+          <div className=" h-[40px] w-[40px] rounded-[100%] ">
+            <Image src={Team_a_logo} alt="teamlogo" width={150} height={150} />
           </div>
           <p className=" text-xs leading-3  line-clamp-2 flex-[2]  font-bold capitalize w-[95%] text-center overflow-ellipsis break-words ">
             {data?.Team_a || "no team available"}
@@ -65,11 +64,17 @@ function StakeHistory({ bgColor, result, resultbg, data }) {
         </div>
 
         <div className="w-[35%]  flex flex-col place-items-center   ">
-          <div className="border-2 h-[40px] w-[40px] rounded-[100%] ">
-            <Image src={teamlogo} alt="teamlogo" width={150} height={150} />
+          <div className=" h-[40px] w-[40px] rounded-[100%] ">
+            <Image
+              src={Team_b_logo}
+              alt="teamlogo"
+              width={150}
+              height={150}
+              className="object-contain "
+            />
           </div>
           <p className=" text-xs leading-3  line-clamp-2 flex-[2]  font-bold capitalize w-[95%] text-center overflow-ellipsis break-words ">
-            {data?.Team_a || "no team available"}
+            {data?.Team_b || "no team available"}
           </p>
         </div>
       </div>
@@ -83,7 +88,20 @@ function StakeHistory({ bgColor, result, resultbg, data }) {
         >
           <p className="">Stake ID : {data?.StakeId}</p>
           <span className="w-[50%] line-clamp-1 text-ellipsis  flex  ">
-            Stake Time 12/10/12 <p className="ml-2">20:20</p>
+            Stake Time{" "}
+            {(MatchStartTime.getDate() < 10
+              ? "0" + MatchStartTime.getDate()
+              : MatchStartTime.getDate()) +
+              MatchStartTime?.toString().slice(3, 7)}
+            <p className="ml-2">
+              {MatchStartTime.getHours() > 12
+                ? `${MatchStartTime.getHours() - 12}`
+                : `0${MatchStartTime.getHours()}`}
+              :
+              {MatchStartTime.getMinutes() < 10
+                ? `0${MatchStartTime.getMinutes()}`
+                : `${MatchStartTime.getMinutes()}`}
+            </p>
           </span>
         </div>
 
@@ -92,12 +110,12 @@ function StakeHistory({ bgColor, result, resultbg, data }) {
           style={{ color: "gray" }}
         >
           <p className="line-clamp-1 text-ellipsis">
-            Stake Amount {data?.BetAmount || 0}
+            Stake Amount {Number(data?.BetAmount) / 100 || 0}
           </p>
           <span className="w-[50%]  text-nowrap flex line-clamp-1 text-ellipsis ">
             Estimated Income
             <p className="text-nowrap ml-[.4rem] " style={{ color: "#00db58" }}>
-              1029938
+              {(((Number(data?.BetAmount)/100)*data?.Percentage)/100) || 0}
             </p>{" "}
           </span>
         </div>
@@ -124,10 +142,10 @@ function StakeHistory({ bgColor, result, resultbg, data }) {
           FT
         </div>
         <div className=" h-[35px] w-[35px] flex place-items-center justify-center  m-[.2rem] rounded-[100px] font-extrabold text-[.9rem] text-red bg-white ">
-          1
+          {data?.Result_a}
         </div>
         <div className=" h-[35px] w-[35px] flex place-items-center justify-center  m-[.2rem] rounded-[100px] font-extrabold text-[.9rem] text-[#a0a3a1] bg-[#f9fffb] ">
-          3
+          {data?.Result_b}
         </div>
       </div>
     </div>

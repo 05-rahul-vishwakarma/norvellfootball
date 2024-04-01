@@ -43,7 +43,7 @@ export default function Home() {
       res = await res.json();
       if (res?.status === 200) {
         updateMatches(res?.data?.matches);
-        // setLoading(false); // Set loading to false when data is fetched
+        setLoading(false); // Set loading to false when data is fetched
       } else {
         throw new Error("Somethign went wrong");
       }

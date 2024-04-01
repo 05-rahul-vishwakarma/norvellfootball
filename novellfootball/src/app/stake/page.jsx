@@ -128,7 +128,7 @@ function Page() {
 
   return (
     <Layout>
-      <div className="h-screen w-screen  bg-[#f8fcff]   ">
+      <div className="h-screen w-screen  bg-[#f8fcff] ">
         {loading && <Loading />}
         <div onClick={() => router.back()} className="py-[1rem] ">
           <div className="grid grid-flow-col  place-items-center">
@@ -395,7 +395,7 @@ function Stake({ onClick, data }) {
           <span className="w-[50%]  text-nowrap flex line-clamp-1 text-ellipsis ">
             Estimated Income
             <p className="text-nowrap ml-[.4rem] " style={{ color: "#00db58" }}>
-              1029938
+              {((Number(data?.BetAmount)*data?.Percentage)/100)/100 || 0}
             </p>{" "}
           </span>
         </div>
