@@ -229,40 +229,44 @@ function MatchPopup({ match, onClose }) {
   async function placeBet(Percentage, Score_a, Score_b, BetAmount) {
     setDisabled(true);
 
-    setTimeout(() => {
-      setDisabled(false);
-    }, 30000); // 1/2 minute in milliseconds
-    getAlert();
-    try {
-      // let [Score_a, Score_b] = score.split("-");
-      let body = {
-        ...match,
-        BetAmount,
-        Percentage,
-        Score_a,
-        Score_b,
-      };
 
-      let config = {
-        method: "POST",
-        headers: {
-          "content-type": "applicaiton/json",
-        },
-        body: JSON.stringify(body),
-      };
-      let res = await fetch(`/api/match`, config);
-      res = await res.json();
-      if (res?.status === 200) {
-        getAlert("success", res.message);
-        await getBalance();
-        router.push('/stake')
-      } else if (res?.status === 500 || res?.status === 302) {
-        getAlert("Opps", res.message);
-      } else {
-        getAlert("Opps", res.message);
+    getAlert();
+    if (disabled === false) {
+      try {
+        // let [Score_a, Score_b] = score.split("-");
+        let body = {
+          ...match,
+          BetAmount,
+          Percentage,
+          Score_a,
+          Score_b,
+        };
+
+        let config = {
+          method: "POST",
+          headers: {
+            "content-type": "applicaiton/json",
+          },
+          body: JSON.stringify(body),
+        };
+        let res = await fetch(`/api/match`, config);
+        res = await res.json();
+        if (res?.status === 200) {
+          getAlert("success", res.message);
+          await getBalance();
+          router.push("/stake");
+        } else if (res?.status === 500 || res?.status === 302) {
+          getAlert("Opps", res.message);
+        } else {
+          getAlert("Opps", res.message);
+        }
+      } catch (error) {
+        getAlert("error", res.message);
       }
-    } catch (error) {
-      getAlert("error", res.message);
+    } else {
+      setTimeout(() => {
+        setDisabled(false);
+      }, 2000); // 1/2 minute in milliseconds
     }
   }
 
@@ -383,8 +387,16 @@ function MatchPopup({ match, onClose }) {
   );
 }
 
-function ScoreCards({ placeBet, percent, Balance, Score_a, Score_b , disabled ,style }) {
-  console.log(style)
+function ScoreCards({
+  placeBet,
+  percent,
+  Balance,
+  Score_a,
+  Score_b,
+  disabled,
+  style,
+}) {
+  console.log(style);
   console.log(disabled);
   const [estimatedIncome, updateEstimated] = useState(0);
   const [betAmount, updateBetAmount] = useState(0);
@@ -516,7 +528,8 @@ function ScoreCards({ placeBet, percent, Balance, Score_a, Score_b , disabled ,s
           </button>
           <button
             onClick={() => placeBet(percent, Score_a, Score_b, betAmount)}
-            disabled={disabled} style={{ backgroundColor: disabled ? '#5A5A5A' : '#2885F6' }}
+            disabled={disabled}
+            style={{ backgroundColor: disabled ? "#5A5A5A" : "#2885F6" }}
             className="py-2 px-2 w-[70%] bg-[#2885F6] font-bold text-sm text-white rounded-md capitalize"
           >
             confirm

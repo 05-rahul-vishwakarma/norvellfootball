@@ -34,7 +34,6 @@ function Page() {
   const [amount, setAmount] = useState();
   const [disabled, setDisabled] = useState(false);
 
-
   let router = useRouter();
 
   // immplementing the utr number value
@@ -51,11 +50,6 @@ function Page() {
   };
 
   const submitData = async () => {
-    setDisabled(true);
-
-    setTimeout(() => {
-      setDisabled(false);
-    }, 30000); // 1/2 minute in milliseconds
     getAlert();
     if (!value || !amount) {
       getAlert("opps", "kindly fill the  form completely");
@@ -89,6 +83,18 @@ function Page() {
       } catch (error) {
         getAlert("redirect", "something went wrong login again");
       }
+    }
+  };
+
+  const btndisbaled = () => {
+    setDisabled(true);
+
+    if (disabled === false) {
+      submitData();
+    } else {
+      setTimeout(() => {
+        setDisabled(false);
+      }, 2000);
     }
   };
 
@@ -275,9 +281,12 @@ function Page() {
           </div>
 
           <div
-            onClick={() => submitData()}
+            onClick={() => btndisbaled()}
             disabled={disabled}
-            style={{ backgroundColor: disabled ? "#5A5A5A" : "#2888f6" , boxShadow: "0 0 5px 0 #c0cad9"  }}
+            style={{
+              backgroundColor: disabled ? "#5A5A5A" : "#2888f6",
+              boxShadow: "0 0 5px 0 #c0cad9",
+            }}
             className="bg-[#2888f6] rounded-lg text-center p-3 mt-4 flex justify-center items-center text-white  text-[.7rem] "
           >
             pay

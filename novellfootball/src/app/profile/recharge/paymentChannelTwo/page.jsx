@@ -35,11 +35,6 @@ function Page() {
 
   // post request from the front-end
   async function submitDeposit() {
-    setDisabled(true);
-
-    setTimeout(() => {
-      setDisabled(false);
-    }, 30000); // 1/2 minute in milliseconds
     getAlert();
     try {
       if (value == "" || amount == "") {
@@ -81,6 +76,19 @@ function Page() {
       updateUpi(extraDetails?.UpiIds || []);
     }
   }, [extraDetails]);
+
+  const btndisbaled = () => {
+    setDisabled(true);
+
+    if (disabled === false) {
+      submitDeposit();
+    } else {
+      setTimeout(() => {
+        setDisabled(false);
+      }, 2000);
+    }
+  };
+
 
   return (
     <Layout>
@@ -194,7 +202,7 @@ function Page() {
               />
 
               <button
-                onClick={() => submitDeposit()}
+                onClick={() => btndisbaled()}
                 disabled={disabled} style={{ backgroundColor: disabled ? '#5A5A5A' : '#2885F6' }}
                 className="bg-[#2885F6] text-white  w-[23%]  text-[.65rem] "
               >

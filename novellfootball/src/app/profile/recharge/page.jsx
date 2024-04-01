@@ -38,7 +38,6 @@ function Page() {
     getExtraDetails();
   }, []);
 
-
   // implementing condtion based redireacting
   const [selectedOption, setSelectedOption] = useState("");
   const handleOptionChange = (e) => {
@@ -46,45 +45,45 @@ function Page() {
   };
   const handleRedirect = () => {
     setDisabled(true);
-
-    setTimeout(() => {
-      setDisabled(false);
-    }, 60000); // 1 minute in milliseconds
-
-    if (!inputValue) {
-      getAlert("opps", "please enter the deposit amount");
+    if (disabled == false) {
+      if (!inputValue) {
+        getAlert("opps", "please enter the deposit amount");
+      } else {
+        if (selectedOption === "option1") {
+          router.push(
+            `/profile/recharge/paymentChannelOne?data=${encodeURIComponent(
+              inputValue
+            )}`
+          );
+        } else if (selectedOption === "option2") {
+          router.push(
+            `/profile/recharge/paymentChannelTwo?data=${encodeURIComponent(
+              inputValue
+            )}`
+          );
+        } else if (selectedOption === "option3") {
+          router.push(
+            ` /profile/recharge/paymentChannelThree?data=${encodeURIComponent(
+              inputValue
+            )}`
+          );
+        } else if (selectedOption === "option4") {
+          router.push(
+            `/profile/recharge/usdt?data=${encodeURIComponent(inputValue)}`
+          );
+        } else if (selectedOption === "") {
+          getAlert("opps", "please choose any one payment method");
+        }
+      }
     } else {
-      if (selectedOption === "option1") {
-        router.push(
-          `/profile/recharge/paymentChannelOne?data=${encodeURIComponent(
-            inputValue
-          )}`
-        );
-      } else if (selectedOption === "option2") {
-        router.push(
-          `/profile/recharge/paymentChannelTwo?data=${encodeURIComponent(
-            inputValue
-          )}`
-        );
-      } else if (selectedOption === "option3") {
-        router.push(
-          ` /profile/recharge/paymentChannelThree?data=${encodeURIComponent(inputValue)}`
-        );
-      }
-      else if (selectedOption === "option4") {
-        router.push(
-          `/profile/recharge/usdt?data=${encodeURIComponent(inputValue)}`
-        );
-      }
-      else if (selectedOption === "") {
-        getAlert("opps", "please choose any one payment method");
-      }
+      setTimeout(() => {
+        setDisabled(false);
+      }, 1000); 
     }
   };
 
   return (
     <Layout>
- 
       <div className="h-screen w-screen bg-[#F8FCFF] pb-[7rem] overflow-y-scroll ">
         <div className="h-screen w-screen ">
           <div onClick={() => router.back()} className="pt-2 ">
@@ -215,8 +214,7 @@ function Page() {
                   onChange={handleOptionChange}
                 />
               </div>
-          
-              
+
               <div
                 style={{ boxShadow: "0 2px 5px rgb(0,0,0,0.06)" }}
                 className="flex justify-between  px-2 py-3 place-items-center mt-2 w-[98%] mr-auto ml-auto rounded-lg bg-white "
@@ -231,7 +229,6 @@ function Page() {
                   onChange={handleOptionChange}
                 />
               </div>
-
 
               <div
                 style={{ boxShadow: "0 2px 5px rgb(0,0,0,0.06)" }}
@@ -250,7 +247,11 @@ function Page() {
 
               <div
                 onClick={handleRedirect}
-                disabled={disabled} style={{ backgroundColor: disabled ? '#5A5A5A' : '#2885F6' , boxShadow: "0 0 5px 0 #c0cad9" }}
+                disabled={disabled}
+                style={{
+                  backgroundColor: disabled ? "#5A5A5A" : "#2885F6",
+                  boxShadow: "0 0 5px 0 #c0cad9",
+                }}
                 className="bg-[#2885F6] text-center p-3 mt-[2rem] rounded-lg flex justify-center place-items-center text-[#fff] "
               >
                 Recharge

@@ -59,13 +59,6 @@ function Page() {
   };
 
   async function usdtDetails() {
-    setDisabled(true);
-
-    setTimeout(() => {
-      setDisabled(false);
-    }, 60000); // 1 minute in milliseconds
-
-    let depositAddress;
     getAlert();
     if (!transactionId || !text || !amount) {
       getAlert("opps", "please fill each input field.");
@@ -109,6 +102,19 @@ function Page() {
       updateDepositAddress(extraDetails?.UpiIds[2] || "213123");
     }
   }, [extraDetails]);
+
+  const btndisbaled = () => {
+    setDisabled(true);
+
+    if (disabled === false) {
+      usdtDetails();
+    } else {
+      setTimeout(() => {
+        setDisabled(false);
+      }, 2000);
+    }
+  };
+
 
   return (
     <Layout>
@@ -224,7 +230,7 @@ function Page() {
           </div>
 
           <div
-            onClick={() => usdtDetails()}
+            onClick={() => btndisbaled()}
             disabled={disabled} style={{ backgroundColor: disabled ? '#5A5A5A' : '#2885F6' ,boxShadow: "0 0 5px 0 #c0cad9" }}
             className="bg-[#2885F6] text-center p-3 mt-4 rounded-lg flex justify-center place-items-center text-[#fff] text-[.7rem] "
           >

@@ -73,7 +73,7 @@ function Page() {
 
     setTimeout(() => {
       setDisabled(false);
-    }, 60000); 
+    }, 2000); 
     try {
       let StakeId = isDltMatch.StakeId;
       let StartTime = isDltMatch.StartsAt;
