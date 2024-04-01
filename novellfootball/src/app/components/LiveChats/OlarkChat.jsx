@@ -15,6 +15,9 @@ const OlarkChat = () => {
     document.body.appendChild(script);
 
     // }
+    return () => {
+      document.querySelector("#tidio-chat")?.remove();
+    };
   }, []);
 
   return null; // Olark chat is loaded dynamically, so this component doesn't need to render anything

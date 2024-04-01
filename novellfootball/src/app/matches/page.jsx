@@ -145,12 +145,14 @@ function Page() {
                 ))}
 
             {matchLoaded === true && matches?.length <= 0 && (
-              <p
-                style={{
-                  background: "url(./match_noData.svg) center no-repeat",
-                }}
-                className="h-full w-full"
-              ></p>
+              <div className="h-full w-full flex justify-center items-center">
+                <p
+                  style={{
+                    background: "url(./match_noData.svg) center no-repeat",
+                  }}
+                  className="h-1/2 w-1/2"
+                ></p>
+              </div>
             )}
 
             {!matchLoaded && matches?.length >= 0 && (

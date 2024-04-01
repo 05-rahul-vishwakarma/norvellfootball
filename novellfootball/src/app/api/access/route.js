@@ -53,14 +53,6 @@ export async function POST(NextRequest) {
     });
     return response;
   } catch (error) {
-    if (
-      error?.code === 500 ||
-      error?.status === 500 ||
-      !error?.code ||
-      !error?.status
-    ) {
-      ErrorReport(error);
-    }
     return NextResponse.json({
       status: error?.status || error?.code || 500,
       message: error?.message || "something went wrong",
@@ -150,14 +142,6 @@ export async function PUT(NextRequest) {
 
     return response;
   } catch (error) {
-    if (
-      error?.code === 500 ||
-      error?.status === 500 ||
-      !error?.code ||
-      !error?.status
-    ) {
-      ErrorReport(error);
-    }
     return NextResponse.json({
       status: error?.status || error?.code || 500,
       message: error?.message || "something went wrong",

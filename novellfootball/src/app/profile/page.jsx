@@ -237,13 +237,13 @@ function Page() {
 
         <div
           style={{ boxShadow: "0px -1px 20px 4px #dddee5" }}
-          className="h-[52%]  shadow-gray-900 rounded-t-[1.5rem]"
+          className="h-[55%]  shadow-gray-900 rounded-t-[1.5rem]"
         >
           <div className="w-full  flex justify-center items-center py-4">
             <h2 className="py-0.5 w-[20%] bg-blue-500 rounded-full"></h2>
           </div>
 
-          <div className="h-full overflow-y-scroll pb-40 px-4">
+          <div className="h-full overflow-y-scroll pb-[15rem] px-4">
             <div
               onClick={() => router.push("/profile/commission")}
               style={{ boxShadow: "0px 2px 8px 1px rgb(0,0,0,0.1) " }}
