@@ -229,7 +229,6 @@ function MatchPopup({ match, onClose }) {
   async function placeBet(Percentage, Score_a, Score_b, BetAmount) {
     setDisabled(true);
 
-
     getAlert();
     if (disabled === false) {
       try {
@@ -242,26 +241,31 @@ function MatchPopup({ match, onClose }) {
           Score_b,
         };
 
-      let config = {
-        method: "POST",
-        headers: {
-          "content-type": "applicaiton/json",
-        },
-        body: JSON.stringify(body),
-      };
-      let res = await fetch(`/api/match`, config);
-      res = await res.json();
-      if (res?.status === 200) {
-        getAlert("success", res.message);
-        await getBalance();
-        router.push('/stake')
-      } else if (res?.status === 500 || res?.status === 302) {
-        getAlert("Opps", res.message);
-      } else {
-        getAlert("Opps", res.message);
+        let config = {
+          method: "POST",
+          headers: {
+            "content-type": "applicaiton/json",
+          },
+          body: JSON.stringify(body),
+        };
+        let res = await fetch(`/api/match`, config);
+        res = await res.json();
+        if (res?.status === 200) {
+          getAlert("success", res.message);
+          await getBalance();
+          router.push("/stake");
+        } else if (res?.status === 500 || res?.status === 302) {
+          getAlert("Opps", res.message);
+        } else {
+          getAlert("Opps", res.message);
+        }
+      } catch (error) {
+        getAlert("error", res.message);
       }
-    } catch (error) {
-      getAlert("error", res.message);
+    } else {
+      setTimeout(() => {
+        setDisabled(false);
+      }, 2000);
     }
   }
 
@@ -382,8 +386,16 @@ function MatchPopup({ match, onClose }) {
   );
 }
 
-function ScoreCards({ placeBet, percent, Balance, Score_a, Score_b , disabled ,style }) {
-  console.log(style)
+function ScoreCards({
+  placeBet,
+  percent,
+  Balance,
+  Score_a,
+  Score_b,
+  disabled,
+  style,
+}) {
+  console.log(style);
   console.log(disabled);
   const [estimatedIncome, updateEstimated] = useState(0);
   const [betAmount, updateBetAmount] = useState(0);

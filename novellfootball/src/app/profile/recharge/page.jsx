@@ -78,7 +78,7 @@ function Page() {
     } else {
       setTimeout(() => {
         setDisabled(false);
-      }, 1000); 
+      }, 2000); 
     }
   };
 
