@@ -126,6 +126,8 @@ function Page() {
     stakeAmount();
   }, []);
 
+  console.log(amounts)
+
   return (
     <Layout>
       <div className="h-screen w-screen  bg-[#f8fcff] ">
@@ -395,7 +397,7 @@ function Stake({ onClick, data }) {
           <span className="w-[50%]  text-nowrap flex line-clamp-1 text-ellipsis ">
             Estimated Income
             <p className="text-nowrap ml-[.4rem] " style={{ color: "#00db58" }}>
-              {((Number(data?.BetAmount)*data?.Percentage)/100)/100 || 0}
+              { (((Number(data?.BetAmount)/100)*(data?.Percentage)/100) - (((Number(data?.BetAmount)/100)*(data?.Percentage)/100)*5/100)).toFixed(2) || 0}
             </p>{" "}
           </span>
         </div>
@@ -430,3 +432,5 @@ function Stake({ onClick, data }) {
     </div>
   );
 }
+
+// 7.1676 - 0.35838

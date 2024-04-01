@@ -115,7 +115,7 @@ function StakeHistory({ bgColor, result, resultbg, data }) {
           <span className="w-[50%]  text-nowrap flex line-clamp-1 text-ellipsis ">
             Estimated Income
             <p className="text-nowrap ml-[.4rem] " style={{ color: "#00db58" }}>
-              {(((Number(data?.BetAmount)/100)*data?.Percentage)/100) || 0}
+              {(((Number(data?.BetAmount)/100)*(data?.Percentage)/100) - (((Number(data?.BetAmount)/100)*(data?.Percentage)/100)*5/100)).toFixed(2) || 0}
             </p>{" "}
           </span>
         </div>
@@ -153,3 +153,6 @@ function StakeHistory({ bgColor, result, resultbg, data }) {
 }
 
 export default StakeHistory;
+
+
+// 11088
