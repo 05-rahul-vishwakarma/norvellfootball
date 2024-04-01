@@ -1,4 +1,5 @@
 "use server";
+import ErrorReport from "@/app/helpers/ErrorReport";
 import { connect } from "@/app/modals/dbConfig";
 import { REWARD, USER } from "@/app/modals/modal";
 import { mongoose } from "mongoose";
@@ -42,6 +43,14 @@ export async function giveReward(prevState, formData) {
       message: `reward given to -> ${UserName}`,
     };
   } catch (error) {
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     await session.abortTransaction();
     return {
       message: error?.message || "something went wrong",

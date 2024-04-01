@@ -6,6 +6,7 @@ import { isAuthenticated, isValidUser } from "@/app/helpers/auth";
 import CustomError from "@/app/helpers/Error";
 import mongoose, { get } from "mongoose";
 import { cookies } from "next/headers";
+import ErrorReport from "@/app/helpers/ErrorReport";
 
 export async function GET(request) {
   let { session, token } = await getCookieData();
@@ -24,6 +25,14 @@ export async function GET(request) {
       data: { pendingMatches, settledMatches },
     });
   } catch (error) {
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     return NextResponse.json({
       status: error?.status || error?.code || 500,
       message: error?.message || "something went wrong",
@@ -82,6 +91,14 @@ export async function POST(request) {
       data: {},
     });
   } catch (error) {
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     await Session.abortTransaction();
     return NextResponse.json({
       status: error?.status || error?.code || 500,

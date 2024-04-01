@@ -287,6 +287,7 @@ const Signup = () => {
                 </div>
                 <PhoneInput
                   country={"in"}
+                  disabled={isVerified}
                   value={credentials.Phone}
                   className=" border-blue-600"
                   inputProps={{

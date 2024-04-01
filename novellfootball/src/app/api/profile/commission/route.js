@@ -14,6 +14,7 @@ import { COMMISSION, USER } from "@/app/modals/modal";
 import { isValidUser } from "@/app/helpers/auth";
 import { cookies } from "next/headers";
 import { connect } from "@/app/modals/dbConfig";
+import ErrorReport from "@/app/helpers/ErrorReport";
 
 // function to retrive the commission and the corresponding bet data using aggregation pipeline
 export async function GET(request) {
@@ -39,7 +40,14 @@ export async function GET(request) {
       data: res,
     });
   } catch (error) {
-    console.log(error);
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     return NextResponse.json({
       status: error?.status || 500,
       message: error?.message,
@@ -106,8 +114,15 @@ async function getBetAndCommissionData(commissionDates, UserName) {
 
     return [aggregatedData];
   } catch (error) {
-    console.error("Error retrieving data:", error);
-    throw error;
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
+    throw new Error(error);
   }
 }
 
@@ -143,6 +158,14 @@ export async function POST(request) {
       data: {},
     });
   } catch (error) {
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     return NextResponse.json({
       status: error?.status || 500,
       message: error?.message,
@@ -190,7 +213,7 @@ async function claimBonusFor(UserName, dates) {
       });
       if (res) {
         for (let commission of res) {
-          totalCommission += Number(commission?.Commission);
+          totalCommission += Math.max(0, Number(commission?.Commission));
         }
       }
     }
@@ -207,6 +230,14 @@ async function claimBonusFor(UserName, dates) {
     if (!isUserUpdated) return false;
     return true;
   } catch (error) {
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     throw Error(error);
   }
 }

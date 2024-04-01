@@ -11,6 +11,7 @@ import moment from "moment-timezone";
 import cron from "node-cron";
 import { MATCH } from "@/app/modals/modal";
 import { connect } from "@/app/modals/dbConfig";
+import ErrorReport from "@/app/helpers/ErrorReport";
 const scores = [
   "0-0",
   "0-1",
@@ -100,7 +101,14 @@ export async function scheduleMatches() {
       return isCreated ? true : false;
     }
   } catch (error) {
-    console.log(error);
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     return false;
   }
   return false;

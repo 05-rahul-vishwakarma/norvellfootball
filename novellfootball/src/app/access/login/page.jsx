@@ -7,6 +7,7 @@ import VerificationPopup from "@/app/components/VerificationPopup";
 import { AlertContext } from "@/app/helpers/AlertContext";
 import Modal from "@/app/components/Modal";
 import { useRouter } from "next/navigation";
+import OlarkChat from "@/app/components/LiveChats/OlarkChat";
 
 const containerVariant = {
   hidden: {
@@ -157,6 +158,7 @@ const Login = () => {
         )}
         {isActive && <Modal />}
       </div>
+      <OlarkChat />
     </>
   );
 };

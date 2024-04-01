@@ -6,6 +6,7 @@ import { USER } from "@/app/modals/modal";
 import CustomError from "@/app/helpers/Error";
 import { cookies } from "next/headers";
 import { connect } from "@/app/modals/dbConfig";
+import ErrorReport from "@/app/helpers/ErrorReport";
 
 export async function GET(request) {
   let { token, session } = await getCookieData();
@@ -39,6 +40,14 @@ export async function GET(request) {
     }
     return NextResponse.json({ status: 705, message: "Invalid phone number" });
   } catch (error) {
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     return NextResponse.json({
       status: error?.status || error?.code || 500,
       message: error?.message || "somethign went wrong",
@@ -67,6 +76,14 @@ export async function POST(request) {
     }
     return NextResponse.json({ status: 705, message: "Invalid phone number" });
   } catch (error) {
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     return NextResponse.json({
       status: error?.status || error?.code || 500,
       message: error?.message || "somethign went wrong",
@@ -105,13 +122,20 @@ export async function PUT(request) {
     }
     return NextResponse.json({ status: 705, message: "Invalid phone number" });
   } catch (error) {
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     return NextResponse.json({
       status: error?.status || error?.code || 500,
       message: error?.message || "somethign went wrong",
     });
   }
 }
-
 async function getCookieData() {
   let token = cookies().get("token")?.value || "";
   let session = cookies().get("session")?.value || "";

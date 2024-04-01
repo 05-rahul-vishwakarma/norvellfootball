@@ -8,6 +8,7 @@ import { generateToken, verifyToken } from "@/app/helpers/auth";
 import { connect } from "@/app/modals/dbConfig";
 import CustomError from "@/app/helpers/Error";
 import crypto from "crypto";
+import ErrorReport from "@/app/helpers/ErrorReport";
 
 // 200 -> Everything went fine
 // 700 -> something went wrong with data sent by the client;
@@ -52,7 +53,14 @@ export async function POST(NextRequest) {
     });
     return response;
   } catch (error) {
-    console.log(error);
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     return NextResponse.json({
       status: error?.status || error?.code || 500,
       message: error?.message || "something went wrong",
@@ -142,6 +150,14 @@ export async function PUT(NextRequest) {
 
     return response;
   } catch (error) {
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     return NextResponse.json({
       status: error?.status || error?.code || 500,
       message: error?.message || "something went wrong",

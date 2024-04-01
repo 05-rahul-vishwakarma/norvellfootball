@@ -5,6 +5,7 @@ import { isValidUser } from "@/app/helpers/auth";
 import { getFormattedDate } from "@/app/helpers/formattedDate";
 import { cookies } from "next/headers";
 import { connect } from "@/app/modals/dbConfig";
+import ErrorReport from "@/app/helpers/ErrorReport";
 const { mongoose } = require("mongoose");
 
 /**
@@ -107,6 +108,14 @@ export async function POST(request) {
       data: {},
     });
   } catch (error) {
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     await Session.abortTransaction();
     return NextResponse.json({
       status: error?.code || error?.status || 500,
@@ -133,6 +142,14 @@ async function updateUser(UserName, Amount, Session, Bank) {
     parent = user?.Parent;
     return true;
   } catch (error) {
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     parent = "";
     throw new CustomError(705, "Low balance or bank not added");
   }
@@ -155,6 +172,14 @@ async function vipVerified(UserName, Ammount) {
         vipMax[VipLevel]
     );
   } catch (error) {
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     throw new Error(error?.message);
   }
 }

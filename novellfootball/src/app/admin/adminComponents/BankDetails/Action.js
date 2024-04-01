@@ -1,5 +1,6 @@
 "use server";
 
+import ErrorReport from "@/app/helpers/ErrorReport";
 import { connect } from "@/app/modals/dbConfig";
 import { ADMIN } from "@/app/modals/modal";
 import { revalidatePath } from "next/cache";
@@ -31,6 +32,14 @@ export async function editBank(prevState, formData) {
       message: "updated details",
     };
   } catch (error) {
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     return {
       message: error?.message || JSON.stringify(error),
     };

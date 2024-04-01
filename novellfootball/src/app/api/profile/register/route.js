@@ -9,6 +9,7 @@ import { NextResponse } from "next/server";
 import { isValidUser } from "@/app/helpers/auth";
 import { cookies } from "next/headers";
 import { connect } from "@/app/modals/dbConfig";
+import ErrorReport from "@/app/helpers/ErrorReport";
 
 export async function GET(request) {
   let today = new Date();
@@ -96,7 +97,14 @@ export async function GET(request) {
       data: { level1_users, level2_users, level3_users, joinedToday },
     });
   } catch (error) {
-    console.log(error);
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     return NextResponse.json({
       status: error?.code || error?.status || 500,
       message: "something went wrong",

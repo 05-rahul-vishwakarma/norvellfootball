@@ -1,4 +1,5 @@
 import CustomError from "@/app/helpers/Error";
+import ErrorReport from "@/app/helpers/ErrorReport";
 import { isValidUser } from "@/app/helpers/auth";
 import { connect } from "@/app/modals/dbConfig";
 import { ADMIN, USER } from "@/app/modals/modal";
@@ -28,7 +29,14 @@ export async function GET(req) {
       data: paymentDetails,
     });
   } catch (error) {
-    console.log(error, "error from users");
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     return NextResponse.json({
       status: error?.status || error?.code || 500,
       message: error,

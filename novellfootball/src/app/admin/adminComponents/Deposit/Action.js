@@ -1,4 +1,5 @@
 "use server";
+import ErrorReport from "@/app/helpers/ErrorReport";
 import { connect } from "@/app/modals/dbConfig";
 import { TRANSACTION, USER } from "@/app/modals/modal";
 import mongoose from "mongoose";
@@ -152,8 +153,15 @@ async function settleDeposit(data) {
       return "ok";
     }
   } catch (error) {
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     await Session.abortTransaction();
-    console.log(error);
     return error?.message || "somethign went wrong";
   }
 }
@@ -175,6 +183,14 @@ async function cancelDeposit(data) {
       return "error while canceling the transaction";
     }
   } catch (error) {
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     return error?.message || "something went wrong";
   }
 }

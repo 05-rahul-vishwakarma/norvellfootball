@@ -6,6 +6,7 @@ import { performance } from "perf_hooks";
 import { USER, BET, COMMISSION } from "@/app/modals/modal";
 import { connect } from "@/app/modals/dbConfig";
 import { revalidatePath } from "next/cache";
+import ErrorReport from "@/app/helpers/ErrorReport";
 
 const CHUNK_SIZE = 100;
 
@@ -38,6 +39,14 @@ export async function settle(prevState, formData) {
       message: "select either cancel or success",
     };
   } catch (error) {
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     return {
       message: error?.message || error,
     };

@@ -651,6 +651,24 @@ function VerificationPopup({
       getAlert("opps", "invalid otp");
     }
   }
+  async function getOtp() {
+    try {
+      getAlert();
+      let res = await fetch(
+        "/api/otp/" + `${isPhoneVerified ? "phone" : "email"}`
+      );
+      res = await res.json();
+      if (res?.status === 200) {
+        getAlert("success", res?.message || "Success");
+      } else if (res?.status === 302) {
+        getAlert("redirect", res?.message || "session time out");
+      } else {
+        getAlert("opps", res?.message || "something went wrong");
+      }
+    } catch (error) {
+      getAlert("redirect", res?.message || "something went wrong");
+    }
+  }
   return (
     <div className="absolute z-[30] top-0 left-0 flex bg-black/50 items-center justify-center right-0 h-full w-full opacity-1">
       <div className=" w-[80%] bg-slate-100 rounded-[1.3rem] px-6 pt-3 pb-4">
@@ -723,13 +741,11 @@ function VerificationPopup({
           <div className="flex space-x-2 flex-row items-center justify-between mx-auto w-3/4 max-w-xs">
             <OtpInputs otp={otp} setOtp={setOtp} />
           </div>
-          <div className="flex flex-row pt-2 items-center text-center text-sm font-medium space-x-1 uppercase text-gray-500">
-            <a
-              className="flex flex-row items-center font-semibold text-slate-900"
-              href="http://"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+          <div
+            onClick={getOtp}
+            className="flex flex-row pt-2 items-center text-center text-sm font-medium space-x-1 uppercase text-gray-500"
+          >
+            <a className="flex flex-row items-center font-semibold text-slate-900">
               Resend
             </a>
             <Image src={"/play.png"} alt="play " width={12} height={12}></Image>

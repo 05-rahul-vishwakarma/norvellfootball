@@ -1,4 +1,5 @@
 import CustomError from "@/app/helpers/Error";
+import ErrorReport from "@/app/helpers/ErrorReport";
 import { isValidUser } from "@/app/helpers/auth";
 import { connect } from "@/app/modals/dbConfig";
 import { REWARD, USER } from "@/app/modals/modal";
@@ -54,6 +55,14 @@ export async function POST(request) {
       message: "reward claimed successfull",
     });
   } catch (error) {
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     await Session.abortTransaction();
     return NextResponse.json({
       status: error?.status || error?.code || 500,
