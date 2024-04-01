@@ -15,7 +15,7 @@ function loading() {
 
   return (
     <div className="w-dvw h-dvh absolute top-0 left-0 z-[20]">
-      <div style={{ textAlign: "center" }} className="min-h-dvh grid place-items-center">
+      <div style={{ textAlign: "center" }} className="bg-[rbga(255,255,255,0.25)] min-h-dvh grid place-items-center">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
           <defs>
             <radialGradient

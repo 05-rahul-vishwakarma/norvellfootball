@@ -53,14 +53,8 @@ function Page() {
   const { getAlert, getBalance } = useContext(UserContext);
   const [disabled, setDisabled] = useState(false);
 
+
   let router = useRouter();
-  function stakeAmount() {
-    let totalAmount = 0;
-    pendingMatches.forEach((element) => {
-      totalAmount += element.BetAmount;
-    });
-    return setAmounts(totalAmount);
-  }
 
   // # function to cancel the stake
   const showPopup = async (match) => {
@@ -73,7 +67,7 @@ function Page() {
 
     setTimeout(() => {
       setDisabled(false);
-    }, 2000); 
+    }, 1000);
     try {
       let StakeId = isDltMatch.StakeId;
       let StartTime = isDltMatch.StartsAt;
@@ -109,11 +103,18 @@ function Page() {
     try {
       let res = await fetch(`/api/stake`);
       res = await res.json();
+
       if (res?.status === 200) {
         await getBalance();
         setLoading(false); // Set loading to false when data is fetched
         updatePendingMatches(res?.data?.pendingMatches);
         updateSettledMatches(res?.data?.settledMatches);
+        const bettingAmounts = res?.data?.pendingMatches.map(item => item.BetAmount);
+        // console.log(bettingAmounts)
+        // Calculate the total betting amount by summing all the amounts in the array
+        const totalBettingAmount = bettingAmounts.reduce((total, amount) => total + amount, 0);
+        // console.log(totalBettingAmount)
+        setAmounts(totalBettingAmount)
       }
       if (res?.status === 302) router.push("/access/login");
     } catch (error) {
@@ -121,12 +122,12 @@ function Page() {
     }
   }
 
+  
+
+
   useEffect(() => {
     getStakeData();
-    stakeAmount();
   }, []);
-
-  console.log(amounts)
 
   return (
     <Layout>
@@ -180,7 +181,7 @@ function Page() {
         >
           <span className="text-center flex text-[.7rem] ">
             Total earned from stakes ₹{" "}
-            <p className="ml-1 "> {amounts / 100} </p>
+            <p className="ml-1 "> {amounts / 100 || 0} </p>
           </span>
         </div>
 
@@ -191,7 +192,6 @@ function Page() {
                 <Stake
                   key={match?.StakeId || idx}
                   data={match}
-                  amount={match?.BetAmount}
                   onClick={() => showPopup(match)}
                 />
               ))}
@@ -397,7 +397,12 @@ function Stake({ onClick, data }) {
           <span className="w-[50%]  text-nowrap flex line-clamp-1 text-ellipsis ">
             Estimated Income
             <p className="text-nowrap ml-[.4rem] " style={{ color: "#00db58" }}>
-              { (((Number(data?.BetAmount)/100)*(data?.Percentage)/100) - (((Number(data?.BetAmount)/100)*(data?.Percentage)/100)*5/100)).toFixed(2) || 0}
+              {(
+                ((Number(data?.BetAmount) / 100) * data?.Percentage) / 100 -
+                ((((Number(data?.BetAmount) / 100) * data?.Percentage) / 100) *
+                  5) /
+                  100
+              ).toFixed(2) || 0}
             </p>{" "}
           </span>
         </div>
