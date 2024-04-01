@@ -52,7 +52,7 @@ function MatchCard({ id, data, onClick, color }) {
   };
 
   useEffect(() => {
-    let circle_percent = percent(data?.StartsAt || new Date());
+    let circle_percent = Math.abs(percent(data?.StartsAt || new Date()));
     convertToIST();
     updatePercentage(circle_percent);
   }, []);
@@ -147,5 +147,5 @@ function percent(startTime) {
     80,
     ((total_time - time_left) / total_time) * 100
   );
-  return elapsedPercent;
+  return elapsedPercent || Math.floor(Math.random() * 70);
 }

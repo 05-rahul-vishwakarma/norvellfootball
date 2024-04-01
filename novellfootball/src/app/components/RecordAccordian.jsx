@@ -57,13 +57,37 @@ export default function RecordAccordians({ details, cardDetails, idx }) {
           transition={{ duration: 0.3 }}
           className="mt-5 capitalize text-[0.56rem] space-y-[1.25px] text-black font-medium"
         >
-          {Object.keys(details)?.map((key) => {
-            return (
-              <span className="flex space-x-1 text-thin">
-                <p>{key} - </p>
-                <p>{details[key]}</p>
-              </span>
-            );
+          {cardDetails?.Type === "invitation reward" && (
+            <span className="flex space-x-1 text-thin">
+              <p>From - </p>
+              <p>{cardDetails?.From}</p>
+            </span>
+          )}
+          {Object.keys(details)?.map((key, idx) => {
+            if (
+              cardDetails?.Type === "invitation reward" &&
+              key !== "username"
+            ) {
+              return (
+                <span
+                  key={`subList-${idx}`}
+                  className="flex space-x-1 text-thin"
+                >
+                  <p>{key} - </p>
+                  <p>{details[key]}</p>
+                </span>
+              );
+            } else if (cardDetails?.Type !== "invitation reward") {
+              return (
+                <span
+                  key={`subList-${idx}`}
+                  className="flex space-x-1 text-thin"
+                >
+                  <p>{key} - </p>
+                  <p>{details[key]}</p>
+                </span>
+              );
+            }
           })}
         </motion.div>
       )}

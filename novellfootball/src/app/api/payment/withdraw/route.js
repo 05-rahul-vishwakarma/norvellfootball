@@ -5,6 +5,7 @@ import { isValidUser } from "@/app/helpers/auth";
 import { getFormattedDate } from "@/app/helpers/formattedDate";
 import { cookies } from "next/headers";
 import { connect } from "@/app/modals/dbConfig";
+import ErrorReport from "@/app/helpers/ErrorReport";
 const { mongoose } = require("mongoose");
 
 /**
@@ -29,7 +30,14 @@ export async function POST(request) {
 
     let body = await request.json();
     let { Amount } = body;
-    if (!Amount) Amount = Number(Amount);
+    if (!(await validateTime()))
+      throw new CustomError(
+        705,
+        "you can withdraw from 10:00 AM to 17:00 PM UTC on working days i.e Monday to Saturday.",
+        {}
+      );
+    if (!Amount) throw new CustomError(705, "Enter a valid amount", {});
+    Amount = Number(Amount);
     if (!(await vipVerified(UserName, body?.Amount)))
       throw new CustomError(705, "Your vip level is low", {});
     if (!Amount) throw new CustomError(705, "Missing Fields", {});
@@ -100,6 +108,14 @@ export async function POST(request) {
       data: {},
     });
   } catch (error) {
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     await Session.abortTransaction();
     return NextResponse.json({
       status: error?.code || error?.status || 500,
@@ -126,6 +142,14 @@ async function updateUser(UserName, Amount, Session, Bank) {
     parent = user?.Parent;
     return true;
   } catch (error) {
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     parent = "";
     throw new CustomError(705, "Low balance or bank not added");
   }
@@ -148,6 +172,14 @@ async function vipVerified(UserName, Ammount) {
         vipMax[VipLevel]
     );
   } catch (error) {
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     throw new Error(error?.message);
   }
 }
@@ -166,4 +198,17 @@ async function getCookieData() {
       resolve(cookieData);
     }, 1000)
   );
+}
+
+async function validateTime() {
+  const currentDate = new Date();
+  const currentDay = currentDate.getDay(); // Sunday is 0, Monday is 1, ..., Saturday is 6
+  const currentHour = currentDate.getHours();
+
+  // Check if it's Sunday or outside the working hours (10 am to 5 pm)
+  if (currentDay === 0 || currentHour < 10 || currentHour >= 17) {
+    return false;
+  }
+
+  return true;
 }

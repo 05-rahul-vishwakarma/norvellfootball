@@ -19,6 +19,7 @@ function CommissionPopModel({
   const [childrens, updateChildrens] = useState(0);
   const [today, updateToday] = useState("0/0/2024");
   const dataBox = useRef();
+  const noData = useRef();
   const [swipe, setSwipe] = useState(1);
   const [searchKey, updateSearchKey] = useState("");
 
@@ -31,8 +32,11 @@ function CommissionPopModel({
   }, []);
 
   useEffect(() => {
-    if (dataBox?.current) {
-      updateChildrens(dataBox?.current?.children?.length);
+    if (dataBox?.current && noData?.current) {
+      let toExclue = noData?.current;
+      let childrens = Array.from(dataBox?.current?.children);
+      const filteredList = childrens.filter((child) => child !== toExclue);
+      updateChildrens(filteredList?.length);
     }
   }, [swipe, dataBox?.current?.children, searchKey, selectedLevel]);
 
@@ -219,7 +223,7 @@ function CommissionPopModel({
               }
             })}
           {selectedLevel === 3 &&
-            type !== "register" &&
+            type === "register" &&
             level3.map((item, idx) => {
               if (
                 searchKey?.length >= 3 &&
@@ -257,114 +261,123 @@ function CommissionPopModel({
               }
             })}
 
-          {selectedLevel === 1 &&
-            (type === "deposit" || type === "withdrawal") &&
-            level1.map((item, idx) => {
-              if (
-                searchKey?.length >= 3 &&
-                item?.From?.toLowerCase()?.startsWith(searchKey.toLowerCase())
-              ) {
-                if (swipe === 1 && today === item?.Date) {
-                  return (
-                    <div key={idx}>
-                      <Transaction type={type} cardDetails={item} />
-                    </div>
-                  );
-                } else if (swipe === 2 && today !== item?.Date) {
-                  return (
-                    <div key={idx}>
-                      <Transaction type={type} cardDetails={item} />
-                    </div>
-                  );
+          {(selectedLevel === 1 && type === "deposit") ||
+            (type === "withdrawal" &&
+              level1.map((item, idx) => {
+                if (
+                  searchKey?.length >= 3 &&
+                  item?.Type === type &&
+                  item?.UserName?.toLowerCase()?.startsWith(
+                    searchKey.toLowerCase()
+                  )
+                ) {
+                  if (swipe === 1 && today === item?.Date) {
+                    return (
+                      <div key={idx}>
+                        <Transaction type={type} cardDetails={item} />
+                      </div>
+                    );
+                  } else if (swipe === 2 && today !== item?.Date) {
+                    return (
+                      <div key={idx}>
+                        <Transaction type={type} cardDetails={item} />
+                      </div>
+                    );
+                  }
+                } else if (searchKey?.length < 3 && item?.Type === type) {
+                  if (swipe === 1 && today === item?.Date) {
+                    return (
+                      <div key={idx}>
+                        <Transaction type={type} cardDetails={item} />
+                      </div>
+                    );
+                  } else if (swipe === 2 && today !== item?.Date) {
+                    return (
+                      <div key={idx}>
+                        <Transaction type={type} cardDetails={item} />
+                      </div>
+                    );
+                  }
                 }
-              } else if (searchKey?.length < 3) {
-                if (swipe === 1 && today === item?.Date) {
-                  return (
-                    <div key={idx}>
-                      <Transaction type={type} cardDetails={item} />
-                    </div>
-                  );
-                } else if (swipe === 2 && today !== item?.Date) {
-                  return (
-                    <div key={idx}>
-                      <Transaction type={type} cardDetails={item} />
-                    </div>
-                  );
+              }))}
+          {(selectedLevel === 2 && type === "deposit") ||
+            (type === "withdrawal" &&
+              level2.map((item, idx) => {
+                if (
+                  searchKey?.length >= 3 &&
+                  item?.Type === type &&
+                  item?.UserName?.toLowerCase()?.startsWith(
+                    searchKey.toLowerCase()
+                  )
+                ) {
+                  if (swipe === 1 && today === item?.Date) {
+                    return (
+                      <div key={idx}>
+                        <Transaction type={type} cardDetails={item} />
+                      </div>
+                    );
+                  } else if (swipe === 2 && today !== item?.Date) {
+                    return (
+                      <div key={idx}>
+                        <Transaction type={type} cardDetails={item} />
+                      </div>
+                    );
+                  }
+                } else if (searchKey?.length < 3 && item?.Type === type) {
+                  if (swipe === 1 && today === item?.Date) {
+                    return (
+                      <div key={idx}>
+                        <Transaction type={type} cardDetails={item} />
+                      </div>
+                    );
+                  } else if (swipe === 2 && today !== item?.Date) {
+                    return (
+                      <div key={idx}>
+                        <Transaction type={type} cardDetails={item} />
+                      </div>
+                    );
+                  }
                 }
-              }
-            })}
-          {selectedLevel === 2 &&
-            (type === "deposit" || type === "withdrawal") &&
-            level2.map((item, idx) => {
-              if (
-                searchKey?.length >= 3 &&
-                item?.From?.toLowerCase()?.startsWith(searchKey.toLowerCase())
-              ) {
-                if (swipe === 1 && today === item?.Date) {
-                  return (
-                    <div key={idx}>
-                      <Transaction type={type} cardDetails={item} />
-                    </div>
-                  );
-                } else if (swipe === 2 && today !== item?.Date) {
-                  return (
-                    <div key={idx}>
-                      <Transaction type={type} cardDetails={item} />
-                    </div>
-                  );
+              }))}
+          {(selectedLevel === 3 && type === "deposit") ||
+            (type === "withdrawal" &&
+              level3.map((item, idx) => {
+                if (
+                  searchKey?.length >= 3 &&
+                  item?.Type === type &&
+                  item?.UserName?.toLowerCase()?.startsWith(
+                    searchKey.toLowerCase()
+                  )
+                ) {
+                  if (swipe === 1 && today === item?.Date) {
+                    return (
+                      <div key={idx}>
+                        <Transaction type={type} cardDetails={item} />
+                      </div>
+                    );
+                  } else if (swipe === 2 && today !== item?.Date) {
+                    return (
+                      <div key={idx}>
+                        <Transaction type={type} cardDetails={item} />
+                      </div>
+                    );
+                  }
+                } else if (searchKey?.length < 3 && item?.Type === type) {
+                  if (swipe === 1 && today === item?.Date) {
+                    return (
+                      <div key={idx}>
+                        <Transaction type={type} cardDetails={item} />
+                      </div>
+                    );
+                  } else if (swipe === 2 && today !== item?.Date) {
+                    return (
+                      <div key={idx}>
+                        <Transaction type={type} cardDetails={item} />
+                      </div>
+                    );
+                  }
                 }
-              } else if (searchKey?.length < 3) {
-                if (swipe === 1 && today === item?.Date) {
-                  return (
-                    <div key={idx}>
-                      <Transaction type={type} cardDetails={item} />
-                    </div>
-                  );
-                } else if (swipe === 2 && today !== item?.Date) {
-                  return (
-                    <div key={idx}>
-                      <Transaction type={type} cardDetails={item} />
-                    </div>
-                  );
-                }
-              }
-            })}
-          {selectedLevel === 3 &&
-            (type === "deposit" || type === "withdrawal") &&
-            level3.map((item, idx) => {
-              if (
-                searchKey?.length >= 3 &&
-                item?.From?.toLowerCase()?.startsWith(searchKey.toLowerCase())
-              ) {
-                if (swipe === 1 && today === item?.Date) {
-                  return (
-                    <div key={idx}>
-                      <Transaction type={type} cardDetails={item} />
-                    </div>
-                  );
-                } else if (swipe === 2 && today !== item?.Date) {
-                  return (
-                    <div key={idx}>
-                      <Transaction type={type} cardDetails={item} />
-                    </div>
-                  );
-                }
-              } else if (searchKey?.length < 3) {
-                if (swipe === 1 && today === item?.Date) {
-                  return (
-                    <div key={idx}>
-                      <Transaction type={type} cardDetails={item} />
-                    </div>
-                  );
-                } else if (swipe === 2 && today !== item?.Date) {
-                  return (
-                    <div key={idx}>
-                      <Transaction type={type} cardDetails={item} />
-                    </div>
-                  );
-                }
-              }
-            })}
+              }))}
 
           {type === "commission" &&
             (swipe === 1 ? todayCommission : overallCommission)?.map(
@@ -391,12 +404,15 @@ function CommissionPopModel({
                 }
               }
             )}
-          {childrens <= 1 && (
-            <p
-              className="h-[20rem] w-full"
-              style={{ background: "url(/noData.svg) center no-repeat" }}
-            ></p>
-          )}
+
+          <p
+            ref={noData}
+            hidden={!(childrens <= 0)}
+            style={{
+              height: "20rem",
+              background: "url(/noData.svg) center no-repeat",
+            }}
+          ></p>
         </div>
       </div>
     </div>
@@ -515,10 +531,9 @@ function RegisterAcordian({ cardDetails, level, idx }) {
                 </h2>
                 <h2>-</h2>
                 <h2>
-                  {createdAt?.getHours() > 12
-                    ? createdAt?.getHours() - 12
-                    : createdAt?.getHours()}
-                  :{createdAt?.getMinutes()}
+                  {createdAt?.getHours()?.toString()?.padStart(2, "0") +
+                    " : " +
+                    createdAt?.getMinutes()?.toString()?.padStart(2, "0")}
                 </h2>
               </div>
             </>
@@ -576,7 +591,7 @@ function RegisterAcordian({ cardDetails, level, idx }) {
             <span className="space-x-1 flex">
               <h2>total deposit -</h2>
               <h2 className=" font-semibold">
-                {cardDetails?.Deposited || "0"}
+                {Number(cardDetails?.Deposited) / 100 || "0"}
               </h2>
             </span>
             <span className="space-x-1 flex">
@@ -586,7 +601,7 @@ function RegisterAcordian({ cardDetails, level, idx }) {
             <span className="space-x-1 flex">
               <h2>total withdrawal -</h2>
               <h2 className=" font-semibold">
-                {cardDetails?.Withdrawal || "not available"}
+                {Number(cardDetails?.Withdrawal) / 100 || "not available"}
               </h2>
             </span>
             <span className="space-x-1 flex">
@@ -594,10 +609,9 @@ function RegisterAcordian({ cardDetails, level, idx }) {
               <h2 className=" font-semibold">
                 {createdAt?.getDate()}/{createdAt?.getMonth() + 1}/
                 {createdAt?.getFullYear()} -{" "}
-                {createdAt?.getHours() > 12
-                  ? createdAt?.getHours() - 12
-                  : createdAt?.getHours()}
-                :{createdAt?.getMinutes()}
+                {createdAt?.getHours()?.toString()?.padStart(2, "0") +
+                  " : " +
+                  createdAt?.getMinutes()?.toString()?.padStart(2, "0")}
               </h2>
             </span>
           </div>
@@ -611,7 +625,7 @@ function RegisterAcordian({ cardDetails, level, idx }) {
 function Transaction({ type, cardDetails }) {
   return (
     <div className="flex text-sm mb-4 bg-white text-gray-700 shadow-sm font-bold items-center capitalize justify-between px-3 py-2.5 rounded-md">
-      <h2>{cardDetails?.From || "no name"}</h2>
+      <h2>{cardDetails?.UserName || "no name"}</h2>
       <h2>{cardDetails?.Amount / 100 || 0}</h2>
     </div>
   );
@@ -666,15 +680,8 @@ function MatchCard({ status, matchDetails }) {
         </div>
         <div className="flex-[1] flex items-center justify-center flex-col">
           <span className="text-[0.8rem] block font-bold text-red-600">
-            {MatchStartTime.getHours() > 12
-              ? `${MatchStartTime.getHours() - 12}`
-              : `${
-                  MatchStartTime.getHours() < 10 ? "0" : ""
-                }${MatchStartTime.getHours()}`}
-            :
-            {MatchStartTime.getMinutes() < 10
-              ? `0${MatchStartTime.getMinutes()}`
-              : `${MatchStartTime.getMinutes()}`}
+            {`${MatchStartTime.getHours()?.toString()?.padStart(2, "0")}`}:
+            {`${MatchStartTime.getMinutes()?.toString()?.padStart(2, "0")}`}
           </span>
           <span className="uppercase text-sm font-bold">
             {MatchStartTime.getDate()}

@@ -242,31 +242,26 @@ function MatchPopup({ match, onClose }) {
           Score_b,
         };
 
-        let config = {
-          method: "POST",
-          headers: {
-            "content-type": "applicaiton/json",
-          },
-          body: JSON.stringify(body),
-        };
-        let res = await fetch(`/api/match`, config);
-        res = await res.json();
-        if (res?.status === 200) {
-          getAlert("success", res.message);
-          await getBalance();
-          router.push("/stake");
-        } else if (res?.status === 500 || res?.status === 302) {
-          getAlert("Opps", res.message);
-        } else {
-          getAlert("Opps", res.message);
-        }
-      } catch (error) {
-        getAlert("error", res.message);
+      let config = {
+        method: "POST",
+        headers: {
+          "content-type": "applicaiton/json",
+        },
+        body: JSON.stringify(body),
+      };
+      let res = await fetch(`/api/match`, config);
+      res = await res.json();
+      if (res?.status === 200) {
+        getAlert("success", res.message);
+        await getBalance();
+        router.push('/stake')
+      } else if (res?.status === 500 || res?.status === 302) {
+        getAlert("Opps", res.message);
+      } else {
+        getAlert("Opps", res.message);
       }
-    } else {
-      setTimeout(() => {
-        setDisabled(false);
-      }, 2000); // 1/2 minute in milliseconds
+    } catch (error) {
+      getAlert("error", res.message);
     }
   }
 
@@ -387,16 +382,8 @@ function MatchPopup({ match, onClose }) {
   );
 }
 
-function ScoreCards({
-  placeBet,
-  percent,
-  Balance,
-  Score_a,
-  Score_b,
-  disabled,
-  style,
-}) {
-  console.log(style);
+function ScoreCards({ placeBet, percent, Balance, Score_a, Score_b , disabled ,style }) {
+  console.log(style)
   console.log(disabled);
   const [estimatedIncome, updateEstimated] = useState(0);
   const [betAmount, updateBetAmount] = useState(0);

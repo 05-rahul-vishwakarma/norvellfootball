@@ -13,6 +13,7 @@ const UserSchema = new Schema(
     Spin: { type: Number, default: 0 },
     FirstDeposit: { type: Boolean, default: true },
     PhoneNumber: { type: String },
+    International: { type: Boolean, default: false },
     EmailId: { type: String },
     InvitationCode: { type: Number, required: true, unique: true },
     ParentInv: { type: Number, default: 0 },

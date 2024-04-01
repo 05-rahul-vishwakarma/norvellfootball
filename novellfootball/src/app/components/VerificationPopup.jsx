@@ -6,6 +6,7 @@ import { FaPlay } from "react-icons/fa6";
 import OtpInputs from "./OtpInputs";
 import Layout from "./Layout";
 import { AlertContext } from "../helpers/AlertContext";
+import Modal from "./Modal";
 
 const VerificationPopup = ({ toggleVerification }) => {
   const [otp, setOtp] = useState(new Array(4).fill(""));
@@ -17,7 +18,7 @@ const VerificationPopup = ({ toggleVerification }) => {
     confPassword: "",
     Password: "",
   });
-  let { getAlert } = useContext(AlertContext);
+  let { getAlert, isActive } = useContext(AlertContext);
 
   function verify() {
     let EnteredOtp = otp.join("");
@@ -104,7 +105,7 @@ const VerificationPopup = ({ toggleVerification }) => {
   }
 
   return (
-    <Layout>
+    <>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -264,7 +265,8 @@ const VerificationPopup = ({ toggleVerification }) => {
           </div>
         </motion.div>
       </motion.div>
-    </Layout>
+      {isActive && <Modal />}
+    </>
   );
 };
 

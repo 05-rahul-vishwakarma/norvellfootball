@@ -4,6 +4,7 @@ import { USER } from "@/app/modals/modal";
 import { cookies } from "next/headers";
 import { isValidUser } from "@/app/helpers/auth";
 import { connect } from "@/app/modals/dbConfig";
+import ErrorReport from "@/app/helpers/ErrorReport";
 /*
   
 🏦🏧
@@ -32,6 +33,21 @@ export async function POST(request) {
       if (!AccHolderName || !BankName || !AccNumber || !Ifsc || !BankName)
         throw new CustomError(705, "Missing Fields", {});
 
+      let detailsExists = await USER.findOne({
+        LocalBank: {
+          AccHolderName,
+          BankName,
+          AccNumber,
+          Ifsc,
+          BranchName,
+        },
+      });
+      if (detailsExists)
+        throw new CustomError(
+          705,
+          "bank details already registered with another user",
+          {}
+        );
       let isLocalBankAdded = await USER.findOneAndUpdate(
         { UserName, LocalBankAdded: false },
         {
@@ -56,7 +72,18 @@ export async function POST(request) {
       let { UsdtAddress, AppName } = body;
       if (!UsdtAddress || !AppName)
         throw new CustomError(705, "Field missing", {});
-
+      let isUsdtExists = await USER.findOne({
+        UsdtBank: {
+          UsdtAddress,
+          AppName,
+        },
+      });
+      if (isUsdtExists)
+        throw new CustomError(
+          705,
+          "bank details already registered with another user",
+          {}
+        );
       let isUsdtBankAdded = await USER.findOneAndUpdate(
         { UserName, UsdtBankAdded: false },
         {
@@ -76,7 +103,14 @@ export async function POST(request) {
       });
     }
   } catch (error) {
-    console.log(error);
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     return NextResponse.json({
       status: error?.code || error?.status || 500,
       message: error?.message || "something went wrong",
@@ -143,12 +177,15 @@ export async function PATCH(request) {
         data: {},
       });
     }
-    return NextResponse.json({
-      status: 500,
-      message: "something went wrong",
-      data: {},
-    });
   } catch (error) {
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     return NextResponse.json({
       status: error?.code || error?.status || 500,
       message: error?.message || "something went wrong",

@@ -8,6 +8,7 @@ import { generateToken, verifyToken } from "@/app/helpers/auth";
 import { connect } from "@/app/modals/dbConfig";
 import CustomError from "@/app/helpers/Error";
 import crypto from "crypto";
+import ErrorReport from "@/app/helpers/ErrorReport";
 
 // 200 -> Everything went fine
 // 700 -> something went wrong with data sent by the client;
@@ -52,7 +53,14 @@ export async function POST(NextRequest) {
     });
     return response;
   } catch (error) {
-    console.log(error);
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     return NextResponse.json({
       status: error?.status || error?.code || 500,
       message: error?.message || "something went wrong",
@@ -65,8 +73,15 @@ export async function PUT(NextRequest) {
   try {
     await connect();
     // get data from client side
-    let { UserName, Phone, Email, ConfPassword, Password, Invitation } =
-      await NextRequest.json();
+    let {
+      UserName,
+      Phone,
+      Email,
+      ConfPassword,
+      isInternational,
+      Password,
+      Invitation,
+    } = await NextRequest.json();
 
     Phone = Phone.slice(2);
     UserName = UserName.trim();
@@ -99,6 +114,7 @@ export async function PUT(NextRequest) {
       PhoneNumber: Phone,
       Email,
       Password,
+      International: isInternational ? true : false,
       Avatar: Math.floor(Math.random() * 11 + 1),
       JoinedOn: `${today.getDate()}/${
         today?.getMonth() + 1
@@ -134,6 +150,14 @@ export async function PUT(NextRequest) {
 
     return response;
   } catch (error) {
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     return NextResponse.json({
       status: error?.status || error?.code || 500,
       message: error?.message || "something went wrong",

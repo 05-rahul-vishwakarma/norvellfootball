@@ -4,17 +4,34 @@ import Layout from "@/app/components/Layout";
 import Modal from "@/app/components/Modal";
 import OtpInputs from "@/app/components/OtpInputs";
 import { AlertContext } from "@/app/helpers/AlertContext";
+import { UserContext } from "@/app/helpers/UserContext";
 import { motion } from "framer-motion";
 
 // import VerificationPopup from "@/app/components/VerificationPopup";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaPlay } from "react-icons/fa6";
 
 const Page = () => {
+  let { userOtherData, getBalance } = useContext(UserContext);
+  let [isPhoneVerified, updatePhoneVerified] = useState(true);
+  useEffect(() => {
+    if (!userOtherData) {
+      getBalance();
+    } else {
+      updatePhoneVerified(!userOtherData?.International);
+    }
+  }, [userOtherData?.International]);
   return (
     <Layout>
       <section className="h-full w-full">
-        <VerificationPopup />
+        <VerificationPopup
+          isPhoneVerified={isPhoneVerified}
+          otpSentTo={
+            isPhoneVerified
+              ? userOtherData?.PhoneNumber
+              : userOtherData?.EmailId
+          }
+        />
       </section>
     </Layout>
   );
@@ -22,21 +39,30 @@ const Page = () => {
 
 export default Page;
 
-const VerificationPopup = ({ toggleVerification }) => {
+const VerificationPopup = ({
+  toggleVerification,
+  isPhoneVerified,
+  otpSentTo,
+}) => {
   // Popup handling here //
   const { getAlert } = useContext(AlertContext);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [opps, setopps] = useState("Opps!");
   const [statusImage, setStatusImage] = useState("/success.png");
+  const [otpSent, updateOtpSent] = useState(false);
+  const [verifPhone, updateVerifType] = useState(isPhoneVerified);
+  const [credentials, updateCredentials] = useState({
+    confPassword: "",
+    Password: "",
+  });
+  const [otp, setOtp] = useState(new Array(4).fill(""));
+  const [isVerified, setVerified] = useState(false);
 
   const handleCloseErrorPopup = () => {
     setModalOpen(false);
   };
 
-  const [otp, setOtp] = useState(new Array(4).fill(""));
-
-  const [isVerified, setVerified] = useState(false);
   function verify() {
     let EnteredOtp = otp.join("");
     EnteredOtp = Number(EnteredOtp);
@@ -48,15 +74,10 @@ const VerificationPopup = ({ toggleVerification }) => {
     }
     if (EnteredOtp === Number(providedOtp)) {
       getAlert("success", "otp  verified successfully");
+      setVerified(true);
     }
   }
 
-  const [otpSent, updateOtpSent] = useState(false);
-  const [verifPhone, updateVerifType] = useState(true);
-  const [credentials, updateCredentials] = useState({
-    confPassword: "",
-    Password: "",
-  });
   function update(e) {
     updateCredentials((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
@@ -113,7 +134,9 @@ const VerificationPopup = ({ toggleVerification }) => {
       getAlert("redirect", "something went wrong login again");
     }
   }
-
+  useEffect(() => {
+    getOtp();
+  }, []);
   return (
     <motion.div className="h-full absolute top-0 left-0 flex justify-center items-end  w-full">
       <motion.div className=" h-full pt-4 pb-40  bg-[#f8fbfe] overflow-y-auto rounded-t-[2rem] w-full">
@@ -136,10 +159,9 @@ const VerificationPopup = ({ toggleVerification }) => {
             <input
               type="radio"
               checked={verifPhone}
-              onChange={() => updateVerifType(true)}
+              onChange={(e) => updateVerifType(verifPhone)}
               className=" border-2 size-4 border-solid border-blue-600"
               name="verificationType"
-              id=""
             />
           </div>
           <div className="flex items-center w-[70%] px-2 justify-between bg-[#ffffff] rounded-md ">
@@ -147,16 +169,20 @@ const VerificationPopup = ({ toggleVerification }) => {
             <input
               type="radio"
               checked={!verifPhone}
-              onChange={() => updateVerifType(false)}
+              onChange={(e) => updateVerifType(verifPhone)}
               className=" border-2 size-4 border-solid border-blue-600"
               name="verificationType"
-              id=""
             />
           </div>
         </div>
         <div className="mt-1 uppercase text-[0.6rem] mx-auto w-[70%]">
           <p>Enter the otp you received on</p>
-          <p className="font-bold">+91s.df029304</p>
+          <p className="font-bold">
+            {" "}
+            {isPhoneVerified
+              ? `+91 ${otpSentTo?.slice(0, 3)}*****${otpSentTo?.slice(-3)}`
+              : `${otpSentTo?.slice(0, 3)}*****${otpSentTo?.slice(-10)}`}
+          </p>
         </div>
         <div className="flex space-x-1 mt-2 px-8 flex-row items-center justify-between mx-auto w-[80%] max-w-xs">
           <OtpInputs otp={otp} setOtp={setOtp} />

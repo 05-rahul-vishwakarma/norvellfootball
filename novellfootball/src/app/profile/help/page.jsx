@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { FaTelegram } from "react-icons/fa6";
 import { LiaAngleDownSolid, LiaAngleRightSolid } from "react-icons/lia";
 import { useRouter } from "next/navigation";
+import OlarkChat from "@/app/components/LiveChats/OlarkChat";
 
 const Page = () => {
   const [getAgents, toggleAgents] = useState(false);
@@ -194,6 +195,7 @@ const Page = () => {
           </div>
         </main>
       </section>
+      <OlarkChat />
     </Layout>
   );
 };

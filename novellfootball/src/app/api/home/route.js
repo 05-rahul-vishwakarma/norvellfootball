@@ -5,6 +5,7 @@ import { connect } from "@/app/modals/dbConfig";
 import { scheduleMatches } from "@/app/api/matchScheduler/route";
 import CustomError from "@/app/helpers/Error";
 import { cookies } from "next/headers";
+import ErrorReport from "@/app/helpers/ErrorReport";
 // 200 -> Everything went fine
 // 700 -> something went wrong with data sent by the client;
 // 703 -> database issue;
@@ -37,6 +38,14 @@ export async function GET(request) {
       data: { userData, matches: ExtractedMatches },
     });
   } catch (error) {
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     return NextResponse.json({
       status: error?.status || error?.code || 500,
       message: error?.message || "something went wrong",
@@ -79,6 +88,14 @@ async function getLiveBets() {
       return false;
     }
   } catch (error) {
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     return new CustomError(703, "Something went wrong", {});
   }
 }
@@ -98,7 +115,7 @@ async function getExtractedMatches(matches) {
         timeZone: "Asia/Calcutta",
       })
     );
-    if (match_date.getTime() - today.getTime() < 30 * 60 * 1000) continue;
+    if (match_date?.getTime() - today?.getTime() < 30 * 60 * 1000) continue;
     count++;
     ExtractedMatches.push(match);
     if (count == 10) break;

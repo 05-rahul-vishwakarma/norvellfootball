@@ -1,5 +1,6 @@
 "use server";
 
+import ErrorReport from "@/app/helpers/ErrorReport";
 import { connect } from "@/app/modals/dbConfig";
 import { TRANSACTION } from "@/app/modals/modal";
 import { NextResponse } from "next/server";
@@ -36,7 +37,14 @@ export async function GET() {
       message: "data fetched",
     });
   } catch (error) {
-    console.log(error);
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     return NextResponse.json({
       status: 500,
       message: JSON.stringify(error),

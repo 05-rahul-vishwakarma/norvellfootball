@@ -1,4 +1,5 @@
 "use server";
+import ErrorReport from "@/app/helpers/ErrorReport";
 import { connect } from "@/app/modals/dbConfig";
 import { TRANSACTION, USER } from "@/app/modals/modal";
 import mongoose from "mongoose";
@@ -49,10 +50,10 @@ export async function updateTransaction(prevState, formData) {
 }
 
 async function settleDeposit(data) {
-  await connect();
   let Session = await mongoose.startSession();
   Session.startTransaction();
   try {
+    await connect();
     //  if first deposit give 2% reward to the parent;
     let isFirstDeposit = await USER.findOne({ UserName: data?.UserName });
     if (!isFirstDeposit) {
@@ -100,6 +101,7 @@ async function settleDeposit(data) {
           $inc: {
             Balance: data?.Amount + data?.Amount * 0.05,
             Deposited: data?.Amount,
+            ValidDeposit: data?.Amount,
           },
           FirstDeposit: false,
         },
@@ -128,6 +130,7 @@ async function settleDeposit(data) {
           $inc: {
             Balance: data?.Amount,
             Deposited: data?.Amount,
+            ValidDeposit: data?.Amount,
           },
         },
         { session: Session }
@@ -150,8 +153,15 @@ async function settleDeposit(data) {
       return "ok";
     }
   } catch (error) {
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     await Session.abortTransaction();
-    console.log(error);
     return error?.message || "somethign went wrong";
   }
 }
@@ -173,6 +183,14 @@ async function cancelDeposit(data) {
       return "error while canceling the transaction";
     }
   } catch (error) {
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     return error?.message || "something went wrong";
   }
 }

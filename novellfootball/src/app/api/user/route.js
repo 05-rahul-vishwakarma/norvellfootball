@@ -4,6 +4,7 @@ import { USER } from "@/app/modals/modal";
 import { NextResponse } from "next/server";
 import { isValidUser } from "@/app/helpers/auth";
 import { cookies } from "next/headers";
+import ErrorReport from "@/app/helpers/ErrorReport";
 
 export async function GET(req) {
   await connect();
@@ -24,7 +25,14 @@ export async function GET(req) {
       data: { Balance: Number(res?.Balance) / 100, Other: res },
     });
   } catch (error) {
-    console.log(error, "error from users");
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     return NextResponse.json({
       status: error?.status || error?.code || 500,
       message: error,
@@ -46,6 +54,14 @@ export async function POST() {
       data: {},
     });
   } catch (error) {
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     return NextResponse.json({
       status: 302,
       message: "something went wrong while logging out",

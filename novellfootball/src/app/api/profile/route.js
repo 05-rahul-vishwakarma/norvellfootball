@@ -14,6 +14,7 @@ import { REWARD, TRANSACTION } from "@/app/modals/modal";
 import { cookies } from "next/headers";
 import { isValidUser } from "@/app/helpers/auth";
 import { connect } from "@/app/modals/dbConfig";
+import ErrorReport from "@/app/helpers/ErrorReport";
 
 export async function GET() {
   let { session, token } = await getCookieData();
@@ -35,6 +36,14 @@ export async function GET() {
       data: res,
     });
   } catch (error) {
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     return NextResponse.json({
       status: 302,
       message: "somethign went wrong",

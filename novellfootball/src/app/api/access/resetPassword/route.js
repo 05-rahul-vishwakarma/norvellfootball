@@ -1,3 +1,4 @@
+import ErrorReport from "@/app/helpers/ErrorReport";
 import { USER } from "@/app/modals/modal";
 import { NextResponse } from "next/server";
 
@@ -13,6 +14,14 @@ export async function POST(request) {
       message: "Password reset successfull",
     });
   } catch (error) {
+    if (
+      error?.code === 500 ||
+      error?.status === 500 ||
+      !error?.code ||
+      !error?.status
+    ) {
+      ErrorReport(error);
+    }
     return NextResponse.json({
       status: error?.status || error?.code || 500,
       message: error?.message || "somethign went wrong",
