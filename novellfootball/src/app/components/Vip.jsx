@@ -19,7 +19,7 @@ function Vip({ data, isActive }) {
         className="h-[6rem] rounded-t-[30px]  flex justify-center place-items-center "
       >
         <span className="">
-          <h1 style={{color:data.color}} className="text-[.9rem] font-body -tracking-tighter  ">
+          <h1 style={{color:data.color}} className="text-[.9rem] font-bold -tracking-tight  ">
             {data.tittle}
           </h1>
           <span style={{color:data.textColor}} className="text-xs flex place-items-center ">

@@ -7,6 +7,7 @@ import Modal from "@/app/components/Modal";
 import { AlertContext } from "@/app/helpers/AlertContext";
 import Layout from "@/app/components/Layout";
 import { UserContext } from "@/app/helpers/UserContext";
+import { Copy } from "@/app/helpers/Copy";
 
 function Page() {
   // Popup handling here //
@@ -56,6 +57,9 @@ function Page() {
 
       let res = await fetch("/api/payment/deposit", config);
       res = await res.json();
+      if (res) {
+        setDisabled(false);
+      }
       if (res?.status === 200) {
         getAlert("success", "your deposit is under verification");
         router.push("/");
@@ -84,7 +88,7 @@ function Page() {
       submitDeposit();
       setTimeout(() => {
         setDisabled(false);
-      }, 1000);
+      }, 4000);
     }
   };
 
@@ -248,19 +252,15 @@ function Page() {
 export default Page;
 
 const CopyUPI = ({ upiId }) => {
-  const [copied, setCopied] = useState(false);
-
-  const copyToClipboard = () => {
-    navigator.clipboard
-      .writeText(upiId)
-      .then(() => {
-        setCopied(true);
-        alert("copied");
-        setTimeout(() => setCopied(false), 2000); // Reset copied state after 2 seconds
-      })
-      .catch((error) => {
-        console.error("Failed to copy:", error);
-      });
+  let { getAlert } = useContext(AlertContext);
+  const copyToClipboard = async (e) => {
+    let isCopied = await Copy(upiId); //  returns true if successful
+    getAlert(
+      isCopied ? "success" : "opps",
+      isCopied
+        ? "Upi Id copied successfully."
+        : "unable to copy the text please try to copy it manually"
+    );
   };
 
   return (
@@ -297,7 +297,9 @@ function RechargeAmount({ getAmount }) {
   );
 }
 
-// onClick={async (e) => {
+
+
+// async (e) => {
 //   let isCopied = await Copy("TEXT"); //  returns true if successful
 //   getAlert(
 //     isCopied ? "success" : "opps",
@@ -305,4 +307,5 @@ function RechargeAmount({ getAmount }) {
 //       ? "Invitation link copied successfully."
 //       : "unable to copy the text please try to copy it manually"
 //   );
-// }}
+// };
+

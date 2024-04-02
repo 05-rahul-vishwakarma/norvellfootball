@@ -53,8 +53,10 @@ function Page() {
     getAlert();
     if (!value || !amount) {
       getAlert("opps", "kindly fill the  form completely");
+      setDisabled(false);
     } else if (value.length !== 12) {
       getAlert("opps", "fill 12 digit values only");
+      setDisabled(false);
     } else {
       try {
         let body = {
@@ -72,6 +74,10 @@ function Page() {
 
         let res = await fetch("/api/payment/deposit", config);
         res = await res.json();
+        if (res) {
+          console.log("yes works")
+          setDisabled(false);
+        }
         if (res?.status === 200) {
           getAlert("success", "your deposit is under verification");
           router.push("/");
@@ -91,10 +97,6 @@ function Page() {
 
     if (disabled === false) {
       submitData();
-    } else {
-      setTimeout(() => {
-        setDisabled(false);
-      }, 500);
     }
   };
 

@@ -9,6 +9,7 @@ import { useSearchParams } from "next/navigation";
 import { AlertContext } from "@/app/helpers/AlertContext";
 import Layout from "@/app/components/Layout";
 import { UserContext } from "@/app/helpers/UserContext";
+import { Copy } from "@/app/helpers/Copy";
 import Image from "next/image";
 
 function Page() {
@@ -19,7 +20,6 @@ function Page() {
   const [depositAddress, updateDepositAddress] = useState("");
   const router = useRouter();
   const [disabled, setDisabled] = useState(false);
-
 
   // implementing the function which copies the address value //
   const [text, setText] = useState("");
@@ -32,14 +32,22 @@ function Page() {
       getAlert("Enter some text to copy");
       return;
     }
-    try {
-      await navigator.clipboard.writeText(text);
-      getAlert("success", "text copied");
-      return true; // Return true if successful
-    } catch (error) {
-      getAlert("opps", "Failed to copy text");
-      return false; // Return false if failed
-    }
+    // try {
+    //   await navigator.clipboard.writeText(text);
+    //   getAlert("success", "text copied");
+    //   return true; // Return true if successful
+    // } catch (error) {
+    //   getAlert("opps", "Failed to copy text");
+    //   return false; // Return false if failed
+    // }
+
+    let isCopied = await Copy(text); //  returns true if successful
+    getAlert(
+      isCopied ? "success" : "opps",
+      isCopied
+        ? "Invitation link copied successfully."
+        : "unable to copy the text please try to copy it manually"
+    );
   };
 
   const copyTransactionId = async () => {
@@ -47,15 +55,13 @@ function Page() {
       getAlert("opps", "enter some text to copy ");
       return;
     }
-    try {
-      await navigator.clipboard.writeText(transactionId);
-      getAlert("success", "text copied");
-
-      return true; // Return true if successful
-    } catch (error) {
-      getAlert("opps", "something went wrong while coping");
-      return false; // Return false if failed
-    }
+    let isCopied = await Copy(transactionId); //  returns true if successful
+    getAlert(
+      isCopied ? "success" : "opps",
+      isCopied
+        ? "Transaction Id copied successfully."
+        : "unable to copy the text please try to copy it manually"
+    );
   };
 
   async function usdtDetails() {
@@ -82,7 +88,7 @@ function Page() {
         res = await res.json();
         if (res?.status === 200) {
           getAlert("success", "your payment is under verification");
-          router.push('/')
+          router.push("/");
         } else if (res?.status === 500 || res?.status === 302) {
           getAlert("redirect", "something went wrong");
         } else {
@@ -108,13 +114,11 @@ function Page() {
 
     if (disabled === false) {
       usdtDetails();
-    } else {
-      setTimeout(() => {
-        setDisabled(false);
-      }, 2000);
     }
+    setTimeout(() => {
+      setDisabled(false);
+    }, 2000);
   };
-
 
   return (
     <Layout>
@@ -132,11 +136,11 @@ function Page() {
           </div>
 
           <div
-            style={{ boxShadow: "0 5px 10px rgb(0,0,0,0.08)  " }}
+            style={{ boxShadow: "0 3px 6px rgb(0,0,0,0.05)  " }}
             className=" bg-[#fff] mt-2 px-2 rounded-lg py-1 flex justify-between text-[0.6rem] "
           >
             <div className=" ">
-              <p className="font-[500] ">
+              <p className="font-[500] text-[#000000d3] ">
                 Order <span># 12334</span>
               </p>
               <p className="font-light text-[gray] ">Norvell</p>
@@ -150,11 +154,12 @@ function Page() {
           </div>
 
           <div
-            style={{ boxShadow: "0 5px 10px rgb(0,0,0,0.08)  " }}
+            style={{ boxShadow: "0 3x 6px rgb(0,0,0,0.05)  " }}
             className="w-full h-min bg-[#FFF] mt-4  rounded-2xl p-3 "
           >
-            <span className="flex place-items-center font-[500] text-[.65rem]  ">
-              <IoQrCodeOutline className="mr-1  " /> Scan QR code{" "}
+            <span className="flex place-items-center font-[500] text-[.65rem] text-[#000000d3]  ">
+              <IoQrCodeOutline className="mr-1 text-[#000000d3] " /> Scan QR
+              code{" "}
             </span>
 
             <div className="w-[40vw] h-[20vh] grid place-items-center mr-auto ml-auto my-3 ">
@@ -176,8 +181,11 @@ function Page() {
                 <span className="text-[rgb(0,0,0,0.5)] text-[.65rem] ">
                   Network
                 </span>
-                <button style={{border:"1px solid #808080"}} className="py-1 flex place-items-center justify-evenly w-[90%] rounded-md ">
-                  <IoQrCodeOutline />
+                <button
+                  style={{ border: "1px solid #808080" }}
+                  className="py-1 flex place-items-center justify-evenly w-[90%] rounded-md "
+                >
+                  <IoQrCodeOutline className="text-[rgb(0,0,0,0.5)]" />
                   <p className="text-[rgb(0,0,0,0.5)] text-[.65rem] ">TRC20</p>
                 </button>
               </div>
@@ -186,8 +194,11 @@ function Page() {
                 <span className="text-[rgb(0,0,0,0.5)] text-[.65rem] ">
                   Coin
                 </span>
-                <button style={{border:"1px solid #808080"}} className="py-1 flex place-items-center justify-evenly w-[90%] rounded-md ">
-                  <IoQrCodeOutline />
+                <button
+                  style={{ border: "1px solid #808080" }}
+                  className="py-1 flex place-items-center justify-evenly w-[90%] rounded-md "
+                >
+                  <IoQrCodeOutline className="text-[rgb(0,0,0,0.5)]" />
                   <p className="text-[rgb(0,0,0,0.5)] text-[.65rem] ">USDT</p>
                 </button>
               </div>
@@ -204,10 +215,6 @@ function Page() {
                 disabled
                 onChange={(e) => setText(e.target.value)}
                 className="w-[80%] bg-transparent text-[.65rem] "
-              />
-              <FaRegCopy
-                onClick={() => copyAddress()}
-                className="text-[#2885F6] "
               />
             </div>
           </div>
@@ -231,7 +238,11 @@ function Page() {
 
           <div
             onClick={() => btndisbaled()}
-            disabled={disabled} style={{ backgroundColor: disabled ? '#5A5A5A' : '#2885F6' ,boxShadow: "0 0 5px 0 #c0cad9" }}
+            disabled={disabled}
+            style={{
+              backgroundColor: disabled ? "#5A5A5A" : "#2885F6",
+              boxShadow: "0 0 5px 0 #c0cad9",
+            }}
             className="bg-[#2885F6] text-center p-3 mt-4 rounded-lg flex justify-center place-items-center text-[#fff] text-[.7rem] "
           >
             Recharge
@@ -247,7 +258,6 @@ export default Page;
 function RechargeAmount({ getAmount }) {
   const [receivedAmount, setReceivedAmount] = useState("");
   const searchParams = useSearchParams();
-
 
   useEffect(() => {
     let amount = searchParams.get("data");
@@ -269,9 +279,12 @@ function RechargeAmount({ getAmount }) {
   });
 
   return (
-    <div className="flex  items-center ">
-      <p className="ml-1 text-[.65rem] font-[500]"> ${usdt} </p>
-      <p className="ml-1 text-[.65rem] font-[500]">(USDT)</p>
+    <div className="flex  items-center  ">
+      <p className="ml-1 text-[.65rem] font-[500] text-[#000000d3] ">
+        {" "}
+        ${usdt}{" "}
+      </p>
+      <p className="ml-1 text-[.65rem] font-[500] text-[#000000d3] ">(USDT)</p>
     </div>
   );
 }

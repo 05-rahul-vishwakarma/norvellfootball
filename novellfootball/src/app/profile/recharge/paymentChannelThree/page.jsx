@@ -9,6 +9,7 @@ import Loading from "@/app/components/Loading";
 import { AlertContext } from "@/app/helpers/AlertContext";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { Copy } from "@/app/helpers/Copy";
 
 function page() {
   const [data, setData] = useState("");
@@ -53,7 +54,6 @@ function page() {
   }, []);
 
   async function rechargebtn() {
-
     if (!amount || !value) {
       getAlert("opps", "kindly fill the  form completely");
     } else {
@@ -72,6 +72,9 @@ function page() {
         };
         let res = await fetch("/api/payment/deposit", config);
         res = await res.json();
+        if (res) {
+          setDisabled(false);
+        }
         if (res?.status === 200) {
           getAlert("success", "your deposit is under verification");
           router.push("/");
@@ -91,13 +94,11 @@ function page() {
 
     if (disabled === false) {
       rechargebtn();
-    } else {
-      setTimeout(() => {
-        setDisabled(false);
-      }, 2000);
     }
+    setTimeout(() => {
+      setDisabled(false);
+    }, 4000);
   };
-
 
   return (
     <Layout>
@@ -227,7 +228,11 @@ function page() {
 
           <div
             onClick={() => btndisbaled()}
-            disabled={disabled} style={{ backgroundColor: disabled ? '#5A5A5A' : '#2885F6',boxShadow: "0 0 5px 0 #c0cad9"  }}
+            disabled={disabled}
+            style={{
+              backgroundColor: disabled ? "#5A5A5A" : "#2885F6",
+              boxShadow: "0 0 5px 0 #c0cad9",
+            }}
             className="bg-[#2885F6] text-center p-3 mt-2 rounded-lg flex justify-center place-items-center text-[#fff] "
           >
             Recharge
@@ -242,14 +247,18 @@ export default page;
 
 const InputWithCopyIcon = ({ value }) => {
   const [copied, setCopied] = useState(false);
+  const { getAlert } = useContext(AlertContext);
 
-  const copyToClipboard = async () => {
-    try {
-      await navigator.clipboard.writeText(value);
+  const copyToClipboard = async (e) => {
+    let isCopied = await Copy(value); //  returns true if successful
+    if (isCopied) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000); // Reset copied state after 2 seconds
-    } catch (err) {
-      console.error("Failed to copy:", err);
+    } else {
+      getAlert(
+        "opps",
+        "unable to copy the text please try to copy it manually"
+      );
     }
   };
 

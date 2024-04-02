@@ -45,39 +45,40 @@ function Page() {
   };
   const handleRedirect = () => {
     setDisabled(true);
-    setTimeout(() => {
-      setDisabled(false);
-    }, 500);
-
-    if (!inputValue) {
-      getAlert("opps", "please enter the deposit amount");
-    } else {
-      if (selectedOption === "option1") {
-        router.push(
-          `/profile/recharge/paymentChannelOne?data=${encodeURIComponent(
-            inputValue
-          )}`
-        );
-      } else if (selectedOption === "option2") {
-        router.push(
-          `/profile/recharge/paymentChannelTwo?data=${encodeURIComponent(
-            inputValue
-          )}`
-        );
-      } else if (selectedOption === "option3") {
-        router.push(
-          ` /profile/recharge/paymentChannelThree?data=${encodeURIComponent(
-            inputValue
-          )}`
-        );
-      } else if (selectedOption === "option4") {
-        router.push(
-          `/profile/recharge/usdt?data=${encodeURIComponent(inputValue)}`
-        );
-      } else if (selectedOption === "") {
-        getAlert("opps", "please choose any one payment method");
+    if (disabled == false) {
+      if (!inputValue) {
+        getAlert("opps", "please enter the deposit amount");
+      } else {
+        if (selectedOption === "option1") {
+          router.push(
+            `/profile/recharge/paymentChannelOne?data=${encodeURIComponent(
+              inputValue
+            )}`
+          );
+        } else if (selectedOption === "option2") {
+          router.push(
+            `/profile/recharge/paymentChannelTwo?data=${encodeURIComponent(
+              inputValue
+            )}`
+          );
+        } else if (selectedOption === "option3") {
+          router.push(
+            ` /profile/recharge/paymentChannelThree?data=${encodeURIComponent(
+              inputValue
+            )}`
+          );
+        } else if (selectedOption === "option4") {
+          router.push(
+            `/profile/recharge/usdt?data=${encodeURIComponent(inputValue)}`
+          );
+        } else if (selectedOption === "") {
+          getAlert("opps", "please choose any one payment method");
+        }
       }
     }
+    setTimeout(() => {
+      setDisabled(false);
+    }, 4000);
   };
 
   return (
