@@ -37,7 +37,6 @@ function Page() {
       if (!res.ok) throw new Error("Error while fetching matches");
       res = await res.json();
       if (res?.status === 200) {
-        setLoading(false); // Set loading to false when data is fetched
         updateMatches(res?.data?.matches);
       } else {
         throw new Error("Somethign went wrong");
@@ -84,7 +83,7 @@ function Page() {
   return (
     <Layout>
       <section className="bg-[#f7f8ff] relative h-[100dvh]">
-        {loading && <Loading />}
+        {/* {loading && <Loading />} */}
         <div className="relative text-center py-4 h-[8%] ">
           <h2 className=" capitalize text-sm font-bold my-0">matches</h2>
         </div>
@@ -143,23 +142,18 @@ function Page() {
                   />
                 ))}
 
-            {matchLoaded === true && matches?.length <= 0 && (
-              <div className="h-full w-full flex justify-center items-center">
-                <p
-                  style={{
-                    background: "url(./match_noData.svg) center no-repeat",
-                  }}
-                  className="h-1/2 w-1/2"
-                ></p>
-              </div>
-            )}
-
-            {!matchLoaded && matches?.length >= 0 && (
+            {/* {!matchLoaded && matches?.length >= 0 && (
               <div className="text-center w-full text-xl capitalize">
                 Loading...
               </div>
             )}
+             */}
           </div>
+          {matchLoaded === true && matches?.length <= 0 && (
+            <div className="h-full w-full flex justify-center items-center">
+              <Loading />
+            </div>
+          )}
         </main>
         {/* popup */}
         {isPlaceBet && (

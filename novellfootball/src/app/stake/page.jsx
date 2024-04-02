@@ -53,7 +53,6 @@ function Page() {
   const { getAlert, getBalance } = useContext(UserContext);
   const [disabled, setDisabled] = useState(false);
 
-
   let router = useRouter();
 
   // # function to cancel the stake
@@ -109,21 +108,23 @@ function Page() {
         setLoading(false); // Set loading to false when data is fetched
         updatePendingMatches(res?.data?.pendingMatches);
         updateSettledMatches(res?.data?.settledMatches);
-        const bettingAmounts = res?.data?.pendingMatches.map(item => item.BetAmount);
+        const bettingAmounts = res?.data?.pendingMatches.map(
+          (item) => item.BetAmount
+        );
         // console.log(bettingAmounts)
         // Calculate the total betting amount by summing all the amounts in the array
-        const totalBettingAmount = bettingAmounts.reduce((total, amount) => total + amount, 0);
+        const totalBettingAmount = bettingAmounts.reduce(
+          (total, amount) => total + amount,
+          0
+        );
         // console.log(totalBettingAmount)
-        setAmounts(totalBettingAmount)
+        setAmounts(totalBettingAmount);
       }
       if (res?.status === 302) router.push("/access/login");
     } catch (error) {
       router.push("/access/login");
     }
   }
-
-  
-
 
   useEffect(() => {
     getStakeData();
@@ -185,9 +186,9 @@ function Page() {
           </span>
         </div>
 
-        <div className="h-[60%] mt-[.6rem]  overflow-y-scroll relative  pb-[12rem] ">
+        <div className="h-[58vh] mt-[.6rem]  overflow-y-scroll relative  ">
           {swipe ? (
-            <div className=" h-full absolute top-0 left-0 w-full  ">
+            <div className=" h-[100%] absolute top-0 left-0 w-full overflow-y-auto pb-[5rem]  ">
               {pendingMatches?.map((match, idx) => (
                 <Stake
                   key={match?.StakeId || idx}
@@ -203,7 +204,7 @@ function Page() {
               )}
             </div>
           ) : (
-            <div className=" h-full absolute top-0 left-0 w-full  ">
+            <div className=" h-[100%] absolute top-0 left-0 w-full overflow-y-auto pb-[5rem] ">
               {settledMatches.map((match, idx) => (
                 <StakeHistory
                   data={match}

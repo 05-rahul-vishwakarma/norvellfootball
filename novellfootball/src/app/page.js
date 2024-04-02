@@ -262,11 +262,10 @@ function MatchPopup({ match, onClose }) {
       } catch (error) {
         getAlert("error", res.message);
       }
-    } else {
-      setTimeout(() => {
-        setDisabled(false);
-      }, 2000);
     }
+    setTimeout(() => {
+      setDisabled(false);
+    }, 4000);
   }
 
   // updating the logos and match time start

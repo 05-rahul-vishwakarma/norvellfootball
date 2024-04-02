@@ -75,11 +75,10 @@ function Page() {
           getAlert("opps", "please choose any one payment method");
         }
       }
-    } else {
-      setTimeout(() => {
-        setDisabled(false);
-      }, 2000); 
     }
+    setTimeout(() => {
+      setDisabled(false);
+    }, 4000);
   };
 
   return (
