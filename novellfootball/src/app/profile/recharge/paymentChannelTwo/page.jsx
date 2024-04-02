@@ -1,5 +1,5 @@
 "use client";
-import { useSearchParams ,useRouter } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import React, { useState, useEffect, Suspense, useContext } from "react";
 import Image from "next/image";
 import { FaRegCopy } from "react-icons/fa6";
@@ -58,7 +58,7 @@ function Page() {
       res = await res.json();
       if (res?.status === 200) {
         getAlert("success", "your deposit is under verification");
-        router.push('/')
+        router.push("/");
       } else if (res?.status === 500 || res?.status === 302) {
         getAlert("redirect", "something went wrong login again");
       } else {
@@ -82,13 +82,11 @@ function Page() {
 
     if (disabled === false) {
       submitDeposit();
-    } else {
       setTimeout(() => {
         setDisabled(false);
-      }, 2000);
+      }, 1000);
     }
   };
-
 
   return (
     <Layout>
@@ -203,7 +201,8 @@ function Page() {
 
               <button
                 onClick={() => btndisbaled()}
-                disabled={disabled} style={{ backgroundColor: disabled ? '#5A5A5A' : '#2885F6' }}
+                disabled={disabled}
+                style={{ backgroundColor: disabled ? "#5A5A5A" : "#2885F6" }}
                 className="bg-[#2885F6] text-white  w-[23%]  text-[.65rem] "
               >
                 Submit
@@ -297,3 +296,13 @@ function RechargeAmount({ getAmount }) {
     </div>
   );
 }
+
+// onClick={async (e) => {
+//   let isCopied = await Copy("TEXT"); //  returns true if successful
+//   getAlert(
+//     isCopied ? "success" : "opps",
+//     isCopied
+//       ? "Invitation link copied successfully."
+//       : "unable to copy the text please try to copy it manually"
+//   );
+// }}

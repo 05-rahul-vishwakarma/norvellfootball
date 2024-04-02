@@ -15,6 +15,8 @@ function Page() {
       id: 1,
       imagesrc: "/emerald.png",
       tittle: "Emerald Member",
+      textColor:"#5F5F5F",
+      color:"#fff",
       icons: [
         <IoCloseCircle className="text-[red] text-[1.4rem] " />,
         <IoCloseCircle className="text-[red] text-[1.4rem]  " />,
@@ -30,6 +32,8 @@ function Page() {
       id: 2,
       imagesrc: "/ruby.png",
       tittle: "Ruby Member",
+      textColor:"#D1D1D1",
+      color:"#fff",
       icons: [
         <IoMdCheckmarkCircle className="text-[1.4rem] text-[blue]" />,
         <IoCloseCircle className="text-[red] text-[1.4rem] " />,
@@ -45,6 +49,8 @@ function Page() {
       id: 3,
       imagesrc: "/sapphire.png",
       tittle: "Sapphire Member",
+      textColor:"#90a0be",
+      color:"#fff",
       icons: [
         <IoMdCheckmarkCircle className="text-[1.4rem] text-[blue]" />,
         <IoCloseCircle className="text-[1.4rem] text-[red]" />,
@@ -60,6 +66,8 @@ function Page() {
       id: 4,
       imagesrc: "/whiteDiamond.png",
       tittle: "Diamond Member",
+      textColor:"#b0b0b0",
+      color:"#000",
       icons: [
         <IoMdCheckmarkCircle className="text-[1.4rem] text-[blue]" />,
         <IoMdCheckmarkCircle className="text-[1.4rem] text-[blue]" />,
@@ -75,6 +83,8 @@ function Page() {
       id: 5,
       imagesrc: "/blueDiamond.png",
       tittle: "Blue Diamond Member",
+      textColor:"#b0b0b0",
+      color:"#002b5c",
       icons: [
         <IoMdCheckmarkCircle className="text-[1.4rem] text-[blue]" />,
         <IoMdCheckmarkCircle className="text-[1.4rem] text-[blue]" />,

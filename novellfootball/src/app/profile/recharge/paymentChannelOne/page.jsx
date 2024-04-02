@@ -94,7 +94,7 @@ function Page() {
     } else {
       setTimeout(() => {
         setDisabled(false);
-      }, 2000);
+      }, 500);
     }
   };
 
