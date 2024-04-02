@@ -44,12 +44,7 @@ export async function GET(request) {
         "Invalid phone number or you have reached otp request limit try after some time.",
     });
   } catch (error) {
-    if (
-      error?.code === 500 ||
-      error?.status === 500 ||
-      !error?.code ||
-      !error?.status
-    ) {
+    if (error?.code === 500 || error?.status === 500 || !error?.status) {
       ErrorReport(error);
     }
     return NextResponse.json({
@@ -84,12 +79,7 @@ export async function POST(request) {
         "Invalid phone number or you have reached otp request limit try after some time.",
     });
   } catch (error) {
-    if (
-      error?.code === 500 ||
-      error?.status === 500 ||
-      !error?.code ||
-      !error?.status
-    ) {
+    if (error?.code === 500 || error?.status === 500 || !error?.status) {
       ErrorReport(error);
     }
     return NextResponse.json({
@@ -139,12 +129,7 @@ export async function PUT(request) {
         "Invalid phone number or you have reached otp request limit try after some time.",
     });
   } catch (error) {
-    if (
-      error?.code === 500 ||
-      error?.status === 500 ||
-      !error?.code ||
-      !error?.status
-    ) {
+    if (error?.code === 500 || error?.status === 500 || !error?.status) {
       ErrorReport(error);
     }
     return NextResponse.json({

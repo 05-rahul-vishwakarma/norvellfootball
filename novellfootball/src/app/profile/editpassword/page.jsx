@@ -1,13 +1,12 @@
 "use client";
 import Input from "@/app/components/Input";
 import Layout from "@/app/components/Layout";
+import Back from "@/app/components/LiveChats/Back";
 import Modal from "@/app/components/Modal";
 import OtpInputs from "@/app/components/OtpInputs";
 import { AlertContext } from "@/app/helpers/AlertContext";
 import { UserContext } from "@/app/helpers/UserContext";
 import { motion } from "framer-motion";
-
-// import VerificationPopup from "@/app/components/VerificationPopup";
 import React, { useContext, useEffect, useState } from "react";
 import { FaPlay } from "react-icons/fa6";
 
@@ -140,13 +139,7 @@ const VerificationPopup = ({
   return (
     <motion.div className="h-full absolute top-0 left-0 flex justify-center items-end  w-full">
       <motion.div className=" h-full pt-4 pb-40  bg-[#f8fbfe] overflow-y-auto rounded-t-[2rem] w-full">
-        <div className="flex  relative px-2  justify-center">
-          <h4 className="capitalize text-center font-bold">change password</h4>
-          <p
-            className="absolute right-2 font-bold top-[-0.5rem] p-2"
-            // onClick={() => toggleVerification(false)}
-          ></p>
-        </div>
+        <Back page={"edit password"} />
 
         <div className="px-14 mt-6">
           <h3 className="font-bold text-xs  capitalize">

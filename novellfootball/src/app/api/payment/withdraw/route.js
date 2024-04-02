@@ -108,12 +108,7 @@ export async function POST(request) {
       data: {},
     });
   } catch (error) {
-    if (
-      error?.code === 500 ||
-      error?.status === 500 ||
-      !error?.code ||
-      !error?.status
-    ) {
+    if (error?.code === 500 || error?.status === 500 || !error?.status) {
       ErrorReport(error);
     }
     await Session.abortTransaction();
@@ -142,12 +137,7 @@ async function updateUser(UserName, Amount, Session, Bank) {
     parent = user?.Parent;
     return true;
   } catch (error) {
-    if (
-      error?.code === 500 ||
-      error?.status === 500 ||
-      !error?.code ||
-      !error?.status
-    ) {
+    if (error?.code === 500 || error?.status === 500 || !error?.status) {
       ErrorReport(error);
     }
     parent = "";
@@ -172,12 +162,7 @@ async function vipVerified(UserName, Ammount) {
         vipMax[VipLevel]
     );
   } catch (error) {
-    if (
-      error?.code === 500 ||
-      error?.status === 500 ||
-      !error?.code ||
-      !error?.status
-    ) {
+    if (error?.code === 500 || error?.status === 500 || !error?.status) {
       ErrorReport(error);
     }
     throw new CustomError(705, error?.message, {});

@@ -1,5 +1,4 @@
 "use client";
-const BACKEND = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 import Image from "next/image";
 import MatchCard2 from "../components/MatchCard2";

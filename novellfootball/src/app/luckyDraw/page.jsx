@@ -1,10 +1,7 @@
 "use client";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import Layout from "../components/Layout";
-import { useRouter } from "next/navigation";
 import { UserContext } from "../helpers/UserContext";
 import { AlertContext } from "../helpers/AlertContext";
-import Image from "next/image";
 import Modal from "../components/Modal";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 

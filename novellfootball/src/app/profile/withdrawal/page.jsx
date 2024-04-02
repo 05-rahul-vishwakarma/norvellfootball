@@ -1,14 +1,7 @@
 "use client";
 import Image from "next/image";
 import { FaInfoCircle, FaRupeeSign } from "react-icons/fa";
-import { LiaAngleLeftSolid, LiaAngleRightSolid } from "react-icons/lia";
-import {
-  FaArrowDown,
-  FaCross,
-  FaDollarSign,
-  FaPlay,
-  FaPlus,
-} from "react-icons/fa6";
+import { FaDollarSign, FaPlay, FaPlus } from "react-icons/fa6";
 import { GrFormEdit } from "react-icons/gr";
 import { useContext, useState } from "react";
 import { IoIosClose } from "react-icons/io";
@@ -20,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { AlertContext } from "@/app/helpers/AlertContext";
 import Loading from "@/app/components/Loading";
 import { useEffect } from "react";
+import Back from "@/app/components/LiveChats/Back";
 
 function Page() {
   const [getVerification, updateGetVerif] = useState(false);
@@ -149,23 +143,12 @@ function Page() {
         {/* loading component here */}
         {loading && <Loading />}
 
-        <div className="h-[10%] flex justify-center relative items-center">
-          <span className="font-bold capitalize text-sm">
-            payment withdrawal
-          </span>
-          <span
-            // onClick={() => closePopup(false)}
-            className="space-x-2 absolute top-[50%] translate-y-[-50%] left-2 flex justify-center items-center font-semibold text-sm"
-          >
-            {/* <LiaAngleLeftSolid />
-            Back */}
-          </span>
-        </div>
+        <Back page={"payment withdrawal"} />
         <main className=" space-y-1  h-fit px-4 ">
           {/* hero section */}
           <div
             style={{
-              background: "url(/profileBg.png) center no-repeat",
+              background: "url(/withdrawalBg.jpg) center no-repeat",
               backgroundSize: "cover",
             }}
             className=" h-[65%] py-4  relative w-full  

@@ -2,26 +2,84 @@
 import { useEffect } from "react";
 
 const OlarkChat = () => {
-  // <script
-  //         src="//code.tidio.co/vxwslfiqavslfshkzjnnixbjimwewctv.js"
-  //         async
-  //       ></script>
+  // useEffect(() => {
+  //   if (!document.querySelector("#tidio-chat")) {
+  //     const script = document.createElement("script");
+  //     script.async = true;
+  //     script.src = "//code.tidio.co/vxwslfiqavslfshkzjnnixbjimwewctv.js";
+  //     document.body.appendChild(script);
+  //   }
+  //   return () => {
+  //     document.querySelector("#tidio-chat")?.remove();
+  //   };
+  // }, []);
+
   useEffect(() => {
-    // if (!window.olark) {
-    // Ensure Olark is not already loaded
-    if (!document.querySelector("#tidio-chat")) {
-      const script = document.createElement("script");
-      script.async = true;
-      script.src = "//code.tidio.co/vxwslfiqavslfshkzjnnixbjimwewctv.js";
-      document.body.appendChild(script);
+    if (!document.querySelector("[data-id='zsalesiq']")) {
+      let script = document.createElement("script");
+      script.type = "text/javascript";
+      script.id = "zsiqchat";
+      script.innerHTML = `
+    var $zoho = $zoho || {};
+    $zoho.salesiq = $zoho.salesiq || {
+      widgetcode: "siqb5d93c8a76f9d78afd916ace4c80a94e32d5531b5b274816914cbd359cd12ed3",
+      values: {},
+      ready: function () {}
+    };
+  `;
+      document?.head?.appendChild(script);
+      var salesiqScript = document.createElement("script");
+      salesiqScript.type = "text/javascript";
+      salesiqScript.id = "zsiqscript";
+      salesiqScript.defer = true;
+      salesiqScript.src = "https://salesiq.zoho.in/widget";
+
+      salesiqScript.addEventListener("load", () => {
+        setTimeout(() => {
+          const zSalesIQElement = document.querySelector(
+            "[data-id='zsalesiq']"
+          );
+          if (zSalesIQElement) {
+            zSalesIQElement.style.bottom = "4.5rem";
+          }
+        }, 1500);
+      });
+      // Insert the widget script after the dynamically created script
+      script.parentNode.insertBefore(salesiqScript, script.nextSibling);
     }
-    // }
+
     return () => {
-      document.querySelector("#tidio-chat")?.remove();
+      const script1 = document.querySelector("[data-id='zsalesiq']");
+      const script2 = document.querySelector("[data-id='zsalesiq']");
+      if (zSalesIQElement) {
+        zSalesIQElement.remove();
+      } else if (script1) {
+        script1.remove();
+      } else if (script2) {
+        script2.remove();
+      }
     };
   }, []);
 
-  return null; // Olark chat is loaded dynamically, so this component doesn't need to render anything
+  return null;
 };
+
+{
+  /* <script type="text/javascript" id="zsiqchat">
+  var $zoho=$zoho || {};$zoho.salesiq = $zoho.salesiq || {
+  widgetcode:"siqb5d93c8a76f9d78afd916ace4c80a94e32d5531b5b274816914cbd359cd12ed3", 
+  values:{},
+  ready:function(){}
+  };
+  var d=document;
+  s=d.createElement("script");
+  s.type="text/javascript";
+  s.id="zsiqscript";
+  s.defer=true;
+  s.src="https://salesiq.zoho.in/widget";
+  t=d.getElementsByTagName("script")[0];
+  t.parentNode.insertBefore(s,t);
+  </script> */
+}
 
 export default OlarkChat;

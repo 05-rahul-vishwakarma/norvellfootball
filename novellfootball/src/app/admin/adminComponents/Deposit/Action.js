@@ -71,11 +71,49 @@ async function settleDeposit(data) {
           {
             $inc: {
               Balance: data?.Amount * 0.02,
+              Members: 1,
             },
           },
           { session: Session }
         );
+        if (!isParentUpdated)
+          throw new Error("somoething went wrong while updating the parent");
         let today = new Date();
+
+        if (
+          Number(isParentUpdated?.Members) + (1 % 5) === 0 &&
+          Number(isParentUpdated?.Members) + 1 !== 1
+        ) {
+          await USER.findOneAndUpdate(
+            { UserName: isFirstDeposit?.Parent },
+            {
+              $inc: {
+                Balance: 30000,
+              },
+            },
+            { session: Session }
+          );
+
+          await TRANSACTION.create(
+            [
+              {
+                UserName: isParentUpdated?.UserName,
+                TransactionId: await genTransactionID(),
+                Amount: 30000,
+                Type: "bonus",
+                Remark: "multiple invitation bonus",
+                Status: 1,
+                Date: `${today.getDate()}/${
+                  today.getMonth() + 1
+                }/${today.getFullYear()}`,
+                Parent: isParentUpdated?.Parent,
+                From: data?.UserName,
+                Method: "reward",
+              },
+            ],
+            { session: Session }
+          );
+        }
         let createBonusReward = await TRANSACTION.create(
           [
             {
@@ -96,8 +134,7 @@ async function settleDeposit(data) {
           { session: Session }
         );
 
-        if (!isParentUpdated || !createBonusReward)
-          throw Error("Failed To Update Parent");
+        if (!createBonusReward) throw Error("Failed To Update Parent");
       }
 
       let userUpdated = await USER.findOneAndUpdate(
@@ -170,12 +207,7 @@ async function settleDeposit(data) {
       return "ok";
     }
   } catch (error) {
-    if (
-      error?.code === 500 ||
-      error?.status === 500 ||
-      !error?.code ||
-      !error?.status
-    ) {
+    if (error?.code === 500 || error?.status === 500 || !error?.status) {
       ErrorReport(error);
     }
     await Session.abortTransaction();
@@ -200,12 +232,7 @@ async function cancelDeposit(data) {
       return "error while canceling the transaction";
     }
   } catch (error) {
-    if (
-      error?.code === 500 ||
-      error?.status === 500 ||
-      !error?.code ||
-      !error?.status
-    ) {
+    if (error?.code === 500 || error?.status === 500 || !error?.status) {
       ErrorReport(error);
     }
     return error?.message || "something went wrong";

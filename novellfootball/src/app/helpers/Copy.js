@@ -11,12 +11,12 @@ export async function Copy(text) {
       });
       get({
         callback: (data) => {
-          isCopied = data?.value === text;
+          isCopied = data?.value == text;
         },
       });
     } else {
       await navigator.clipboard.writeText(text);
-      isCopied = (await navigator?.clipboard?.readText()) === text;
+      isCopied = (await navigator?.clipboard?.readText()) == text;
     }
     return isCopied;
   } catch (error) {

@@ -1,6 +1,7 @@
 "use client";
 import CommissionPopModel from "@/app/components/CommissionPopModel";
 import Layout from "@/app/components/Layout";
+import Back from "@/app/components/LiveChats/Back";
 import Loading from "@/app/components/Loading";
 import { AlertContext } from "@/app/helpers/AlertContext";
 import { Copy } from "@/app/helpers/Copy";
@@ -173,11 +174,7 @@ const Page = () => {
   return (
     <Layout>
       <section className=" bg-[#F8FCFF] w-full relative h-[100dvh]">
-        <div className="relative text-center py-4 h-[8%] ">
-          <h2 className=" capitalize text-[0.8rem] font-bold my-0">
-            commission center
-          </h2>
-        </div>
+        <Back page={"commission center"} />
         <main className=" space-y-1  h-fit px-4 ">
           {/* hero section */}
           <div

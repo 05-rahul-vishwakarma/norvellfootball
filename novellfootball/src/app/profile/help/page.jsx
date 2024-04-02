@@ -7,6 +7,7 @@ import { FaTelegram } from "react-icons/fa6";
 import { LiaAngleDownSolid, LiaAngleRightSolid } from "react-icons/lia";
 import { useRouter } from "next/navigation";
 import OlarkChat from "@/app/components/LiveChats/OlarkChat";
+import Back from "@/app/components/LiveChats/Back";
 
 const Page = () => {
   const [getAgents, toggleAgents] = useState(false);
@@ -15,9 +16,7 @@ const Page = () => {
   return (
     <Layout>
       <section className=" bg-[#ffffff] w-full relative pb-40 h-[100dvh] overflow-y-auto">
-        <div className="relative text-center py-4 h-[8%] ">
-          <h2 className=" capitalize text-[0.8rem] font-bold my-0">get help</h2>
-        </div>
+        <Back page={"get help"} />
         <main className=" h-full space-y-1  px-4 ">
           <div className="h-[50%] relative w-full">
             <Image src={"/get_help_svg.svg"} fill alt="get help" />

@@ -1,18 +1,13 @@
 "use client";
 
-import React, { useState ,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import BackButton from "@/app/components/BackButton";
 import { LiaAngleDownSolid, LiaAngleRightSolid } from "react-icons/lia";
-import { IoIosArrowDropup } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
 import { motion } from "framer-motion";
 import Loading from "@/app/components/Loading";
 
-import {
-  MdOutlineKeyboardArrowDown,
-  MdOutlineKeyboardArrowRight,
-} from "react-icons/md";
 import Layout from "@/app/components/Layout";
 
 const accorodient = {
@@ -55,11 +50,10 @@ function Page() {
     }, 1000);
   });
 
-
   return (
     <Layout>
       <section className="h-screen bg-[#F8FCFF] ">
-      {loading && <Loading />}
+        {loading && <Loading />}
 
         <Link href="/profile/help/">
           <div className="pt-3   ">
@@ -88,8 +82,11 @@ function Page() {
             <div className="flex justify-between place-items-center px-3 ">
               <p>Game Rule</p>
               <span
-              // (prev) => !prev
-                onClick={() => setVisible((isVisible) =>!isVisible) || setHide((isHide) =>(!isHide))}
+                // (prev) => !prev
+                onClick={() =>
+                  setVisible((isVisible) => !isVisible) ||
+                  setHide((isHide) => !isHide)
+                }
                 className="h-full rounded-full bg-gray-300 text-black p-1"
               >
                 {isVisible ? <IoIosArrowUp /> : <LiaAngleDownSolid />}
@@ -110,65 +107,63 @@ function Page() {
             </div>
           </div>
 
-            <div
-              style={{ boxShadow: "0 10px 10px rgba(0,0,0,0.05) " }}
-              className="mt-3 py-3  rounded-xl bg-[#fff] text-[0.7rem] "
-            >
-              <div className="flex justify-between place-items-center px-3 ">
-                <p className="font-[600] ">Commission Rule</p>
-                <span
-                  onClick={() => setVisibleTwo(!isVisibleTwo)}
-                  className="h-full rounded-full bg-gray-300 text-black p-1"
-                >
-                  {isVisibleTwo ? <IoIosArrowUp /> : <LiaAngleDownSolid />}
-                </span>
-              </div>
-              <div>
-                <motion.div
-                  variants={accorodient}
-                  animate={isVisibleTwo ? "showTwo" : "hideTwo"}
-                  transition={{ duration: 0.5 }}
-                  className="text-[0.6rem] overflow-scroll  flex flex-col  place-items-center px-4  "
-                >
-                  <p className="my-3 text-[#00000091] font-[600]">
-                    Our commission structure operates across three levels,
-                    ensuring rewarding opportunities for all members.
-                  </p>
-
-                  <p className="mb-3 text-[#00000091] font-[600]">
-                    Level 1 members yield a 10% commission, Level 2 members
-                    offer a 7% commission, and Level 3 members provide a 3%
-                    commission.
-                  </p>
-
-                  <p className="text-[#00000091] font-[600]">
-                    For instance, if a (Level 1 member places a stake of Rs.
-                    500k and earns Rs. 25k, you receive Rs. 2500 as commission).
-                  </p>
-                  <p className="mb-3 text-[#00000091] font-[600]">
-                    Similarly, from a (Level 2 member's Rs. 25k earnings, you
-                    receive Rs. 1750), and from a (Level 3 member, you receive
-                    Rs. 750).
-                  </p>
-
-                  <h1 className="text-left font-bold w-full text-[#000000e7] ">
-                    This result in a daily income of Rs.5000
-                  </h1>
-
-                  <p className="my-3 text-[#00000091] font-[600]">
-                    Invite your family and friends to partake in these benefits
-                    and maximize their earnings. Together, we can create a
-                    thriving community where everyone prospers. Join us today
-                    and unlock the potential for substantial and sustainable
-                    income. Don't miss out on this opportunity to elevate your
-                    financial prospects while sharing the rewards with your
-                    loved ones. Embrace the power of our commission structure
-                    and embark on a journey towards financial freedom and
-                    prosperity.
-                  </p>
-                </motion.div>
-              </div>
+          <div
+            style={{ boxShadow: "0 10px 10px rgba(0,0,0,0.05) " }}
+            className="mt-3 py-3  rounded-xl bg-[#fff] text-[0.7rem] "
+          >
+            <div className="flex justify-between place-items-center px-3 ">
+              <p className="font-[600] ">Commission Rule</p>
+              <span
+                onClick={() => setVisibleTwo(!isVisibleTwo)}
+                className="h-full rounded-full bg-gray-300 text-black p-1"
+              >
+                {isVisibleTwo ? <IoIosArrowUp /> : <LiaAngleDownSolid />}
+              </span>
             </div>
+            <div>
+              <motion.div
+                variants={accorodient}
+                animate={isVisibleTwo ? "showTwo" : "hideTwo"}
+                transition={{ duration: 0.5 }}
+                className="text-[0.6rem] overflow-scroll  flex flex-col  place-items-center px-4  "
+              >
+                <p className="my-3 text-[#00000091] font-[600]">
+                  Our commission structure operates across three levels,
+                  ensuring rewarding opportunities for all members.
+                </p>
+
+                <p className="mb-3 text-[#00000091] font-[600]">
+                  Level 1 members yield a 10% commission, Level 2 members offer
+                  a 7% commission, and Level 3 members provide a 3% commission.
+                </p>
+
+                <p className="text-[#00000091] font-[600]">
+                  For instance, if a (Level 1 member places a stake of Rs. 500k
+                  and earns Rs. 25k, you receive Rs. 2500 as commission).
+                </p>
+                <p className="mb-3 text-[#00000091] font-[600]">
+                  Similarly, from a (Level 2 member's Rs. 25k earnings, you
+                  receive Rs. 1750), and from a (Level 3 member, you receive Rs.
+                  750).
+                </p>
+
+                <h1 className="text-left font-bold w-full text-[#000000e7] ">
+                  This result in a daily income of Rs.5000
+                </h1>
+
+                <p className="my-3 text-[#00000091] font-[600]">
+                  Invite your family and friends to partake in these benefits
+                  and maximize their earnings. Together, we can create a
+                  thriving community where everyone prospers. Join us today and
+                  unlock the potential for substantial and sustainable income.
+                  Don't miss out on this opportunity to elevate your financial
+                  prospects while sharing the rewards with your loved ones.
+                  Embrace the power of our commission structure and embark on a
+                  journey towards financial freedom and prosperity.
+                </p>
+              </motion.div>
+            </div>
+          </div>
         </div>
 
         {showTerms ? <Terms setTerms={setTerms} /> : ""}
