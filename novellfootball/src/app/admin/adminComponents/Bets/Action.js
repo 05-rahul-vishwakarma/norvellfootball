@@ -39,14 +39,14 @@ export async function settle(prevState, formData) {
       message: "select either cancel or success",
     };
   } catch (error) {
-    if (
-      error?.code === 500 ||
-      error?.status === 500 ||
-      !error?.code ||
-      !error?.status
-    ) {
-      ErrorReport(error);
-    }
+    // if (
+    //   error?.code === 500 ||
+    //   error?.status === 500 ||
+    //   !error?.code ||
+    //   !error?.status
+    // ) {
+    //   ErrorReport(error);
+    // }
     return {
       message: error?.message || error,
     };
@@ -108,14 +108,14 @@ async function betParser({ StakeId, s_first, s_second, g_first, g_second }) {
     // };
 
     // dev only
+    // JSON.stringify(
+    //   `users_updated -> ${JSON.stringify(
+    //     updatedUsers
+    //   )} , updated_Bets -> ${JSON.stringify(
+    //     updatedBets
+    //   )} , created_commissions -> ${JSON.stringify(updatedCommissions)}`
     return {
-      message: JSON.stringify(
-        `users_updated -> ${JSON.stringify(
-          updatedUsers
-        )} , updated_Bets -> ${JSON.stringify(
-          updatedBets
-        )} , created_commissions -> ${JSON.stringify(updatedCommissions)}`
-      ),
+      message: `Bet's matched => ${updatedBets?.matchedCount} , Bet's updated => ${updatedBets?.upsertedCount} \n User's Matched => ${updatedUsers?.matchedCount} , User's Updated => ${updatedUsers?.upsertedCount} \n Commission given Count => ${updatedCommissions?.insertedCount}`,
     };
   } catch (error) {
     await session.abortTransaction();
@@ -158,7 +158,6 @@ async function initiateParallelProcess(
     let Profit =
       Number(Number(match?.BetAmount) / 10000) * Number(match?.Percentage);
     Profit -= Profit * 0.05;
-    console.log(Profit);
     let res = await settle_bet(
       match,
       Profit,
@@ -271,7 +270,8 @@ async function give_parent_bonus(
       let parent_user = await USER.findOne({ UserName: Parent });
       if (!parent_user) {
         Parent = false;
-        throw new Error("Parent not found invalid parent");
+        continue;
+        // throw new Error("Parent not found invalid parent");
       }
 
       // the rebade will become the negative if the user has lost the bet

@@ -60,9 +60,14 @@ export async function PUT(request) {
     UserName = UserName?.trim();
 
     let userExists = await USER.findOne({ UserName }, { EmailId: 1 });
-    if (!userExists) throw new Error("no user found with this user name");
+    if (!userExists)
+      throw new CustomError(705, "no user found with this user name", {});
     if (!userExists?.EmailId)
-      throw new Error("User has not registered his/her mobile number");
+      throw new CustomError(
+        705,
+        "User has not registered his/her mobile number",
+        {}
+      );
 
     let otp = Math.ceil(Math.random() * 9000 + 1000);
     let res = await sendEmailOtp(userExists?.EmailId, otp);
@@ -70,14 +75,18 @@ export async function PUT(request) {
     if (res === true) {
       let response = NextResponse.json({
         status: 200,
-        message: "otp sent and valid for 5 minutes",
+        message: "otp sent to registered details and valid for 5 minutes",
       });
       response.cookies.set("otp", `${otp}`, {
         expires: Date.now() + 5 * oneMinute,
       });
       return response;
     }
-    return NextResponse.json({ status: 705, message: "Invalid phone number" });
+    return NextResponse.json({
+      status: 705,
+      message:
+        "Invalid phone number or you have reached otp request limit try after sometime.",
+    });
   } catch (error) {
     if (
       error?.code === 500 ||

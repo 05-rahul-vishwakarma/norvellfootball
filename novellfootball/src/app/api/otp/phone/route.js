@@ -38,7 +38,11 @@ export async function GET(request) {
       });
       return response;
     }
-    return NextResponse.json({ status: 705, message: "Invalid phone number" });
+    return NextResponse.json({
+      status: 705,
+      message:
+        "Invalid phone number or you have reached otp request limit try after some time.",
+    });
   } catch (error) {
     if (
       error?.code === 500 ||
@@ -74,7 +78,11 @@ export async function POST(request) {
 
       return response;
     }
-    return NextResponse.json({ status: 705, message: "Invalid phone number" });
+    return NextResponse.json({
+      status: 705,
+      message:
+        "Invalid phone number or you have reached otp request limit try after some time.",
+    });
   } catch (error) {
     if (
       error?.code === 500 ||
@@ -98,9 +106,14 @@ export async function PUT(request) {
     UserName = UserName?.trim();
 
     let userExists = await USER.findOne({ UserName }, { PhoneNumber: 1 });
-    if (!userExists) throw new Error("no user found with this user name");
+    if (!userExists)
+      throw new CustomError(705, "no user found with this user name", {});
     if (!userExists?.PhoneNumber)
-      throw new Error("User has not registered his/her mobile number");
+      throw new CustomError(
+        705,
+        "User has not registered his/her mobile number",
+        {}
+      );
 
     let otp = Math.ceil(Math.random() * 9000 + 999);
     let res = await sendPhoneOtp(userExists?.PhoneNumber, otp);
@@ -120,7 +133,11 @@ export async function PUT(request) {
       });
       return response;
     }
-    return NextResponse.json({ status: 705, message: "Invalid phone number" });
+    return NextResponse.json({
+      status: 705,
+      message:
+        "Invalid phone number or you have reached otp request limit try after some time.",
+    });
   } catch (error) {
     if (
       error?.code === 500 ||

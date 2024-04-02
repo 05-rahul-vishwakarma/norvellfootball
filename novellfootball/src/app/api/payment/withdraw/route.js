@@ -165,7 +165,7 @@ async function vipVerified(UserName, Ammount) {
     if (Ammount >= 500 && Ammount <= vipMax[VipLevel]) {
       return true;
     }
-    throw new Error(
+    throw new CustomError(
       "Your vip level is " +
         VipLevel +
         " you can withdraw from 500 - " +
@@ -180,7 +180,7 @@ async function vipVerified(UserName, Ammount) {
     ) {
       ErrorReport(error);
     }
-    throw new Error(error?.message);
+    throw new CustomError(705, error?.message, {});
   }
 }
 

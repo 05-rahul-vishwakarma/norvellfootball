@@ -157,10 +157,16 @@ const DepositCard = ({ data, idx }) => {
                   onChange={(e) => updateRemark(e.target.value)}
                   className="w-[40%]"
                 >
-                  <option value="something 1">something 1</option>
-                  <option value="something 2">something 2</option>
-                  <option value="something 3">something 3</option>
-                  <option value="something 4">something 4</option>
+                  <option value="payment processed.">payment processed.</option>
+                  <option value="invalid transaction details">
+                    invalid transaction details
+                  </option>
+                  <option value="contact customer support">
+                    contact customer support
+                  </option>
+                  <option value="canceled due to invalid transaction id">
+                    canceled due to invalid transaction id
+                  </option>
                 </select>
                 <input
                   type="text"

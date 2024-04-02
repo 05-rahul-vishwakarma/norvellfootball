@@ -49,7 +49,7 @@ const BonusProvider = () => {
         <button
           onClick={(e) => toggleEditable((prev) => !prev)}
           type="button"
-          className="bg-yellow-400 text-white rounded-md px-4 py-0.5"
+          className="bg-yellow-300 text-white rounded-md px-4 py-0.5"
         >
           Edit
         </button>

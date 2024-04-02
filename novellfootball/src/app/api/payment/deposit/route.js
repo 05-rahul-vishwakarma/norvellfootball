@@ -72,7 +72,8 @@ export async function POST(request) {
     await Session.commitTransaction();
     return NextResponse.json({
       status: 200,
-      message: "deposit is in processing",
+      message:
+        "Your deposit is in processing and will be reflected soon in you account .",
       data: {},
     });
   } catch (error) {

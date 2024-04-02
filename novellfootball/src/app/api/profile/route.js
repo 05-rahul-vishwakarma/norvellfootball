@@ -15,6 +15,7 @@ import { cookies } from "next/headers";
 import { isValidUser } from "@/app/helpers/auth";
 import { connect } from "@/app/modals/dbConfig";
 import ErrorReport from "@/app/helpers/ErrorReport";
+import CustomError from "@/app/helpers/Error";
 
 export async function GET() {
   let { session, token } = await getCookieData();
@@ -29,7 +30,7 @@ export async function GET() {
     let res = await TRANSACTION.find({ UserName });
     let reward = await REWARD.find({ UserName });
     res = [...res, ...reward]; // merge both arrays
-    if (!res) throw new Error("somethign went wrong");
+    if (!res) throw new CustomError("somethign went wrong");
     return NextResponse.json({
       status: 200,
       message: "data fetched",

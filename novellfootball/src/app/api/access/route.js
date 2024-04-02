@@ -2,7 +2,7 @@ const oneDay = 24 * 60 * 60 * 1000;
 const oneMinute = 60 * 1000;
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { USER } from "@/app/modals/modal";
+import { USER, BET } from "@/app/modals/modal";
 import { redirect } from "next/navigation";
 import { generateToken, verifyToken } from "@/app/helpers/auth";
 import { connect } from "@/app/modals/dbConfig";
@@ -179,3 +179,97 @@ async function generateInvitationCode() {
   ); // Convert the random bytes to a number between min and max
   return randomNumber;
 }
+
+// export async function GET() {
+//   try {
+//     let inv = [2348998, 13123];
+
+//     let today = new Date();
+//     await connect();
+//     let id = [
+//       {
+//         user: "dragon6",
+//         parent: 13123,
+//         inv: 34074,
+//       },
+//       {
+//         user: "dragon5",
+//         parent: 92296,
+//         inv: 59968,
+//       },
+//       {
+//         user: "dragon4",
+//         parent: 92296,
+//         inv: 17646,
+//       },
+//       {
+//         user: "dragon3",
+//         parent: 2348998,
+//         inv: 17646,
+//       },
+//       {
+//         user: "dragon2",
+//         parent: 45784,
+//         inv: 13123,
+//       },
+//       {
+//         user: "dragon1",
+//         parent: 2348998,
+//         inv: 13123,
+//       },
+//     ];
+//     // for (let i = 0; i < 6; i++) {
+//     //   let invitation = await generateInvitationCode();
+//     //   let newUser = {
+//     //     Session: "dl",
+//     //     UserName: `dragon${i + 1}`,
+//     //     PhoneNumber: Math.random() * 1000000000,
+//     //     Password: "123",
+//     //     International: false,
+//     //     Avatar: Math.floor(Math.random() * 11 + 1),
+//     //     JoinedOn: `${today.getDate()}/${
+//     //       today?.getMonth() + 1
+//     //     }/${today.getFullYear()}`,
+//     //     ParentInv: inv[Math.floor(Math.random() * inv.length)],
+//     //     InvitationCode: invitation,
+//     //     Parent: `${Math.random() * 10}`,
+//     //   };
+
+//     //   let isCreated = await USER.create(newUser);
+//     //   if (isCreated) {
+//     //     console.log(true);
+//     //     inv.push(invitation);
+//     //   }
+//     // }
+//     for (let i = 0; i < 6; i++) {
+//       const newBet = await BET.create({
+//         StakeId: 1164326,
+//         Team_a: "viking",
+//         Team_b: "sarpsborg 08 FF",
+//         BetAmount: 100000,
+//         LeagueName: "Eliteserien",
+//         StartsAt: "2024-04-01T17:15:00+00:00",
+//         Team_a_logo: "https://media.api-sports.io/football/teams/759.png",
+//         Team_b_logo: "https://media.api-sports.io/football/teams/333.png",
+//         Score_a: 4,
+//         Score_b: 4,
+//         Percentage: 3.95,
+//         Parent: id[i]?.parent,
+//         UserName: id[i]?.user,
+//         InvitationCode: id[i]?.inv,
+//         Remark: "Pending",
+//       });
+//       if (newBet) {
+//         console.log(true);
+//       }
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+
+//    dragon1             dragon3
+//     |    \             |
+// dragon6  dragon2    dragon 4
+//                       |
+//                       dragon5

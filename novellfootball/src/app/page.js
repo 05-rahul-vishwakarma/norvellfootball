@@ -538,3 +538,15 @@ function ScoreCards({
     </div>
   );
 }
+
+// HOW TO USE THE COPY BUTTON
+
+// onClick={async (e) => {
+//   let isCopied = await Copy("TEXT"); //  returns true if successful
+//   getAlert(
+//     isCopied ? "success" : "opps",
+//     isCopied
+//       ? "Invitation link copied successfully."
+//       : "unable to copy the text please try to copy it manually"
+//   );
+// }}

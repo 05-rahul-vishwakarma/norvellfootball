@@ -126,6 +126,7 @@ const Signup = () => {
   const [getVerification, updateGetVerif] = useState(false);
   const [isInternational, updtInternational] = useState(false);
   const [isVerified, setVerified] = useState(false);
+  const [isDisabled, setPhoneDisabled] = useState(false);
 
   function update(e) {
     updateCredentials((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -149,11 +150,11 @@ const Signup = () => {
     }
     if (isInternational && !credentials.Email) {
       // also validate that this user has validated the email after otp;
-      getAlert("opps", "email is required for international");
+      getAlert("opps", "email is required for international users");
       return;
     }
     if (!isInternational && credentials.Email) {
-      getAlert("opps", "If you want to have a email please verify it first");
+      getAlert("opps", "Email verification is required ");
       return;
     }
     if (!isInternational && !credentials.Phone) {
@@ -179,7 +180,6 @@ const Signup = () => {
     try {
       getAlert();
       if (credentials?.Phone?.length === 12) {
-        // setIsLoading(true);
         let config = {
           method: "POST",
           header: {
@@ -194,15 +194,18 @@ const Signup = () => {
             "success",
             res?.message || "otp sent successfully and valid for 5 minutes."
           );
+          setPhoneDisabled(true);
           updateGetVerif(true);
         } else {
           getAlert(
             "opps",
             res?.message || "something went wrong while creating user"
           );
+          setPhoneDisabled(false);
         }
       } else {
         getAlert("opps", "invalid phone number");
+        setPhoneDisabled(false);
       }
     } catch (error) {
       getAlert("opps", "something went wrong try again after sometime.");
@@ -287,7 +290,7 @@ const Signup = () => {
                 </div>
                 <PhoneInput
                   country={"in"}
-                  disabled={isVerified}
+                  disabled={isDisabled}
                   value={credentials.Phone}
                   className=" border-blue-600"
                   inputProps={{
@@ -304,53 +307,56 @@ const Signup = () => {
               </div>
             </motion.div>
           </motion.div>
-          <motion.div variants={itemVariants}>
-            <label
-              htmlFor="Email"
-              className="block text-sm font-bold leading-6 text-balance"
-            >
-              Email ID
-            </label>
-            <div className="mt-0 flex shadow-sm relative">
-              <div className="absolute top-0 flex justify-center items-center left-0 h-full aspect-square px-1.5 py-1.5 ">
-                <Image
-                  src={`/email.png`}
-                  alt="correct"
-                  width={20}
-                  height={20}
-                ></Image>
-              </div>
-              <div className="absolute top-0 flex justify-center items-center right-0  h-full aspect-square px-1.5 py-1.5 ">
-                {credentials.Email && credentials.Email.length >= 3 ? (
-                  <div className=" py-[1px] px-[1px] bg-gradient-to-r from-blue-500 to-black  rounded-md flex items-center justify-center">
-                    <button
-                      onClick={() => updateGetVerif(true)}
-                      className="rounded-md py-1 px-2.5 bg-slate-100 text-xs capitalize font-semibold"
-                    >
-                      verify
-                    </button>
-                  </div>
-                ) : (
+          {isInternational && (
+            <motion.div variants={itemVariants}>
+              <label
+                htmlFor="Email"
+                className="block text-sm font-bold leading-6 text-balance"
+              >
+                Email ID
+              </label>
+              <div className="mt-0 flex shadow-sm relative">
+                <div className="absolute top-0 flex justify-center items-center left-0 h-full aspect-square px-1.5 py-1.5 ">
                   <Image
-                    src={`/wrong.png`}
+                    src={`/email.png`}
                     alt="correct"
                     width={20}
                     height={20}
                   ></Image>
-                )}
+                </div>
+                <div className="absolute top-0 flex justify-center items-center right-0  h-full aspect-square px-1.5 py-1.5 ">
+                  {credentials.Email && credentials.Email.length >= 3 ? (
+                    <div className=" py-[1px] px-[1px] bg-gradient-to-r from-blue-500 to-black  rounded-md flex items-center justify-center">
+                      <button
+                        onClick={() => updateGetVerif(true)}
+                        className="rounded-md py-1 px-2.5 bg-slate-100 text-xs capitalize font-semibold"
+                      >
+                        verify
+                      </button>
+                    </div>
+                  ) : (
+                    <Image
+                      src={`/wrong.png`}
+                      alt="correct"
+                      width={20}
+                      height={20}
+                    ></Image>
+                  )}
+                </div>
+                <input
+                  id="Email"
+                  name="Email"
+                  type="email"
+                  value={credentials.Email}
+                  onChange={update}
+                  minLength={3}
+                  placeholder="Eg.Abcd@xyz"
+                  className="block w-full px-[2.7rem] rounded-md border-0 bg-white/50 py-[0.7rem] text-slate-800 shadow-md ring-2 ring-inset outline-none focus:ring-2 ring-blue-500 focus:ring-inset  sm:text-sm sm:leading-6"
+                />
               </div>
-              <input
-                id="Email"
-                name="Email"
-                type="email"
-                value={credentials.Email}
-                onChange={update}
-                minLength={3}
-                placeholder="Eg.Abcd@xyz"
-                className="block w-full px-[2.7rem] rounded-md border-0 bg-white/50 py-[0.7rem] text-slate-800 shadow-md ring-2 ring-inset outline-none focus:ring-2 ring-blue-500 focus:ring-inset  sm:text-sm sm:leading-6"
-              />
-            </div>
-          </motion.div>
+            </motion.div>
+          )}
+
           <motion.div
             initial="hidden"
             animate="visible"

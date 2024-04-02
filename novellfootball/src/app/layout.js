@@ -25,6 +25,7 @@ export default function RootLayout({ children }) {
         <UserContextProvider>
           <AlertContextProvider>{children}</AlertContextProvider>
         </UserContextProvider>
+        <script src="https://unpkg.com/webtonative@1.0.52/webtonative.min.js"></script>
       </body>
     </html>
   );

@@ -3,6 +3,7 @@ import CommissionPopModel from "@/app/components/CommissionPopModel";
 import Layout from "@/app/components/Layout";
 import Loading from "@/app/components/Loading";
 import { AlertContext } from "@/app/helpers/AlertContext";
+import { Copy } from "@/app/helpers/Copy";
 import { UserContext } from "@/app/helpers/UserContext";
 import { motion } from "framer-motion";
 import React, { useContext, useEffect, useState } from "react";
@@ -181,7 +182,7 @@ const Page = () => {
           {/* hero section */}
           <div
             style={{
-              background: "url(../../profileBg.png) center no-repeat",
+              background: "url(/profileBg.png) center no-repeat",
               backgroundSize: "cover",
             }}
             className=" h-[65%] py-4 pb-7 ring-[0.2px] ring-gray-600 w-full relative 
@@ -250,7 +251,20 @@ const Page = () => {
                   {window.location.origin}/access/signup?id=
                   {userOtherData?.InvitationCode}
                 </p>
-                <span className="w-[10%] flex justify-center items-center text-blue-500">
+                <span
+                  onClick={async (e) => {
+                    let isCopied = await Copy(
+                      `${window.location.origin}/access/signup?id=${userOtherData?.InvitationCode}`
+                    );
+                    getAlert(
+                      isCopied ? "success" : "opps",
+                      isCopied
+                        ? "Invitation link copied successfully."
+                        : "unable to copy the text please try to copy it manually"
+                    );
+                  }}
+                  className="w-[10%] flex justify-center items-center text-blue-500"
+                >
                   <MdOutlineContentCopy />
                 </span>
               </div>
@@ -267,7 +281,20 @@ const Page = () => {
                     {userOtherData?.InvitationCode}
                   </span>
                 </p>
-                <span className="w-[10%] flex justify-center items-center text-blue-500">
+                <span
+                  onClick={async (e) => {
+                    let isCopied = await Copy(
+                      userOtherData?.InvitationCode || "0"
+                    );
+                    getAlert(
+                      isCopied ? "success" : "opps",
+                      isCopied
+                        ? "Invitation code copied successfully."
+                        : "unable to copy the text please try to copy it manually"
+                    );
+                  }}
+                  className="w-[10%] flex justify-center items-center text-blue-500"
+                >
                   <MdOutlineContentCopy />
                 </span>
               </div>
@@ -294,9 +321,11 @@ const Page = () => {
                       <FaRupeeSign />
                     </h2>
                     <h2>
-                      {(weekCommission || [0])?.reduce((acc, currentVal) => {
-                        return acc + currentVal;
-                      }, 0)}
+                      {(weekCommission || [0])
+                        ?.reduce((acc, currentVal) => {
+                          return acc + currentVal;
+                        }, 0)
+                        .toFixed(2)}
                     </h2>
                   </div>
                   <div
@@ -336,7 +365,7 @@ const Page = () => {
                           <FaRupeeSign />
                         </h2>
                       </div>
-                      <h2>{ele}</h2>
+                      <h2>{ele.toFixed(2)}</h2>
                     </span>
                   ))}
                 </motion.div>

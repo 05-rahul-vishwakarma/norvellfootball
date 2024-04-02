@@ -5,25 +5,27 @@ import { useRouter } from "next/navigation";
 import { UserContext } from "../helpers/UserContext";
 import { AlertContext } from "../helpers/AlertContext";
 import Image from "next/image";
+import Modal from "../components/Modal";
+import { FaIndianRupeeSign } from "react-icons/fa6";
 
 const colorWheel = [
   { value: 1, bg: "#ff3737" },
-  { value: 25, bg: "#f0b842" },
-  { value: 22, bg: "#ff3737" },
-  { value: 56, bg: "#f0b842" },
+  { value: 14, bg: "#f0b842" },
   { value: 12, bg: "#ff3737" },
+  { value: 56, bg: "#f0b842" },
+  { value: 9, bg: "#ff3737" },
   { value: 5, bg: "#f0b842" },
   { value: 3, bg: "#ff3737" },
   { value: 7, bg: "#f0b842" },
 ];
 // one section is of 40 deg if the tracker is in middle its at 0 deg
-const values = [25, 1, 7, 3, 5, 12, 56, 22];
+const values = [14, 1, 7, 3, 5, 9, 56, 12];
 
 const Page = () => {
   const [rotate, updateRotate] = useState(0);
   const [winningAmount, updateWinningAmount] = useState(0);
   const { getBalance, userOtherData } = useContext(UserContext);
-  const { getAlert } = useContext(AlertContext);
+  const { getAlert, isActive } = useContext(AlertContext);
   const wheel = useRef();
 
   function startRotate() {
@@ -32,10 +34,12 @@ const Page = () => {
     }, 15);
     setTimeout(() => {
       clearInterval(startRotating);
-      let newRotation = Math.floor(Math.random() * 8) * 44;
+      let newRotation = Math.floor(Math.ceil(Math.random() * 5)) * 44;
       updateRotate(newRotation);
       updateWinningAmount(values[newRotation / 44]);
-      claimAmount(values[newRotation / 44]);
+      setTimeout(() => {
+        claimAmount(values[newRotation / 44]);
+      }, 1000);
     }, 4.5 * 1000);
   }
 
@@ -44,7 +48,6 @@ const Page = () => {
       wheel.current.style.transform = `rotate(${rotate}deg)`;
     }
   }, [rotate]);
-  const router = useRouter();
 
   async function claimAmount(amount) {
     getAlert();
@@ -61,7 +64,10 @@ const Page = () => {
         res = await res.json();
         if (res?.status === 200) {
           await getBalance();
-          getAlert("success", "reward claimed");
+          getAlert(
+            "success",
+            `reward of ${amount} has been credited to your account.`
+          );
           return;
         } else if (res?.status === 302) {
           getAlert("redirect", "login session time out ");
@@ -76,7 +82,7 @@ const Page = () => {
   }
 
   return (
-    <Layout>
+    <>
       <main
         style={{
           background: `url(/spinner_bg.png) center no-repeat`,
@@ -129,8 +135,9 @@ const Page = () => {
                     }}
                     className=" origin-bottom-right border-2 border-solid  absolute w-1/2 h-1/2 top-0 left-0 flex justify-center items-center"
                   >
-                    <span className="rotate-[-45deg] text-white font-bold">
-                      ${ele?.value}
+                    <span className="rotate-[-45deg] flex text-white font-bold">
+                      <FaIndianRupeeSign />
+                      {ele?.value}
                     </span>
                   </div>
                 ))}
@@ -149,7 +156,8 @@ const Page = () => {
           </div>
         </div>
       </main>
-    </Layout>
+      {isActive && <Modal />}
+    </>
   );
 };
 

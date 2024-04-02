@@ -261,123 +261,123 @@ function CommissionPopModel({
               }
             })}
 
-          {(selectedLevel === 1 && type === "deposit") ||
-            (type === "withdrawal" &&
-              level1.map((item, idx) => {
-                if (
-                  searchKey?.length >= 3 &&
-                  item?.Type === type &&
-                  item?.UserName?.toLowerCase()?.startsWith(
-                    searchKey.toLowerCase()
-                  )
-                ) {
-                  if (swipe === 1 && today === item?.Date) {
-                    return (
-                      <div key={idx}>
-                        <Transaction type={type} cardDetails={item} />
-                      </div>
-                    );
-                  } else if (swipe === 2 && today !== item?.Date) {
-                    return (
-                      <div key={idx}>
-                        <Transaction type={type} cardDetails={item} />
-                      </div>
-                    );
-                  }
-                } else if (searchKey?.length < 3 && item?.Type === type) {
-                  if (swipe === 1 && today === item?.Date) {
-                    return (
-                      <div key={idx}>
-                        <Transaction type={type} cardDetails={item} />
-                      </div>
-                    );
-                  } else if (swipe === 2 && today !== item?.Date) {
-                    return (
-                      <div key={idx}>
-                        <Transaction type={type} cardDetails={item} />
-                      </div>
-                    );
-                  }
+          {((selectedLevel === 1 && type === "deposit") ||
+            type === "withdrawal") &&
+            level1.map((item, idx) => {
+              if (
+                searchKey?.length >= 3 &&
+                item?.Type === type &&
+                item?.UserName?.toLowerCase()?.startsWith(
+                  searchKey.toLowerCase()
+                )
+              ) {
+                if (swipe === 1 && today === item?.Date) {
+                  return (
+                    <div key={idx}>
+                      <Transaction type={type} cardDetails={item} />
+                    </div>
+                  );
+                } else if (swipe === 2 && today !== item?.Date) {
+                  return (
+                    <div key={idx}>
+                      <Transaction type={type} cardDetails={item} />
+                    </div>
+                  );
                 }
-              }))}
-          {(selectedLevel === 2 && type === "deposit") ||
-            (type === "withdrawal" &&
-              level2.map((item, idx) => {
-                if (
-                  searchKey?.length >= 3 &&
-                  item?.Type === type &&
-                  item?.UserName?.toLowerCase()?.startsWith(
-                    searchKey.toLowerCase()
-                  )
-                ) {
-                  if (swipe === 1 && today === item?.Date) {
-                    return (
-                      <div key={idx}>
-                        <Transaction type={type} cardDetails={item} />
-                      </div>
-                    );
-                  } else if (swipe === 2 && today !== item?.Date) {
-                    return (
-                      <div key={idx}>
-                        <Transaction type={type} cardDetails={item} />
-                      </div>
-                    );
-                  }
-                } else if (searchKey?.length < 3 && item?.Type === type) {
-                  if (swipe === 1 && today === item?.Date) {
-                    return (
-                      <div key={idx}>
-                        <Transaction type={type} cardDetails={item} />
-                      </div>
-                    );
-                  } else if (swipe === 2 && today !== item?.Date) {
-                    return (
-                      <div key={idx}>
-                        <Transaction type={type} cardDetails={item} />
-                      </div>
-                    );
-                  }
+              } else if (searchKey?.length < 3 && item?.Type === type) {
+                if (swipe === 1 && today === item?.Date) {
+                  return (
+                    <div key={idx}>
+                      <Transaction type={type} cardDetails={item} />
+                    </div>
+                  );
+                } else if (swipe === 2 && today !== item?.Date) {
+                  return (
+                    <div key={idx}>
+                      <Transaction type={type} cardDetails={item} />
+                    </div>
+                  );
                 }
-              }))}
-          {(selectedLevel === 3 && type === "deposit") ||
-            (type === "withdrawal" &&
-              level3.map((item, idx) => {
-                if (
-                  searchKey?.length >= 3 &&
-                  item?.Type === type &&
-                  item?.UserName?.toLowerCase()?.startsWith(
-                    searchKey.toLowerCase()
-                  )
-                ) {
-                  if (swipe === 1 && today === item?.Date) {
-                    return (
-                      <div key={idx}>
-                        <Transaction type={type} cardDetails={item} />
-                      </div>
-                    );
-                  } else if (swipe === 2 && today !== item?.Date) {
-                    return (
-                      <div key={idx}>
-                        <Transaction type={type} cardDetails={item} />
-                      </div>
-                    );
-                  }
-                } else if (searchKey?.length < 3 && item?.Type === type) {
-                  if (swipe === 1 && today === item?.Date) {
-                    return (
-                      <div key={idx}>
-                        <Transaction type={type} cardDetails={item} />
-                      </div>
-                    );
-                  } else if (swipe === 2 && today !== item?.Date) {
-                    return (
-                      <div key={idx}>
-                        <Transaction type={type} cardDetails={item} />
-                      </div>
-                    );
-                  }
+              }
+            })}
+          {((selectedLevel === 2 && type === "deposit") ||
+            type === "withdrawal") &&
+            level2.map((item, idx) => {
+              if (
+                searchKey?.length >= 3 &&
+                item?.Type === type &&
+                item?.UserName?.toLowerCase()?.startsWith(
+                  searchKey.toLowerCase()
+                )
+              ) {
+                if (swipe === 1 && today === item?.Date) {
+                  return (
+                    <div key={idx}>
+                      <Transaction type={type} cardDetails={item} />
+                    </div>
+                  );
+                } else if (swipe === 2 && today !== item?.Date) {
+                  return (
+                    <div key={idx}>
+                      <Transaction type={type} cardDetails={item} />
+                    </div>
+                  );
                 }
-              }))}
+              } else if (searchKey?.length < 3 && item?.Type === type) {
+                if (swipe === 1 && today === item?.Date) {
+                  return (
+                    <div key={idx}>
+                      <Transaction type={type} cardDetails={item} />
+                    </div>
+                  );
+                } else if (swipe === 2 && today !== item?.Date) {
+                  return (
+                    <div key={idx}>
+                      <Transaction type={type} cardDetails={item} />
+                    </div>
+                  );
+                }
+              }
+            })}
+          {((selectedLevel === 3 && type === "deposit") ||
+            type === "withdrawal") &&
+            level3.map((item, idx) => {
+              if (
+                searchKey?.length >= 3 &&
+                item?.Type === type &&
+                item?.UserName?.toLowerCase()?.startsWith(
+                  searchKey.toLowerCase()
+                )
+              ) {
+                if (swipe === 1 && today === item?.Date) {
+                  return (
+                    <div key={idx}>
+                      <Transaction type={type} cardDetails={item} />
+                    </div>
+                  );
+                } else if (swipe === 2 && today !== item?.Date) {
+                  return (
+                    <div key={idx}>
+                      <Transaction type={type} cardDetails={item} />
+                    </div>
+                  );
+                }
+              } else if (searchKey?.length < 3 && item?.Type === type) {
+                if (swipe === 1 && today === item?.Date) {
+                  return (
+                    <div key={idx}>
+                      <Transaction type={type} cardDetails={item} />
+                    </div>
+                  );
+                } else if (swipe === 2 && today !== item?.Date) {
+                  return (
+                    <div key={idx}>
+                      <Transaction type={type} cardDetails={item} />
+                    </div>
+                  );
+                }
+              }
+            })}
 
           {type === "commission" &&
             (swipe === 1 ? todayCommission : overallCommission)?.map(
@@ -623,9 +623,32 @@ function RegisterAcordian({ cardDetails, level, idx }) {
 
 // this component can be used for new deposit and new withdrawal also
 function Transaction({ type, cardDetails }) {
+  const [createdAt, updateCratedAt] = useState(new Date());
+
+  useEffect(() => {
+    const time = new Date(
+      new Date(cardDetails?.createdAt).toLocaleString("en-US", {
+        timeZone: "asia/calcutta",
+      })
+    );
+    updateCratedAt(time);
+  }, []);
+
   return (
     <div className="flex text-sm mb-4 bg-white text-gray-700 shadow-sm font-bold items-center capitalize justify-between px-3 py-2.5 rounded-md">
       <h2>{cardDetails?.UserName || "no name"}</h2>
+      <h2>
+        {createdAt &&
+          `${createdAt?.getDate()}/${
+            createdAt?.getMonth() + 1
+          }/${createdAt?.getFullYear()} - ${createdAt
+            ?.getHours()
+            ?.toString()
+            ?.padStart(2, "0")} : ${createdAt
+            ?.getMinutes()
+            ?.toString()
+            ?.padStart(2, "0")}`}
+      </h2>
       <h2>{cardDetails?.Amount / 100 || 0}</h2>
     </div>
   );
@@ -732,8 +755,13 @@ function MatchCard({ status, matchDetails }) {
               }}
             >
               {matchDetails?.Remark === "win" ? "+" : "-"}
-              {(Number(matchDetails?.BetAmount) / 10000) *
-                Number(matchDetails?.Percentage) || 0}
+              {(
+                (Number(matchDetails?.BetAmount) / 10000) *
+                  Number(matchDetails?.Percentage) -
+                (Number(matchDetails?.BetAmount) / 10000) *
+                  Number(matchDetails?.Percentage) *
+                  0.05
+              ).toFixed(2) || 0}
             </span>
           </div>
           <div className="text-[0.6rem] font-semibold space-x-1">

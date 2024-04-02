@@ -343,7 +343,7 @@ function Page() {
                 <IoGameControllerOutline size={24} />
               </div>
               <div className="h-full w-full flex-[4] capitalize font-bold text-[0.75rem]">
-                lucky draw
+                lucky wheel
               </div>
               <div className="h-full w-full flex justify-center items-center flex-[1]">
                 <LiaAngleRightSolid />

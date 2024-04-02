@@ -26,7 +26,7 @@ const WithdrawCard = ({ data, idx }) => {
   useEffect(() => {
     if (data) {
       updateReferance(data?.TransactionId || "");
-      updateAmount(Number(data?.Amount || 0) / 100);
+      updateAmount((Number(data?.Amount || 0) / 10000) * 12);
       updateStatus(data?.Status || 0);
       setCreatedAt(new Date(data?.createdAt) || new Date());
       updateUserName(data?.UserName || "");
@@ -168,10 +168,16 @@ const WithdrawCard = ({ data, idx }) => {
                   onChange={(e) => updateRemark(e.target.value)}
                   className="w-[40%]"
                 >
-                  <option value="something 1">something 1</option>
-                  <option value="something 2">something 2</option>
-                  <option value="something 3">something 3</option>
-                  <option value="something 4">something 4</option>
+                  <option value="withdrawal processed">
+                    withdrawal processed.
+                  </option>
+                  <option value="contact support">
+                    contact customer support
+                  </option>
+                  <option value="invalid bank details">
+                    invalid bank details
+                  </option>
+                  {/* <option value=""></option> */}
                 </select>
                 <input
                   type="text"

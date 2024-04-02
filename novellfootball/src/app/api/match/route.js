@@ -173,7 +173,7 @@ export async function POST(request) {
     if (isBetExists)
       throw new CustomError(
         409,
-        "You have already placed a bet on this match.",
+        "You have already placed a bet on this match checkout your stakes .",
         {}
       );
 
@@ -191,7 +191,11 @@ export async function POST(request) {
       },
       { new: true, session: Session }
     );
-    if (!user_updated) throw new CustomError(703, "Low balance");
+    if (!user_updated)
+      throw new CustomError(
+        703,
+        " You don't have enough balance please recharge"
+      );
 
     const newBet = await BET.create(
       [

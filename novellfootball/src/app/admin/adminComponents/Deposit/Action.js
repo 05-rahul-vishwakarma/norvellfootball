@@ -17,6 +17,9 @@ export async function updateTransaction(prevState, formData) {
 
     if (formData.get("stat_0")) {
       //its in pending state;
+      return {
+        message: "submitting a form in pending state is considered an error.",
+      };
     } else if (formData.get("stat_1")) {
       // confirm the deposit
       let res = await settleDeposit(data);
@@ -45,7 +48,9 @@ export async function updateTransaction(prevState, formData) {
       }
     }
   } catch (error) {
-    console.log(error);
+    return {
+      message: error?.message || "something went wrong",
+    };
   }
 }
 
@@ -109,7 +114,11 @@ async function settleDeposit(data) {
       );
       if (!userUpdated) throw Error("error updating user");
       let isTransactionUpdated = await TRANSACTION.findOneAndUpdate(
-        { UserName: data?.UserName, TransactionId: data?.prevTransactionId },
+        {
+          UserName: data?.UserName,
+          TransactionId: data?.prevTransactionId,
+          Status: 0,
+        },
         {
           Remark: data?.Remark,
           Status: 1,
@@ -120,7 +129,9 @@ async function settleDeposit(data) {
         }
       );
       if (!isTransactionUpdated)
-        throw Error("error while updating transaction");
+        throw Error(
+          "error while updating transaction or transaction was already updated check the database."
+        );
       await Session.commitTransaction();
       return "ok";
     } else {
@@ -137,7 +148,11 @@ async function settleDeposit(data) {
       );
       if (!userUpdated) throw Error("error updating user");
       let isTransactionUpdated = await TRANSACTION.findOneAndUpdate(
-        { UserName: data?.UserName, TransactionId: data?.prevTransactionId },
+        {
+          UserName: data?.UserName,
+          TransactionId: data?.prevTransactionId,
+          Status: 0,
+        },
         {
           Remark: data?.Remark,
           Status: 1,
@@ -148,7 +163,9 @@ async function settleDeposit(data) {
         }
       );
       if (!isTransactionUpdated)
-        throw Error("error while updating transaction");
+        throw Error(
+          "error while updating transaction or transaction was already updated."
+        );
       await Session.commitTransaction();
       return "ok";
     }

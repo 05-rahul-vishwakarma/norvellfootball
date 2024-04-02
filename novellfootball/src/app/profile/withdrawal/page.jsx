@@ -415,7 +415,7 @@ function Page() {
                   <div>
                     <div className="flex capitalize font-semibold text-[0.6rem] space-x-2 ">
                       <span className="w-[50%]">transfer amount</span>
-                      <span className="w-[50%] pl-3">after tax of 10%</span>
+                      <span className="w-[50%] pl-3">after tax of 12%</span>
                     </div>
                   </div>
                   <div className="ring-[1.5px] ring-blue-600 py-2 mt-1 rounded-md">
@@ -446,7 +446,9 @@ function Page() {
                         <input
                           type="number"
                           disabled
-                          value={Amount - Number((Amount / 10).toFixed(2))}
+                          value={
+                            Amount - Number(((Amount / 100) * 12).toFixed(2))
+                          }
                           className="w-full h-full outline-none text-green-600"
                           name=""
                         />
@@ -463,7 +465,7 @@ function Page() {
                     <div className="flex mt-3 capitalize font-semibold text-[0.6rem] space-x-2 ">
                       <span className="w-[50%]">transfer amount</span>
                       <span className="w-[50%] text-[0.5rem] px-3 text-gray-500">
-                        USDT converted with 10% tax
+                        USDT converted with 12% tax
                       </span>
                     </div>
                   </div>
@@ -495,9 +497,10 @@ function Page() {
                         <input
                           type="number"
                           disabled
-                          value={((Amount - Number(Amount / 10)) / 80).toFixed(
-                            2
-                          )}
+                          value={(
+                            (Amount - Number(Amount / 100) * 12) /
+                            80
+                          ).toFixed(2)}
                           placeholder="0"
                           className="w-full h-full outline-none text-green-600"
                           name=""
