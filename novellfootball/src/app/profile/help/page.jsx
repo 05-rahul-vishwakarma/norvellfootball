@@ -8,6 +8,7 @@ import { LiaAngleDownSolid, LiaAngleRightSolid } from "react-icons/lia";
 import { useRouter } from "next/navigation";
 import OlarkChat from "@/app/components/LiveChats/OlarkChat";
 import Back from "@/app/components/LiveChats/Back";
+import { BsFileEarmarkPdfFill } from "react-icons/bs";
 
 const Page = () => {
   const [getAgents, toggleAgents] = useState(false);
