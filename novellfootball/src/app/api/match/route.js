@@ -43,12 +43,7 @@ export async function GET(request) {
       data: { userData, matches: ExtractedMatches },
     });
   } catch (error) {
-    if (
-      error?.code === 500 ||
-      error?.status === 500 ||
-      !error?.code ||
-      !error?.status
-    ) {
+    if (error?.code === 500 || error?.status === 500 || !error?.status) {
       ErrorReport(error);
     }
     return NextResponse.json({
@@ -93,12 +88,7 @@ async function getLiveBets() {
       return false;
     }
   } catch (error) {
-    if (
-      error?.code === 500 ||
-      error?.status === 500 ||
-      !error?.code ||
-      !error?.status
-    ) {
+    if (error?.code === 500 || error?.status === 500 || !error?.status) {
       ErrorReport(error);
     }
     return new CustomError(703, "Something went wrong", {});
@@ -223,12 +213,7 @@ export async function POST(request) {
     await Session.commitTransaction();
     return NextResponse.json({ status: 200, message: "bet placed" });
   } catch (error) {
-    if (
-      error?.code === 500 ||
-      error?.status === 500 ||
-      !error?.code ||
-      !error?.status
-    ) {
+    if (error?.code === 500 || error?.status === 500 || !error?.status) {
       ErrorReport(error);
     }
     await Session.abortTransaction();

@@ -40,12 +40,7 @@ export async function GET(request) {
       data: res,
     });
   } catch (error) {
-    if (
-      error?.code === 500 ||
-      error?.status === 500 ||
-      !error?.code ||
-      !error?.status
-    ) {
+    if (error?.code === 500 || error?.status === 500 || !error?.status) {
       ErrorReport(error);
     }
     return NextResponse.json({
@@ -114,12 +109,7 @@ async function getBetAndCommissionData(commissionDates, UserName) {
 
     return [aggregatedData];
   } catch (error) {
-    if (
-      error?.code === 500 ||
-      error?.status === 500 ||
-      !error?.code ||
-      !error?.status
-    ) {
+    if (error?.code === 500 || error?.status === 500 || !error?.status) {
       ErrorReport(error);
     }
     throw new Error(error);
@@ -158,12 +148,7 @@ export async function POST(request) {
       data: {},
     });
   } catch (error) {
-    if (
-      error?.code === 500 ||
-      error?.status === 500 ||
-      !error?.code ||
-      !error?.status
-    ) {
+    if (error?.code === 500 || error?.status === 500 || !error?.status) {
       ErrorReport(error);
     }
     return NextResponse.json({
@@ -230,12 +215,7 @@ async function claimBonusFor(UserName, dates) {
     if (!isUserUpdated) return false;
     return true;
   } catch (error) {
-    if (
-      error?.code === 500 ||
-      error?.status === 500 ||
-      !error?.code ||
-      !error?.status
-    ) {
+    if (error?.code === 500 || error?.status === 500 || !error?.status) {
       ErrorReport(error);
     }
     throw Error(error);

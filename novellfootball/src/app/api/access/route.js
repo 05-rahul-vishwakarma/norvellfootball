@@ -123,8 +123,6 @@ export async function PUT(NextRequest) {
         "something went wrong while creating the user please try again after some time",
         {}
       );
-    if (Invitation && Invitation !== "") await updateParent(Invitation);
-
     const response = NextResponse.json({
       status: 200,
       message: "user created",

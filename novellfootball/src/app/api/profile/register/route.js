@@ -97,12 +97,7 @@ export async function GET(request) {
       data: { level1_users, level2_users, level3_users, joinedToday },
     });
   } catch (error) {
-    if (
-      error?.code === 500 ||
-      error?.status === 500 ||
-      !error?.code ||
-      !error?.status
-    ) {
+    if (error?.code === 500 || error?.status === 500 || !error?.status) {
       ErrorReport(error);
     }
     return NextResponse.json({
