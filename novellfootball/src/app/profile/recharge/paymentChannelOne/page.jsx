@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, Suspense, useContext } from "react";
 import { motion } from "framer-motion";
+import { FaRegCopy } from "react-icons/fa6";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { LiaAngleDownSolid, LiaAngleRightSolid } from "react-icons/lia";
@@ -11,6 +12,7 @@ import { AlertContext } from "@/app/helpers/AlertContext";
 import Layout from "@/app/components/Layout";
 import { UserContext } from "@/app/helpers/UserContext";
 import { useRouter } from "next/navigation";
+import { Copy } from "@/app/helpers/Copy";
 
 const accorodient = {
   show: {
@@ -28,11 +30,12 @@ const accorodient = {
 function Page() {
   // Popup handling here //
   let { getAlert } = useContext(AlertContext);
-  let { extraDetails } = useContext(UserContext);
+  let { extraDetails,getExtraDetails } = useContext(UserContext);
   const [isVisible, setVisible] = useState(false);
   const [isHide, setHide] = useState(true);
   const [amount, setAmount] = useState();
   const [disabled, setDisabled] = useState(false);
+  const [upiId, updateUpi] = useState([]);
 
   let router = useRouter();
 
@@ -75,7 +78,7 @@ function Page() {
         let res = await fetch("/api/payment/deposit", config);
         res = await res.json();
         if (res) {
-          console.log("yes works")
+          console.log("yes works");
           setDisabled(false);
         }
         if (res?.status === 200) {
@@ -100,6 +103,15 @@ function Page() {
     }
   };
 
+  useEffect(() => {
+    if (!extraDetails?.UpiIds) {
+      getExtraDetails();
+    } else {
+      updateUpi(extraDetails?.UpiIds || []);
+    }
+  }, [extraDetails]);
+
+
   return (
     <Layout>
       <div className="bg-white  w-full h-full  flex justify-center overflow-y-scroll pb-[12rem] ">
@@ -116,7 +128,7 @@ function Page() {
             <p className="text-[.6rem] ">Payment Amount</p>
           </div>
 
-          <div
+          {/* <div
             style={{
               boxShadow: "0 0 5px 0 #c0cad9",
             }}
@@ -264,7 +276,52 @@ function Page() {
                 </span>
               </motion.p>
             </div>
+          </div> */}
+
+          <div className=" flex justify-center items-center ">
+            <Image src={"/upi.webp"} alt="upi image" width={150} height={100} />
           </div>
+
+          <div className="flex w-[60%] mr-auto ml-auto justify-around ">
+              <Image
+                src={"/phone.png"}
+                alt="phone pay"
+                width={50}
+                height={50}
+              />
+              <Image
+                src={"/paytm2.webp"}
+                alt="phone pay"
+                width={50}
+                height={50}
+              />
+              <Image
+                src={"/google.png"}
+                alt="phone pay"
+                width={50}
+                height={50}
+              />
+            </div>
+
+          <div className="h-[30vh] grid place-items-center  ">
+            <div className="h-[90%] w-[60%] flex justify-center items-center  ">
+              <Image
+                src={"/qr.jpg"}
+                alt="qr code"
+                width={100}
+                height={100}
+                className="object-cover w-[80%] h-[100%]  "
+              />
+            </div>
+          </div>
+
+          <CopyUPI
+            upiId={
+              upiId?.length > 1
+                ? upiId[Math.floor(Math.random() * upiId?.length)]
+                : "something@upi"
+            }
+          />
 
           <div
             style={{ boxShadow: "0 0 5px 0 #c0cad9" }}
@@ -322,3 +379,27 @@ function RechargeAmount({ getAmount }) {
     </div>
   );
 }
+
+const CopyUPI = ({ upiId }) => {
+  let { getAlert } = useContext(AlertContext);
+  const copyToClipboard = async (e) => {
+    let isCopied = await Copy(upiId); //  returns true if successful
+    getAlert(
+      isCopied ? "success" : "opps",
+      isCopied
+        ? "Upi Id copied successfully."
+        : "unable to copy the text please try to copy it manually"
+    );
+  };
+
+  return (
+    <div>
+      <span className="text-red-600 flex   justify-around place-items-center ">
+        <p className="mr-2">{upiId}</p>
+        <button onClick={copyToClipboard}>
+          <FaRegCopy />
+        </button>
+      </span>
+    </div>
+  );
+};

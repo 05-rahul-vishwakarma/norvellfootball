@@ -18,8 +18,6 @@ function Page() {
   const [disabled, setDisabled] = useState(false);
   const [amount, setAmount] = useState();
   const [upiId, updateUpi] = useState([]);
-  // implementing the copy buttoon
-  const [copied, setCopied] = useState(false);
 
   // immplementing the utr number value
   const [value, setValue] = useState("");

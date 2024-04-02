@@ -35,7 +35,6 @@ const variantOne = {
     opacity: 0,
   },
 };
-
 const accentColors = {
   1: { bg_color: "#EBFFF3", remark_color: "green" },
   2: { bg_color: "#FFECEC", remark_color: "red" },

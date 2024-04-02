@@ -4,6 +4,7 @@ import BackButton from "@/app/components/BackButton";
 import { TbCoinRupeeFilled } from "react-icons/tb";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { FaInfoCircle } from "react-icons/fa";
 import Image from "next/image";
 import Layout from "@/app/components/Layout";
 import Modal from "@/app/components/Modal";
@@ -83,8 +84,8 @@ function Page() {
 
   return (
     <Layout>
-      <div className="h-screen w-screen bg-[#F8FCFF] pb-[7rem] overflow-y-scroll ">
-        <div className="h-screen w-screen ">
+      <div className="h-screen w-screen bg-[#F8FCFF]  ">
+        <div className="h-screen w-screen pb-[10rem] overflow-y-scroll">
           <div onClick={() => router.back()} className="pt-2 ">
             <BackButton pageName="Recharge" />
           </div>
@@ -95,6 +96,7 @@ function Page() {
               alt="recharge"
               width={100}
               height={100}
+              unoptimized
               className="w-full h-full "
             />
           </div>
@@ -254,6 +256,23 @@ function Page() {
                 className="bg-[#2885F6] text-center p-3 mt-[2rem] rounded-lg flex justify-center place-items-center text-[#fff] "
               >
                 Recharge
+              </div>
+
+              <div className="my-6 ">
+                <span className="flex items-center mb-1 " >
+                  <FaInfoCircle color="red" />
+                  <h1 className="ml-1.5 font-[600] text-[.8rem] " >Recharge Instruction&apos;s</h1>
+                </span>
+                <p className="text-sm text-gray-600 ">
+                  1. Kindly resubmit the deposit form upon expiration of
+                  transfer time. <br />
+                  2. The transfer amount must match the order you created,
+                  otherwise the money cannot be credited successfully. <br />
+                  3. If you transfer the wrong amount, our company will not be
+                  responsible for the lost amount! <br /> 4. If you encounter
+                  any issues, please don't hesitate to reach out to our customer
+                  support team for assistance.
+                </p>
               </div>
             </div>
           </div>

@@ -13,10 +13,12 @@ function Page() {
   const VipData = [
     {
       id: 1,
-      imagesrc: "/emerald.png",
+      imagesrc: "/vip/emerland.jpg",
+      diamondSrc:"/vip/emerald.png",
       tittle: "Emerald Member",
       textColor:"#5F5F5F",
       color:"#fff",
+      matchplan:"No Extra Plan",
       icons: [
         <IoCloseCircle className="text-[red] text-[1.4rem] " />,
         <IoCloseCircle className="text-[red] text-[1.4rem]  " />,
@@ -30,10 +32,12 @@ function Page() {
     },
     {
       id: 2,
-      imagesrc: "/ruby.png",
+      imagesrc: "/vip/ruby.jpg",
+      diamondSrc:"/vip/ruby.png",
       tittle: "Ruby Member",
       textColor:"#D1D1D1",
       color:"#fff",
+      matchplan:"Extra Plan of 1%,  please contact your agent",
       icons: [
         <IoMdCheckmarkCircle className="text-[1.4rem] text-[#2885F6]" />,
         <IoCloseCircle className="text-[red] text-[1.4rem] " />,
@@ -47,10 +51,12 @@ function Page() {
     },
     {
       id: 3,
-      imagesrc: "/sapphire.png",
+      imagesrc: "/vip/sapphire.jpg",
+      diamondSrc:"/vip/sapphire.png",
       tittle: "Sapphire Member",
-      textColor:"#90a0be",
+      textColor:"#D1D1D1",
       color:"#fff",
+      matchplan:"Extra Plan of 2%,  please contact your agent ",
       icons: [
         <IoMdCheckmarkCircle className="text-[1.4rem] text-[#2885F6]" />,
         <IoCloseCircle className="text-[1.4rem] text-[red]" />,
@@ -64,10 +70,12 @@ function Page() {
     },
     {
       id: 4,
-      imagesrc: "/whiteDiamond.png",
+      imagesrc: "/vip/white.jpg",
+      diamondSrc:"/vip/diamond.png",
       tittle: "Diamond Member",
-      textColor:"#b0b0b0",
+      textColor:"#626262",
       color:"#000",
+      matchplan:"Extra Plan of 3%,  please contact your agent  ",
       icons: [
         <IoMdCheckmarkCircle className="text-[1.4rem] text-[#2885F6]" />,
         <IoMdCheckmarkCircle className="text-[1.4rem] text-[#2885F6]" />,
@@ -81,10 +89,12 @@ function Page() {
     },
     {
       id: 5,
-      imagesrc: "/#2885F6Diamond.png",
-      tittle: "#2885F6 Diamond Member",
-      textColor:"#b0b0b0",
-      color:"#002b5c",
+      imagesrc: "/vip/blue.jpg",
+      tittle: "Blue Diamond Member",
+      diamondSrc:"/vip/bluediamond.png",
+      textColor:"#757575",
+      color:"#002B5C",
+      matchplan:"Extra Plan of 4%,  please contact your agent ",
       icons: [
         <IoMdCheckmarkCircle className="text-[1.4rem] text-[#2885F6]" />,
         <IoMdCheckmarkCircle className="text-[1.4rem] text-[#2885F6]" />,

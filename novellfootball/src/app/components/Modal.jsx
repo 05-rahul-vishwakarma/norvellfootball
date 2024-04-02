@@ -8,11 +8,11 @@ function Modal() {
     <section
       // isOpen={isOpen}
       // onRequestClose={onClose}
-      className="fixed top-0 left-0 z-[9999] grid place-items-center h-screen w-screen backdrop-blur-xl "
+      className="fixed top-0 left-0 z-[9999] grid place-items-center h-screen w-screen backdrop-blur-md "
     >
       <div className="w-[65%] h-[40%]  bg-[#ffffffa2] flex rounded-[15px] ">
         <div className="flex place-items-center  w-full justify-center relative ">
-          <div className="flex flex-col place-items-center justify-around  h-[65%]   ">
+          <div className="flex flex-col place-items-center justify-around  h-[65%] ">
             <Image
               src={AlertDetails?.image || "/logo.png"}
               alt="logo"

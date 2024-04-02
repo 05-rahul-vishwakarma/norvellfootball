@@ -16,13 +16,16 @@ function Vip({ data, isActive }) {
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
-        className="h-[6rem] rounded-t-[30px]  flex justify-center place-items-center "
+        className="h-[6rem]  rounded-t-[30px]  flex  place-items-center "
       >
-        <span className="">
-          <h1 style={{color:data.color}} className="text-[.9rem] font-bold -tracking-tight  ">
+        <div className=" h-[4rem] w-[4rem] ml-[8%] " >
+            <img src={data.diamondSrc} className="object-contain w-full h-full  grid place-items-center " />
+        </div>
+        <span className="ml-[.5rem] ">
+          <h1 style={{color:data.color}} className="text-[1rem] font-semibold -tracking-tight  ">
             {data.tittle}
           </h1>
-          <span style={{color:data.textColor}} className="text-xs flex place-items-center ">
+          <span style={{color:data.textColor}} className="text-xs flex place-items-center font-medium ">
             Exclusive for users
             {isActive && (
               <>
@@ -32,6 +35,7 @@ function Vip({ data, isActive }) {
             )}
           </span>
         </span>
+        
       </div>
 
       <p className="text-center text-[.65rem] font-semibold mt-1 text-s  ">
@@ -43,7 +47,7 @@ function Vip({ data, isActive }) {
           <FaStar className="text-[1.4rem]  text-[#FCD635] " />
           <span className="ml-2  ">
             <p className="text-sm font-[500] ">Extra Match Plan</p>
-            <p className="text-xs font-light ">No Extra Plan</p>
+            <p className="text-xs font-light "> {data.matchplan} </p>
           </span>
         </div>
         <div className="mr-4 ">{data.icons[0]}</div>

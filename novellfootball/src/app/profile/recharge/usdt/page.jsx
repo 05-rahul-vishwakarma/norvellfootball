@@ -22,25 +22,12 @@ function Page() {
   const [disabled, setDisabled] = useState(false);
 
   // implementing the function which copies the address value //
-  const [text, setText] = useState("");
+  const [text, setText] = useState("0xc7141FB69308533b30c0348d47CE9A64c0c97eb2");
   const [transactionId, setTransactionId] = useState("");
   const [copied, setCopied] = useState(false);
   const [details, setDetails] = useState();
 
   const copyAddress = async () => {
-    if (text.trim() === "") {
-      getAlert("Enter some text to copy");
-      return;
-    }
-    // try {
-    //   await navigator.clipboard.writeText(text);
-    //   getAlert("success", "text copied");
-    //   return true; // Return true if successful
-    // } catch (error) {
-    //   getAlert("opps", "Failed to copy text");
-    //   return false; // Return false if failed
-    // }
-
     let isCopied = await Copy(text); //  returns true if successful
     getAlert(
       isCopied ? "success" : "opps",
@@ -49,7 +36,6 @@ function Page() {
         : "unable to copy the text please try to copy it manually"
     );
   };
-
   const copyTransactionId = async () => {
     if (transactionId.trim() === "") {
       getAlert("opps", "enter some text to copy ");
@@ -119,7 +105,6 @@ function Page() {
       setDisabled(false);
     }, 2000);
   };
-
   return (
     <Layout>
       <div className="w-screen h-screen bg-[#F8FCFF]  pb-[12rem] overflow-y-scroll  flex flex-col place-items-center  ">
@@ -131,12 +116,12 @@ function Page() {
           <div className="flex justify-between text-[.6rem] ">
             <p>Secure</p>
             <p className="flex place-items-center ">
-              <RiSecurePaymentLine className="mr-1 " /> UniPayment
+             <Image src={'/usdt/unipayment.png'} alt="..." width={80} height={50} />
             </p>
           </div>
 
           <div
-            style={{ boxShadow: "0 3px 6px rgb(0,0,0,0.05)  " }}
+            style={{ boxShadow: "0px 5px 10px 0px #0000000D" }}
             className=" bg-[#fff] mt-2 px-2 rounded-lg py-1 flex justify-between text-[0.6rem] "
           >
             <div className=" ">
@@ -154,7 +139,7 @@ function Page() {
           </div>
 
           <div
-            style={{ boxShadow: "0 3x 6px rgb(0,0,0,0.05)  " }}
+            style={{ boxShadow: "0px 5px 10px 0px #0000000D" }}
             className="w-full h-min bg-[#FFF] mt-4  rounded-2xl p-3 "
           >
             <span className="flex place-items-center font-[500] text-[.65rem] text-[#000000d3]  ">
@@ -164,15 +149,11 @@ function Page() {
 
             <div className="w-[40vw] h-[20vh] grid place-items-center mr-auto ml-auto my-3 ">
               <Image
-                src={
-                  extraDetails?.QrChannel3
-                    ? `data:image/jpeg;base64,${extraDetails?.QrChannel3}`
-                    : "/logo.png"
-                }
+                src={'/usdt/usdtQr.jpg'}
                 alt="barCode"
-                height={80}
-                width={80}
-                className="object-contain "
+                width={100}
+                height={100}
+                className="object-cover  h-[95%] w-[95%]  "
               />
             </div>
 
@@ -183,9 +164,9 @@ function Page() {
                 </span>
                 <button
                   style={{ border: "1px solid #808080" }}
-                  className="py-1 flex place-items-center justify-evenly w-[90%] rounded-md "
+                  className="py-1 flex place-items-center justify-center w-[80%] rounded-md "
                 >
-                  <IoQrCodeOutline className="text-[rgb(0,0,0,0.5)]" />
+                  <Image src={'/usdt/usdtNetwork.png'} alt="..." width={15} height={15} unoptimized className="mr-1.5 " />
                   <p className="text-[rgb(0,0,0,0.5)] text-[.65rem] ">TRC20</p>
                 </button>
               </div>
@@ -196,9 +177,9 @@ function Page() {
                 </span>
                 <button
                   style={{ border: "1px solid #808080" }}
-                  className="py-1 flex place-items-center justify-evenly w-[90%] rounded-md "
+                  className="py-1 flex place-items-center justify-center w-[80%] rounded-md "
                 >
-                  <IoQrCodeOutline className="text-[rgb(0,0,0,0.5)]" />
+                  <Image src={'/usdt/usdtcoln.png'} alt="..." width={15} height={15} unoptimized className="mr-1.5" />
                   <p className="text-[rgb(0,0,0,0.5)] text-[.65rem] ">USDT</p>
                 </button>
               </div>
@@ -211,10 +192,13 @@ function Page() {
               <input
                 type="text"
                 placeholder="Enter Your Deposit Address"
-                value={depositAddress}
+                value={text}
                 disabled
-                onChange={(e) => setText(e.target.value)}
                 className="w-[80%] bg-transparent text-[.65rem] "
+              />
+              <FaRegCopy
+                onClick={() => copyAddress()}
+                className="text-[#2885F6] "
               />
             </div>
           </div>
@@ -226,13 +210,13 @@ function Page() {
                 type="text"
                 value={transactionId}
                 onChange={(e) => setTransactionId(e.target.value)}
-                placeholder="Enter Your Deposit Address "
+                placeholder="Paste here your Transaction Id"
                 className="w-[80%] bg-transparent text-[.65rem] "
               />
-              <FaRegCopy
+              {/* <FaRegCopy
                 onClick={() => copyTransactionId()}
                 className="text-[#2885F6] "
-              />
+              /> */}
             </div>
           </div>
 

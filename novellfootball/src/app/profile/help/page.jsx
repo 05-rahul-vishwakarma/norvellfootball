@@ -7,6 +7,7 @@ import { FaTelegram } from "react-icons/fa6";
 import { LiaAngleDownSolid, LiaAngleRightSolid } from "react-icons/lia";
 import { useRouter } from "next/navigation";
 import OlarkChat from "@/app/components/LiveChats/OlarkChat";
+import { BsFileEarmarkPdfFill } from "react-icons/bs";
 
 const Page = () => {
   const [getAgents, toggleAgents] = useState(false);
@@ -14,7 +15,7 @@ const Page = () => {
 
   return (
     <Layout>
-      <section className=" bg-[#ffffff] w-full relative pb-40 h-[100dvh] overflow-y-auto">
+      <section className=" bg-[#F8FCFF] w-full relative pb-40 h-[100dvh] overflow-y-auto">
         <div className="relative text-center py-4 h-[8%] ">
           <h2 className=" capitalize text-[0.8rem] font-bold my-0">get help</h2>
         </div>
@@ -22,10 +23,10 @@ const Page = () => {
           <div className="h-[50%] relative w-full">
             <Image src={"/get_help_svg.svg"} fill alt="get help" />
           </div>
-          <div className="h-[50%] overflow-y-auto px-1 space-y-3 pb-40">
+          <div className="h-[50%]  overflow-y-auto px-1 space-y-3 pb-40">
             <div
-              style={{ boxShadow: "0 3px 8px rgba(0,0,0,0.1) " }}
-              className="flex items-center capitalize bg-white  rounded-lg py-2 px-2 font-semibold text-sm"
+              style={{ boxShadow: "0 10px 10px rgba(0,0,0,0.04) " }}
+              className="flex items-center mt-2 capitalize bg-white  rounded-xl py-2 px-2 font-semibold text-sm"
             >
               <div className="flex-[1]">
                 <span className="bg-blue-500 text-blue-500 text-3xl size-8 rounded-full">
@@ -36,15 +37,15 @@ const Page = () => {
                 <p>telegram group</p>
               </div>
               <div className="flex-[2] flex justify-end items-center">
-                <span className="h-full rounded-lg bg-blue-500 text-white px-8 py-2">
+                <span className="h-full rounded-xl bg-blue-500 text-white px-8 py-2">
                   join
                 </span>
               </div>
             </div>
 
             <div
-              style={{ boxShadow: "0 3px 8px rgba(0,0,0,0.1) " }}
-              className=" capitalize bg-white  rounded-lg py-2 px-2 font-semibold text-sm"
+              style={{ boxShadow: "0 10px 10px rgba(0,0,0,0.04) " }}
+              className=" capitalize bg-white  rounded-xl py-2 px-2 font-semibold text-sm"
             >
               <div className="flex items-center">
                 <div className="flex-[1]">
@@ -81,7 +82,7 @@ const Page = () => {
                     <div className="w-[50%]">
                       <a
                         href="#"
-                        className="bg-blue-500 h-full w-full py-1 px-2 rounded-lg text-center text-[0.6rem] text-white font-bold "
+                        className="bg-blue-500 h-full w-full py-1 px-2 rounded-xl text-center text-[0.6rem] text-white font-bold "
                       >
                         connect to mark
                       </a>
@@ -97,7 +98,7 @@ const Page = () => {
                     <div className="w-[50%]">
                       <a
                         href="#"
-                        className="bg-blue-500 h-full w-full py-1 px-2 rounded-lg text-center text-[0.6rem] text-white font-bold "
+                        className="bg-blue-500 h-full w-full py-1 px-2 rounded-xl text-center text-[0.6rem] text-white font-bold "
                       >
                         connect to mark
                       </a>
@@ -124,7 +125,7 @@ const Page = () => {
             </div>
 
             <div
-              style={{ boxShadow: "0 3px 8px rgba(0,0,0,0.1) " }}
+              style={{ boxShadow: "0 10px 10px rgba(0,0,0,0.04) " }}
               onClick={() => router.push("/profile/help/privacy")}
               className=" capitalize bg-white  rounded-lg py-2 px-2 font-semibold text-sm"
             >
@@ -161,7 +162,7 @@ const Page = () => {
             </div>
 
             <div
-              style={{ boxShadow: "0 3px 8px rgba(0,0,0,0.1) " }}
+              style={{ boxShadow: "0 10px 10px rgba(0,0,0,0.04) " }}
               onClick={() => router.push("/profile/help/helps")}
               className=" capitalize bg-white  rounded-lg py-2 px-2 font-semibold text-sm"
             >
@@ -184,6 +185,27 @@ const Page = () => {
                 </div>
                 <div className="flex-[4]">
                   <p>help</p>
+                </div>
+                <div className="flex-[1] flex justify-center items-center">
+                  <span className="h-full rounded-full bg-gray-400 text-white p-1">
+                    <LiaAngleRightSolid />
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div
+              style={{ boxShadow: "0 10px 10px rgba(0,0,0,0.04) " }}
+              className=" capitalize bg-white  rounded-lg py-2 px-2 font-semibold text-sm"
+            >
+              <div className="flex items-center">
+                <div className="flex-[1]">
+                  <span className="flex justify-center items-center text-3xl size-8 rounded-full">
+                    <BsFileEarmarkPdfFill className="text-[1rem] " />
+                  </span>
+                </div>
+                <div className="flex-[4]">
+                  <p>Norvell Football Pdf </p>
                 </div>
                 <div className="flex-[1] flex justify-center items-center">
                   <span className="h-full rounded-full bg-gray-400 text-white p-1">
