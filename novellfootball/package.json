@@ -38,7 +38,8 @@
     "text-encoding": "^0.7.0",
     "tw-elements": "^1.1.0",
     "use-debounce": "^10.0.0",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "webtonative": "^1.0.52"
   },
   "devDependencies": {
     "autoprefixer": "^10.0.1",
