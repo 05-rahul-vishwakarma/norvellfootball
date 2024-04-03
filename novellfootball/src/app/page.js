@@ -314,6 +314,7 @@ function MatchPopup({ match, onClose }) {
                   <Image
                     src={Team_a_logo || "/search.png"}
                     alt="logo"
+                    unoptimized
                     width={38}
                     height={38}
                   />
@@ -324,15 +325,8 @@ function MatchPopup({ match, onClose }) {
               </div>
               <div className="flex-[1] flex items-center justify-center flex-col">
                 <span className="text-xl block font-bold text-red-600">
-                  {MatchStartTime.getHours() > 12
-                    ? `${MatchStartTime.getHours() - 12}`
-                    : `${
-                        MatchStartTime.getHours() < 10 ? "0" : ""
-                      }${MatchStartTime.getHours()}`}
-                  :
-                  {MatchStartTime.getMinutes() < 10
-                    ? `0${MatchStartTime.getMinutes()}`
-                    : `${MatchStartTime.getMinutes()}`}
+                  {MatchStartTime.getHours()?.toString()?.padStart(1, "0")}:
+                  {MatchStartTime.getMinutes()?.toString()?.padStart(1, "0")}
                 </span>
                 <span className="uppercase text-sm font-bold">
                   {MatchStartTime.getDate()}
@@ -344,6 +338,7 @@ function MatchPopup({ match, onClose }) {
                   <Image
                     src={Team_b_logo || "/search.png"}
                     alt="logo"
+                    unoptimized
                     width={38}
                     height={38}
                   />

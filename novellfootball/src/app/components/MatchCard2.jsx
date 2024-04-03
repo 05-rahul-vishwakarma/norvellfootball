@@ -38,6 +38,7 @@ const MatchCard2 = ({ data, placeBet }) => {
               src={Team_a_logo || "/search.png"}
               width={35}
               height={35}
+              unoptimized
               onError={(e) => updateSrcTeam_a(null)}
               alt="search"
             />

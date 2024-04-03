@@ -694,6 +694,7 @@ function MatchCard({ status, matchDetails }) {
               onError={(e) => updateSrcTeam_a(null)}
               height={38}
               width={38}
+              unoptimized
               alt="team a  logo"
             />
           </span>
@@ -718,6 +719,7 @@ function MatchCard({ status, matchDetails }) {
               onError={(e) => updateSrcTeam_b(null)}
               height={38}
               width={38}
+              unoptimized
               alt="team b  logo"
             />
           </span>
