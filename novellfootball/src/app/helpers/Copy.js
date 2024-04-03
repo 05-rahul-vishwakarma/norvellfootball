@@ -7,7 +7,7 @@ export async function Copy(text) {
 
     if (isNativeApp) {
       set({
-        data: `${text}`,
+        data: `${text?.trim()}`,
       });
       get({
         callback: (data) => {

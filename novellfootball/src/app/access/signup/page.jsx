@@ -36,6 +36,7 @@ const itemVariants2 = {
 function VerificationPopup({
   sentTo,
   toggleVerification,
+  getAlert,
   resend,
   setVerified,
 }) {
@@ -54,9 +55,15 @@ function VerificationPopup({
       providedOtp = value;
     }
     if (EnteredOtp === Number(providedOtp)) {
-      alert("verified");
+      getAlert("success", "otp verification successfull.");
       setVerified(true);
       toggleVerification(false);
+    } else {
+      getAlert(
+        "opps",
+        "kindly input a valid OTP for authentication . Thank you."
+      );
+      return;
     }
   }
 
@@ -79,7 +86,7 @@ function VerificationPopup({
             <span className="uppercase font-regular text-gray-500 text-[0.6rem]">
               Enter the otp you received on
             </span>
-            <span className="uppercase font-bold text-xs">
+            <span className=" font-bold text-xs">
               +{sentTo?.slice(0, 3)}******{sentTo?.slice(-3)}
             </span>
           </div>
@@ -127,6 +134,7 @@ const Signup = () => {
   const [isInternational, updtInternational] = useState(false);
   const [isVerified, setVerified] = useState(false);
   const [isDisabled, setPhoneDisabled] = useState(false);
+  const [isEmailDisabled, setEmailDisabled] = useState(false);
 
   function update(e) {
     updateCredentials((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -211,6 +219,42 @@ const Signup = () => {
       getAlert("opps", "something went wrong try again after sometime.");
     }
   }
+  async function getEmailOtp() {
+    try {
+      getAlert();
+      if (credentials?.Email?.includes("@")) {
+        let config = {
+          method: "POST",
+          header: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({ Email: credentials?.Email }),
+        };
+        let res = await fetch("/api/otp/email", config);
+        res = await res.json();
+        if (res?.status === 200) {
+          getAlert(
+            "success",
+            res?.message || "otp sent successfully and valid for 5 minutes."
+          );
+          setEmailDisabled(true);
+          updateGetVerif(true);
+        } else {
+          getAlert(
+            "opps",
+            res?.message || "something went wrong while creating user"
+          );
+          setEmailDisabled(false);
+        }
+      } else {
+        getAlert("opps", "Enter a valid email id consisting of '@'");
+        setEmailDisabled(false);
+      }
+    } catch (error) {
+      getAlert("opps", "something went wrong try again after sometime.");
+    }
+  }
+
   return (
     <div className="flex relative min-h-[100dvh] flex-col justify-center px-6 py-12 lg:px-8">
       <div className="absolute top-0 left-0 z-[-1]  h-full w-full">
@@ -328,7 +372,7 @@ const Signup = () => {
                   {credentials.Email && credentials.Email.length >= 3 ? (
                     <div className=" py-[1px] px-[1px] bg-gradient-to-r from-blue-500 to-black  rounded-md flex items-center justify-center">
                       <button
-                        onClick={() => updateGetVerif(true)}
+                        onClick={getEmailOtp}
                         className="rounded-md py-1 px-2.5 bg-slate-100 text-xs capitalize font-semibold"
                       >
                         verify
@@ -349,6 +393,7 @@ const Signup = () => {
                   type="email"
                   value={credentials.Email}
                   onChange={update}
+                  disabled={isEmailDisabled}
                   minLength={3}
                   placeholder="Eg.Abcd@xyz"
                   className="block w-full px-[2.7rem] rounded-md border-0 bg-white/50 py-[0.7rem] text-slate-800 shadow-md ring-2 ring-inset outline-none focus:ring-2 ring-blue-500 focus:ring-inset  sm:text-sm sm:leading-6"
@@ -468,9 +513,10 @@ const Signup = () => {
 
       {getVerification && (
         <VerificationPopup
-          sentTo={credentials?.Phone}
+          sentTo={isInternational ? credentials?.Email : credentials?.Phone}
           setVerified={setVerified}
-          resend={getPhoneOtp}
+          getAlert={getAlert}
+          resend={isInternational ? getEmailOtp : getPhoneOtp}
           toggleVerification={updateGetVerif}
         />
       )}

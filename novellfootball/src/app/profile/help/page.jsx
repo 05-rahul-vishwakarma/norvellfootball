@@ -17,9 +17,7 @@ const Page = () => {
   return (
     <Layout>
       <section className=" bg-[#ffffff] w-full relative pb-40 h-[100dvh] overflow-y-auto">
-        <div className="relative text-center py-4 h-[8%] ">
-          <h2 className=" capitalize text-[0.8rem] font-bold my-0">get help</h2>
-        </div>
+        <Back page={"get help"} />
         <main className=" h-full space-y-1  px-4 ">
           <div className="h-[50%] relative w-full">
             <Image src={"/get_help_svg.svg"} fill alt="get help" />
@@ -60,7 +58,7 @@ const Page = () => {
                 <div className="flex-[1] flex justify-center items-center">
                   <span
                     onClick={() => toggleAgents((prev) => !prev)}
-                    className="h-full rounded-full bg-gray-400 text-white p-1"
+                    className="h-full rounded-full bg-gray-200 text-white p-0.5"
                   >
                     <LiaAngleDownSolid />
                   </span>
@@ -155,7 +153,7 @@ const Page = () => {
                   <p>privacy</p>
                 </div>
                 <div className="flex-[1] flex justify-center items-center">
-                  <span className="h-full rounded-full bg-gray-400 text-white p-1">
+                  <span className="h-full rounded-full bg-gray-200 text-white p-0.5">
                     <LiaAngleRightSolid />
                   </span>
                 </div>
@@ -188,7 +186,7 @@ const Page = () => {
                   <p>help</p>
                 </div>
                 <div className="flex-[1] flex justify-center items-center">
-                  <span className="h-full rounded-full bg-gray-400 text-white p-1">
+                  <span className="h-full rounded-full bg-gray-200 text-white p-0.5">
                     <LiaAngleRightSolid />
                   </span>
                 </div>
@@ -209,7 +207,7 @@ const Page = () => {
                   <p>Norvell Football Pdf </p>
                 </div>
                 <div className="flex-[1] flex justify-center items-center">
-                  <span className="h-full rounded-full bg-gray-400 text-white p-1">
+                  <span className="h-full rounded-full bg-gray-200 text-white p-0.5">
                     <LiaAngleRightSolid />
                   </span>
                 </div>

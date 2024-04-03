@@ -60,7 +60,7 @@ export async function PUT(request) {
     if (!userExists?.EmailId)
       throw new CustomError(
         705,
-        "User has not registered his/her mobile number",
+        "User has not registered his/her email id",
         {}
       );
 
@@ -80,7 +80,46 @@ export async function PUT(request) {
     return NextResponse.json({
       status: 705,
       message:
-        "Invalid phone number or you have reached otp request limit try after sometime.",
+        "Invalid email id or you have reached otp request limit try after sometime.",
+    });
+  } catch (error) {
+    if (error?.code === 500 || error?.status === 500 || !error?.status) {
+      ErrorReport(error);
+    }
+    return NextResponse.json({
+      status: error?.status || error?.code || 500,
+      message: error?.message || "somethign went wrong",
+    });
+  }
+}
+
+export async function POST(request) {
+  try {
+    await connect();
+    let { Email } = await request.json();
+    Email = Email?.trim();
+
+    let userExists = await USER.findOne({ EmailId: Email });
+    if (userExists)
+      throw new CustomError(705, "this email is already in use.", {});
+
+    let otp = Math.ceil(Math.random() * 9000 + 1000);
+    let res = await sendEmailOtp(Email, otp);
+
+    if (res === true) {
+      let response = NextResponse.json({
+        status: 200,
+        message: "otp sent to the email id and valid for 5 minutes",
+      });
+      response.cookies.set("otp", `${otp}`, {
+        expires: Date.now() + 5 * oneMinute,
+      });
+      return response;
+    }
+    return NextResponse.json({
+      status: 705,
+      message:
+        "Invalid email id or you have reached otp request limit try after sometime.",
     });
   } catch (error) {
     if (error?.code === 500 || error?.status === 500 || !error?.status) {

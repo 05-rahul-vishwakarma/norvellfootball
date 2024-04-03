@@ -31,6 +31,8 @@ export const AlertContextProvider = ({ children }) => {
       image = "/opps.png";
     } else if (type === "pending") {
       image = "/pending.png";
+    } else if (type === "redirect") {
+      image = "/opps.png";
     }
 
     updateAlertDetails({

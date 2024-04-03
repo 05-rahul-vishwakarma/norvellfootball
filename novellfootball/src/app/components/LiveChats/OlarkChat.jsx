@@ -51,6 +51,7 @@ const OlarkChat = () => {
     return () => {
       const script1 = document.querySelector("[data-id='zsalesiq']");
       const script2 = document.querySelector("[data-id='zsalesiq']");
+      const zSalesIQElement = document.querySelector("[data-id='zsalesiq']");
       if (zSalesIQElement) {
         zSalesIQElement.remove();
       } else if (script1) {
@@ -63,23 +64,5 @@ const OlarkChat = () => {
 
   return null;
 };
-
-{
-  /* <script type="text/javascript" id="zsiqchat">
-  var $zoho=$zoho || {};$zoho.salesiq = $zoho.salesiq || {
-  widgetcode:"siqb5d93c8a76f9d78afd916ace4c80a94e32d5531b5b274816914cbd359cd12ed3", 
-  values:{},
-  ready:function(){}
-  };
-  var d=document;
-  s=d.createElement("script");
-  s.type="text/javascript";
-  s.id="zsiqscript";
-  s.defer=true;
-  s.src="https://salesiq.zoho.in/widget";
-  t=d.getElementsByTagName("script")[0];
-  t.parentNode.insertBefore(s,t);
-  </script> */
-}
 
 export default OlarkChat;

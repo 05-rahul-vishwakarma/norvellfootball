@@ -26,7 +26,7 @@ const Page = () => {
   const [total_deposit, updateTotalDeposit] = useState(0);
   const [total_withdrawal, updateTotalWithdrawal] = useState(0);
   const [commissionData, updateCommissionData] = useState(0);
-  const { userBalance, userOtherData } = useContext(UserContext);
+  const { userBalance, userOtherData, getBalance } = useContext(UserContext);
   const [loading, setLoading] = useState(true);
 
   const [RegisterData, updateRegisterData] = useState({
@@ -151,6 +151,7 @@ const Page = () => {
       let res = await fetch("/api/profile/commission", config);
       res = await res.json();
       if (res?.status === 200) {
+        await getBalance();
         getAlert("success", res?.message);
       } else if (res?.status === 302 || res?.status === 500) {
         getAlert("redirect", "something went wrong login again");
@@ -201,7 +202,7 @@ const Page = () => {
                   {new Intl.NumberFormat("en-US", {
                     style: "decimal",
                     maximumFractionDigits: 2,
-                  }).format(userOtherData?.Commission || 0)}
+                  }).format(Number(userOtherData?.Commission) / 100 || 0)}
                 </h2>
               </span>
             </div>

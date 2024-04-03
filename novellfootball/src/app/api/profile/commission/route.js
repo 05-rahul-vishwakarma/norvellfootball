@@ -15,6 +15,7 @@ import { isValidUser } from "@/app/helpers/auth";
 import { cookies } from "next/headers";
 import { connect } from "@/app/modals/dbConfig";
 import ErrorReport from "@/app/helpers/ErrorReport";
+import mongoose from "mongoose";
 
 // function to retrive the commission and the corresponding bet data using aggregation pipeline
 export async function GET(request) {
@@ -131,12 +132,12 @@ export async function POST(request) {
     let registrationDate = new Date(UserCreatedOn?.createdAt);
     let today = new Date();
     const daysOfRegistration = Math.floor((today - registrationDate) / oneDay);
-    if (daysOfRegistration < 7)
-      throw new CustomError(
-        705,
-        `You can claim after ${7 - (daysOfRegistration % 7)} days`,
-        {}
-      );
+    // if (daysOfRegistration < 7)
+    //   throw new CustomError(
+    //     705,
+    //     `You can claim after ${7 - (daysOfRegistration % 7)} days`,
+    //     {}
+    //   );
     let previousDates = await getPreviousDates(daysOfRegistration % 7);
 
     let isClaimed = await claimBonusFor(UserName, previousDates);
@@ -187,9 +188,28 @@ async function getCookieData() {
 
 // claim commission bonus;
 async function claimBonusFor(UserName, dates) {
+  let Session = await mongoose.startSession();
+  Session.startTransaction();
   try {
     await connect();
     let totalCommission = 0;
+    for (let date of dates) {
+      let res = await COMMISSION.find({
+        UserName,
+        Date: date,
+        Claimed: true,
+      });
+      if (res) {
+        for (let commission of res) {
+          let commission_amount = Number(commission?.Commission);
+          if (commission_amount < 0) {
+            break;
+          }
+          totalCommission += Math.max(0, commission_amount);
+        }
+      }
+    }
+
     for (let date of dates) {
       let res = await COMMISSION.find({
         UserName,
@@ -198,23 +218,41 @@ async function claimBonusFor(UserName, dates) {
       });
       if (res) {
         for (let commission of res) {
-          totalCommission += Math.max(0, Number(commission?.Commission));
+          await COMMISSION.findOneAndUpdate(
+            {
+              _id: commission?._id,
+            },
+            {
+              Claimed: true,
+            }
+          );
         }
       }
     }
-    if (totalCommission === 0) return true; // no unclaimed commission found
-    let isUserUpdated = USER.findOneAndUpdate(
+
+    if (totalCommission === 0) {
+      await Session.commitTransaction();
+      return true; // no unclaimed commission found
+    }
+    let isUserUpdated = await USER.findOneAndUpdate(
       { UserName },
       {
         $inc: {
           Balance: totalCommission,
           Commission: totalCommission,
         },
-      }
+      },
+      { session: Session }
     );
-    if (!isUserUpdated) return false;
+
+    if (!isUserUpdated) {
+      await Session.abortTransaction();
+      return false;
+    }
+    await Session.commitTransaction();
     return true;
   } catch (error) {
+    await Session.abortTransaction();
     if (error?.code === 500 || error?.status === 500 || !error?.status) {
       ErrorReport(error);
     }
