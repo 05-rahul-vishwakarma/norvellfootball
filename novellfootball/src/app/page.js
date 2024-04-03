@@ -254,13 +254,13 @@ function MatchPopup({ match, onClose }) {
           getAlert("success", res.message);
           await getBalance();
           router.push("/stake");
-        } else if (res?.status === 500 || res?.status === 302) {
-          getAlert("Opps", res.message);
+        } else if (res?.status === 302) {
+          getAlert("redirect", res.message);
         } else {
-          getAlert("Opps", res.message);
+          getAlert("opps", res.message || "something went wrong");
         }
       } catch (error) {
-        getAlert("error", res.message);
+        getAlert("redirect", res.message);
       }
     }
     setTimeout(() => {
