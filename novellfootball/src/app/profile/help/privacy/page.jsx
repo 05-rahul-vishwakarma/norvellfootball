@@ -1,18 +1,16 @@
 "use client";
 import BackButton from "@/app/components/BackButton";
 import Layout from "@/app/components/Layout";
+import Back from "@/app/components/LiveChats/Back";
 import Link from "next/link";
 import React from "react";
 
 function Privacy() {
   return (
     <Layout>
-      <main className="">
-        <Link href="/profile/help/">
-          <div className="p-1 mt-3 ">
-            <BackButton pageName="Privacy" />
-          </div>
-        </Link>
+      <main>
+        <Back page={"privacy"} />
+
         <div className="w-[90%] mr-auto ml-auto pb-[10rem] overflow-y-scroll text-[.6rem] ">
           <div className="my-3 ">
             <h1 className="font-bold mb-3 ">privacy Policy (Customers)</h1>
