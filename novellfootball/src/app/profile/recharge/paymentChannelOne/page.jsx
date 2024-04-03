@@ -28,7 +28,7 @@ const accorodient = {
 function Page() {
   // Popup handling here //
   let { getAlert } = useContext(AlertContext);
-  let { extraDetails,getExtraDetails } = useContext(UserContext);
+  let { extraDetails, getExtraDetails } = useContext(UserContext);
   const [amount, setAmount] = useState();
   const [disabled, setDisabled] = useState(false);
   const [upiId, updateUpi] = useState([]);
@@ -107,7 +107,6 @@ function Page() {
     }
   }, [extraDetails]);
 
-
   return (
     <Layout>
       <div className="bg-white  w-full h-full  flex justify-center overflow-y-scroll pb-[12rem] ">
@@ -125,31 +124,37 @@ function Page() {
           </div>
 
           <div className=" flex justify-center items-center ">
-            <Image src={"/upiPaymentOne.svg"} alt="upi image" width={150} height={100} />
+            <Image
+              src={"/upiPaymentOne.svg"}
+              alt="upi image"
+              width={150}
+              height={100}
+            />
           </div>
 
           <div className="flex w-[60%] mr-auto ml-auto justify-around ">
-              <Image
-                src={"/phonePay.png"}
-                alt="phone pay"
-                width={50}
-                height={50}
-              />
-              <Image
-                src={"/paytm.png"}
-                alt="phone pay"
-                width={50}
-                height={50}
-                className="rounded-full "
-              />
-              <Image
-                src={"/GooglePay.svg"}
-                alt="phone pay"
-                width={50}
-                height={50}
-                className="rounded-full "
-              />
-            </div>
+            <Image
+              src={"/paytm.png"}
+              alt="paytm"
+              width={55}
+              height={55}
+              className="object-contain rounded-full "
+            />
+            <Image
+              src={"/phonePay.svg"}
+              alt="paytm"
+              width={55}
+              height={55}
+              className="object-contain rounded-full "
+            />
+            <Image
+              src={"/GooglePay.svg"}
+              alt="paytm"
+              width={55}
+              height={55}
+              className="object-contain rounded-full "
+            />
+          </div>
 
           <div className="h-[30vh] grid place-items-center  ">
             <div className="h-[90%] w-[60%] flex justify-center items-center  ">
