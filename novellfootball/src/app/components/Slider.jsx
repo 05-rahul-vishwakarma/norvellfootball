@@ -31,7 +31,7 @@ function Slider() {
           className="px-1"
         />
         <Image
-          src={"/item4.png"}
+          src={"/item4.jpg"}
           alt="..."
           width={100}
           height={100}

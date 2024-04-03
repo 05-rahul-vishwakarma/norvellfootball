@@ -147,6 +147,7 @@ const PlaceBet = ({ data, togglePopup }) => {
                     src={Team_a_logo || "/search.png"}
                     onError={(e) => updateSrcTeam_a(null)}
                     height={38}
+                    unoptimized
                     width={38}
                     alt="team a  logo"
                   />
@@ -171,6 +172,7 @@ const PlaceBet = ({ data, togglePopup }) => {
                     src={Team_b_logo || "/search.png"}
                     onError={(e) => updateSrcTeam_b(null)}
                     height={38}
+                    unoptimized
                     width={38}
                     alt="team b  logo"
                   />

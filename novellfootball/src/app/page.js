@@ -394,8 +394,6 @@ function ScoreCards({
   disabled,
   style,
 }) {
-  console.log(style);
-  console.log(disabled);
   const [estimatedIncome, updateEstimated] = useState(0);
   const [betAmount, updateBetAmount] = useState(0);
 
