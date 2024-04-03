@@ -143,7 +143,7 @@ function Page() {
                 className="rounded-full "
               />
               <Image
-                src={"/googlePay.svg"}
+                src={"/GooglePay.svg"}
                 alt="phone pay"
                 width={50}
                 height={50}
