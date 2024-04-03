@@ -132,12 +132,12 @@ export async function POST(request) {
     let registrationDate = new Date(UserCreatedOn?.createdAt);
     let today = new Date();
     const daysOfRegistration = Math.floor((today - registrationDate) / oneDay);
-    // if (daysOfRegistration < 7)
-    //   throw new CustomError(
-    //     705,
-    //     `You can claim after ${7 - (daysOfRegistration % 7)} days`,
-    //     {}
-    //   );
+    if (daysOfRegistration < 7)
+      throw new CustomError(
+        705,
+        `You can claim after ${7 - (daysOfRegistration % 7)} days`,
+        {}
+      );
     let previousDates = await getPreviousDates(daysOfRegistration % 7);
 
     let isClaimed = await claimBonusFor(UserName, previousDates);
@@ -197,7 +197,7 @@ async function claimBonusFor(UserName, dates) {
       let res = await COMMISSION.find({
         UserName,
         Date: date,
-        Claimed: true,
+        Claimed: false,
       });
       if (res) {
         for (let commission of res) {
@@ -224,7 +224,8 @@ async function claimBonusFor(UserName, dates) {
             },
             {
               Claimed: true,
-            }
+            },
+            { session: Session }
           );
         }
       }
