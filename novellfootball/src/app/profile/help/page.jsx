@@ -16,7 +16,7 @@ const Page = () => {
 
   return (
     <Layout>
-      <section className=" bg-[#ffffff] w-full relative pb-40 h-[100dvh] overflow-y-auto">
+      <section className=" bg-[#F8FCFF] w-full relative pb-40 h-[100dvh] overflow-y-auto">
         <Back page={"get help"} />
         <main className=" h-full space-y-1  px-4 ">
           <div className="h-[50%] relative w-full">

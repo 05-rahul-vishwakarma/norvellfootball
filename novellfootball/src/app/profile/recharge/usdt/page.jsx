@@ -116,7 +116,7 @@ function Page() {
           <div className="flex justify-between text-[.6rem] ">
             <p>Secure</p>
             <p className="flex place-items-center ">
-             <Image src={'/usdt/unipayment.png'} alt="..." width={80} height={50} />
+             <Image src={'/usdt/uniPayment.png'} alt="..." width={80} height={50} />
             </p>
           </div>
 
@@ -149,7 +149,7 @@ function Page() {
 
             <div className="w-[40vw] h-[20vh] grid place-items-center mr-auto ml-auto my-3 ">
               <Image
-                src={'/usdt/usdtQr.jpg'}
+                src={'/usdt/usdt.jpg'}
                 alt="barCode"
                 width={100}
                 height={100}

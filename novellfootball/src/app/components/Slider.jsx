@@ -11,32 +11,28 @@ function Slider() {
           alt="..."
           width={100}
           height={100}
-          unoptimized
-          className="px-1"
+          className="rounded-xl "
         />
         <Image
           src={"/item2.png"}
           alt="..."
           width={100}
           height={100}
-          unoptimized
-          className="px-1"
+          className="rounded-xl "
         />
         <Image
           src={"/item3.png"}
           alt="..."
           width={100}
           height={100}
-          unoptimized
-          className="px-1"
+          className="rounded-xl "
         />
         <Image
           src={"/item4.jpg"}
           alt="..."
           width={100}
           height={100}
-          unoptimized
-          className="px-1"
+          className="rounded-xl "
         />
       </Carousel>
     </div>

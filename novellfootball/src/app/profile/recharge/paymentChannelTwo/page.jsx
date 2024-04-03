@@ -3,7 +3,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import React, { useState, useEffect, Suspense, useContext } from "react";
 import Image from "next/image";
 import { FaRegCopy } from "react-icons/fa6";
-import Modal from "@/app/components/Modal";
+import { LiaRupeeSignSolid } from "react-icons/lia";
 import { AlertContext } from "@/app/helpers/AlertContext";
 import Layout from "@/app/components/Layout";
 import { UserContext } from "@/app/helpers/UserContext";
@@ -35,39 +35,40 @@ function Page() {
   // post request from the front-end
   async function submitDeposit() {
     getAlert();
-    try {
-      if (value == "" || amount == "") {
-        getAlert("opps", "fill the utr number first");
-      }
-      let body = {
-        TransactionId: value,
-        Amount: amount,
-        Channel: 2,
-      };
+    if (value == "" || amount == "") {
+      getAlert("opps", "fill the utr number first");
+    } else {
+      try {
+        let body = {
+          TransactionId: value,
+          Amount: amount,
+          Channel: 2,
+        };
 
-      let config = {
-        method: "POST",
-        headers: {
-          "content-type": "applicaiton/json",
-        },
-        body: JSON.stringify(body),
-      };
+        let config = {
+          method: "POST",
+          headers: {
+            "content-type": "applicaiton/json",
+          },
+          body: JSON.stringify(body),
+        };
 
-      let res = await fetch("/api/payment/deposit", config);
-      res = await res.json();
-      if (res) {
-        setDisabled(false);
-      }
-      if (res?.status === 200) {
-        getAlert("success", "your deposit is under verification");
-        router.push("/");
-      } else if (res?.status === 500 || res?.status === 302) {
+        let res = await fetch("/api/payment/deposit", config);
+        res = await res.json();
+        if (res) {
+          setDisabled(false);
+        }
+        if (res?.status === 200) {
+          getAlert("success", "your deposit is under verification");
+          router.push("/");
+        } else if (res?.status === 500 || res?.status === 302) {
+          getAlert("redirect", "something went wrong login again");
+        } else {
+          getAlert("opps", res?.message || "something went wrong login again");
+        }
+      } catch (error) {
         getAlert("redirect", "something went wrong login again");
-      } else {
-        getAlert("opps", res?.message || "something went wrong login again");
       }
-    } catch (error) {
-      getAlert("redirect", "something went wrong login again");
     }
   }
 
@@ -94,7 +95,7 @@ function Page() {
     <Layout>
       <div className='className="bg-white w-screen h-screen overflow-y-scroll pb-[12rem]'>
         <div className="flex place-items-center w-[90%] mr-auto ml-auto border-b-2 border-[lightgray] mt-2 py-3 px-2 text-[.7rem] ">
-          ${" "}
+          <LiaRupeeSignSolid />{" "}
           <Suspense>
             <RechargeAmount getAmount={setAmount} />
           </Suspense>
@@ -295,8 +296,6 @@ function RechargeAmount({ getAmount }) {
   );
 }
 
-
-
 // async (e) => {
 //   let isCopied = await Copy("TEXT"); //  returns true if successful
 //   getAlert(
@@ -306,4 +305,3 @@ function RechargeAmount({ getAmount }) {
 //       : "unable to copy the text please try to copy it manually"
 //   );
 // };
-

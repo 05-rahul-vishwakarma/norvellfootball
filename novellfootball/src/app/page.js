@@ -3,17 +3,18 @@
 import Image from "next/image";
 import { FaCirclePlus } from "react-icons/fa6";
 import MatchCard from "./components/MatchCard";
-import Slider from "./components/Slider";
 import { useContext, useState, useEffect } from "react";
 import { IoIosAdd } from "react-icons/io";
 import { FaRupeeSign } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import { Carousel } from "flowbite-react";
 import Layout from "./components/Layout";
 import { UserContext } from "./helpers/UserContext";
 import { easeInOut, motion } from "framer-motion";
 import Loading from "./components/Loading";
 import { AlertContext } from "./helpers/AlertContext";
 import Popup from "./components/Popup";
+import Slider from "./components/Slider"
 
 export default function Home() {
   let router = useRouter();
@@ -174,7 +175,7 @@ export default function Home() {
         </div>
 
         <div className="h-[28%]  w-[95%] mr-auto ml-auto mt-1 ">
-          <Slider />
+          <Slider/>
         </div>
 
         <div className="h-[65%] mt-[1rem] rounded-t-[30px]  shadow-2xl shadow-black  bg-[#F8FCFF]">
@@ -542,3 +543,4 @@ function ScoreCards({
 //       : "unable to copy the text please try to copy it manually"
 //   );
 // }}
+
