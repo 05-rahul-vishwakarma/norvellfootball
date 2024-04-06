@@ -49,8 +49,8 @@ const OlarkChat = () => {
     }
 
     return () => {
-      const script1 = document.querySelector("[data-id='zsalesiq']");
-      const script2 = document.querySelector("[data-id='zsalesiq']");
+      const script1 = document.querySelector("#zsiqchat");
+      const script2 = document.querySelector("#zsiqscript");
       const zSalesIQElement = document.querySelector("[data-id='zsalesiq']");
       if (zSalesIQElement) {
         zSalesIQElement.remove();
