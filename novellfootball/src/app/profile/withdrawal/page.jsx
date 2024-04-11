@@ -386,7 +386,6 @@ function Page() {
                     checked={!isLocalBank}
                     value={"usdt"}
                     className="size-5"
-                    id=""
                   />
                 </div>
               </div>
