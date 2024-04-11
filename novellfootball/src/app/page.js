@@ -3,11 +3,11 @@
 import Image from "next/image";
 import { FaCirclePlus } from "react-icons/fa6";
 import MatchCard from "./components/MatchCard";
-import Slider from "./components/Slider";
 import { useContext, useState, useEffect } from "react";
 import { IoIosAdd } from "react-icons/io";
 import { FaRupeeSign } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import { Carousel } from "flowbite-react";
 import Layout from "./components/Layout";
 import { UserContext } from "./helpers/UserContext";
 import { easeInOut, motion } from "framer-motion";
@@ -174,7 +174,7 @@ export default function Home() {
         </div>
 
         <div className="h-[28%]  w-[95%] mr-auto ml-auto mt-1 ">
-          <Slider />
+          <Slides />
         </div>
 
         <div className="h-[65%] mt-[1rem] rounded-t-[30px]  shadow-2xl shadow-black  bg-[#F8FCFF]">
@@ -188,7 +188,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className=" overflow-y-scroll h-[80%] pb-[8rem] ">
+          <div className=" overflow-y-scroll h-[60%] pb-[8rem] z-[-1] ">
             {matches.map((item, i) => (
               <div key={item.StakeId}>
                 <MatchCard
@@ -285,7 +285,7 @@ function MatchPopup({ match, onClose }) {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="h-full absolute  top-0 left-0 flex justify-center items-end bg-black/70 w-full  "
+      className="h-screen absolute z-[1] bottom-0 top-0 left-0 flex justify-center items-end bg-black/70 w-full  "
     >
       <motion.div
         initial={{ y: 100 }}
@@ -542,3 +542,56 @@ function ScoreCards({
 //       : "unable to copy the text please try to copy it manually"
 //   );
 // }}
+
+function Slides() {
+  return (
+    <div className="h-[28vh]  ">
+      <Carousel
+                options={{
+                  freeScroll: false,
+                  wrapAround: true,
+                  navigation: {
+                    nextEl: false, // Hide next button
+                    prevEl: false, // Hide previous button
+                  },
+                  pagination: {
+                    dynamicBullets: true,
+                    clickable: true,
+                    bulletClass: 'custom-bullet', // Apply custom class for styling
+                  },
+                }}
+                leftControl="." rightControl="."
+                freeScroll="hidden"
+      >
+        <Image
+          src={"/item.png"}
+          alt="..."
+          width={100}
+          height={100}
+          className="w-full h-full rounded-xl "
+        />
+        <Image
+          src={"/item2.png"}
+          alt="..."
+          width={100}
+          height={100}
+          className="w-full h-full rounded-xl "
+        />
+        <Image
+          src={"/item3.png"}
+          alt="..."
+          width={100}
+          height={100}
+          className="w-full h-full rounded-xl "
+        />
+        <Image
+          src={"/item4.jpg"}
+          alt="..."
+          width={100}
+          height={100}
+          className="w-full h-full rounded-xl "
+        />
+      </Carousel>
+    </div>
+  );
+}

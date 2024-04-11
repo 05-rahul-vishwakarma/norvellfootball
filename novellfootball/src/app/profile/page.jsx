@@ -159,7 +159,7 @@ function Page() {
                     <LiaAngleRightSolid className="text-[0.6rem]" />
                   </span>
                   <p className="capitalize text-gray-600 font-bold text-[0.65rem]">
-                    see benefit&apos;s
+                    see membership
                   </p>
                 </div>
               </div>

@@ -7,17 +7,14 @@ import { useRouter } from "next/navigation";
 import { FaInfoCircle } from "react-icons/fa";
 import Image from "next/image";
 import Layout from "@/app/components/Layout";
-import Modal from "@/app/components/Modal";
 import { useContext } from "react";
 import { AlertContext } from "@/app/helpers/AlertContext";
-import Loading from "@/app/components/Loading";
 import { UserContext } from "@/app/helpers/UserContext";
 
 function Page() {
   //--------------------------------- popup handler ------------------------------------//
   const { getAlert } = useContext(AlertContext);
   const { getExtraDetails } = useContext(UserContext);
-  const [loading, setLoading] = useState(true);
   const [disabled, setDisabled] = useState(false);
   const router = useRouter();
 

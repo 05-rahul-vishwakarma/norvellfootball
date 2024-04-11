@@ -5,9 +5,7 @@ import { motion } from "framer-motion";
 import { FaRegCopy } from "react-icons/fa6";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import { LiaAngleDownSolid, LiaAngleRightSolid } from "react-icons/lia";
 import { LiaRupeeSignSolid } from "react-icons/lia";
-import Modal from "@/app/components/Modal";
 import { AlertContext } from "@/app/helpers/AlertContext";
 import Layout from "@/app/components/Layout";
 import { UserContext } from "@/app/helpers/UserContext";
@@ -30,9 +28,7 @@ const accorodient = {
 function Page() {
   // Popup handling here //
   let { getAlert } = useContext(AlertContext);
-  let { extraDetails,getExtraDetails } = useContext(UserContext);
-  const [isVisible, setVisible] = useState(false);
-  const [isHide, setHide] = useState(true);
+  let { extraDetails, getExtraDetails } = useContext(UserContext);
   const [amount, setAmount] = useState();
   const [disabled, setDisabled] = useState(false);
   const [upiId, updateUpi] = useState([]);
@@ -111,7 +107,6 @@ function Page() {
     }
   }, [extraDetails]);
 
-
   return (
     <Layout>
       <div className="bg-white  w-full h-full  flex justify-center overflow-y-scroll pb-[12rem] ">
@@ -128,185 +123,43 @@ function Page() {
             <p className="text-[.6rem] ">Payment Amount</p>
           </div>
 
-          {/* <div
-            style={{
-              boxShadow: "0 0 5px 0 #c0cad9",
-            }}
-            className=" py-2 grid place-items-center text-[.7rem] "
-          >
-            <div
-              className=" border-b-2 border-[#d3cccc52] 
-         h-[3rem] flex justify-between place-items-center w-[95%] mr-auto ml-auto my-1  "
-            >
-              <div className="flex justify-center place-items-center ">
-                <div className="h-[3rem] w-[3rem] grid place-items-center  ">
-                  <Image
-                    src={"/paytm.png"}
-                    alt="paytm"
-                    width={40}
-                    height={40}
-                    className="object-contain"
-                  />
-                </div>
-                <span>Paytm</span>
-              </div>
-              <div className="mr-1rem ">
-                <input type="radio" name="payment" id="" />
-              </div>
-            </div>
-
-            <div
-              className="border-b-2 border-[#d3cccc52] pb-2
-          h-[3rem] flex justify-between place-items-center w-[95%] mr-auto ml-auto my-1 "
-            >
-              <div className="flex justify-center place-items-center ">
-                <div className="h-[3rem] w-[3rem] grid place-items-center  ">
-                  <Image
-                    src={"/phonePay.svg"}
-                    alt="paytm"
-                    width={40}
-                    height={40}
-                    className="object-contain"
-                  />
-                </div>
-                <span>Phone pay</span>
-              </div>
-              <div className="mr-1rem ">
-                <input type="radio" name="payment" id="" />
-              </div>
-            </div>
-
-            <div
-              className=" border-b-2 border-[#d3cccc52] pb-2
-          h-[3rem] flex justify-between place-items-center w-[95%] mr-auto ml-auto my-1 "
-            >
-              <div className="flex justify-center place-items-center ">
-                <div className="h-[3rem] w-[3rem] grid place-items-center  ">
-                  <Image
-                    src={"/Mobikwik.svg"}
-                    alt="mobi"
-                    width={40}
-                    height={40}
-                    className="object-contain"
-                  />
-                </div>
-                <span>Mobikwik</span>
-              </div>
-              <div className="mr-1rem ">
-                <input type="radio" name="payment" id="" />
-              </div>
-            </div>
-
-            <div
-              className=" border-b-2 border-[#d3cccc52] pb-2
-         h-[3rem] flex justify-between place-items-center w-[95%] mr-auto ml-auto my-1 "
-            >
-              <div className="flex justify-center place-items-center ">
-                <div className="h-[3rem] w-[3rem] grid place-items-center  ">
-                  <Image
-                    src={"/GooglePay.svg"}
-                    alt="google"
-                    width={40}
-                    height={40}
-                    className="object-contain"
-                  />
-                </div>
-                <span>Google pay</span>
-              </div>
-              <div className="mr-1rem ">
-                <input type="radio" name="payment" id="" />
-              </div>
-            </div>
-
-            <div
-              className="
-         h-[3rem] flex justify-between place-items-center w-[95%] mr-auto ml-auto pb-1 "
-            >
-              <div className="flex justify-center place-items-center ">
-                <div className="h-[3rem] w-[3rem] grid place-items-center  ">
-                  <Image
-                    src={"/Upi.svg"}
-                    alt="svg"
-                    width={40}
-                    height={40}
-                    className="object-contain"
-                  />
-                </div>
-                <span>Upi</span>
-              </div>
-              <div className="mr-1rem ">
-                <input type="radio" name="payment" id="" />
-              </div>
-            </div>
-          </div>
-
-          <div
-            style={{ boxShadow: "0 0 4px 0 #c0cad9" }}
-            className="mt-3 py-2 font-[600] rounded-xl bg-[#fff] text-[0.7rem] "
-          >
-            <div className="flex justify-between place-items-center px-3 ">
-              <p>Click to show QRcode</p>
-              <span
-                onClick={() => setVisible(!isVisible) || setHide(!isHide)}
-                className="h-full rounded-full bg-gray-300 text-black p-1"
-              >
-                {isVisible ? <LiaAngleRightSolid /> : <LiaAngleDownSolid />}
-              </span>
-            </div>
-            <div>
-              <motion.p
-                variants={accorodient}
-                animate={isVisible ? "show" : "hide"}
-                transition={{ duration: 0.5 }}
-                className="text-[#00000091] h-[18vh] text-[0.6rem] overflow-scroll  flex flex-col  justify-center place-items-center px-4 relative  "
-              >
-                <Image
-                  src={
-                    extraDetails?.QrChannel1
-                      ? `data:image/jpeg;base64,${extraDetails?.QrChannel1}`
-                      : "/logo.png"
-                  }
-                  alt="barCode"
-                  height={80}
-                  width={80}
-                  className="object-contain "
-                />
-                <span className="text-[#992626] absolute bottom-0 font-bold   ">
-                  ONE QR CODE FOR THE SINGLE PAYMENT ONLY
-                </span>
-              </motion.p>
-            </div>
-          </div> */}
-
           <div className=" flex justify-center items-center ">
-            <Image src={"/upi.webp"} alt="upi image" width={150} height={100} />
+            <Image
+              src={"/upiPaymentOne.svg"}
+              alt="upi image"
+              width={150}
+              height={100}
+            />
           </div>
 
           <div className="flex w-[60%] mr-auto ml-auto justify-around ">
-              <Image
-                src={"/phone.png"}
-                alt="phone pay"
-                width={50}
-                height={50}
-              />
-              <Image
-                src={"/paytm2.webp"}
-                alt="phone pay"
-                width={50}
-                height={50}
-              />
-              <Image
-                src={"/google.png"}
-                alt="phone pay"
-                width={50}
-                height={50}
-              />
-            </div>
+            <Image
+              src={"/paytm.png"}
+              alt="paytm"
+              width={55}
+              height={55}
+              className="object-contain rounded-full "
+            />
+            <Image
+              src={"/phonePay.svg"}
+              alt="paytm"
+              width={55}
+              height={55}
+              className="object-contain rounded-full "
+            />
+            <Image
+              src={"/GooglePay.svg"}
+              alt="paytm"
+              width={55}
+              height={55}
+              className="object-contain rounded-full "
+            />
+          </div>
 
           <div className="h-[30vh] grid place-items-center  ">
             <div className="h-[90%] w-[60%] flex justify-center items-center  ">
               <Image
-                src={"/qr.jpg"}
+                src={"/qrCode.svg"}
                 alt="qr code"
                 width={100}
                 height={100}

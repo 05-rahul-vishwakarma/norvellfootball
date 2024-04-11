@@ -16,7 +16,7 @@ const Page = () => {
 
   return (
     <Layout>
-      <section className=" bg-[#ffffff] w-full relative pb-40 h-[100dvh] overflow-y-auto">
+      <section className=" bg-[#F8FCFF] w-full relative pb-40 h-[100dvh] overflow-y-auto">
         <Back page={"get help"} />
         <main className=" h-full space-y-1  px-4 ">
           <div className="h-[50%] relative w-full">
@@ -76,14 +76,14 @@ const Page = () => {
                       <p className="size-6 bg-blue-400 rounded-full">h</p>
                     </div>
                     <div className="w-[40%] text-[0.5rem] text-gray-600 ">
-                      <p>testing things</p>
+                      <p>Alok</p>
                     </div>
                     <div className="w-[50%]">
                       <a
                         href="#"
                         className="bg-blue-500 h-full w-full py-1 px-2 rounded-xl text-center text-[0.6rem] text-white font-bold "
                       >
-                        connect to mark
+                        connect to Alok
                       </a>
                     </div>
                   </div>
@@ -92,14 +92,14 @@ const Page = () => {
                       <p className="size-6 bg-blue-400 rounded-full">h</p>
                     </div>
                     <div className="w-[40%] text-[0.5rem] text-gray-600 ">
-                      <p>testing things</p>
+                      <p>Anthony</p>
                     </div>
                     <div className="w-[50%]">
                       <a
                         href="#"
                         className="bg-blue-500 h-full w-full py-1 px-2 rounded-xl text-center text-[0.6rem] text-white font-bold "
                       >
-                        connect to mark
+                        connect to Anthony
                       </a>
                     </div>
                   </div>

@@ -415,8 +415,7 @@ function Page() {
                           value={Amount}
                           onChange={(e) => updateAmount(e.target.value)}
                           placeholder="Enter value"
-                          className="w-full h-full bg-transparent outline-none text-gray-600"
-                          name=""
+                          className="w-full h-full bg-transparent outline-none text-gray-600 "
                         />
                       </div>
                       <div className=" flex w-[50%] space-x-2 px-2">
