@@ -13,6 +13,8 @@ import { UserContext } from "./helpers/UserContext";
 import { easeInOut, motion } from "framer-motion";
 import Loading from "./components/Loading";
 import { AlertContext } from "./helpers/AlertContext";
+import DemoCarousel from "./components/DemoCarousel";
+
 
 export default function Home() {
   let router = useRouter();
@@ -172,11 +174,11 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="h-[28%]  w-[95%] mr-auto ml-auto mt-1 ">
-          <Slides />
+        <div className="h-[28%]  w-[95%] mr-auto ml-auto mt-1 mb-[2rem] ">
+          <DemoCarousel/>
         </div>
 
-        <div className="h-[65%] mt-[1rem] rounded-t-[30px]  shadow-2xl shadow-black  bg-[#F8FCFF]">
+        <div className="h-[60%] mt-[1rem] rounded-t-[30px]  shadow-2xl shadow-black  bg-[#F8FCFF]">
           <div className="h-[70px] rounded-t-[30px] flex flex-col justify-around  ">
             <div className="w-[70px] h-[5px]  mr-auto ml-auto rounded-2xl bg-blue-500 "></div>
             <div className="flex  justify-between w-[90%] mr-auto ml-auto  ">
@@ -545,24 +547,7 @@ function ScoreCards({
 function Slides() {
   return (
     <div className="h-[28vh]  ">
-      <Carousel
-        options={{
-          freeScroll: false,
-          wrapAround: true,
-          navigation: {
-            nextEl: false, // Hide next button
-            prevEl: false, // Hide previous button
-          },
-          pagination: {
-            dynamicBullets: true,
-            clickable: true,
-            bulletClass: "custom-bullet", // Apply custom class for styling
-          },
-        }}
-        leftControl="."
-        rightControl="."
-        freeScroll="hidden"
-      >
+      <Carousel leftControl="." rightControl="." >
         <Image
           src={"/item.png"}
           alt="..."
