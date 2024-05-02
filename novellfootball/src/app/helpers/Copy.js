@@ -2,6 +2,7 @@ import { isNativeApp } from "webtonative";
 import { get, set } from "webtonative/Clipboard";
 
 export async function Copy(text) {
+  text = text.toString();
   try {
     let isCopied = false;
 
@@ -17,7 +18,7 @@ export async function Copy(text) {
       isCopied = true;
     } else {
       await navigator.clipboard.writeText(text);
-      const clipboardText = await navigator?.clipboard?.readText();
+      const clipboardText = (await navigator?.clipboard?.readText()).toString();
       isCopied = clipboardText === text;
     }
     return isCopied;
