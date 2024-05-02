@@ -147,7 +147,11 @@ const Page = () => {
             ) : (
               <>
                 <p>You have won</p>
-                <span>${winningAmount}</span>
+                <span className="flex">
+                  {" "}
+                  <FaIndianRupeeSign />
+                  {winningAmount}
+                </span>
               </>
             )}
           </div>

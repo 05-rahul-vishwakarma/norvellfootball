@@ -10,7 +10,6 @@ import { IoIosAdd } from "react-icons/io";
 import { FaRupeeSign } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { UserContext } from "../helpers/UserContext";
-import Modal from "./Modal";
 import { AlertContext } from "../helpers/AlertContext";
 
 const PlaceBet = ({ data, togglePopup }) => {
@@ -240,6 +239,7 @@ function ScoreCards({
       ).toFixed(2);
     });
   }
+  const router = useRouter();
 
   return (
     <div>
@@ -289,7 +289,10 @@ function ScoreCards({
                   {new Intl.NumberFormat().format(Balance || 0)}
                 </span>
               </div>
-              <span className="h-[90%] font-bolder text-white aspect-square rounded-full bg-blue-700 flex justify-center items-center">
+              <span
+                onClick={(e) => router.push("/profile/recharge")}
+                className="h-[90%] font-bolder text-white aspect-square rounded-full bg-blue-700 flex justify-center items-center"
+              >
                 <IoIosAdd />
               </span>
             </div>

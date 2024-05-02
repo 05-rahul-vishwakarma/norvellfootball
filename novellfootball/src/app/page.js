@@ -13,7 +13,6 @@ import { UserContext } from "./helpers/UserContext";
 import { easeInOut, motion } from "framer-motion";
 import Loading from "./components/Loading";
 import { AlertContext } from "./helpers/AlertContext";
-import Popup from "./components/Popup";
 
 export default function Home() {
   let router = useRouter();
@@ -547,21 +546,22 @@ function Slides() {
   return (
     <div className="h-[28vh]  ">
       <Carousel
-                options={{
-                  freeScroll: false,
-                  wrapAround: true,
-                  navigation: {
-                    nextEl: false, // Hide next button
-                    prevEl: false, // Hide previous button
-                  },
-                  pagination: {
-                    dynamicBullets: true,
-                    clickable: true,
-                    bulletClass: 'custom-bullet', // Apply custom class for styling
-                  },
-                }}
-                leftControl="." rightControl="."
-                freeScroll="hidden"
+        options={{
+          freeScroll: false,
+          wrapAround: true,
+          navigation: {
+            nextEl: false, // Hide next button
+            prevEl: false, // Hide previous button
+          },
+          pagination: {
+            dynamicBullets: true,
+            clickable: true,
+            bulletClass: "custom-bullet", // Apply custom class for styling
+          },
+        }}
+        leftControl="."
+        rightControl="."
+        freeScroll="hidden"
       >
         <Image
           src={"/item.png"}

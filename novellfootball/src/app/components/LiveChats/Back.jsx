@@ -12,7 +12,9 @@ const Back = ({ page }) => {
         <LiaAngleLeftSolid />
         Back
       </span>
-      <h2 className=" capitalize text-[0.8rem] font-bold my-0">{page}</h2>
+      <h2 className=" text-center text-nowrap capitalize text-[0.65rem] font-bold my-0">
+        {page}
+      </h2>
       <span></span>
     </div>
   );
