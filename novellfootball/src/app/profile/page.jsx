@@ -12,6 +12,7 @@ import { UserContext } from "../helpers/UserContext";
 import Loading from "../components/Loading";
 import { AlertContext } from "../helpers/AlertContext";
 import { IoGameControllerOutline } from "react-icons/io5";
+import Link from "next/link";
 
 function Page() {
   const router = useRouter();
@@ -377,7 +378,8 @@ function Page() {
               </div>
             </div>
 
-            <div
+            <Link
+              href={"https://drive.google.com/uc?export=download&id=12AgEIlvRpH1V-uQIxXeQuwMbZjx-UjXC"}
               style={{ boxShadow: "0px 2px 8px 1px rgb(0,0,0,0.1) " }}
               className="flex  items-center py-3  rounded-[19px] bg-[#fff]  px-2"
             >
@@ -411,7 +413,7 @@ function Page() {
               <div className="h-full w-full flex justify-center items-center flex-[1]">
                 <LiaAngleRightSolid />
               </div>
-            </div>
+            </Link>
 
             <div
               onClick={logout}

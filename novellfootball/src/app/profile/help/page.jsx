@@ -3,12 +3,13 @@ import Layout from "@/app/components/Layout";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import React, { useState } from "react";
-import { FaTelegram } from "react-icons/fa6";
+import { FaTelegram, FaWhatsapp } from "react-icons/fa6";
 import { LiaAngleDownSolid, LiaAngleRightSolid } from "react-icons/lia";
 import { useRouter } from "next/navigation";
 import OlarkChat from "@/app/components/LiveChats/OlarkChat";
 import Back from "@/app/components/LiveChats/Back";
 import { BsFileEarmarkPdfFill } from "react-icons/bs";
+import Link from "next/link";
 
 const Page = () => {
   const [getAgents, toggleAgents] = useState(false);
@@ -36,9 +37,27 @@ const Page = () => {
                 <p>telegram group</p>
               </div>
               <div className="flex-[2] flex justify-end items-center">
-                <span className="h-full rounded-xl bg-blue-500 text-white px-8 py-2">
+                <Link href={"https://t.me/+2Yy34xFCzfY1OWI9"}  className="h-full rounded-xl bg-blue-500 text-white px-8 py-2">
                   join
+                </Link >
+              </div>
+            </div>
+            <div
+              style={{ boxShadow: "0 10px 10px rgba(0,0,0,0.04) " }}
+              className="flex items-center mt-2 capitalize bg-white  rounded-xl py-2 px-2 font-semibold text-sm"
+            >
+              <div className="flex-[1]">
+                <span className="bg-blue-500 text-green-500 text-3xl size-8 rounded-full">
+                  <FaWhatsapp />
                 </span>
+              </div>
+              <div className="flex-[3]">
+                <p>whats app group</p>
+              </div>
+              <div className="flex-[2] flex justify-end items-center">
+                <Link href={"https://chat.whatsapp.com/D5izGU6e6COKBlInEvgs9O"} className="h-full rounded-xl bg-blue-500 text-white px-8 py-2">
+                  join
+                </Link>
               </div>
             </div>
 
@@ -193,7 +212,8 @@ const Page = () => {
               </div>
             </div>
 
-            <div
+            <Link
+              href={"https://drive.google.com/file/d/1wd2QQwDqnXFONUhGepDe-1mDImxTidUG/view?usp=sharing"}
               style={{ boxShadow: "0 10px 10px rgba(0,0,0,0.04) " }}
               className=" capitalize bg-white  rounded-lg py-2 px-2 font-semibold text-sm"
             >
@@ -212,7 +232,7 @@ const Page = () => {
                   </span>
                 </div>
               </div>
-            </div>
+            </Link>
           </div>
         </main>
       </section>
