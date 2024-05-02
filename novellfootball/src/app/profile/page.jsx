@@ -378,8 +378,9 @@ function Page() {
               </div>
             </div>
 
-            <Link
-              href={"https://drive.google.com/uc?export=download&id=12AgEIlvRpH1V-uQIxXeQuwMbZjx-UjXC"}
+            <a
+              download={"norvellfootball.apk"}
+              href={"/downloads/norvellfootball.apk"}
               style={{ boxShadow: "0px 2px 8px 1px rgb(0,0,0,0.1) " }}
               className="flex  items-center py-3  rounded-[19px] bg-[#fff]  px-2"
             >
@@ -413,7 +414,7 @@ function Page() {
               <div className="h-full w-full flex justify-center items-center flex-[1]">
                 <LiaAngleRightSolid />
               </div>
-            </Link>
+            </a>
 
             <div
               onClick={logout}

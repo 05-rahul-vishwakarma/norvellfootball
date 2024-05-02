@@ -212,8 +212,9 @@ const Page = () => {
               </div>
             </div>
 
-            <Link
-              href={"https://drive.google.com/file/d/1wd2QQwDqnXFONUhGepDe-1mDImxTidUG/view?usp=sharing"}
+            <a
+              href={"/downloads/Norvell-football.pdf"}
+              download={"norvellfootball.pdf"}
               style={{ boxShadow: "0 10px 10px rgba(0,0,0,0.04) " }}
               className=" capitalize bg-white  rounded-lg py-2 px-2 font-semibold text-sm"
             >
@@ -232,7 +233,7 @@ const Page = () => {
                   </span>
                 </div>
               </div>
-            </Link>
+            </a>
           </div>
         </main>
       </section>

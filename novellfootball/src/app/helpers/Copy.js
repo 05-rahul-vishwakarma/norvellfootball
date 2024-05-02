@@ -9,11 +9,12 @@ export async function Copy(text) {
       set({
         data: `${text?.trim()}`,
       });
-      get({
-        callback: (data) => {
-          isCopied = data?.value === text;
-        },
-      });
+      // get({
+      //   callback: (data) => {
+      //     isCopied = data?.value === text?.trim();
+      //   },
+      // });
+      isCopied = true;
     } else {
       await navigator.clipboard.writeText(text);
       const clipboardText = await navigator?.clipboard?.readText();
