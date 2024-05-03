@@ -37,7 +37,7 @@ const Page = () => {
                 <p>telegram group</p>
               </div>
               <div className="flex-[2] flex justify-end items-center">
-                <Link href={"https://t.me/+2Yy34xFCzfY1OWI9"}  className="h-full rounded-xl bg-blue-500 text-white px-8 py-2">
+                <Link href={"https://t.me/Norvellfootbal"}  className="h-full rounded-xl bg-blue-500 text-white px-8 py-2">
                   join
                 </Link >
               </div>
@@ -92,14 +92,14 @@ const Page = () => {
                 >
                   <div className="w-[80%] flex items-center space-x-2">
                     <div className="w-[10%]">
-                      <p className="size-6 bg-blue-400 rounded-full">h</p>
+                    <p style={{background : "url('/agents/alok.jpg') center no-repeat" , backgroundSize : "cover"}} className="size-6 rounded-full"></p>
                     </div>
                     <div className="w-[40%] text-[0.5rem] text-gray-600 ">
                       <p>Alok</p>
                     </div>
                     <div className="w-[50%]">
                       <a
-                        href="#"
+                        href="https://t.me/Alokrajnrv"
                         className="bg-blue-500 h-full w-full py-1 px-2 rounded-xl text-center text-[0.6rem] text-white font-bold "
                       >
                         connect to Alok
@@ -108,14 +108,14 @@ const Page = () => {
                   </div>
                   <div className="w-[80%] flex items-center space-x-2">
                     <div className="w-[10%]">
-                      <p className="size-6 bg-blue-400 rounded-full">h</p>
+                      <p style={{background : "url('/agents/anthony.jpg') center no-repeat" , backgroundSize : "cover"}} className="size-6 rounded-full"></p>
                     </div>
                     <div className="w-[40%] text-[0.5rem] text-gray-600 ">
                       <p>Anthony</p>
                     </div>
                     <div className="w-[50%]">
                       <a
-                        href="#"
+                        href="https://t.me/Anthony_8892"
                         className="bg-blue-500 h-full w-full py-1 px-2 rounded-xl text-center text-[0.6rem] text-white font-bold "
                       >
                         connect to Anthony
@@ -124,14 +124,14 @@ const Page = () => {
                   </div>
                   <div className="w-[80%] flex items-center space-x-2">
                     <div className="w-[10%]">
-                      <p className="size-6 bg-blue-400 rounded-full">h</p>
+                    <p style={{background : "url('/agents/ruhi.jpg') center no-repeat" , backgroundSize : "cover"}} className="size-6 rounded-full"></p>
                     </div>
                     <div className="w-[40%] text-[0.5rem] text-gray-600 ">
-                      <p>testing things</p>
+                      <p>Ruhi</p>
                     </div>
                     <div className="w-[50%]">
                       <a
-                        href="#"
+                        href="https://t.me/Aryarhi"
                         className="bg-blue-500 h-full w-full py-1 px-2 rounded-lg text-center text-[0.6rem] text-white font-bold "
                       >
                         connect to mark

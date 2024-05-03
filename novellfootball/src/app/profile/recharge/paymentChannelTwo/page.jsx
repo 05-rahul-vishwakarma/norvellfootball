@@ -105,7 +105,7 @@ function Page() {
           <p>UPI ID</p>
           <CopyUPI
             upiId={
-              upiId?.length > 1
+              upiId?.length >= 1
                 ? upiId[Math.floor(Math.random() * upiId?.length)]
                 : "something@upi"
             }
