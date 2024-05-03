@@ -33,7 +33,8 @@ export async function POST(request) {
     if (!(await validateTime()))
       throw new CustomError(
         705,
-        "you can withdraw from 10:00 AM to 17:00 PM UTC on working days i.e Monday to Saturday." + `${new Date()}`,
+        "you can withdraw from 10:00 AM to 17:00 PM UTC on working days i.e Monday to Saturday." + `${ new Date( new Date().toLocaleDateString("en-US", {timeZone: "Asia/Kolkata"}
+        ))}`,
         {}
       );
     if (!Amount) throw new CustomError(705, "Enter a valid amount", {});
@@ -189,8 +190,8 @@ async function getCookieData() {
 async function validateTime() {
   const currentDate = new Date( new Date().toLocaleDateString("en-US", {timeZone: "Asia/Kolkata"}
    ));
-  const currentDay = currentDate.getDay(); // Sunday is 0, Monday is 1, ..., Saturday is 6
-  const currentHour = currentDate.getHours();
+  const currentDay = Number(currentDate.getDay()); // Sunday is 0, Monday is 1, ..., Saturday is 6
+  const currentHour = Number(currentDate.getHours());
 
   // Check if it's Sunday or outside the working hours (10 am to 5 pm)
   if (currentDay === 0 || currentHour < 10 || currentHour >= 17) {
