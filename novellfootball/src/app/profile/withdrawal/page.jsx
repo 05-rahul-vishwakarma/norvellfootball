@@ -87,7 +87,6 @@ function Page() {
     try {
       getAlert();
       let isVerified = await verify();
-      isVerified = true;
       if (!isVerified) {
         getAlert("opps", "Please verify first");
         return;
@@ -98,6 +97,10 @@ function Page() {
           "opps",
           "you can withdraw from 10:00 AM to 17:00 PM UTC on working days i.e Monday to Saturday."
         );
+        return;
+      }
+      if(Number(userOtherData?.ValidAmount) <= Number(userOtherData?.ValidDeposit)){
+        getAlert("opps", "Low valid amount .");
         return;
       }
       let config = {
@@ -250,7 +253,7 @@ function Page() {
                 ) {
                   updateEditBank(true);
                 } else {
-                  alert("already added bank details you can edit them");
+                  getAlert("opps","already added bank details you can edit them");
                 }
               }}
               className=" absolute h-[30%] bg-blue-500 rounded-full text-white left-[50%] translate-x-[-50%] top-[100%] translate-y-[-50%] aspect-square flex text-[2rem] justify-center items-center"
