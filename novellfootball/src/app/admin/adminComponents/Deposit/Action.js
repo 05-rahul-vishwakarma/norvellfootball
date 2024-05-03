@@ -59,6 +59,7 @@ async function settleDeposit(data) {
   Session.startTransaction();
   try {
     await connect();
+
     //  if first deposit give 2% reward to the parent;
     let isFirstDeposit = await USER.findOne({ UserName: data?.UserName });
     if (!isFirstDeposit) {

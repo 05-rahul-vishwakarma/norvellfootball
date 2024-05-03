@@ -60,7 +60,7 @@ const VerificationPopup = ({ toggleVerification }) => {
       res = await res.json();
       if (res?.status === 200) {
         updateOtpSent(true);
-        getAlert("success", "Otp verification successfull 🎉");
+        getAlert("success", "Otp sent successfully to your device.");
       } else {
         getAlert("opps", res?.message || "something went wrong");
       }

@@ -85,7 +85,7 @@ function Page() {
       <section className="bg-[#f7f8ff] relative h-[100dvh]">
         {/* {loading && <Loading />} */}
         <div className="relative text-center py-4 h-[8%] ">
-          <h2 className=" capitalize text-sm font-bold my-0">matches</h2>
+          <h2 className=" capitalize text-[0.65rem] font-bold my-0">matches</h2>
         </div>
         <main className=" space-y-4  h-[92%] ">
           {/* search box */}

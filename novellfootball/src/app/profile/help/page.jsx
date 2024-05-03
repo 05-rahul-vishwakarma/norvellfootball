@@ -90,49 +90,49 @@ const Page = () => {
                   transition={{ duration: 0.5 }}
                   className="mt-2 flex space-y-2 flex-col items-center"
                 >
-                  <div className="w-[80%] flex items-center space-x-2">
+                  <div className="w-[90%] flex items-center space-x-2">
                     <div className="w-[10%]">
                     <p style={{background : "url('/agents/alok.jpg') center no-repeat" , backgroundSize : "cover"}} className="size-6 rounded-full"></p>
                     </div>
-                    <div className="w-[40%] text-[0.5rem] text-gray-600 ">
+                    <div className="w-[30%] text-[0.5rem] text-gray-600 ">
                       <p>Alok</p>
                     </div>
-                    <div className="w-[50%]">
+                    <div className="w-[60%]">
                       <a
                         href="https://t.me/Alokrajnrv"
-                        className="bg-blue-500 h-full w-full py-1 px-2 rounded-xl text-center text-[0.6rem] text-white font-bold "
+                        className="bg-blue-500 h-full w-[100%] py-1 px-2 rounded-xl text-center text-[0.6rem] text-white font-bold "
                       >
                         connect to Alok
                       </a>
                     </div>
                   </div>
-                  <div className="w-[80%] flex items-center space-x-2">
+                  <div className="w-[90%] flex items-center space-x-2">
                     <div className="w-[10%]">
                       <p style={{background : "url('/agents/anthony.jpg') center no-repeat" , backgroundSize : "cover"}} className="size-6 rounded-full"></p>
                     </div>
-                    <div className="w-[40%] text-[0.5rem] text-gray-600 ">
+                    <div className="w-[30%] text-[0.5rem] text-gray-600 ">
                       <p>Anthony</p>
                     </div>
-                    <div className="w-[50%]">
+                    <div className="w-[60%]">
                       <a
                         href="https://t.me/Anthony_8892"
-                        className="bg-blue-500 h-full w-full py-1 px-2 rounded-xl text-center text-[0.6rem] text-white font-bold "
+                        className="bg-blue-500 h-full w-[100%] py-1 px-2 rounded-xl text-center text-[0.6rem] text-white font-bold "
                       >
                         connect to Anthony
                       </a>
                     </div>
                   </div>
-                  <div className="w-[80%] flex items-center space-x-2">
+                  <div className="w-[90%] flex items-center space-x-2">
                     <div className="w-[10%]">
                     <p style={{background : "url('/agents/ruhi.jpg') center no-repeat" , backgroundSize : "cover"}} className="size-6 rounded-full"></p>
                     </div>
-                    <div className="w-[40%] text-[0.5rem] text-gray-600 ">
+                    <div className="w-[30%] text-[0.5rem] text-gray-600 ">
                       <p>Ruhi</p>
                     </div>
-                    <div className="w-[50%]">
+                    <div className="w-[60%]">
                       <a
                         href="https://t.me/Aryarhi"
-                        className="bg-blue-500 h-full w-full py-1 px-2 rounded-lg text-center text-[0.6rem] text-white font-bold "
+                        className="bg-blue-500 h-full w-full py-1 px-2 rounded-xl text-center text-[0.6rem] text-white font-bold "
                       >
                         connect to mark
                       </a>

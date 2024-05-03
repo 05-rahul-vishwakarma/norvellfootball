@@ -17,7 +17,7 @@ const WithdrawCard = ({ data, idx }) => {
   const [Status, updateStatus] = useState(0);
   const [createdAt, setCreatedAt] = useState(null);
   const [UserName, updateUserName] = useState("");
-  const [Remark, updateRemark] = useState("");
+  const [Remark, updateRemark] = useState("withdrawal processed.");
   const [prevTransactionId, updateId] = useState("");
 
   const [state, formAction] = useFormState(updateTransaction, initialState);

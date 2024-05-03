@@ -136,11 +136,11 @@ function Page() {
         <div onClick={() => router.back()} className="py-[1rem] ">
           <div className="grid grid-flow-col  place-items-center">
             <span className="flex place-items-center justify-self-start p-[.5rem]">
-              <IoIosArrowBack className="text-[1.5rem]   " />
+              <IoIosArrowBack className="text-[1rem]   " />
               <p className="text-[.8rem] font-medium ">Back</p>
             </span>
             <div className="flex place-items-center justify-self-start">
-              <span className="font-bold  ">Stake list</span>
+              <span className="text-[0.65rem] font-bold">Stake list</span>
             </div>
             <span></span>
           </div>

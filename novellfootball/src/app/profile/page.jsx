@@ -103,7 +103,7 @@ function Page() {
         {loading && <Loading />}
 
         <div className="relative text-center py-4 h-[8%] ">
-          <h2 className=" capitalize text-[0.8rem] font-bold my-0">Profile</h2>
+          <h2 className=" capitalize text-[0.65rem] font-bold my-0">Profile</h2>
         </div>
         <main className=" space-y-1  px-4 ">
           {/* hero section */}

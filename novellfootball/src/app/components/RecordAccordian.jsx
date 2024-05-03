@@ -30,7 +30,7 @@ export default function RecordAccordians({ details, cardDetails, idx }) {
               {Number(cardDetails?.Amount) / 100}
             </h2>
             <h2
-              style={{ color: cardDetails?.Status === 0 ? "red" : "#38ff3e" }}
+              style={{ color: cardDetails?.Status === 1 ? "#38ff3e" : "red" }}
               className="font-medium capitalize text-[0.7rem]"
             >
               {cardDetails?.Status === 0

@@ -111,7 +111,7 @@ function page() {
           <Image src={"/payzApp.png"} alt="logo" width={180} height={100} />
         </div>
         <div className="flex justify-between w-[90%] px-2 text-[.6rem] mt-4  ">
-          <p className="font-semibold text-[#004B8D] ">#Order Id 899900</p>
+          <p className="font-semibold text-[#004B8D] ">#Order Id {Math.floor(Math.random()*100000)}</p>
           <span className="flex items-center font-semibold ">
             <Suspense>
               <RechargeAmount getAmount={setAmount} />
