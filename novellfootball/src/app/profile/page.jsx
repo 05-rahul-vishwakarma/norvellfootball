@@ -87,7 +87,7 @@ function Page() {
           updateVipInfo({ Vip: "diamond", img: "/diamond.png" });
           break;
         case 4:
-          updateVipInfo({ Vip: "blue diamond", img: "bluediamond" });
+          updateVipInfo({ Vip: "blue diamond", img: "/bluediamond.png" });
           break;
       }
     }

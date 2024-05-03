@@ -33,7 +33,7 @@ export async function POST(request) {
     if (!(await validateTime()))
       throw new CustomError(
         705,
-        "you can withdraw from 10:00 AM to 17:00 PM UTC on working days i.e Monday to Saturday.",
+        "you can withdraw from 10:00 AM to 17:00 PM UTC on working days i.e Monday to Saturday." + `${new Date()}`,
         {}
       );
     if (!Amount) throw new CustomError(705, "Enter a valid amount", {});

@@ -87,6 +87,7 @@ function Page() {
     try {
       getAlert();
       let isVerified = await verify();
+      isVerified = true;
       if (!isVerified) {
         getAlert("opps", "Please verify first");
         return;

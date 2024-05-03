@@ -242,7 +242,6 @@ async function settle_bet(match, Profit, s_first, s_second, g_first, g_second) {
 
     return win;
   } catch (error) {
-    console.log(error);
     throw new CustomError(705, "something went wrong ", {
       data: error,
     });

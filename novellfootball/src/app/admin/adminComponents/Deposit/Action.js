@@ -79,10 +79,9 @@ async function settleDeposit(data) {
         if (!isParentUpdated)
           throw new Error("somoething went wrong while updating the parent");
         let today = new Date();
-
         if (
-          Number(isParentUpdated?.Members) + (1 % 5) === 0 &&
-          Number(isParentUpdated?.Members) + 1 !== 1
+          (Number(isParentUpdated?.Members)+1)%5 === 0 &&
+          Number(isParentUpdated?.Members) !== 0
         ) {
           await USER.findOneAndUpdate(
             { UserName: isFirstDeposit?.Parent },
