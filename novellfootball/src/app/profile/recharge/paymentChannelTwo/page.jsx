@@ -28,7 +28,7 @@ function Page() {
     } else if (!inputValue) {
       getAlert("opps", "fill the utr number first");
     } else {
-      getAlert("opps", "fill 12 digit values only");
+      getAlert("opps", "please fill correct utr number");
     }
   };
 
@@ -37,7 +37,11 @@ function Page() {
     getAlert();
     if (value == "" || amount == "") {
       getAlert("opps", "fill the utr number first");
-    } else {
+    }
+    else if (value.length !==12) {
+      getAlert("opps", "please fill correct utr number");
+    }
+    else {
       try {
         let body = {
           TransactionId: value,
@@ -123,7 +127,7 @@ function Page() {
               alt="barCode"
               height={80}
               width={80}
-              className="object-contain "
+              className="object-contain"
             />
           </div>
           <p className="mt-2 font-[500] text-[#cf4b4b] ">
