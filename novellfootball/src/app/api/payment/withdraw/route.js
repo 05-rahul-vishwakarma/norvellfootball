@@ -33,9 +33,11 @@ export async function POST(request) {
     if (!(await validateTime()))
       throw new CustomError(
         705,
-        "you can withdraw from 10:00 AM to 17:00 PM UTC on working days i.e Monday to Saturday." + `${ new Date( new Date().toLocaleDateString("en-US", {timeZone: "Asia/Kolkata"}
-        ))}`,
-        {}
+        "you can withdraw from 10:00 AM to 17:00 PM UTC on working days i.e Monday to Saturday." + `${ new Date(
+          new Date().toLocaleString("en-US", {
+            timeZone: "Asia/Calcutta",
+          })
+        )}`
       );
     if (!Amount) throw new CustomError(705, "Enter a valid amount", {});
     Amount = Number(Amount);
@@ -45,8 +47,11 @@ export async function POST(request) {
     Amount = Amount * 100;
 
     // check if the transaction already exists;
-    let today =  new Date( new Date().toLocaleDateString("en-US", {timeZone: "Asia/Kolkata"}
-    ));
+    let today =  new Date(
+      new Date().toLocaleString("en-US", {
+        timeZone: "Asia/Calcutta",
+      })
+    );
     let isTodayWithdrawal = await TRANSACTION.findOne({
       UserName,
       Date: `${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`,
@@ -188,8 +193,11 @@ async function getCookieData() {
 }
 
 async function validateTime() {
-  const currentDate = new Date( new Date().toLocaleDateString("en-US", {timeZone: "Asia/Kolkata"}
-   ));
+  const currentDate = new Date(
+    new Date().toLocaleString("en-US", {
+      timeZone: "Asia/Calcutta",
+    })
+  );
   const currentDay = Number(currentDate.getDay()); // Sunday is 0, Monday is 1, ..., Saturday is 6
   const currentHour = Number(currentDate.getHours());
 
