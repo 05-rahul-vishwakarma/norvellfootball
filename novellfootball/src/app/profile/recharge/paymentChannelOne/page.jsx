@@ -74,7 +74,6 @@ function Page() {
         let res = await fetch("/api/payment/deposit", config);
         res = await res.json();
         if (res) {
-          console.log("yes works");
           setDisabled(false);
         }
         if (res?.status === 200) {
@@ -174,9 +173,7 @@ function Page() {
 
           <CopyUPI
             upiId={
-              upiId?.length >= 1
-                ? upiId[Math.floor(Math.random() * upiId?.length)]
-                : "something@upi"
+                 upiId[Math.floor(Math.random() * upiId?.length)]
             }
           />
 
