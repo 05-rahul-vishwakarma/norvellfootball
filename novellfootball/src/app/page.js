@@ -175,7 +175,7 @@ export default function Home() {
         </div>
 
         <div className="h-[28%]  w-[95%] mr-auto ml-auto mt-1 mb-[2rem] ">
-          <DemoCarousel/>
+          <DemoCarousel />
         </div>
 
         <div className="h-[60%] mt-[1rem] rounded-t-[30px]  shadow-2xl shadow-black  bg-[#F8FCFF]">
@@ -393,18 +393,17 @@ function ScoreCards({
   const [estimatedIncome, updateEstimated] = useState(0);
   const [betAmount, updateBetAmount] = useState(0);
 
-  function updateAmount(e) {
-    updateBetAmount(e?.target?.value);
+  function updateAmount(amount) {
+    updateBetAmount(amount);
     updateEstimated(() => {
-      let estimated = (
-        (Number(e?.target?.value) / 100) *
-        Number(percent)
-      ).toFixed(2);
+      let estimated = ((Number(amount) / 100) * Number(percent)).toFixed(2);
       return Math.abs(
         Number(estimated) - (Number(estimated) / 100) * 5
       ).toFixed(2);
     });
   }
+  
+  console.log(betAmount);
 
   let router = useRouter();
 
@@ -495,7 +494,7 @@ function ScoreCards({
                 placeholder="Add"
                 name=""
                 id=""
-                onChange={updateAmount}
+                onChange={(e)=>updateAmount(e.target.value)}
                 value={betAmount}
               />
             </div>
@@ -515,7 +514,9 @@ function ScoreCards({
         </div>
 
         <div className="flex space-x-2">
-          <button className="py-2 px-1 font-bold w-[30%] text-sm text-white rounded-md capitalize bg-gray-900">
+          <button
+            onClick={() => updateAmount(Balance)}
+            className="py-2 px-1 font-bold w-[30%] text-sm text-white rounded-md capitalize bg-gray-900">
             all amount
           </button>
           <button
@@ -544,39 +545,3 @@ function ScoreCards({
 //   );
 // }}
 
-function Slides() {
-  return (
-    <div className="h-[28vh]  ">
-      <Carousel leftControl="." rightControl="." >
-        <Image
-          src={"/item.png"}
-          alt="..."
-          width={100}
-          height={100}
-          className="w-full h-full rounded-xl "
-        />
-        <Image
-          src={"/item2.png"}
-          alt="..."
-          width={100}
-          height={100}
-          className="w-full h-full rounded-xl "
-        />
-        <Image
-          src={"/item3.png"}
-          alt="..."
-          width={100}
-          height={100}
-          className="w-full h-full rounded-xl "
-        />
-        <Image
-          src={"/item4.jpg"}
-          alt="..."
-          width={100}
-          height={100}
-          className="w-full h-full rounded-xl "
-        />
-      </Carousel>
-    </div>
-  );
-}

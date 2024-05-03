@@ -67,3 +67,14 @@ input {
 .carousel-status{
   display: none !important;
 }
+
+.carousel .thumb {
+  transition: border .15s ease-in;
+  display: inline-block;
+  margin-right: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  display: none !important;
+  border: 3px solid #fff;
+  padding: 2px;
+}

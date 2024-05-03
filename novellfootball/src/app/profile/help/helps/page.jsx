@@ -260,12 +260,12 @@ function Terms({ setTerms }) {
 
           <p className="text-[0.6rem] mb-3">
             4. Reference to "you", "your" or the "customer" is reference to any
-            person using the Website or the services of bet365 and/or any
+            person using the Website or the services of norvell-football and/or any
             registered customer of Norvell Football.
           </p>
 
           <p className="text-[0.6rem] mb-3">
-            5. bet365 is committed to providing excellent customer service. As
+            5. norvell-football is committed to providing excellent customer service. As
             part of that commitment, Norvell Football is committed to supporting
             responsible gambling. Although Norvell Football will use its
             reasonable endeavours to enforce its responsible gambling policies,
@@ -440,7 +440,7 @@ function Terms({ setTerms }) {
             5.2 You must not use the Website for the benefit of a third party or
             for any purpose which (in Norvell Football’s opinion) is illegal,
             defamatory, abusive or obscene, or which Norvell Football considers
-            discriminatory, fraudulent, dishonest or inappropriate. bet365 may
+            discriminatory, fraudulent, dishonest or inappropriate. norvell-football may
             report to the authorities any activity which it considers to be
             suspicious and/or in breach of this paragraph.
           </p>
