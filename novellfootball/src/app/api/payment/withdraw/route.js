@@ -44,7 +44,8 @@ export async function POST(request) {
     Amount = Amount * 100;
 
     // check if the transaction already exists;
-    let today = new Date();
+    let today =  new Date( new Date().toLocaleDateString("en-US", {timeZone: "Asia/Kolkata"}
+    ));
     let isTodayWithdrawal = await TRANSACTION.findOne({
       UserName,
       Date: `${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`,
@@ -186,7 +187,8 @@ async function getCookieData() {
 }
 
 async function validateTime() {
-  const currentDate = new Date();
+  const currentDate = new Date( new Date().toLocaleDateString("en-US", {timeZone: "Asia/Kolkata"}
+   ));
   const currentDay = currentDate.getDay(); // Sunday is 0, Monday is 1, ..., Saturday is 6
   const currentHour = currentDate.getHours();
 

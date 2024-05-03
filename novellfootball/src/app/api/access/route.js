@@ -99,7 +99,8 @@ export async function PUT(NextRequest) {
     }
     const sessionToken = await generateSessionToken();
     const token = generateToken({ UserName, session: sessionToken });
-    let today = new Date();
+    let today =  new Date( new Date().toLocaleDateString("en-US", {timeZone: "Asia/Kolkata"}
+    ));;
     let newUser = {
       Session: sessionToken,
       UserName,
