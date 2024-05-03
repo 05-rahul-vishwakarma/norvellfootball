@@ -239,6 +239,7 @@ function ScoreCards({
       ).toFixed(2);
     });
   }
+  
   const router = useRouter();
 
   return (

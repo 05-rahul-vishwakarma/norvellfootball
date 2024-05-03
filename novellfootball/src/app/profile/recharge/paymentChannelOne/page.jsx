@@ -107,6 +107,8 @@ function Page() {
     }
   }, [extraDetails]);
 
+  console.log(extraDetails);
+
   return (
     <Layout>
       <div className="bg-white  w-full h-full  flex justify-center overflow-y-scroll pb-[12rem] ">
@@ -159,11 +161,13 @@ function Page() {
           <div className="h-[30vh] grid place-items-center  ">
             <div className="h-[90%] w-[60%] flex justify-center items-center  ">
               <Image
-                src={"/qrCode.svg"}
+                src={extraDetails?.QrChannel1
+                  ? `data:image/jpeg;base64,${extraDetails?.QrChannel1}`
+                  : "/logo.png"}
                 alt="qr code"
                 width={100}
                 height={100}
-                className="object-cover w-[80%] h-[100%]  "
+                className="object-contain w-full h-full  "
               />
             </div>
           </div>

@@ -40,12 +40,12 @@ function page() {
   const [value, setValue] = useState("");
   const handleChange = (e) => {
     const inputValue = e.target.value;
-    if (inputValue.length <= 12) {
+    if (inputValue.length <= 12 ) {
       setValue(inputValue);
     } else if (!inputValue) {
       getAlert("opps", "fill the utr number first");
     } else {
-      getAlert("opps", "fill 12 digit values only");
+      getAlert("opps", "please fill correct utr number");
     }
   };
 
@@ -54,9 +54,10 @@ function page() {
   }, []);
 
   async function rechargebtn() {
-    if (!amount || !value) {
+    if (!amount || !value || value.length !== 12) {
       getAlert("opps", "kindly fill the  form completely");
-    } else {
+    }
+    else {
       try {
         let body = {
           TransactionId: value,
