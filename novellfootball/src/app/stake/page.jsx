@@ -286,7 +286,6 @@ function Stake({ onClick, data }) {
     update_logo_a(data?.Team_a_logo);
     update_logo_b(data?.Team_b_logo);
   }, []);
-  console.log(stakeTime.getHours)
 
   function calculateTimeLeft() {
     const difference = +new Date(MatchStartTime) - +new Date();
