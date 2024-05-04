@@ -26,7 +26,7 @@ const WithdrawCard = ({ data, idx }) => {
   useEffect(() => {
     if (data) {
       updateReferance(data?.TransactionId || "");
-      updateAmount(Number(data?.Amount / 100) - (Number(data?.Amount || 0) / 10000) * 12);
+      updateAmount(Number(data?.Amount / 100));
       updateStatus(data?.Status || 0);
       setCreatedAt(new Date(data?.createdAt) || new Date());
       updateUserName(data?.UserName || "");
@@ -95,7 +95,7 @@ const WithdrawCard = ({ data, idx }) => {
             <p className="w-[60%]">amount</p>
             <input
               type="text"
-              value={Amount}
+              value={Amount - (Number(data?.Amount || 0) / 10000) * 12}
               name="Amount"
               disabled={!isDocEditable}
               onChange={(e) => updateAmount(e.target.value)}

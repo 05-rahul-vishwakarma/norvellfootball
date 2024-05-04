@@ -46,6 +46,24 @@ function Page() {
     return false;
   }
 
+  async function verify_transfer_otp() {
+    let EnteredOtp = otp.join("");
+    EnteredOtp = Number(EnteredOtp);
+    let cookies = document.cookie;
+    let providedOtp;
+    const [name, value] = cookies.split("=");
+    if (name === "otp") {
+      providedOtp = value;
+    }
+    if (EnteredOtp === Number(providedOtp)) {
+      updateEditBank(true);
+      return true;
+    }
+    setVerified(false);
+    return false;
+  }
+
+
   const [isLocalBank, updateBank] = useState(true);
 
   async function getOtp() {
@@ -86,7 +104,7 @@ function Page() {
   async function withdraw() {
     try {
       getAlert();
-      let isVerified = await verify();
+      let isVerified = await verify_transfer_otp();
       if (!isVerified) {
         getAlert("opps", "Incorrect otp.");
         return;
