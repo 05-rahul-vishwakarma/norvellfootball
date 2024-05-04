@@ -19,10 +19,10 @@ import ErrorReport from "@/app/helpers/ErrorReport";
 export async function POST(NextRequest) {
   await connect();
   try {
-    const { UserName, Password } = await NextRequest.json();
+    let { UserName, Password } = await NextRequest.json();
     if (!UserName || !Password)
       throw new CustomError(700, "Username or password is missing", {});
-
+    UserName = UserName.trim();
     let res = await USER.findOne({ UserName });
     if (!res) throw new CustomError(700, "User not found.", {});
     if (res?.Blocked) throw new CustomError(705, "You have been blocked", {});
