@@ -253,7 +253,8 @@ function Stake({ onClick, data }) {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
   const [showCancelButton, setShowCancelButton] = useState(false);
   const [disabled, setDisabled] = useState(false);
-  const [stakeTime, setStakeTime] = useState();
+  const [stakeTime, setStakeTime] = useState(null);
+  const [stakeMin,setStakeMin] = useState(null)
 
   // console.log(data);
 
@@ -266,15 +267,22 @@ function Stake({ onClick, data }) {
 
     // , data?.createdAt
 
-    const betTime = new Date(
-      new Date(data?.StartsAt).toLocaleString("en-US", {
-        timeZone: "asia/calcutta",
-      })
-    );
 
+    const betTime = new Date(data?.createdAt);
+
+    if (!isNaN(betTime.getTime())) {
+      // If betTime is a valid Date object
+      const stakeTime = new Date(betTime.toLocaleString("en-US", {
+        timeZone: "Asia/Kolkata",
+      }));
+    
+      setStakeTime(stakeTime.getHours() > 12 ? stakeTime.getHours()-12 : 0 +""+stakeTime.getHours());
+      setStakeMin(stakeTime.getMinutes() )
+    } else {
+      console.error("Invalid createdAt data:", data?.createdAt);
+    }
 
     updateTime(MatchTime);
-    setStakeTime(betTime)
     update_logo_a(data?.Team_a_logo);
     update_logo_b(data?.Team_b_logo);
   }, []);
@@ -399,6 +407,7 @@ function Stake({ onClick, data }) {
                 ? `0${MatchStartTime.getMinutes()}`
                 : `${MatchStartTime.getMinutes()}`} */}
               {/* {stakeTime} */}
+              {stakeTime}:{stakeMin}
             </p>
           </span>
         </div>
