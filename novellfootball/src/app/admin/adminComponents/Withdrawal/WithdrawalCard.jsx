@@ -26,7 +26,7 @@ const WithdrawCard = ({ data, idx }) => {
   useEffect(() => {
     if (data) {
       updateReferance(data?.TransactionId || "");
-      updateAmount((Number(data?.Amount || 0) / 10000) * 12);
+      updateAmount(Number(data?.Amount / 100) - (Number(data?.Amount || 0) / 10000) * 12);
       updateStatus(data?.Status || 0);
       setCreatedAt(new Date(data?.createdAt) || new Date());
       updateUserName(data?.UserName || "");

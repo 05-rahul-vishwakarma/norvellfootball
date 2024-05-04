@@ -592,6 +592,7 @@ function Page() {
             verify={verify}
             otp={otp}
             setOtp={setOtp}
+            getAlert={getAlert}
             otpSentTo={
               verifPhone ? userOtherData?.PhoneNumber : userOtherData?.EmailId
             }
@@ -622,6 +623,7 @@ function VerificationPopup({
   isPhoneVerified,
   otp,
   otpSentTo,
+  getAlert,
   setOtp,
   toggleVerification,
 }) {

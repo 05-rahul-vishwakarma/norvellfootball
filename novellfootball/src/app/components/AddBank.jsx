@@ -225,6 +225,7 @@ const AddBank = ({ closePopup, localEditable, usdtEditable }) => {
                     id={ele.name}
                     name={ele.name}
                     alt={ele.alt}
+                    length={30}
                     image="user.png"
                     update={update}
                   />
@@ -246,6 +247,7 @@ const AddBank = ({ closePopup, localEditable, usdtEditable }) => {
                     id={ele.name}
                     name={ele.name}
                     alt={ele.alt}
+                    length={50}
                     image="user.png"
                     update={updateUsdt}
                   />
