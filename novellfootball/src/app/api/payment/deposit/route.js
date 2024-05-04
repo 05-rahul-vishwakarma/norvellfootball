@@ -36,8 +36,10 @@ export async function POST(request) {
     let channelType;
     if (Channel === 1) {
       channelType = "Payment channel 1";
-    } else if (Channel === 2) {
+    } else if (Channel === 2)  {
       channelType = "Payment channel 2";
+    } else if (Channel === 3)  {
+      channelType = "Payment channel 3";
     } else {
       channelType = "Usdt channel";
     }

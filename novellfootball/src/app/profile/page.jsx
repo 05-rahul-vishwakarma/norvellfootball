@@ -512,6 +512,7 @@ function Page() {
                       details={{
                         "transaction id": item?.TransactionId,
                         "withdrawal method": item?.Method,
+                        "remark" : item?.Remark,
                         "Handling fee": ((Number(item?.Amount) / 10000) * 12).toFixed(
                           2
                         ),
