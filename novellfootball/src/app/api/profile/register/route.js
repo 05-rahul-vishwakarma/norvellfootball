@@ -110,8 +110,8 @@ export async function POST(request) {
 export async function GET(request) {
   try {
     await connect();
-
-    const today = new Date();
+    let today =  new Date( new Date().toLocaleDateString("en-US", {timeZone: "Asia/Kolkata"}
+    ));;
     const { session, token } = await getCookieData();
     const UserName = await isValidUser(token, session);
 
@@ -138,10 +138,10 @@ export async function GET(request) {
     );
 
     const joinedToday = [...level1_users, ...level2_users, ...level3_users].filter(user => {
-      const userJoinedDate = new Date(user.JoinedOn);
-      return userJoinedDate.getDate() === today.getDate() &&
-        userJoinedDate.getMonth() === today.getMonth() &&
-        userJoinedDate.getFullYear() === today.getFullYear();
+      const userJoinedDate = typeof(user?.JoinedOn) === "string" ? user?.JoinedOn?.split("/") : ['' , '' , ''];
+      return Number(userJoinedDate[0]) === Number(today.getDate()) &&
+        Number(userJoinedDate[1]) === Number(today.getMonth()+1) &&
+        Number(userJoinedDate[2]) === Number(today.getFullYear());
     }).length;
 
     return NextResponse.json({
