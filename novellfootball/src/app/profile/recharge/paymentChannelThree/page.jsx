@@ -62,7 +62,7 @@ function page() {
         let body = {
           TransactionId: value,
           Amount: amount,
-          Channel: 1,
+          Channel: 3,
         };
         let config = {
           method: "POST",

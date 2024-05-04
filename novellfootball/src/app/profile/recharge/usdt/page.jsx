@@ -12,6 +12,7 @@ import { UserContext } from "@/app/helpers/UserContext";
 import { Copy } from "@/app/helpers/Copy";
 import Image from "next/image";
 
+
 function Page() {
   // Popup handling here //
   let { getAlert } = useContext(AlertContext);
@@ -20,12 +21,11 @@ function Page() {
   const [depositAddress, updateDepositAddress] = useState("");
   const router = useRouter();
   const [disabled, setDisabled] = useState(false);
+  const [usdtAmount,updateUsdtAmount] = useState(null);
 
   // implementing the function which copies the address value //
   const [text, setText] = useState("0xc7141FB69308533b30c0348d47CE9A64c0c97eb2");
   const [transactionId, setTransactionId] = useState("");
-  const [copied, setCopied] = useState(false);
-  const [details, setDetails] = useState();
 
   const copyAddress = async () => {
     let isCopied = await Copy(text); //  returns true if successful
@@ -50,6 +50,8 @@ function Page() {
     );
   };
 
+  console.log(amount);
+
   async function usdtDetails() {
     getAlert();
     if (!transactionId || !text || !amount) {
@@ -57,10 +59,11 @@ function Page() {
       return;
     } else {
       try {
+        // updateUsdtAmount(amount*80)
         let body = {
           TransactionId: transactionId,
-          Amount: amount,
-          Channel: 3,
+          Amount: amount*80,
+          Channel: 4,
         };
         let config = {
           method: "POST",

@@ -99,7 +99,7 @@ function Page() {
         );
         return;
       }
-      if(Number(userOtherData?.ValidAmount) <= Number(userOtherData?.ValidDeposit)){
+      if (Number(userOtherData?.ValidAmount) <= Number(userOtherData?.ValidDeposit)) {
         getAlert("opps", "Low valid amount .");
         return;
       }
@@ -253,7 +253,7 @@ function Page() {
                 ) {
                   updateEditBank(true);
                 } else {
-                  getAlert("opps","already added bank details you can edit them");
+                  getAlert("opps", "already added bank details you can edit them");
                 }
               }}
               className=" absolute h-[30%] bg-blue-500 rounded-full text-white left-[50%] translate-x-[-50%] top-[100%] translate-y-[-50%] aspect-square flex text-[2rem] justify-center items-center"
@@ -459,7 +459,7 @@ function Page() {
                       <div className=" flex w-[50%] space-x-2 px-2">
                         <span
                           className=" h-full aspect-square rounded-full text-white 
-           bg-blue-500 flex text-[0.7rem] p-1 justify-center items-center"
+                        bg-blue-500 flex text-[0.7rem] p-1 justify-center items-center"
                         >
                           <FaRupeeSign />
                         </span>
@@ -560,29 +560,40 @@ function Page() {
                   Withdrawal instruction&apos;s
                 </p>
               </div>
-              <ul className=" pl-8 text-[0.65rem] list-decimal">
+              <ol className=" pl-8 text-[0.65rem] list-decimal">
                 <li>
-                  Please ensure that the amount is properly rolled over before
-                  proceeding with the withdrawal.
+                  Each placed stake boosts 20% of the wagered amount.
+                  Complete five stakes before withdrawal. Ensure proper
+                  wagering before proceeding with withdrawal to meet
+                  requirements.
                 </li>
                 <li>
-                  During the specified time frame of 10:00 to 17:00, withdrawals
-                  will be processed. Please note that the bank is closed on
-                  Sundays, hence withdrawals cannot be facilitated on that day.
-                  Thank you for your understanding.
+                  During the specified time frame of 10:00 to 17:00,
+                  withdrawals will be processed. Please note that
+                  the bank is closed on Sundays, hence withdrawals
+                  cannot be facilitated on that day.
+
                 </li>
                 <li>
-                  Limit to one withdrawal per day according to company policy.
+                  Limit to one withdrawal per day according to
+                  company policy.
                 </li>
                 <li>
-                  Please review the membersip page for information regarding
-                  your withdrawal eligibility range.
+                  Please review the membership page for
+                  information regarding your withdrawal
+                  eligibility range.
+
                 </li>
                 <li>
-                  If you encounter any issues, please don&apos;t hesitate to
-                  reach out to our customer support team for assistance.
+                  If you encounter any issues, please don't hesitate
+                  to reach out to our customer support team for
+                  assistance.
                 </li>
-              </ul>
+                <li>
+                  Kindly allow a processing time of 24 to 48 hours for
+                  withdrawals, as this represents the maximum limit.
+                </li>
+              </ol>
             </div>
           </div>
         </div>

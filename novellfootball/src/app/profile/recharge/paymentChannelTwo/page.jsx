@@ -115,7 +115,7 @@ function Page() {
         </div>
 
         <div className="h-[35%] mt-3 flex flex-col justify-center place-items-center  text-[.6rem] ">
-          <div className="w-[60%] h-[90%] border-2 border-[lightgray] flex justify-center items-center ">
+          <div className="w-[60%] h-[90%]  flex justify-center items-center ">
             <Image
               src={
                 extraDetails?.QrChannel2
@@ -125,7 +125,7 @@ function Page() {
               alt="barCode"
               height={80}
               width={80}
-              className="object-contain"
+              className="object-contain w-[75%]  "
             />
           </div>
           <p className="mt-2 font-[500] text-[#cf4b4b] ">

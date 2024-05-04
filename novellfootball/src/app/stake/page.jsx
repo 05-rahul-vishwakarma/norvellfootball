@@ -177,9 +177,9 @@ function Page() {
             border: "1px solid #00db58",
             color: "#707d77",
           }}
-          className="h-[38px] font-[600] w-[90%] mr-auto ml-auto rounded-[15px]   border-2 border-black flex justify-center mt-[.7rem] place-items-center "
+          className="h-[38px] hidden font-[600] w-[90%] mr-auto ml-auto rounded-[15px]   border-2 border-black  justify-center mt-[.7rem] place-items-center "
         >
-          <span className="text-center flex text-[.7rem] ">
+          <span className="text-center text-[.7rem] hidden ">
             Total earned from stakes ₹{" "}
             <p className="ml-1 "> {amounts / 100 || 0} </p>
           </span>
@@ -276,7 +276,7 @@ function Stake({ onClick, data }) {
         timeZone: "Asia/Kolkata",
       }));
     
-      setStakeTime(stakeTime.getHours() > 12 ? stakeTime.getHours()-12 : 0 +""+stakeTime.getHours());
+      setStakeTime(stakeTime.getHours() > 12 ? stakeTime.getHours()-12 : 0+""+stakeTime.getHours());
       setStakeMin(stakeTime.getMinutes() )
     } else {
       console.error("Invalid createdAt data:", data?.createdAt);
