@@ -37,7 +37,7 @@ const Page = () => {
                 <p>telegram group</p>
               </div>
               <div className="flex-[2] flex justify-end items-center">
-                <Link href={"https://t.me/Norvellfootbal"}  className="h-full rounded-xl bg-blue-500 text-white px-8 py-2">
+                <Link href={"https://t.me/+2Yy34xFCzfY1OWI9"}  className="h-full rounded-xl bg-blue-500 text-white px-8 py-2">
                   join
                 </Link >
               </div>
@@ -115,8 +115,8 @@ const Page = () => {
                     </div>
                     <div className="w-[60%]">
                       <a
-                        href="https://t.me/Anthony_8892"
-                        className="bg-blue-500 h-full w-[100%] py-1 px-2 rounded-xl text-center text-[0.6rem] text-white font-bold "
+                        href="#"
+                        className="bg-blue-500 h-full w-full py-1 px-2 rounded-xl text-center text-[0.6rem] text-white font-bold "
                       >
                         connect to Anthony
                       </a>
@@ -215,25 +215,27 @@ const Page = () => {
             <a
               href={"/downloads/Norvell-football.pdf"}
               download={"norvellfootball.pdf"}
-              style={{ boxShadow: "0 10px 10px rgba(0,0,0,0.04) " }}
-              className=" capitalize bg-white  rounded-lg py-2 px-2 font-semibold text-sm"
             >
-              <div className="flex items-center">
-                <div className="flex-[1]">
-                  <span className="flex justify-center items-center text-3xl size-8 rounded-full">
-                    <BsFileEarmarkPdfFill className="text-[1rem] " />
-                  </span>
-                </div>
-                <div className="flex-[4]">
-                  <p>Norvell Football Pdf </p>
-                </div>
-                <div className="flex-[1] flex justify-center items-center">
-                  <span className="h-full rounded-full bg-gray-200 text-white p-0.5">
-                    <LiaAngleRightSolid />
-                  </span>
-                </div>
+            
+            <div
+              style={{ boxShadow: "0 10px 10px rgba(0,0,0,0.04) " }}
+              className="flex items-center capitalize bg-white  rounded-lg py-2 px-2 font-semibold text-sm mt-3 ">
+              <div className="flex-[1]">
+                <span className="flex justify-center items-center text-3xl size-8 rounded-full">
+                  <BsFileEarmarkPdfFill className="text-[1rem] " />
+                </span>
               </div>
+              <div className="flex-[4]">
+                <p>Norvell Football Pdf </p>
+              </div>
+              <div className="flex-[1] flex justify-center items-center">
+                <span className="h-full rounded-full bg-gray-200 text-white p-0.5">
+                  <LiaAngleRightSolid />
+                </span>
+              </div>
+            </div>
             </a>
+
           </div>
         </main>
       </section>

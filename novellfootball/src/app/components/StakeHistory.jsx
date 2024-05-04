@@ -47,8 +47,8 @@ function StakeHistory({ bgColor, result, resultbg, data }) {
           <p className="text-red-600 font-[700] text-[.8rem] ">
             {" "}
             {MatchStartTime.getHours() > 12
-              ? `${MatchStartTime.getHours() - 12}`
-              : `0${MatchStartTime.getHours()}`}
+              ? `0${MatchStartTime.getHours() - 12}`
+              : `${MatchStartTime.getHours()}`}
             :
             {MatchStartTime.getMinutes() < 10
               ? `0${MatchStartTime.getMinutes()}`
@@ -95,8 +95,8 @@ function StakeHistory({ bgColor, result, resultbg, data }) {
               MatchStartTime?.toString().slice(3, 7)}
             <p className="ml-2">
               {MatchStartTime.getHours() > 12
-                ? `${MatchStartTime.getHours() - 12}`
-                : `0${MatchStartTime.getHours()}`}
+                ? `0${MatchStartTime.getHours() - 12}`
+                : `${MatchStartTime.getHours()}`}
               :
               {MatchStartTime.getMinutes() < 10
                 ? `0${MatchStartTime.getMinutes()}`

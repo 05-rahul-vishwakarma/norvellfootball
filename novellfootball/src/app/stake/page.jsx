@@ -116,7 +116,6 @@ function Page() {
           (total, amount) => total + amount,
           0
         );
-        // console.log(totalBettingAmount)
         setAmounts(totalBettingAmount);
       }
       if (res?.status === 302) router.push("/access/login");
@@ -128,6 +127,7 @@ function Page() {
   useEffect(() => {
     getStakeData();
   }, []);
+
 
   return (
     <Layout>
@@ -253,6 +253,9 @@ function Stake({ onClick, data }) {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
   const [showCancelButton, setShowCancelButton] = useState(false);
   const [disabled, setDisabled] = useState(false);
+  const [stakeTime, setStakeTime] = useState();
+
+  // console.log(data);
 
   useEffect(() => {
     const MatchTime = new Date(
@@ -260,10 +263,22 @@ function Stake({ onClick, data }) {
         timeZone: "asia/calcutta",
       })
     );
+
+    // , data?.createdAt
+
+    const betTime = new Date(
+      new Date(data?.StartsAt).toLocaleString("en-US", {
+        timeZone: "asia/calcutta",
+      })
+    );
+
+
     updateTime(MatchTime);
+    setStakeTime(betTime)
     update_logo_a(data?.Team_a_logo);
     update_logo_b(data?.Team_b_logo);
   }, []);
+  console.log(stakeTime.getHours)
 
   function calculateTimeLeft() {
     const difference = +new Date(MatchStartTime) - +new Date();
@@ -376,13 +391,14 @@ function Stake({ onClick, data }) {
               : MatchStartTime.getDate()) +
               MatchStartTime?.toString().slice(3, 7)}
             <p className="ml-2">
-              {MatchStartTime.getHours() > 12
+              {/* {MatchStartTime.getHours() > 12
                 ? `${MatchStartTime.getHours() - 12}`
                 : `0${MatchStartTime.getHours()}`}
               :
               {MatchStartTime.getMinutes() < 10
                 ? `0${MatchStartTime.getMinutes()}`
-                : `${MatchStartTime.getMinutes()}`}
+                : `${MatchStartTime.getMinutes()}`} */}
+              {/* {stakeTime} */}
             </p>
           </span>
         </div>
@@ -401,7 +417,7 @@ function Stake({ onClick, data }) {
                 ((Number(data?.BetAmount) / 100) * data?.Percentage) / 100 -
                 ((((Number(data?.BetAmount) / 100) * data?.Percentage) / 100) *
                   5) /
-                  100
+                100
               ).toFixed(2) || 0}
             </p>{" "}
           </span>
