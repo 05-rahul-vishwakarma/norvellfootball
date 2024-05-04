@@ -11,7 +11,7 @@ import { cookies } from "next/headers";
 import { connect } from "@/app/modals/dbConfig";
 import ErrorReport from "@/app/helpers/ErrorReport";
 
-export async function GET(request) {
+export async function POST(request) {
   let today = new Date();
   let { session, token } = await getCookieData();
   try {
@@ -106,6 +106,60 @@ export async function GET(request) {
     });
   }
 }
+
+export async function GET(request) {
+  try {
+    await connect();
+
+    const today = new Date();
+    const { session, token } = await getCookieData();
+    const UserName = await isValidUser(token, session);
+
+    if (!UserName) {
+      return NextResponse.json({
+        status: 302,
+        message: "Session Expired login again",
+      });
+    }
+
+    const level1_users = await USER.find(
+      { Parent: UserName },
+      { _id: 0, UserName: 1, JoinedOn: 1, Parent: 1, Deposited: 1, Withdrawal: 1, Balance: 1, createdAt: 1 }
+    );
+
+    const level2_users = await USER.find(
+      { Parent: { $in: level1_users.map(user => user.UserName) } },
+      { _id: 0, UserName: 1, JoinedOn: 1, Parent: 1, Deposited: 1, Withdrawal: 1, Balance: 1, createdAt: 1 }
+    );
+
+    const level3_users = await USER.find(
+      { Parent: { $in: level2_users.map(user => user.UserName) } },
+      { _id: 0, UserName: 1, JoinedOn: 1, Parent: 1, Deposited: 1, Withdrawal: 1, Balance: 1, createdAt: 1 }
+    );
+
+    const joinedToday = [...level1_users, ...level2_users, ...level3_users].filter(user => {
+      const userJoinedDate = new Date(user.JoinedOn);
+      return userJoinedDate.getDate() === today.getDate() &&
+        userJoinedDate.getMonth() === today.getMonth() &&
+        userJoinedDate.getFullYear() === today.getFullYear();
+    }).length;
+
+    return NextResponse.json({
+      status: 200,
+      message: "data fetched",
+      data: { level1_users, level2_users, level3_users, joinedToday },
+    });
+  } catch (error) {
+    if (error.code === 500 || !error.status) {
+      ErrorReport(error);
+    }
+    return NextResponse.json({
+      status: error.code || error.status || 500,
+      message: "something went wrong",
+    });
+  }
+}
+
 
 async function getCookieData() {
   let token = cookies().get("token")?.value || "";
