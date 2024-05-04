@@ -267,11 +267,10 @@ function Stake({ onClick, data }) {
       // If betTime is a valid Date object
       const stakeTime = new Date(betTime);
     
-<<<<<<< HEAD
+
       setStakeTime(stakeTime.getHours() > 12 ? stakeTime.getHours()-12 : 0+""+stakeTime.getHours());
-=======
+
       setStakeTime(stakeTime.getHours());
->>>>>>> d364c9fd022b02e4bd0e979b722480d7bb80d9d6
       setStakeMin(stakeTime.getMinutes() )
     } else {
       console.error("Invalid createdAt data:", data?.createdAt);
