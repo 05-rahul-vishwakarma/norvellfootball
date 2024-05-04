@@ -37,7 +37,7 @@ const Page = () => {
                 <p>telegram group</p>
               </div>
               <div className="flex-[2] flex justify-end items-center">
-                <Link href={"https://t.me/+2Yy34xFCzfY1OWI9"}  className="h-full rounded-xl bg-blue-500 text-white px-8 py-2">
+                <Link href={"https://t.me/Norvellfootbal"}  className="h-full rounded-xl bg-blue-500 text-white px-8 py-2">
                   join
                 </Link >
               </div>
@@ -115,7 +115,7 @@ const Page = () => {
                     </div>
                     <div className="w-[60%]">
                       <a
-                        href="#"
+                        href="https://t.me/Norvellfootbal"
                         className="bg-blue-500 h-full w-full py-1 px-2 rounded-xl text-center text-[0.6rem] text-white font-bold "
                       >
                         connect to Anthony
@@ -134,7 +134,7 @@ const Page = () => {
                         href="https://t.me/Aryarhi"
                         className="bg-blue-500 h-full w-full py-1 px-2 rounded-xl text-center text-[0.6rem] text-white font-bold "
                       >
-                        connect to mark
+                        connect to Ruhi
                       </a>
                     </div>
                   </div>

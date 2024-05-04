@@ -121,7 +121,7 @@ const Login = () => {
                       href="#"
                       className="font-semibold text-slate-500 hover:text-slate-400"
                     >
-                      Help
+                      
                     </a>
                     <a
                       onClick={() => toggleVerification(true)}
