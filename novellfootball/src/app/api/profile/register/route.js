@@ -59,21 +59,21 @@ export async function GET(request) {
         joinedToday++;
       }
       level2_users.push(...level2Users);
-      for (let user_lev2 of level2_users) {
-        let users = await USER.find(
-          { Parent: user_lev2?.UserName },
-          {
-            UserName: 1,
-            JoinedOn: 1,
-            Parent: 1,
-            Deposited: 1,
-            Withdrawal: 1,
-            Balance: 1,
-            createdAt: 1,
-          }
-        );
-        level3_users.push(...users);
-      }
+    }
+    for (let user_lev2 of level2_users) {
+      let users = await USER.find(
+        { Parent: user_lev2?.UserName },
+        {
+          UserName: 1,
+          JoinedOn: 1,
+          Parent: 1,
+          Deposited: 1,
+          Withdrawal: 1,
+          Balance: 1,
+          createdAt: 1,
+        }
+      );
+      level3_users.push(...users);
     }
     for (let user of level2_users) {
       if (

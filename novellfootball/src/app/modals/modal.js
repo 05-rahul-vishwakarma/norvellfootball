@@ -27,6 +27,7 @@ const UserSchema = new Schema(
     LocalBankAdded: { type: Boolean, default: false },
     UsdtBankAdded: { type: Boolean, default: false },
     Commission: { type: Number, default: 0 },
+    JoinedOn : {type : String , default :""},
     LocalBank: {
       type: Object,
       default: {
