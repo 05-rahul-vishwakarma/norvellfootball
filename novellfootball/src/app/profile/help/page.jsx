@@ -115,7 +115,7 @@ const Page = () => {
                     </div>
                     <div className="w-[60%]">
                       <a
-                        href="https://t.me/Norvellfootbal"
+                        href="https://t.me/Anthony_8892"
                         className="bg-blue-500 h-full w-full py-1 px-2 rounded-xl text-center text-[0.6rem] text-white font-bold "
                       >
                         connect to Anthony
