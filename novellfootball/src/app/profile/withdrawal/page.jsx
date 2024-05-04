@@ -88,7 +88,7 @@ function Page() {
       getAlert();
       let isVerified = await verify();
       if (!isVerified) {
-        getAlert("opps", "Please verify first");
+        getAlert("opps", "Incorrect otp.");
         return;
       }
       let isValidTime = await validateTime();
