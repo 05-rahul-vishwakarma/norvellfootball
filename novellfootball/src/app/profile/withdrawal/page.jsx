@@ -19,14 +19,15 @@ function Page() {
   const [getVerification, updateGetVerif] = useState(false);
   const [verifPhone, updateVerificationMethod] = useState(true);
   const { userBalance, userOtherData, getBalance } = useContext(UserContext);
+  const [otp, setOtp] = useState(new Array(4).fill(""));
   const [editBank, updateEditBank] = useState(false);
+  const [updating, setUpdatingBank] = useState(false);
   const [isVerified, setVerified] = useState(false);
   const [otpSent, updateOtpSent] = useState(false);
-  const [Amount, updateAmount] = useState(0);
-  const [otp, setOtp] = useState(new Array(4).fill(""));
-  const router = useRouter();
-  let { getAlert } = useContext(AlertContext);
   const [loading, setLoading] = useState(true);
+  let { getAlert } = useContext(AlertContext);
+  const [Amount, updateAmount] = useState(0);
+  const router = useRouter();
 
   async function verify() {
     let EnteredOtp = otp.join("");
@@ -90,6 +91,7 @@ function Page() {
       res = await res.json();
       if (res?.status === 200) {
         updateGetVerif(true);
+        setUpdatingBank(true);
         getAlert("success", res?.message || "success");
       } else if (res?.status === 302) {
         getAlert("redirect", res?.message || "session time out");
@@ -626,6 +628,7 @@ function Page() {
               localEditable={isVerified ? true : !userOtherData?.LocalBankAdded}
               usdtEditable={isVerified ? true : !userOtherData?.UsdtBankAdded}
               closePopup={updateEditBank}
+              isUpdatingBank = {updating}
             />
           )}
       </section>

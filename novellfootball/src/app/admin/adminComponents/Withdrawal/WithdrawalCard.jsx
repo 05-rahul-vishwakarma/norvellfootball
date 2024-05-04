@@ -95,10 +95,23 @@ const WithdrawCard = ({ data, idx }) => {
             <p className="w-[60%]">amount</p>
             <input
               type="text"
-              value={Amount - (Number(data?.Amount || 0) / 10000) * 12}
+              value={Amount}
               name="Amount"
               disabled={!isDocEditable}
               onChange={(e) => updateAmount(e.target.value)}
+              className="w-[40%]"
+              placeholder="293847"
+            />
+          </div>
+          <div
+            className="flex  text-purple-600 justify-between py-1.5"
+          >
+            <p className="w-[60%]">final amount</p>
+            <input
+              type="text"
+              value={Amount - (Number(data?.Amount || 0) / 10000) * 12}
+              name="deductable"
+              onChange={e=>{console.log()}}
               className="w-[40%]"
               placeholder="293847"
             />
