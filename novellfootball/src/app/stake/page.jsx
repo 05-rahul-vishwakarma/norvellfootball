@@ -84,7 +84,6 @@ function Page() {
       };
       let res = await fetch(`/api/stake`, config);
       res = await res.json();
-      alert(JSON.stringify(res));
       getStakeData();
       setShow(false);
       router.push("/matches");
@@ -259,24 +258,16 @@ function Stake({ onClick, data }) {
   // console.log(data);
 
   useEffect(() => {
-    const MatchTime = new Date(
-      new Date(data?.StartsAt).toLocaleString("en-US", {
-        timeZone: "asia/calcutta",
-      })
-    );
-
-    // , data?.createdAt
-
-
+    const MatchTime = 
+      new Date(data?.StartsAt)
+    
     const betTime = new Date(data?.createdAt);
 
     if (!isNaN(betTime.getTime())) {
       // If betTime is a valid Date object
-      const stakeTime = new Date(betTime.toLocaleString("en-US", {
-        timeZone: "Asia/Kolkata",
-      }));
+      const stakeTime = new Date(betTime);
     
-      setStakeTime(stakeTime.getHours() > 12 ? stakeTime.getHours()-12 : 0 +""+stakeTime.getHours());
+      setStakeTime(stakeTime.getHours());
       setStakeMin(stakeTime.getMinutes() )
     } else {
       console.error("Invalid createdAt data:", data?.createdAt);
@@ -352,14 +343,9 @@ function Stake({ onClick, data }) {
 
         <div className="flex  flex-col place-items-center  ">
           <p className="text-red-600 font-[700] text-[.8rem] ">
-            {" "}
-            {MatchStartTime.getHours() - 12 < 10
-              ? `0${MatchStartTime.getHours() - 12}`
-              : `${MatchStartTime.getHours() - 12}`}
+            {MatchStartTime.getHours()}
             :
-            {MatchStartTime.getHours() < 10
-              ? `0${MatchStartTime.getMinutes()}`
-              : `${MatchStartTime.getMinutes()}`}
+            {MatchStartTime.getMinutes()}
           </p>
           <p className="font-[600] text-[.7rem] ">
             {MatchStartTime.getDate()}

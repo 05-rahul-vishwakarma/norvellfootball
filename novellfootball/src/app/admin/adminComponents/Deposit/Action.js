@@ -59,7 +59,7 @@ async function settleDeposit(data) {
   Session.startTransaction();
   try {
     await connect();
-
+    const vip_level = getVipLevel(Number(data.Amount)/100);
     //  if first deposit give 2% reward to the parent;
     let isFirstDeposit = await USER.findOne({ UserName: data?.UserName });
     if (!isFirstDeposit) {
@@ -136,7 +136,7 @@ async function settleDeposit(data) {
 
         if (!createBonusReward) throw Error("Failed To Update Parent");
       }
-
+    
       let userUpdated = await USER.findOneAndUpdate(
         { UserName: data?.UserName },
         {
@@ -145,7 +145,9 @@ async function settleDeposit(data) {
             Deposited: data?.Amount,
             ValidDeposit: data?.Amount,
           },
-          FirstDeposit: false,
+          FirstDeposit: false,          
+          VipLevel : vip_level
+
         },
         { session: Session }
       );
@@ -160,6 +162,7 @@ async function settleDeposit(data) {
           Remark: data?.Remark,
           Status: 1,
           TransactionId: data?.TransactionId,
+
         },
         {
           session: Session,
@@ -180,6 +183,7 @@ async function settleDeposit(data) {
             Deposited: data?.Amount,
             ValidDeposit: data?.Amount,
           },
+          VipLevel : vip_level
         },
         { session: Session }
       );
@@ -238,6 +242,27 @@ async function cancelDeposit(data) {
     return error?.message || "something went wrong";
   }
 }
+
+function getVipLevel(amount){
+  let vip_level = 0;
+  amount = Number(amount);
+
+  if(amount === 1000 && amount <= 55000){
+    vip_level = 0;
+  }else if(amount > 55000 && amount <= 105000){
+    vip_level = 1;
+  }else if(amount > 105000 && amount <= 300000){
+    vip_level = 2;
+  }else if(amount > 300000 && amount <= 700000){
+    vip_level = 3
+  }else if(amount > 700000){
+    vip_level = 4
+  }else {
+    vip_level = 0;
+  }
+  return vip_level;
+}
+
 
 async function genTransactionID() {
   const PART_A = Math.floor(Math.random() * 90000 + 10000).toString();
