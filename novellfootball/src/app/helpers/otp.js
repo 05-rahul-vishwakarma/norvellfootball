@@ -31,15 +31,15 @@ export async function sendEmailOtp(EmailId, otp) {
     let transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "manchestercityfootbaal24@gmail.com",
-        pass: "xcjmrimqkkvgueau",
+        user: "norvellfootball0@gmail.com",
+        pass: "gpjukemzttiykwqd",
       },
     });
 
     let mailOptions = {
-      from: "manchesterfootbaal24@gmail.com",
-      to: "vilovishwakarma@gmail.com",
-      subject: "Manchester football",
+      from: "norvellfootball0@gmail.com",
+      to: `${EmailId}`,
+      subject: "Norvell football",
       text: `Your OTP for varification is ${otp}`,
     };
 
