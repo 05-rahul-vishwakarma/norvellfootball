@@ -108,7 +108,7 @@ export async function PUT(NextRequest) {
       Email,
       Password,
       International: isInternational ? true : false,
-      Avatar: Math.floor(Math.random() * 11 + 1),
+      Avatar: Math.floor(Math.random() * 10 + 1),
       JoinedOn: `${today.getDate()}/${
         today?.getMonth() + 1
       }/${today.getFullYear()}`,

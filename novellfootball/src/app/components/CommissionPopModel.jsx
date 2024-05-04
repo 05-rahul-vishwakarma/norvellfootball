@@ -635,9 +635,9 @@ function Transaction({ type, cardDetails }) {
   }, []);
 
   return (
-    <div className="flex text-sm mb-4 bg-white text-gray-700 shadow-sm font-bold items-center capitalize justify-between px-3 py-2.5 rounded-md">
-      <h2>{cardDetails?.UserName || "no name"}</h2>
-      <h2>
+    <div className="grid text-sm mb-4 grid-cols-3 bg-white text-gray-700 shadow-sm font-bold items-center capitalize px-3 py-2.5 rounded-md">
+      <h2 className="col-span-1">{cardDetails?.UserName || "no name"}</h2>
+      <h2 className="col-span-1">
         {createdAt &&
           `${createdAt?.getDate()}/${
             createdAt?.getMonth() + 1
@@ -649,7 +649,7 @@ function Transaction({ type, cardDetails }) {
             ?.toString()
             ?.padStart(2, "0")}`}
       </h2>
-      <h2>{cardDetails?.Amount / 100 || 0}</h2>
+      <h2 className="col-span-1 text-center">{cardDetails?.Amount / 100 || 0}</h2>
     </div>
   );
 }
