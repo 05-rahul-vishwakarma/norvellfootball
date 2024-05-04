@@ -53,7 +53,7 @@ const localBank = [
   },
 ];
 
-const AddBank = ({ closePopup, localEditable, usdtEditable }) => {
+const AddBank = ({ closePopup, localEditable, usdtEditable , isUpdatingBank }) => {
   const { getAlert } = useContext(AlertContext);
 
   const [localBankCredentials, updateCredentials] = useState({
@@ -73,7 +73,7 @@ const AddBank = ({ closePopup, localEditable, usdtEditable }) => {
     try {
       getAlert();
       let config = {
-        method: "POST",
+        method: isUpdatingBank ? "PATCH" : 'POST',
         header: {
           "content-type": "application/json",
         },
@@ -225,6 +225,7 @@ const AddBank = ({ closePopup, localEditable, usdtEditable }) => {
                     id={ele.name}
                     name={ele.name}
                     alt={ele.alt}
+                    length={30}
                     image="user.png"
                     update={update}
                   />
@@ -246,6 +247,7 @@ const AddBank = ({ closePopup, localEditable, usdtEditable }) => {
                     id={ele.name}
                     name={ele.name}
                     alt={ele.alt}
+                    length={50}
                     image="user.png"
                     update={updateUsdt}
                   />

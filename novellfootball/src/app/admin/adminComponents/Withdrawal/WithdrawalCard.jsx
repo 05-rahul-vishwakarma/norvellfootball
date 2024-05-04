@@ -26,7 +26,7 @@ const WithdrawCard = ({ data, idx }) => {
   useEffect(() => {
     if (data) {
       updateReferance(data?.TransactionId || "");
-      updateAmount((Number(data?.Amount || 0) / 10000) * 12);
+      updateAmount(Number(data?.Amount / 100));
       updateStatus(data?.Status || 0);
       setCreatedAt(new Date(data?.createdAt) || new Date());
       updateUserName(data?.UserName || "");
@@ -99,6 +99,19 @@ const WithdrawCard = ({ data, idx }) => {
               name="Amount"
               disabled={!isDocEditable}
               onChange={(e) => updateAmount(e.target.value)}
+              className="w-[40%]"
+              placeholder="293847"
+            />
+          </div>
+          <div
+            className="flex  text-purple-600 justify-between py-1.5"
+          >
+            <p className="w-[60%]">final amount</p>
+            <input
+              type="text"
+              value={Amount - (Number(data?.Amount || 0) / 10000) * 12}
+              name="deductable"
+              onChange={e=>{console.log()}}
               className="w-[40%]"
               placeholder="293847"
             />

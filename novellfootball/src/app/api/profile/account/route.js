@@ -132,7 +132,7 @@ export async function PATCH(request) {
         throw new CustomError(705, "Missing Fields", {});
 
       let isLocalBankAdded = await USER.findOneAndUpdate(
-        { UserName, LocalBankAdded: false },
+        { UserName, LocalBankAdded: true },
         {
           LocalBank: {
             AccHolderName,
@@ -156,7 +156,7 @@ export async function PATCH(request) {
         throw new CustomError(705, "Field missing", {});
 
       isUsdtBankAdded = await USER.findOneAndUpdate(
-        { UserName, UsdtBankAdded: false },
+        { UserName, UsdtBankAdded: true },
         {
           UsdtBank: {
             UsdtAddress,

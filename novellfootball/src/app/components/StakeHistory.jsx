@@ -8,11 +8,7 @@ function StakeHistory({ bgColor, result, resultbg, data }) {
   const [Team_b_logo, updateSrcTeam_b] = useState();
 
   useEffect(() => {
-    const MatchTime = new Date(
-      new Date(data?.StartsAt).toLocaleString("en-US", {
-        timeZone: "asia/calcutta",
-      })
-    );
+    const MatchTime = new Date(data?.StartsAt);
     updateTime(MatchTime);
     updateSrcTeam_a(data?.Team_a_logo);
     updateSrcTeam_b(data?.Team_b_logo);
@@ -46,13 +42,9 @@ function StakeHistory({ bgColor, result, resultbg, data }) {
         <div className="flex  flex-col place-items-center  ">
           <p className="text-red-600 font-[700] text-[.8rem] ">
             {" "}
-            {MatchStartTime.getHours() > 12
-              ? `0${MatchStartTime.getHours() - 12}`
-              : `${MatchStartTime.getHours()}`}
+            {MatchStartTime.getHours()}
             :
-            {MatchStartTime.getMinutes() < 10
-              ? `0${MatchStartTime.getMinutes()}`
-              : `${MatchStartTime.getMinutes()}`}
+            {MatchStartTime.getMinutes()}
           </p>
           <p className="font-[600] text-[.7rem] ">
             {" "}
@@ -94,13 +86,9 @@ function StakeHistory({ bgColor, result, resultbg, data }) {
               : MatchStartTime.getDate()) +
               MatchStartTime?.toString().slice(3, 7)}
             <p className="ml-2">
-              {MatchStartTime.getHours() > 12
-                ? `0${MatchStartTime.getHours() - 12}`
-                : `${MatchStartTime.getHours()}`}
+              {MatchStartTime.getHours()}
               :
-              {MatchStartTime.getMinutes() < 10
-                ? `0${MatchStartTime.getMinutes()}`
-                : `${MatchStartTime.getMinutes()}`}
+              {MatchStartTime.getMinutes()}
             </p>
           </span>
         </div>

@@ -6,6 +6,7 @@ const Input = ({
   image,
   id,
   required = true,
+  length = 12
 }) => {
   return (
     <div
@@ -57,7 +58,7 @@ const Input = ({
         value={credentials[id]}
         onChange={update}
         minLength={3}
-        maxLength={12}
+        maxLength={length}
         placeholder="Eg.Abcd123"
         autoComplete="current-password"
         required={required}

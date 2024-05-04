@@ -28,7 +28,7 @@ function Page() {
         <IoMdCheckmarkCircle className="text-[1.4rem] text-[#2885F6]" />,
       ],
       wideRange: "Range 500 - 25,000",
-      depositRange: "Deposit range: 500 to 50K is required individually.",
+      depositRange: "Deposit range: 1000 to 50K is required individually.",
     },
     {
       id: 2,
@@ -104,7 +104,7 @@ function Page() {
         <IoMdCheckmarkCircle className="text-[1.4rem] text-[#2885F6]" />,
       ],
       wideRange: "Range 500 - 500K",
-      depositRange: "Deposit range: 700 to 1000K is required individually.",
+      depositRange: "Deposit range: 700k to 1000K is required individually.",
     },
   ];
 
