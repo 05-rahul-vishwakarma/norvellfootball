@@ -105,7 +105,7 @@ export async function PUT(NextRequest) {
       Session: sessionToken,
       UserName,
       PhoneNumber: Phone,
-      Email,
+      EmailId : Email,
       Password,
       International: isInternational ? true : false,
       Avatar: Math.floor(Math.random() * 10 + 1),

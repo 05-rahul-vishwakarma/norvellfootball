@@ -50,7 +50,7 @@ const VerificationPopup = ({
   const [opps, setopps] = useState("Opps!");
   const [statusImage, setStatusImage] = useState("/success.png");
   const [otpSent, updateOtpSent] = useState(false);
-  const [verifPhone, updateVerifType] = useState(isPhoneVerified);
+  const [verifPhone, updateVerifType] = useState(isPhoneVerified === true ? true : false);
   const [credentials, updateCredentials] = useState({
     confPassword: "",
     Password: "",

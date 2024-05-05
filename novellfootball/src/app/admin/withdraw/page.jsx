@@ -52,13 +52,35 @@ async function getAllTransactions() {
   "use server";
   try {
     await connect();
-    let data = await TRANSACTION.find({ Type: "withdrawal" }).sort({
-      createdAt: -1,
-    });
+
+    // Get the current date
+    const today = new Date();
+    const todayDateString = formatDate(today);
+
+    // Calculate the dates for yesterday and the day before yesterday
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yesterdayDateString = formatDate(yesterday);
+
+    const dayBeforeYesterday = new Date(today);
+    dayBeforeYesterday.setDate(dayBeforeYesterday.getDate() - 2);
+    const dayBeforeYesterdayDateString = formatDate(dayBeforeYesterday);
+
+    // Fetch transactions for the last three days
+    const data = await TRANSACTION.find({
+      Type: "withdrawal",
+      Date: { $in: [todayDateString, yesterdayDateString, dayBeforeYesterdayDateString] }
+    }).sort({ createdAt: -1 });
+
     return data;
   } catch (error) {
     console.log(error);
   }
 }
-
+function formatDate(date) {
+  const day = String(date.getDate());
+  const month = String(date.getMonth() + 1); // January is 0!
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
+}
 export const dynamic = "force-dynamic";
