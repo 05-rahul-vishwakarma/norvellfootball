@@ -51,3 +51,5 @@ async function getTransactionDetails() {
     return JSON.stringify(error);
   }
 }
+
+export const dynamic = "force-dynamic";
