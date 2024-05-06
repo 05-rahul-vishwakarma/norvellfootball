@@ -68,7 +68,7 @@ const Page = () => {
             for (let data of commissionObj[date]) {
               total += Number(data?.Commission) / 100;
             }
-            return total;
+            return total.toFixed(2);
           }
         });
         updateOverallCommission(() => {

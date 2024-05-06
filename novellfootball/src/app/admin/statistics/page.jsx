@@ -24,7 +24,7 @@ async function getTransactionDetails() {
     await connect();
     let deposits = await TRANSACTION.aggregate([
       {
-        $match: { Type: "deposit" },
+        $match: { Type: "deposit" , Status : 1 },
       },
       {
         $group: {
@@ -35,7 +35,7 @@ async function getTransactionDetails() {
     ]);
     let withdrawals = await TRANSACTION.aggregate([
       {
-        $match: { Type: "withdrawal" },
+        $match: { Type: "withdrawal" , Status : 1 },
       },
       {
         $group: {
