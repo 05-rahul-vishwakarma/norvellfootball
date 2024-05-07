@@ -96,10 +96,12 @@ async function betParser({ StakeId, s_first, s_second, g_first, g_second }) {
         await session.commitTransaction();
         // revalidatePath("/admin/betsettlement");
         console.log(
-            `Bet's matched => ${updatedBets?.matchedCount} , Bet's updated => ${updatedBets?.upsertedCount} \n User's Matched => ${updatedUsers?.matchedCount} , User's Updated => ${updatedUsers?.upsertedCount} \n Commission given Count => ${updatedCommissions?.insertedCount}`
+            updatedBets,
+            updatedUsers,
+            `Bet's matched => ${updatedBets?.matchedCount} , Bet's updated => ${updatedBets?.modifiedCount} \n User's Matched => ${updatedUsers?.matchedCount} , User's Updated => ${updatedUsers?.modifiedCount} \n Commission given Count => ${updatedCommissions?.insertedCount}`
         );
         return {
-            message: `Bet's matched => ${updatedBets?.matchedCount} , Bet's updated => ${updatedBets?.upsertedCount} \n User's Matched => ${updatedUsers?.matchedCount} , User's Updated => ${updatedUsers?.upsertedCount} \n Commission given Count => ${updatedCommissions?.insertedCount}`,
+            message: `Bet's matched => ${updatedBets?.matchedCount} , Bet's updated => ${updatedBets?.modifiedCount} \n User's Matched => ${updatedUsers?.matchedCount} , User's Updated => ${updatedUsers?.modifiedCount} \n Commission given Count => ${updatedCommissions?.insertedCount}`,
         };
     } catch (error) {
         await session.abortTransaction();
