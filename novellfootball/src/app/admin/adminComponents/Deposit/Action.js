@@ -60,6 +60,7 @@ async function settleDeposit(data) {
     Session.startTransaction();
     try {
         await connect();
+        data?.Amount = data?.Amount <= 1000 ? Number(data?.Amount) * 100 : data?.Amount;
         const vip_level = getVipLevel(Number(data.Amount) / 100);
         //  if first deposit give 2% reward to the parent;
         let isFirstDeposit = await USER.findOne({ UserName: data?.UserName });
@@ -158,6 +159,7 @@ async function settleDeposit(data) {
                 {
                     UserName: data?.UserName,
                     TransactionId: data?.prevTransactionId,
+                    Amount : data?.Amount,
                     Status: 0,
                 },
                 {
@@ -251,15 +253,15 @@ function getVipLevel(amount) {
     let vip_level = 0;
     amount = Number(amount);
 
-    if (amount === 1000 && amount <= 55000) {
+    if (amount === 1000 && amount <= 55_000) {
         vip_level = 0;
-    } else if (amount > 55000 && amount <= 105000) {
+    } else if (amount > 55_000 && amount <= 105_000) {
         vip_level = 1;
-    } else if (amount > 105000 && amount <= 300000) {
+    } else if (amount > 105_000 && amount <= 300_000) {
         vip_level = 2;
-    } else if (amount > 300000 && amount <= 700000) {
+    } else if (amount > 300_000 && amount <= 700_000) {
         vip_level = 3;
-    } else if (amount > 700000) {
+    } else if (amount > 700_000) {
         vip_level = 4;
     } else {
         vip_level = 0;

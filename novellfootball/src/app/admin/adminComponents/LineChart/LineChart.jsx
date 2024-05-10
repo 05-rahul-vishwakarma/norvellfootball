@@ -3,9 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Chart as ChartJS } from "chart.js/auto";
 import { Line } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-adapter-date-fns";
-import { getTransactionDetails } from "./Action";
 
-export const LineChart = ({ deposit, withdrawal }) => {
+export const LineChart = () => {
     const [deposits, updateDepositsData] = useState([]);
     const [withdrawals, updateWithdrawalsData] = useState([]);
     const [totalDeposits, updateTotalDeposits] = useState(0);
@@ -18,7 +17,7 @@ export const LineChart = ({ deposit, withdrawal }) => {
         return dateA - dateB;
     }
 
-    async function gatherData() {
+    async function gatherData(deposit, withdrawal) {
         let totalDeposits = (deposit || []).reduce(
             (acc, currVal) => acc + currVal?.total / 100,
             0
@@ -40,10 +39,8 @@ export const LineChart = ({ deposit, withdrawal }) => {
             data = await data.json();
             if (data?.status === 200) {
                 let deposit_data = data?.data?.deposits || [];
-                deposit_data = deposit_data.sort(compareDates);
-                console.log(deposit_data);
-                updateDepositsData(deposit_data);
-                updateWithdrawalsData(data?.data?.withdrawals || []);
+                let withdraw_data = data?.data?.withdrawals || [];
+                gatherData(deposit_data, withdraw_data);
             } else {
                 alert(JSON.stringify(data?.message));
             }
@@ -53,7 +50,7 @@ export const LineChart = ({ deposit, withdrawal }) => {
     }
     useEffect(() => {
         async function getData() {
-            await gatherData();
+            await updateData();
         }
         if (!isLoaded) {
             getData();
