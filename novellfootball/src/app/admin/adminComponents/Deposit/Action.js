@@ -60,8 +60,9 @@ async function settleDeposit(data) {
     Session.startTransaction();
     try {
         await connect();
-        data?.Amount = data?.Amount <= 1000 ? Number(data?.Amount) * 100 : data?.Amount;
-        const vip_level = getVipLevel(Number(data.Amount) / 100);
+        let amm_updated =
+            data?.Amount <= 1000 ? Number(data?.Amount) * 100 : data?.Amount;
+        const vip_level = getVipLevel(Number(amm_updated) / 100);
         //  if first deposit give 2% reward to the parent;
         let isFirstDeposit = await USER.findOne({ UserName: data?.UserName });
         if (!isFirstDeposit) {
@@ -73,7 +74,7 @@ async function settleDeposit(data) {
                     { UserName: isFirstDeposit?.Parent },
                     {
                         $inc: {
-                            Balance: data?.Amount * 0.02,
+                            Balance: amm_updated * 0.02,
                             Members: 1,
                         },
                     },
@@ -123,7 +124,7 @@ async function settleDeposit(data) {
                         {
                             UserName: isParentUpdated?.UserName,
                             TransactionId: await genTransactionID(),
-                            Amount: data?.Amount * 0.02,
+                            Amount: amm_updated * 0.02,
                             Type: "invitation reward",
                             Remark: "success",
                             Status: 1,
@@ -145,9 +146,9 @@ async function settleDeposit(data) {
                 { UserName: data?.UserName },
                 {
                     $inc: {
-                        Balance: data?.Amount + data?.Amount * 0.05,
-                        Deposited: data?.Amount,
-                        ValidDeposit: data?.Amount,
+                        Balance: amm_updated + amm_updated * 0.05,
+                        Deposited: amm_updated,
+                        ValidDeposit: amm_updated,
                     },
                     FirstDeposit: false,
                     VipLevel: vip_level,
@@ -159,7 +160,7 @@ async function settleDeposit(data) {
                 {
                     UserName: data?.UserName,
                     TransactionId: data?.prevTransactionId,
-                    Amount : data?.Amount,
+                    Amount: amm_updated,
                     Status: 0,
                 },
                 {
@@ -182,9 +183,9 @@ async function settleDeposit(data) {
                 { UserName: data?.UserName },
                 {
                     $inc: {
-                        Balance: data?.Amount,
-                        Deposited: data?.Amount,
-                        // ValidDeposit: data?.Amount,
+                        Balance: amm_updated,
+                        Deposited: amm_updated,
+                        // ValidDeposit: amm_updated,
                     },
                     VipLevel: vip_level,
                 },
