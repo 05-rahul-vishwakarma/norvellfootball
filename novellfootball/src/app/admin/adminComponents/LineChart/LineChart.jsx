@@ -168,6 +168,7 @@ const Chart = ({ type, dataSet }) => {
                                 },
                                 type: "time",
                                 time: {
+                                    // unit: "week",
                                     unit: "day",
                                 },
                             },
@@ -182,3 +183,5 @@ const Chart = ({ type, dataSet }) => {
         </div>
     );
 };
+
+export const dynamic = "force-dynamic";

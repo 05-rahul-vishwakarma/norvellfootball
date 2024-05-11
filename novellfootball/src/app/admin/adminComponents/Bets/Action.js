@@ -95,11 +95,11 @@ async function betParser({ StakeId, s_first, s_second, g_first, g_second }) {
         });
         await session.commitTransaction();
         // revalidatePath("/admin/betsettlement");
-        console.log(
-            updatedBets,
-            updatedUsers,
-            `Bet's matched => ${updatedBets?.matchedCount} , Bet's updated => ${updatedBets?.modifiedCount} \n User's Matched => ${updatedUsers?.matchedCount} , User's Updated => ${updatedUsers?.modifiedCount} \n Commission given Count => ${updatedCommissions?.insertedCount}`
-        );
+        // console.log(
+        //     updatedBets,
+        //     updatedUsers,
+        //     `Bet's matched => ${updatedBets?.matchedCount} , Bet's updated => ${updatedBets?.modifiedCount} \n User's Matched => ${updatedUsers?.matchedCount} , User's Updated => ${updatedUsers?.modifiedCount} \n Commission given Count => ${updatedCommissions?.insertedCount}`
+        // );
         return {
             message: `Bet's matched => ${updatedBets?.matchedCount} , Bet's updated => ${updatedBets?.modifiedCount} \n User's Matched => ${updatedUsers?.matchedCount} , User's Updated => ${updatedUsers?.modifiedCount} \n Commission given Count => ${updatedCommissions?.insertedCount}`,
         };
