@@ -137,8 +137,18 @@ export async function POST(request) {
                 status: 302,
                 message: "Session Expired login again",
             });
-        let UserCreatedOn = await USER.findOne({ UserName }, { createdAt: 1 });
-        let registrationDate = new Date(UserCreatedOn?.createdAt);
+        let UserCreatedOn = await USER.findOne(
+            { UserName },
+            { createdAt: 1, JoinedOn: 1 }
+        );
+        let registrationDate;
+        if (UserCreatedOn?.JoinedOn && UserCreatedOn?.JoinedOn !== "") {
+            registrationDate = new Date(
+                UserCreatedOn?.JoinedOn?.split("/")?.reverse()?.join("/")
+            );
+        } else {
+            registrationDate = new Date(UserCreatedOn?.createdAt);
+        }
         let today = new Date();
         const daysOfRegistration = Math.floor(
             (today - registrationDate) / oneDay
@@ -197,7 +207,7 @@ async function getCookieData() {
 }
 
 // claim commission bonus;
-async function claimBonusFor(UserName, dates) {
+async function claimBonusForUnoptimized(UserName, dates) {
     let Session = await mongoose.startSession();
     Session.startTransaction();
     try {
@@ -264,6 +274,79 @@ async function claimBonusFor(UserName, dates) {
         return true;
     } catch (error) {
         await Session.abortTransaction();
+        if (error?.code === 500 || error?.status === 500 || !error?.status) {
+            ErrorReport(error);
+        }
+        throw Error(error);
+    }
+}
+async function claimBonusFor(UserName, dates) {
+    let Session = await mongoose.startSession();
+    Session.startTransaction();
+    try {
+        await connect();
+
+        // Find unclaimed commissions for the given dates
+        const commissions = await COMMISSION.aggregate([
+            {
+                $match: {
+                    UserName,
+                    Date: { $in: dates },
+                    Claimed: false,
+                },
+            },
+        ]);
+
+        // Calculate total commission
+        let totalCommission = 0;
+        for (let commission of commissions) {
+            let commission_amount = Number(commission?.Commission);
+            if (commission_amount > 0) {
+                totalCommission += commission_amount;
+            }
+        }
+
+        // Update all unclaimed commissions as claimed
+        await COMMISSION.updateMany(
+            {
+                UserName,
+                Date: { $in: dates },
+                Claimed: false,
+            },
+            {
+                $set: {
+                    Claimed: true,
+                },
+            },
+            { session: Session }
+        );
+
+        // If no commission to claim, commit transaction and return true
+        if (totalCommission === 0) {
+            // await Session.commitTransaction();
+            return true;
+        }
+
+        // Update user's balance and commission
+        let isUserUpdated = await USER.findOneAndUpdate(
+            { UserName },
+            {
+                $inc: {
+                    Balance: totalCommission,
+                    Commission: totalCommission,
+                },
+            },
+            { session: Session }
+        );
+
+        if (!isUserUpdated) {
+            await Session.abortTransaction();
+            return false;
+        }
+        await Session.commitTransaction();
+        return true;
+    } catch (error) {
+        // await Session.abortTransaction();
         if (error?.code === 500 || error?.status === 500 || !error?.status) {
             ErrorReport(error);
         }
