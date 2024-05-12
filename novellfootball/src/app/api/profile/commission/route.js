@@ -67,7 +67,7 @@ async function getBetAndCommissionData(commissionDates, UserName) {
                     $match: {
                         UserName: UserName,
                         Date: date,
-                        // Claimed: false,
+                        Claimed: false,
                     },
                 },
                 {
