@@ -28,10 +28,6 @@ const DemoCarousel = () => {
       </div>
 
       <div>
-        <img src="item2.png" alt="Slide 2" className="rounded-2xl" />
-      </div>
-
-      <div>
         <img src="item3.png" alt="Slide 3" className="rounded-2xl" />
       </div>
 
