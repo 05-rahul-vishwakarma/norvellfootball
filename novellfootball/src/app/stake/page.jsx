@@ -202,7 +202,7 @@ function Page() {
               )}
             </div>
           ) : (
-            <div className=" h-[100%] absolute top-0 left-0 w-full overflow-y-auto pb-[5rem] ">
+            <div className=" h-[100%] flex flex-col-reverse absolute top-0 left-0 w-full overflow-y-auto pb-[5rem] ">
               {settledMatches.map((match, idx) => (
                 <StakeHistory
                   data={match}
