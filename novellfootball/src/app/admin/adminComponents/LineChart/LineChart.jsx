@@ -168,8 +168,8 @@ const Chart = ({ type, dataSet }) => {
                                 },
                                 type: "time",
                                 time: {
-                                    // unit: "week",
-                                    unit: "day",
+                                    unit: "week",
+                                    // unit: "day",
                                 },
                             },
                             y: {
