@@ -28,16 +28,7 @@ export async function GET(request) {
                 status: 302,
                 message: "Session Expired login again",
             });
-        let UserCreatedOn = await USER.findOne({ UserName }, { createdAt: 1 });
-        let registrationDate = new Date(UserCreatedOn?.createdAt);
-        let today = new Date();
-        const daysOfRegistration = Math.floor(
-            (today - registrationDate) / oneDay
-        );
-
-        let previousDates = await getPreviousDates(
-            daysOfRegistration % 7 === 0 ? 7 : daysOfRegistration % 7
-        );
+        let previousDates = await getPreviousDates(7);
         let res = await getBetAndCommissionData(previousDates, UserName);
         return NextResponse.json({
             status: 200,
@@ -67,7 +58,7 @@ async function getBetAndCommissionData(commissionDates, UserName) {
                     $match: {
                         UserName: UserName,
                         Date: date,
-                        Claimed: false,
+                        // Claimed: true,
                     },
                 },
                 {
