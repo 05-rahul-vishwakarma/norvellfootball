@@ -7,6 +7,7 @@ import { USER, BET, COMMISSION } from "@/app/modals/modal";
 import { connect } from "@/app/modals/dbConfig";
 import { revalidatePath } from "next/cache";
 import ErrorReport from "@/app/helpers/ErrorReport";
+import { IoFastFood } from "react-icons/io5";
 
 const CHUNK_SIZE = 100;
 
@@ -14,6 +15,7 @@ const CHUNK_SIZE = 100;
 let update_user = [];
 let update_bet = [];
 let create_commission = [];
+let give_commission = new Map();
 
 export async function settle(prevState, formData) {
     try {
@@ -93,13 +95,26 @@ async function betParser({ StakeId, s_first, s_second, g_first, g_second }) {
         let updatedCommissions = await COMMISSION.bulkWrite(create_commission, {
             session,
         });
+        let commission_array = [];
+
+        if (give_commission.size() > 0) {
+            for (let user in give_commission) {
+                commission_array.push({
+                    updateOne: {
+                        filter: { UserName: user },
+                        update: {
+                            $inc: {
+                                Balance: give_commission[user],
+                                Commission: give_commission[user],
+                            },
+                        },
+                    },
+                });
+            }
+            await USER.bulkWrite(commission_array, { session });
+        }
+
         await session.commitTransaction();
-        // revalidatePath("/admin/betsettlement");
-        // console.log(
-        //     updatedBets,
-        //     updatedUsers,
-        //     `Bet's matched => ${updatedBets?.matchedCount} , Bet's updated => ${updatedBets?.modifiedCount} \n User's Matched => ${updatedUsers?.matchedCount} , User's Updated => ${updatedUsers?.modifiedCount} \n Commission given Count => ${updatedCommissions?.insertedCount}`
-        // );
         return {
             message: `Bet's matched => ${updatedBets?.matchedCount} , Bet's updated => ${updatedBets?.modifiedCount} \n User's Matched => ${updatedUsers?.matchedCount} , User's Updated => ${updatedUsers?.modifiedCount} \n Commission given Count => ${updatedCommissions?.insertedCount}`,
         };
@@ -297,6 +312,16 @@ async function give_parent_bonus(
                     },
                 },
             });
+
+            if (
+                typeof give_commission[Parent] !== "number" ||
+                isNaN(give_commission[Parent])
+            ) {
+                give_commission[Parent] = rebade * 100;
+            } else {
+                give_commission[Parent] += rebade * 100;
+            }
+
             if (Parent !== parent_user.Parent) {
                 Parent = parent_user?.Parent || false;
             } else {
