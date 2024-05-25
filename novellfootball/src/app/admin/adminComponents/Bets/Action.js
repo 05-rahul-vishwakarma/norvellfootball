@@ -15,7 +15,7 @@ const CHUNK_SIZE = 100;
 let update_user = [];
 let update_bet = [];
 let create_commission = [];
-let give_commission = new Map();
+let give_commission = {};
 
 export async function settle(prevState, formData) {
     try {
@@ -76,7 +76,7 @@ async function betParser({ StakeId, s_first, s_second, g_first, g_second }) {
         )
             throw new CustomError(703, "every data is needed", {});
 
-        let unsettledBets = await BET.find({ StakeId });
+        let unsettledBets = await BET.find({ StakeId, Status: 0 });
         if (!unsettledBets || unsettledBets?.length < 1)
             throw new CustomError(
                 705,
@@ -96,9 +96,10 @@ async function betParser({ StakeId, s_first, s_second, g_first, g_second }) {
             session,
         });
         let commission_array = [];
-
-        if (give_commission.size() > 0) {
-            for (let user in give_commission) {
+        console.log(Object.keys(give_commission).length);
+        if (Object.keys(give_commission).length > 0) {
+            for (let user of Object.keys(give_commission)) {
+                console.log(user, give_commission[user]);
                 commission_array.push({
                     updateOne: {
                         filter: { UserName: user },
@@ -111,7 +112,8 @@ async function betParser({ StakeId, s_first, s_second, g_first, g_second }) {
                     },
                 });
             }
-            await USER.bulkWrite(commission_array, { session });
+            let isUpdated = await USER.bulkWrite(commission_array, { session });
+            console.log(isUpdated);
         }
 
         await session.commitTransaction();
@@ -281,7 +283,7 @@ async function give_parent_bonus(
         })
     );
     let LEVEL = 1;
-    let REBADE_PERCENT = [10, 5, 2];
+    let REBADE_PERCENT = [10, 7, 3];
     try {
         while (LEVEL <= 3 && Parent !== false) {
             let parent_user = await USER.findOne({ UserName: Parent });
@@ -317,9 +319,14 @@ async function give_parent_bonus(
                 typeof give_commission[Parent] !== "number" ||
                 isNaN(give_commission[Parent])
             ) {
-                give_commission[Parent] = rebade * 100;
+                // give_commission.set(Parent, Math.max(0, rebade));
+                give_commission[Parent] = Math.max(0, rebade * 100);
             } else {
-                give_commission[Parent] += rebade * 100;
+                give_commission[Parent] += Math.max(0, rebade * 100);
+                // give_commission.set(
+                //     Parent,
+                //     give_commission[Parent] + Math.max(0, rebade)
+                // );
             }
 
             if (Parent !== parent_user.Parent) {

@@ -153,6 +153,7 @@ async function getAllBets() {
         let data = await BET.aggregate([
             {
                 $match: { Status: 0 },
+                // $match: { StakeId: 1054033 },
             },
             {
                 $group: {
@@ -165,7 +166,10 @@ async function getAllBets() {
             },
         ]);
         for (let bet of data) {
-            let count = await BET.find({ StakeId: bet?.StakeId }).count();
+            let count = await BET.find({
+                StakeId: bet?.StakeId,
+                Status: 0,
+            }).count();
             data[data.indexOf(bet)]["Count"] = count;
         }
         data.reverse();
