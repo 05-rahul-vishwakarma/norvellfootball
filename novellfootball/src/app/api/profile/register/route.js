@@ -136,6 +136,7 @@ export async function GET(request) {
                 UserName: 1,
                 JoinedOn: 1,
                 Parent: 1,
+                PhoneNumber: 1,
                 Deposited: 1,
                 Withdrawal: 1,
                 Balance: 1,
@@ -152,6 +153,7 @@ export async function GET(request) {
                 Parent: 1,
                 Deposited: 1,
                 Withdrawal: 1,
+                PhoneNumber: 1,
                 Balance: 1,
                 createdAt: 1,
             }
@@ -165,6 +167,7 @@ export async function GET(request) {
                 JoinedOn: 1,
                 Parent: 1,
                 Deposited: 1,
+                PhoneNumber: 1,
                 Withdrawal: 1,
                 Balance: 1,
                 createdAt: 1,

@@ -729,6 +729,12 @@ function RegisterAcordian({ cardDetails, level, idx }) {
                             </h2>
                         </span>
                         <span className="space-x-1 flex">
+                            <h2>Phone number -</h2>
+                            <h2 className=" font-semibold">
+                                {cardDetails?.PhoneNumber || "not available"}
+                            </h2>
+                        </span>
+                        <span className="space-x-1 flex">
                             <h2>parent username -</h2>
                             <h2 className=" font-semibold">
                                 {cardDetails?.Parent || "not available"}

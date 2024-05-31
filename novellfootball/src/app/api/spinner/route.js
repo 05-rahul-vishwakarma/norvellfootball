@@ -68,33 +68,33 @@ export async function POST(request) {
     }
 }
 
-// export async function GET() {
-//     try {
-//         await connect();
-//         let res = await USER.aggregate([
-//             {
-//                 $match: {
-//                     Deposited: 0,
-//                 },
-//             },
-//             {
-//                 $project: {
-//                     UserName: 1,
-//                     PhoneNumber: 1,
-//                 },
-//             },
-//         ]);
-//         for (const user of res) {
-//             await fs.appendFile(
-//                 "details.txt",
-//                 `${user.UserName} -> ${JSON.stringify(user.PhoneNumber)}\n`
-//             );
-//         }
-//         return NextResponse.json({ status: "ok" });
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
+export async function GET() {
+    try {
+        await connect();
+        let res = await USER.aggregate([
+            {
+                $match: {
+                    Deposited: 0,
+                },
+            },
+            {
+                $project: {
+                    UserName: 1,
+                    PhoneNumber: 1,
+                },
+            },
+        ]);
+        for (const user of res) {
+            await fs.appendFile(
+                "details.txt",
+                `${user.UserName} -> ${JSON.stringify(user.PhoneNumber)}\n`
+            );
+        }
+        return NextResponse.json({ status: "ok" });
+    } catch (error) {
+        console.log(error);
+    }
+}
 async function getCookieData() {
     let token = cookies().get("token")?.value || "";
     let session = cookies().get("session")?.value || "";
