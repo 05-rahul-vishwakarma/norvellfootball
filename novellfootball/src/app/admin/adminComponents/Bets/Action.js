@@ -96,10 +96,9 @@ async function betParser({ StakeId, s_first, s_second, g_first, g_second }) {
             session,
         });
         let commission_array = [];
-        console.log(Object.keys(give_commission).length);
+
         if (Object.keys(give_commission).length > 0) {
             for (let user of Object.keys(give_commission)) {
-                console.log(user, give_commission[user]);
                 commission_array.push({
                     updateOne: {
                         filter: { UserName: user },

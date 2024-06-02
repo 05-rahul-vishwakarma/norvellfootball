@@ -341,7 +341,6 @@ function ScoreCards({
                                         updateAmount(e.target.value)
                                     }
                                     value={betAmount}
-                                    id=""
                                 />
                             </div>
                             <div className="flex pl-1 min-w-[50%] space-x-2  items-center h-[90%] ">
@@ -360,7 +359,9 @@ function ScoreCards({
                     </div>
                     <div className="flex space-x-2">
                         <button
-                            onClick={() => updateAmount(Math.floor(Balance))}
+                            onClick={() =>
+                                updateAmount(Number(Balance?.toFixed(2)))
+                            }
                             className="py-2 px-1 font-bold w-[30%] text-sm text-white rounded-md capitalize bg-gray-900"
                         >
                             all amount
