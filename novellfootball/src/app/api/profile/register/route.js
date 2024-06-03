@@ -185,7 +185,10 @@ export async function GET(request) {
                 typeof user?.JoinedOn === "string"
                     ? user?.JoinedOn?.split("/")
                     : ["", "", ""];
-            if (user?.Deposited > 0) active_users++;
+            if (user?.Deposited > 0) {
+                console.log(user?.UserName, user?.Deposited);
+                active_users++;
+            }
             return (
                 Number(userJoinedDate[0]) === Number(today.getDate()) &&
                 Number(userJoinedDate[1]) === Number(today.getMonth() + 1) &&

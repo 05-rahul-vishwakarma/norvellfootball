@@ -4,6 +4,7 @@ import { connect } from "@/app/modals/dbConfig";
 import { TRANSACTION, USER } from "@/app/modals/modal";
 import mongoose from "mongoose";
 import { revalidatePath } from "next/cache";
+import { randomBytes } from "crypto";
 
 export async function updateTransaction(prevState, formData) {
     try {
@@ -271,7 +272,8 @@ function getVipLevel(amount) {
 }
 
 async function genTransactionID() {
-    const PART_A = Math.floor(Math.random() * 90000 + 10000).toString();
-    const PART_B = Math.floor(Math.random() * 90000 + 10000).toString();
-    return PART_A + PART_B;
+    return randomBytes(15).toString("hex").slice(0, 15);
+    // const PART_A = Math.floor(Math.random() * 90000 + 10000).toString();
+    // const PART_B = Math.floor(Math.random() * 90000 + 10000).toString();
+    // return PART_A + PART_B;
 }
