@@ -129,11 +129,11 @@ async function betParser({
                     },
                 });
             }
-            // let isUpdated = await USER.bulkWrite(commission_array, { session });
-            // console.log(isUpdated);
+            let isUpdated = await USER.bulkWrite(commission_array, { session });
+            console.log(isUpdated);
         }
 
-        // await session.commitTransaction();
+        await session.commitTransaction();
         return {
             message: `Bet's matched => ${updatedBets?.matchedCount} , Bet's updated => ${updatedBets?.modifiedCount} \n User's Matched => ${updatedUsers?.matchedCount} , User's Updated => ${updatedUsers?.modifiedCount} \n Commission given Count => ${updatedCommissions?.insertedCount}`,
         };
