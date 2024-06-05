@@ -74,7 +74,7 @@ export async function GET() {
         let res = await USER.aggregate([
             {
                 $match: {
-                    Deposited: 0,
+                    Deposited: { $lte: 100000 },
                 },
             },
             {

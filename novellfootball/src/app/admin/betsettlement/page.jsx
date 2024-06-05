@@ -29,7 +29,7 @@ const Page = async () => {
                 </div>
                 <div
                     className=" bg-gray-200 px-2 items-center divide-x-[1.2px]  divide-secondary-400 gap-x-2 sm:text-[0.66rem] text-[0.5rem]
-        font-bold grid-cols-9 w-full py-2 grid"
+        font-bold grid-cols-10 w-full py-2 grid"
                 >
                     <div className="col-span-1.5 ">
                         <h1>League Id</h1>
@@ -54,6 +54,9 @@ const Page = async () => {
                     </div>
                     <div>
                         <h1>Edit</h1>
+                    </div>
+                    <div>
+                        <h1>choose</h1>
                     </div>
                     <div>
                         <h1>submit</h1>

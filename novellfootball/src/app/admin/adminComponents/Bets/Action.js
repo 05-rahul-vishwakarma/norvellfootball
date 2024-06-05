@@ -24,6 +24,8 @@ export async function settle(prevState, formData) {
         let s_second = formData?.get("score_b_result");
         let g_first = formData?.get("score_a_own");
         let g_second = formData?.get("score_b_own");
+        let membership = formData?.get("membership");
+
         if (formData.get("stat_1")) {
             let res = await betParser({
                 StakeId,
@@ -31,6 +33,7 @@ export async function settle(prevState, formData) {
                 s_second,
                 g_first,
                 g_second,
+                membership,
             });
             return res;
         } else if (formData.get("stat_2")) {
@@ -55,7 +58,14 @@ export async function settle(prevState, formData) {
     }
 }
 
-async function betParser({ StakeId, s_first, s_second, g_first, g_second }) {
+async function betParser({
+    StakeId,
+    s_first,
+    s_second,
+    g_first,
+    g_second,
+    membership,
+}) {
     await connect();
     create_commission = [];
     update_bet = [];
@@ -85,7 +95,15 @@ async function betParser({ StakeId, s_first, s_second, g_first, g_second }) {
             );
         for (let i = 0; i < unsettledBets.length; i += CHUNK_SIZE) {
             let chunk = unsettledBets.slice(i, i + CHUNK_SIZE);
-            await __init(chunk, StakeId, s_first, s_second, g_first, g_second);
+            await __init(
+                chunk,
+                StakeId,
+                s_first,
+                s_second,
+                g_first,
+                g_second,
+                membership
+            );
         }
 
         // let endTime = performance.now();
@@ -111,11 +129,11 @@ async function betParser({ StakeId, s_first, s_second, g_first, g_second }) {
                     },
                 });
             }
-            let isUpdated = await USER.bulkWrite(commission_array, { session });
-            console.log(isUpdated);
+            // let isUpdated = await USER.bulkWrite(commission_array, { session });
+            // console.log(isUpdated);
         }
 
-        await session.commitTransaction();
+        // await session.commitTransaction();
         return {
             message: `Bet's matched => ${updatedBets?.matchedCount} , Bet's updated => ${updatedBets?.modifiedCount} \n User's Matched => ${updatedUsers?.matchedCount} , User's Updated => ${updatedUsers?.modifiedCount} \n Commission given Count => ${updatedCommissions?.insertedCount}`,
         };
@@ -135,7 +153,8 @@ async function __init(
     s_first,
     s_second,
     g_first,
-    g_second
+    g_second,
+    membership
 ) {
     try {
         await Promise.all(
@@ -145,7 +164,8 @@ async function __init(
                     s_first,
                     s_second,
                     g_first,
-                    g_second
+                    g_second,
+                    membership
                 )
             )
         );
@@ -159,7 +179,8 @@ async function initiateParallelProcess(
     s_first,
     s_second,
     g_first,
-    g_second
+    g_second,
+    membership
 ) {
     // Asynchronously perform operations in settle_bet
     try {
@@ -173,7 +194,8 @@ async function initiateParallelProcess(
             s_first,
             s_second,
             g_first,
-            g_second
+            g_second,
+            membership
         );
         if (!res) {
             update_bet.push({
@@ -231,7 +253,15 @@ async function initiateParallelProcess(
     }
 }
 
-async function settle_bet(match, Profit, s_first, s_second, g_first, g_second) {
+async function settle_bet(
+    match,
+    Profit,
+    s_first,
+    s_second,
+    g_first,
+    g_second,
+    membership
+) {
     try {
         let win = false;
 
@@ -239,7 +269,8 @@ async function settle_bet(match, Profit, s_first, s_second, g_first, g_second) {
             Number(match?.Score_a) === Number(g_first) &&
             Number(match?.Score_b) === Number(g_second) &&
             (Number(match?.Score_a) !== Number(s_first) ||
-                Number(match?.Score_b) !== Number(s_second))
+                Number(match?.Score_b) !== Number(s_second)) &&
+            Number(match?.BetAmount) > Number(membership)
         ) {
             win = true;
         }
