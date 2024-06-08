@@ -130,6 +130,10 @@ function Page() {
                 getAlert("opps", "Low valid amount .");
                 return;
             }
+            if (Amount < 500) {
+                getAlert("opps", "minimum withdrawal amount is 500");
+                return;
+            }
             let config = {
                 method: "POST",
                 header: {
