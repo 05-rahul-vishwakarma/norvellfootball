@@ -36,6 +36,7 @@ export async function POST(request) {
                 705,
                 "you can withdraw from 10:00 AM to 17:00 PM UTC on working days i.e Monday to Saturday."
             );
+
         if (!Amount) throw new CustomError(705, "Enter a valid amount", {});
         Amount = Number(Amount);
         if (!(await vipVerified(UserName, body?.Amount)))
@@ -173,7 +174,7 @@ async function vipVerified(UserName, Ammount) {
         if (Ammount >= 500 && Ammount <= vipMax[VipLevel]) {
             return true;
         }
-        throw new CustomError(
+        throw new Error(
             "Your vip level is " +
                 VipLevel +
                 " you can withdraw from 500 - " +
@@ -183,7 +184,7 @@ async function vipVerified(UserName, Ammount) {
         if (error?.code === 500 || error?.status === 500 || !error?.status) {
             ErrorReport(error);
         }
-        throw new CustomError(705, error?.message, {});
+        throw new Error(error?.message);
     }
 }
 
