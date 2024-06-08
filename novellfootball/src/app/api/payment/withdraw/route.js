@@ -108,6 +108,7 @@ export async function POST(request) {
                     Date: getFormattedDate(),
                     Parent: parent,
                     Remark: "pending",
+
                     Type: "withdrawal",
                     Bank: Bank,
                 },
