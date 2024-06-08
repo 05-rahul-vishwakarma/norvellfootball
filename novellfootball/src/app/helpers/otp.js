@@ -17,7 +17,7 @@ export async function sendPhoneOtp(number, otp) {
 
         let res = await fetch(url, { method: "GET", headers });
         res = await res.json();
-
+        console.log(res);
         if (!res) throw Error("Server error");
         if (res?.return === true) return true;
         return false;
