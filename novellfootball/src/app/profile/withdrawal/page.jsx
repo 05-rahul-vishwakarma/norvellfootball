@@ -14,6 +14,7 @@ import { AlertContext } from "@/app/helpers/AlertContext";
 import Loading from "@/app/components/Loading";
 import { useEffect } from "react";
 import Back from "@/app/components/LiveChats/Back";
+import Authenticate from "@/app/components/Authenticate";
 
 function Page() {
     const [getVerification, updateGetVerif] = useState(false);
@@ -27,6 +28,7 @@ function Page() {
     const [loading, setLoading] = useState(true);
     let { getAlert } = useContext(AlertContext);
     const [Amount, updateAmount] = useState(0);
+    const [withdrawReady, setWithdrawReady] = useState(false);
     const router = useRouter();
 
     async function verify() {
@@ -109,8 +111,8 @@ function Page() {
     async function withdraw() {
         try {
             getAlert();
-            let isVerified = await verify_transfer_otp();
-            if (!isVerified) {
+            // let isVerified = await verify_transfer_otp();
+            if (!withdrawReady) {
                 getAlert("opps", "Incorrect otp.");
                 return;
             }
@@ -171,6 +173,40 @@ function Page() {
             updateVerificationMethod(!userOtherData?.International);
         }
     }, [userBalance, userOtherData]);
+
+    function afterVerification(phoneNumber) {
+        try {
+            if (Number(userOtherData?.PhoneNumber) !== Number(phoneNumber)) {
+                getAlert(
+                    "opps",
+                    `please verify the same number you registered with ending with ${userOtherData?.PhoneNumber?.slice(
+                        -3
+                    )}.`
+                );
+            } else {
+                setWithdrawReady(true);
+            }
+        } catch (error) {
+            getAlert("opps", "something went wrong");
+        }
+    }
+    function editBankings(phoneNumber) {
+        try {
+            if (Number(userOtherData?.PhoneNumber) !== Number(phoneNumber)) {
+                getAlert(
+                    "opps",
+                    `please verify the same number you registered with ending with ${userOtherData?.PhoneNumber?.slice(
+                        -3
+                    )}.`
+                );
+            } else {
+                setVerified(true);
+                updateEditBank(true);
+            }
+        } catch (error) {
+            getAlert("opps", "something went wrong");
+        }
+    }
 
     return (
         <Layout>
@@ -268,17 +304,30 @@ function Page() {
                                 </div>
                             </div>
                         </div>
-                        <div
-                            onClick={getEditOtp}
-                            className="absolute top-2 right-2 text-center "
-                        >
-                            <div className="rounded-full flex justify-center items-center size-7 bg-blue-500 text-xl text-center text-white ">
-                                <GrFormEdit />
+                        {userOtherData?.International === true ? (
+                            <div
+                                onClick={getEditOtp}
+                                className="absolute top-2 right-2 text-center "
+                            >
+                                <div className="rounded-full flex justify-center items-center size-7 bg-blue-500 text-xl text-center text-white ">
+                                    <GrFormEdit />
+                                </div>
+                                <p className="capitalize text-[0.5rem] text-white font-bold">
+                                    edit
+                                </p>
                             </div>
-                            <p className="capitalize text-[0.5rem] text-white font-bold">
-                                edit
-                            </p>
-                        </div>
+                        ) : (
+                            <div className="absolute top-2 right-2 text-center ">
+                                <div className="rounded-full relative flex justify-center items-center size-7 bg-blue-500 text-xl text-center text-white ">
+                                    <GrFormEdit />
+                                    <Authenticate callback={editBankings} />
+                                </div>
+                                <p className="capitalize text-[0.5rem] text-white font-bold">
+                                    edit
+                                </p>
+                            </div>
+                        )}
+
                         <div
                             onClick={() => {
                                 if (
@@ -581,47 +630,60 @@ function Page() {
                                 </div>
                             </div>
                             <div className="ring-[1.5px] ring-blue-600 pb-2 mt-1 rounded-md">
-                                <div className="flex capitalize font-semibold text-[0.65rem] space-x-2 ">
-                                    <div className=" flex w-[70%] space-x-1 px-2">
-                                        <div className="flex space-x-2 mt-2 flex-row items-center justify-between mx-auto w-full ">
-                                            <OtpInputs
-                                                otp={otp}
-                                                setOtp={setOtp}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className=" flex items-center  flex-col justify-end w-[30%] space-y-2 text-center px-2">
-                                        {otpSent !== true ? (
-                                            <div
-                                                onClick={getOtp}
-                                                className="h-[80%] w-full rounded-md flex justify-center items-center text-white capitalize bg-blue-500"
-                                            >
-                                                Get otp
+                                {userOtherData.International === true ? (
+                                    <div className="flex capitalize font-semibold text-[0.65rem] space-x-2 ">
+                                        <div className=" flex w-[70%] space-x-1 px-2">
+                                            <div className="flex space-x-2 mt-2 flex-row items-center justify-between mx-auto w-full ">
+                                                <OtpInputs
+                                                    otp={otp}
+                                                    setOtp={setOtp}
+                                                />
                                             </div>
-                                        ) : (
-                                            <>
-                                                <span
-                                                    className="  
-            flex text-[0.7rem] justify-center items-center"
-                                                >
-                                                    <Image
-                                                        src={"/tick_mark.png"}
-                                                        alt="sent"
-                                                        width={25}
-                                                        height={25}
-                                                    />
-                                                </span>
+                                        </div>
+                                        <div className=" flex items-center  flex-col justify-end w-[30%] space-y-2 text-center px-2">
+                                            {otpSent !== true ? (
                                                 <div
                                                     onClick={getOtp}
-                                                    className="flex text-center justify-center text-xs items-center h-[20%]"
+                                                    className="h-[80%] w-full rounded-md flex justify-center items-center text-white capitalize bg-blue-500"
                                                 >
-                                                    <p>Resend OTP</p>
-                                                    <FaPlay />
+                                                    Get otp
                                                 </div>
-                                            </>
-                                        )}
+                                            ) : (
+                                                <>
+                                                    <span
+                                                        className="  
+                flex text-[0.7rem] justify-center items-center"
+                                                    >
+                                                        <Image
+                                                            src={
+                                                                "/tick_mark.png"
+                                                            }
+                                                            alt="sent"
+                                                            width={25}
+                                                            height={25}
+                                                        />
+                                                    </span>
+                                                    <div
+                                                        onClick={getOtp}
+                                                        className="flex text-center justify-center text-xs items-center h-[20%]"
+                                                    >
+                                                        <p>Resend OTP</p>
+                                                        <FaPlay />
+                                                    </div>
+                                                </>
+                                            )}
+                                        </div>
                                     </div>
-                                </div>
+                                ) : (
+                                    <div className="flex justify-center items-center h-full px-4 py-2">
+                                        <button className="px-8 relative py-2 mt-2 bg-blue-500 rounded-md text-white">
+                                            verify
+                                            <Authenticate
+                                                callback={afterVerification}
+                                            />
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         </div>
 

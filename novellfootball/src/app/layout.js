@@ -1,5 +1,3 @@
-import Footer from "./components/Footer";
-import Modal from "./components/Modal";
 import "./globals.css";
 import { AlertContextProvider } from "./helpers/AlertContext";
 import UserContextProvider from "./helpers/UserContext";

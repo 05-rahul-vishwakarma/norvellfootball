@@ -1,5 +1,4 @@
 "use client";
-const BACKEND = process.env.NEXT_PUBLIC_BACKEND_URL;
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import Input from "@/app/components/Input";
@@ -10,6 +9,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import OtpInputs from "@/app/components/OtpInputs";
 import Modal from "@/app/components/Modal";
 import { AlertContext } from "@/app/helpers/AlertContext";
+import Authenticate from "@/app/components/Authenticate";
 
 const containerVariants = {
     hidden: { opacity: 1, scale: 1 },
@@ -45,7 +45,7 @@ function VerificationPopup({
     // have to create a funciton that will change the tab index on each click;
     const [otp, setOtp] = useState(new Array(4).fill(""));
 
-    function verify() {
+    function verifyFast2Sms() {
         let EnteredOtp = otp.join("");
         EnteredOtp = Number(EnteredOtp);
         let cookies = document.cookie;
@@ -66,7 +66,12 @@ function VerificationPopup({
             return;
         }
     }
-
+    function verify(phoneNumber) {
+        try {
+        } catch (error) {
+            getAlert("opps", "something went wrong");
+        }
+    }
     return (
         <div className="absolute z-[30] left-0 flex bg-slate-950/70 items-center justify-center right-0 h-full w-full opacity-1">
             <div className=" w-[80%] bg-slate-100 rounded-[2rem] px-6 pt-6 pb-4">
@@ -110,12 +115,13 @@ function VerificationPopup({
 
                     <div className="flex flex-col space-y-5">
                         <div>
-                            <button
+                            {/* <button
                                 onClick={verify}
                                 className="flex flex-row items-center justify-center text-center w-full  font-bold tracking-wide text-md rounded-xl outline-none py-4 bg-blue-600 border-none text-white text-sm uppercase  shadow-sm"
                             >
                                 Verify
-                            </button>
+                            </button> */}
+                            <Authenticate />
                         </div>
                     </div>
                 </div>
@@ -151,10 +157,10 @@ const Signup = () => {
     const sendData = async (e) => {
         e.preventDefault();
         getAlert();
-        // if (!isVerified) {
-        //   getAlert("opps", "not verified");
-        //   return;
-        // }
+        if (!isVerified) {
+            getAlert("opps", "not verified");
+            return;
+        }
         if (
             !credentials.UserName ||
             !credentials.ConfPassword ||
@@ -267,6 +273,27 @@ const Signup = () => {
         }
     }
 
+    function afterVerification(phoneNumber) {
+        try {
+            // console.log(
+            //     Number(credentials?.Phone?.slice(2)) !== Number(phoneNumber),
+            //     credentials?.Phone?.slice(2),
+            //     phoneNumber
+            // );
+            if (Number(credentials?.Phone?.slice(2)) !== Number(phoneNumber)) {
+                getAlert(
+                    "opps",
+                    "please verify the same number you entered here"
+                );
+            } else {
+                setPhoneDisabled(true);
+                setVerified(true);
+            }
+        } catch (error) {
+            getAlert("opps", "something went wrong");
+        }
+    }
+
     return (
         <div className="flex relative min-h-[100dvh] flex-col justify-center px-6 py-12 lg:px-8">
             <div className="absolute top-0 left-0 z-[-1]  h-full w-full">
@@ -312,13 +339,13 @@ const Signup = () => {
                                 <div className="absolute top-0 flex justify-center items-center left-0 h-full aspect-square px-1.5 py-1.5 "></div>
                                 <div className="absolute top-0 flex justify-center items-center right-0  h-full aspect-square px-1.5 py-1.5 ">
                                     {credentials.Phone &&
-                                    credentials.Phone.length >= 10 ? (
+                                    credentials.Phone.length >= 12 ? (
                                         <div
-                                            // className={` py-[1px] px-[1px] bg-gradient-to-r ${
-                                            //     !isInternational &&
-                                            //     "from-blue-500 to-black"
-                                            // } z-[20] rounded-md flex items-center justify-center `}
-                                            className={` py-[1px] px-[1px] bg-gradient-to-r z-[20] rounded-md flex items-center justify-center `}
+                                            className={` py-[1px] px-[1px] bg-gradient-to-r ${
+                                                !isInternational &&
+                                                "from-blue-500 to-black"
+                                            } z-[20] rounded-md flex  relative  items-center justify-center `}
+                                            // className={` py-[1px] px-[1px] bg-gradient-to-r z-[20] rounded-md flex items-center justify-center `}
                                         >
                                             {isInternational ? (
                                                 <Image
@@ -337,13 +364,23 @@ const Signup = () => {
                                                 // >
                                                 //     verify
                                                 // </button>
-                                                <Image
-                                                    src={`/tick_mark.png`}
-                                                    alt="correct"
-                                                    width={25}
-                                                    className="z-[10]"
-                                                    height={25}
-                                                ></Image>
+                                                <>
+                                                    <p className="rounded-md py-1 px-2.5 bg-slate-100 text-xs capitalize fobold">
+                                                        verify
+                                                    </p>
+                                                    <Authenticate
+                                                        callback={
+                                                            afterVerification
+                                                        }
+                                                    />
+                                                </>
+                                                // <Image
+                                                //     src={`/tick_mark.png`}
+                                                //     alt="correct"
+                                                //     width={25}
+                                                //     className="z-[10]"
+                                                //     height={25}
+                                                // ></Image>
                                             )}
                                         </div>
                                     ) : (
@@ -359,7 +396,7 @@ const Signup = () => {
                                 <PhoneInput
                                     country={"in"}
                                     disabled={isDisabled}
-                                    value={credentials.Phone}
+                                    value={credentials?.Phone}
                                     className=" border-blue-600"
                                     inputProps={{
                                         name: "Phone",

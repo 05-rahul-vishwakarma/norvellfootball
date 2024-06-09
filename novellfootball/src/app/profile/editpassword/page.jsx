@@ -1,4 +1,5 @@
 "use client";
+import Authenticate from "@/app/components/Authenticate";
 import Input from "@/app/components/Input";
 import Layout from "@/app/components/Layout";
 import Back from "@/app/components/LiveChats/Back";
@@ -149,8 +150,26 @@ const VerificationPopup = ({
         }
     }
     useEffect(() => {
-        getOtp();
+        if (!isPhoneVerified) {
+            getOtp();
+        }
     }, []);
+
+    function afterVerification(phoneNumber) {
+        try {
+            if (Number(otpSentTo) !== Number(phoneNumber)) {
+                getAlert(
+                    "opps",
+                    "please verify the same number you entered here"
+                );
+            } else {
+                setVerified(true);
+            }
+        } catch (error) {
+            getAlert("opps", "something went wrong");
+        }
+    }
+
     return (
         <motion.div className="h-full absolute top-0 left-0 flex justify-center items-end  w-full">
             <motion.div className=" h-full pt-4 pb-40  bg-[#f8fbfe] overflow-y-auto rounded-t-[2rem] w-full">
@@ -201,29 +220,34 @@ const VerificationPopup = ({
                               )}`}
                     </p>
                 </div>
-                <div className="flex space-x-1 mt-2 px-8 flex-row items-center justify-between mx-auto w-[80%] max-w-xs">
-                    <OtpInputs otp={otp} setOtp={setOtp} />
-                </div>
+                {!isPhoneVerified && (
+                    <div className="flex space-x-1 mt-2 px-8 flex-row items-center justify-between mx-auto w-[80%] max-w-xs">
+                        <OtpInputs otp={otp} setOtp={setOtp} />
+                    </div>
+                )}
 
                 <div className="px-14 mt-2">
                     <div
                         onClick={verify}
                         className=" bg-gradient-to-r p-[2px] rounded-md from-blue-700 to-slate-950"
                     >
-                        <button className="h-full font-bold py-2 rounded-md w-full bg-slate-100">
+                        <button className="h-full relative font-bold py-2 rounded-md w-full bg-slate-100">
                             VERIFY
+                            <Authenticate callback={afterVerification} />
                         </button>
                     </div>
                 </div>
-                <div
-                    onClick={getOtp}
-                    className="mt-2 font-bold flex space-x-1 items-center uppercase text-[0.65rem] mx-auto w-[70%]"
-                >
-                    <p>RESEND</p>
-                    <p>
-                        <FaPlay />
-                    </p>
-                </div>
+                {!isPhoneVerified && (
+                    <div
+                        onClick={getOtp}
+                        className="mt-2 font-bold flex space-x-1 items-center uppercase text-[0.65rem] mx-auto w-[70%]"
+                    >
+                        <p>RESEND</p>
+                        <p>
+                            <FaPlay />
+                        </p>
+                    </div>
+                )}
                 <div className="px-5 mt-4">
                     <div>
                         <div className="flex items-center justify-between">
