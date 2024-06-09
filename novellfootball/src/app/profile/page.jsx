@@ -322,7 +322,7 @@ function Page() {
                             </div>
                         </div>
 
-                        <div
+                        {/* <div
                             onClick={() => router.push("/profile/editpassword")}
                             style={{
                                 boxShadow: "0px 2px 8px 1px rgb(0,0,0,0.1) ",
@@ -353,7 +353,7 @@ function Page() {
                             <div className="h-full w-full flex justify-center items-center flex-[1]">
                                 <LiaAngleRightSolid />
                             </div>
-                        </div>
+                        </div> */}
                         <div
                             onClick={() => router.push("/luckyDraw")}
                             style={{

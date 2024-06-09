@@ -26,7 +26,7 @@ const Authenticate = ({ callback, phoneNumber = 0 }) => {
     }, []);
 
     return (
-        <div className="absolute top-0 h-full opacity-0 w-full">
+        <div className="absolute top-0 opacity-0 w-full">
             <div
                 className="pe_signin_button"
                 data-client-id="17232928839562863277"

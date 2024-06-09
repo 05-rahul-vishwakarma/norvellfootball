@@ -112,10 +112,10 @@ function Page() {
         try {
             getAlert();
             // let isVerified = await verify_transfer_otp();
-            if (!withdrawReady) {
-                getAlert("opps", "Incorrect otp.");
-                return;
-            }
+            // if (!withdrawReady) {
+            //     getAlert("opps", "Incorrect otp.");
+            //     return;
+            // }
             let isValidTime = await validateTime();
             if (!isValidTime) {
                 getAlert(
@@ -304,7 +304,7 @@ function Page() {
                                 </div>
                             </div>
                         </div>
-                        {userOtherData?.International === true ? (
+                        {/* {userOtherData?.International === true ? (
                             <div
                                 onClick={getEditOtp}
                                 className="absolute top-2 right-2 text-center "
@@ -326,7 +326,7 @@ function Page() {
                                     edit
                                 </p>
                             </div>
-                        )}
+                        )} */}
 
                         <div
                             onClick={() => {
@@ -621,7 +621,7 @@ function Page() {
                                 </>
                             )}
 
-                            <div className="mt-5">
+                            {/* <div className="mt-5">
                                 <div className="capitalize font-semibold text-[0.6rem]">
                                     <span className="w-[50%]">
                                         verify with one-time password
@@ -630,61 +630,48 @@ function Page() {
                                 </div>
                             </div>
                             <div className="ring-[1.5px] ring-blue-600 pb-2 mt-1 rounded-md">
-                                {userOtherData?.International === true ? (
-                                    <div className="flex capitalize font-semibold text-[0.65rem] space-x-2 ">
-                                        <div className=" flex w-[70%] space-x-1 px-2">
-                                            <div className="flex space-x-2 mt-2 flex-row items-center justify-between mx-auto w-full ">
-                                                <OtpInputs
-                                                    otp={otp}
-                                                    setOtp={setOtp}
-                                                />
-                                            </div>
+                                <div className="flex capitalize font-semibold text-[0.65rem] space-x-2 ">
+                                    <div className=" flex w-[70%] space-x-1 px-2">
+                                        <div className="flex space-x-2 mt-2 flex-row items-center justify-between mx-auto w-full ">
+                                            <OtpInputs
+                                                otp={otp}
+                                                setOtp={setOtp}
+                                            />
                                         </div>
-                                        <div className=" flex items-center  flex-col justify-end w-[30%] space-y-2 text-center px-2">
-                                            {otpSent !== true ? (
+                                    </div>
+                                    <div className=" flex items-center  flex-col justify-end w-[30%] space-y-2 text-center px-2">
+                                        {otpSent !== true ? (
+                                            <div
+                                                onClick={getOtp}
+                                                className="h-[80%] w-full rounded-md flex justify-center items-center text-white capitalize bg-blue-500"
+                                            >
+                                                Get otp
+                                            </div>
+                                        ) : (
+                                            <>
+                                                <span
+                                                    className="  
+                flex text-[0.7rem] justify-center items-center"
+                                                >
+                                                    <Image
+                                                        src={"/tick_mark.png"}
+                                                        alt="sent"
+                                                        width={25}
+                                                        height={25}
+                                                    />
+                                                </span>
                                                 <div
                                                     onClick={getOtp}
-                                                    className="h-[80%] w-full rounded-md flex justify-center items-center text-white capitalize bg-blue-500"
+                                                    className="flex text-center justify-center text-xs items-center h-[20%]"
                                                 >
-                                                    Get otp
+                                                    <p>Resend OTP</p>
+                                                    <FaPlay />
                                                 </div>
-                                            ) : (
-                                                <>
-                                                    <span
-                                                        className="  
-                flex text-[0.7rem] justify-center items-center"
-                                                    >
-                                                        <Image
-                                                            src={
-                                                                "/tick_mark.png"
-                                                            }
-                                                            alt="sent"
-                                                            width={25}
-                                                            height={25}
-                                                        />
-                                                    </span>
-                                                    <div
-                                                        onClick={getOtp}
-                                                        className="flex text-center justify-center text-xs items-center h-[20%]"
-                                                    >
-                                                        <p>Resend OTP</p>
-                                                        <FaPlay />
-                                                    </div>
-                                                </>
-                                            )}
-                                        </div>
+                                            </>
+                                        )}
                                     </div>
-                                ) : (
-                                    <div className="flex justify-center items-center h-full px-4 py-2">
-                                        <button className="px-8 relative py-2 mt-2 bg-blue-500 rounded-md text-white">
-                                            verify
-                                            <Authenticate
-                                                callback={afterVerification}
-                                            />
-                                        </button>
-                                    </div>
-                                )}
-                            </div>
+                                </div>
+                            </div>  */}
                         </div>
 
                         <div className="px-2 py-1">

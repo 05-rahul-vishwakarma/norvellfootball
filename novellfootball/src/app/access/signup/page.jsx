@@ -157,10 +157,10 @@ const Signup = () => {
     const sendData = async (e) => {
         e.preventDefault();
         getAlert();
-        if (!isVerified) {
-            getAlert("opps", "not verified");
-            return;
-        }
+        // if (!isVerified) {
+        //     getAlert("opps", "not verified");
+        //     return;
+        // }
         if (
             !credentials.UserName ||
             !credentials.ConfPassword ||
@@ -364,23 +364,23 @@ const Signup = () => {
                                                 // >
                                                 //     verify
                                                 // </button>
-                                                <>
-                                                    <p className="rounded-md py-1 px-2.5 bg-slate-100 text-xs capitalize fobold">
-                                                        verify
-                                                    </p>
-                                                    <Authenticate
-                                                        callback={
-                                                            afterVerification
-                                                        }
-                                                    />
-                                                </>
-                                                // <Image
-                                                //     src={`/tick_mark.png`}
-                                                //     alt="correct"
-                                                //     width={25}
-                                                //     className="z-[10]"
-                                                //     height={25}
-                                                // ></Image>
+                                                // <>
+                                                //     <p className="rounded-md py-1 px-2.5 bg-slate-100 text-xs capitalize fobold">
+                                                //         verify
+                                                //     </p>
+                                                //     <Authenticate
+                                                //         callback={
+                                                //             afterVerification
+                                                //         }
+                                                //     />
+                                                // </>
+                                                <Image
+                                                    src={`/tick_mark.png`}
+                                                    alt="correct"
+                                                    width={25}
+                                                    className="z-[10]"
+                                                    height={25}
+                                                ></Image>
                                             )}
                                         </div>
                                     ) : (
