@@ -630,7 +630,7 @@ function Page() {
                                 </div>
                             </div>
                             <div className="ring-[1.5px] ring-blue-600 pb-2 mt-1 rounded-md">
-                                {userOtherData.International === true ? (
+                                {userOtherData?.International === true ? (
                                     <div className="flex capitalize font-semibold text-[0.65rem] space-x-2 ">
                                         <div className=" flex w-[70%] space-x-1 px-2">
                                             <div className="flex space-x-2 mt-2 flex-row items-center justify-between mx-auto w-full ">
