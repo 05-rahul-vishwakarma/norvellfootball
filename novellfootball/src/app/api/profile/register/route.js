@@ -186,7 +186,6 @@ export async function GET(request) {
                     ? user?.JoinedOn?.split("/")
                     : ["", "", ""];
             if (user?.Deposited > 0) {
-                console.log(user?.UserName, user?.Deposited);
                 active_users++;
             }
             return (
