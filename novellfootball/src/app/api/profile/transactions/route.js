@@ -1,3 +1,5 @@
+export const maxDuration = 50;
+
 /**
  *
  * this file will handle the transactions done by the subordinates till level3 and will also only get the

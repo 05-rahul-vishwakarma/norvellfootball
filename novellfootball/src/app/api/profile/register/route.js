@@ -1,3 +1,5 @@
+export const maxDuration = 50;
+
 /**
  *
  *  This file will extract the registered user's data withing 3 levels of the current user;
