@@ -1,15 +1,13 @@
 {
     "crons": [
         {
-            "functions": {
-                "app/api/**/*": {
-                    "maxDuration": 30
-                }
-            }
-        },
-        {
             "path": "/api/matchScheduler?id=2002",
             "schedule": "0 0 * * *"
         }
-    ]
+    ],
+    "functions": {
+        "app/api/**/*": {
+            "maxDuration": 50
+        }
+    }
 }
