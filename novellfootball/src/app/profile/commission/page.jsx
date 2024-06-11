@@ -1,4 +1,6 @@
-"use client";
+export const maxDuration = 50;
+
+("use client");
 import CommissionPopModel from "@/app/components/CommissionPopModel";
 import Layout from "@/app/components/Layout";
 import Back from "@/app/components/LiveChats/Back";
@@ -94,7 +96,7 @@ const Page = () => {
                 getAlert("redirect", "something went wrong login again");
             }
         } catch (error) {
-            alert(error);
+            getAlert("opps", "slow internet detected");
         }
     }
     async function getTransactionData() {
