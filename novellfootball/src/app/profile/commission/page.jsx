@@ -1,6 +1,6 @@
+"use client";
 export const maxDuration = 50;
 
-("use client");
 import CommissionPopModel from "@/app/components/CommissionPopModel";
 import Layout from "@/app/components/Layout";
 import Back from "@/app/components/LiveChats/Back";
