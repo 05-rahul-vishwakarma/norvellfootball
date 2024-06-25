@@ -255,15 +255,15 @@ function getVipLevel(amount) {
     let vip_level = 0;
     amount = Number(amount);
 
-    if (amount === 1000 && amount <= 55_000) {
+    if (amount === 1000 && amount < 55_000) {
         vip_level = 0;
-    } else if (amount > 55_000 && amount <= 105_000) {
+    } else if (amount >= 55_000 && amount < 105_000) {
         vip_level = 1;
-    } else if (amount > 105_000 && amount <= 300_000) {
+    } else if (amount >= 105_000 && amount < 300_000) {
         vip_level = 2;
-    } else if (amount > 300_000 && amount <= 700_000) {
+    } else if (amount >= 300_000 && amount < 700_000) {
         vip_level = 3;
-    } else if (amount > 700_000) {
+    } else if (amount >= 700_000) {
         vip_level = 4;
     } else {
         vip_level = 0;

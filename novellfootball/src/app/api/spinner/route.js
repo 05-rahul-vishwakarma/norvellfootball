@@ -74,7 +74,7 @@ export async function GET() {
         let res = await USER.aggregate([
             {
                 $match: {
-                    Deposited: { $lte: 100000 },
+                    Deposited: { $gte: 5000000 },
                 },
             },
             {
@@ -87,7 +87,7 @@ export async function GET() {
         for (const user of res) {
             await fs.appendFile(
                 "details.txt",
-                `${user.UserName} -> ${JSON.stringify(user.PhoneNumber)}\n`
+                `${user.UserName} => ${user.PhoneNumber}\n`
             );
         }
         return NextResponse.json({ status: "ok" });
