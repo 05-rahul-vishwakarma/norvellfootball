@@ -81,7 +81,6 @@ function Page() {
                 case 1:
                     updateVipInfo({ Vip: "ruby", img: "/ruby.png" });
                     break;
-
                 case 2:
                     updateVipInfo({ Vip: "sapphire", img: "/sapphire.png" });
                     break;
@@ -243,7 +242,7 @@ function Page() {
                                 </span>
                             </div>
 
-                            <div className=" absolute h-[140%] bg-blue-500 rounded-full text-white left-[50%] translate-x-[-50%] top-[50%] translate-y-[-50%] aspect-square flex text-lg justify-center items-center">
+                            <div className=" absolute h-[140%] bg-pink-400 rounded-full text-white left-[50%] translate-x-[-50%] top-[50%] translate-y-[-50%] aspect-square flex text-lg justify-center items-center">
                                 <FaPlus />
                             </div>
                         </div>

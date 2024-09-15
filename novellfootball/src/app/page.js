@@ -134,7 +134,7 @@ export default function Home() {
 
     return (
         <Layout>
-            <main className="h-screen bg-no-repeat bg- bg-center bg-gradient-to-b from-[#2885F6] to-[#000] overflow-hidden  ">
+            <main className="h-screen bg-no-repeat bg- bg-center bg-gradient-to-b from-[#F7B5CD] to-[#000] overflow-hidden  ">
                 <div className="  flex justify-between place-items-center  w-[90%] mr-auto ml-auto   ">
                     <div className="w-max mt-2 flex flex-col justify-center  pt-2 ">
                         <div
@@ -171,8 +171,8 @@ export default function Home() {
                             <Image
                                 src={"/logo.png"}
                                 alt="logo"
-                                width={45}
-                                height={45}
+                                width={35}
+                                height={35}
                             />
                         </div>
                     </div>
@@ -184,7 +184,7 @@ export default function Home() {
 
                 <div className="h-[60%] mt-[1rem] rounded-t-[30px]  shadow-2xl shadow-black  bg-[#F8FCFF]">
                     <div className="h-[70px] rounded-t-[30px] flex flex-col justify-around  ">
-                        <div className="w-[70px] h-[5px]  mr-auto ml-auto rounded-2xl bg-blue-500 "></div>
+                        <div className="w-[70px] h-[5px]  mr-auto ml-auto rounded-2xl bg-gray-500 "></div>
                         <div className="flex  justify-between w-[90%] mr-auto ml-auto  ">
                             <h1 className="font-bold ">Hot Matches</h1>
                             <h1 className="flex text-[12px] font-light text-[#989898] line-clamp-1 text-ellipsis ">

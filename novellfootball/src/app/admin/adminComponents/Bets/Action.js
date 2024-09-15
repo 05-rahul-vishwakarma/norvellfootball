@@ -87,6 +87,7 @@ async function betParser({
             throw new CustomError(703, "every data is needed", {});
 
         let unsettledBets = await BET.find({ StakeId, Status: 0 });
+
         if (!unsettledBets || unsettledBets?.length < 1)
             throw new CustomError(
                 705,
@@ -130,7 +131,7 @@ async function betParser({
                 });
             }
             let isUpdated = await USER.bulkWrite(commission_array, { session });
-            console.log(isUpdated);
+            // console.log(isUpdated);
         }
 
         await session.commitTransaction();

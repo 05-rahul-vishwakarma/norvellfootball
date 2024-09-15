@@ -15,12 +15,18 @@ import { NextResponse } from "next/server";
  */
 
 export async function POST(request) {
+  
   await connect();
+  
   let Session = await mongoose.startSession();
   Session.startTransaction();
+  
   let { session, token } = await getCookieData();
+  
   try {
+    
     const UserName = await isValidUser(token, session);
+    
     if (!UserName)
       return NextResponse.json({
         status: 302,
@@ -28,11 +34,15 @@ export async function POST(request) {
       });
 
     let body = await request.json();
+    
     let { Amount, Channel, TransactionId } = body;
+    
     if (!Amount || !Channel || !TransactionId)
       throw new CustomError(705, "Missing fields", {});
+
     Amount = Number(Amount) * 100;
     TransactionId = TransactionId.trim();
+
     let channelType;
     if (Channel === 1) {
       channelType = "Payment channel 1";
@@ -43,6 +53,7 @@ export async function POST(request) {
     } else {
       channelType = "Usdt channel";
     }
+
     let { Parent } = await USER.findOne({ UserName });
 
     let isTransactionExists = await TRANSACTION.findOne({
@@ -50,6 +61,7 @@ export async function POST(request) {
       TransactionId,
       Type: "deposit",
     });
+
     if (isTransactionExists)
       throw new CustomError(604, "This transaction already exists", {});
 
@@ -71,23 +83,30 @@ export async function POST(request) {
 
     if (!isTransCreated)
       throw new CustomError(500, "something went wrong while withdrawal", {});
+
     await Session.commitTransaction();
+    
     return NextResponse.json({
       status: 200,
       message:
         "Your deposit is in processing and will be reflected soon in you account .",
       data: {},
     });
+
   } catch (error) {
+
     if (error?.code === 500 || error?.status === 500 || !error?.status) {
       ErrorReport(error);
     }
+    
     await Session.abortTransaction();
+
     return NextResponse.json({
       status: error?.code || error?.status || 500,
       message: error?.message || "something went wrong",
       data: {},
     });
+    
   }
 }
 
