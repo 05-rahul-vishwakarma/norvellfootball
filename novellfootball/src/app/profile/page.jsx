@@ -290,7 +290,7 @@ function Page() {
                         </div>
 
                         <div
-                            onClick={() => router.push("/profile/withdrawal")}
+                            // onClick={() => router.push("/profile/withdrawal")}
                             style={{
                                 boxShadow: "0px 2px 8px 1px rgb(0,0,0,0.1) ",
                             }}

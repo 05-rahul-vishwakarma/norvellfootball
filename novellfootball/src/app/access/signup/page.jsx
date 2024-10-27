@@ -337,7 +337,7 @@ const Signup = () => {
                             </label>
                             <div className="mt-0 flex shadow-sm relative">
                                 <div className="absolute top-0 flex justify-center items-center left-0 h-full aspect-square px-1.5 py-1.5 "></div>
-                                <div className="absolute top-0 flex justify-center items-center right-0  h-full aspect-square px-1.5 py-1.5 ">
+                                {/* <div className="absolute top-0 flex justify-center items-center right-0  h-full aspect-square px-1.5 py-1.5 ">
                                     {credentials.Phone &&
                                     credentials.Phone.length >= 12 ? (
                                         <div
@@ -392,7 +392,7 @@ const Signup = () => {
                                             height={20}
                                         ></Image>
                                     )}
-                                </div>
+                                </div> */}
                                 <PhoneInput
                                     country={"in"}
                                     disabled={isDisabled}
