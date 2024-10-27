@@ -10,15 +10,15 @@ export async function GET(req) {
   await connect();
   const { token, session } = await getCookieData();
   try {
-    let UserName = await isValidUser(token, session);
+    const UserName = await isValidUser(token, session);
     if (!UserName) throw new CustomError(302, "Login session time out", {});
-    let res = await USER.findOne(
+    const res = await USER.findOne(
       { UserName },
       {
         _id: 0,
       }
     );
-    if (!res) throw new CustomError(703, "somthing went wrong", {});
+    if (!res) throw new CustomError(703, "something went wrong", {});
     return NextResponse.json({
       status: 200,
       message: "data fetched",
@@ -36,13 +36,14 @@ export async function GET(req) {
 export async function POST() {
   const { token, session } = await getCookieData();
   try {
-    let UserName = await isValidUser(token, session);
+    const UserName = await isValidUser(token, session);
     if (!UserName) throw new CustomError(302, "Login session time out", {});
-    cookies().delete("session");
-    cookies().delete("token");
+    const cookiesInstance = cookies();
+    cookiesInstance.delete("session");
+    cookiesInstance.delete("token");
     return NextResponse.json({
       status: 200,
-      message: "logged out successfull",
+      message: "logged out successfully",
       data: {},
     });
   } catch (error) {
@@ -58,12 +59,8 @@ export async function POST() {
 }
 
 async function getCookieData() {
-  let token = cookies().get("token")?.value || "";
-  let session = cookies().get("session")?.value || "";
-  const cookieData = { token, session };
-  return new Promise((resolve) =>
-    setTimeout(() => {
-      resolve(cookieData);
-    }, 1000)
-  );
+  const cookiesInstance = cookies();
+  const token = await cookiesInstance.get("token")?.value || "";
+  const session = await cookiesInstance.get("session")?.value || "";
+  return { token, session };
 }
