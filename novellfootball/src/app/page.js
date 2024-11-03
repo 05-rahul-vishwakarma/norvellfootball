@@ -7,15 +7,12 @@ import { useContext, useState, useEffect } from "react";
 import { IoIosAdd, IoIosArrowForward } from "react-icons/io";
 import { FaRupeeSign } from "react-icons/fa";
 import { useRouter } from "next/navigation";
-import { Carousel } from "flowbite-react";
 import Layout from "./components/Layout";
 import { UserContext } from "./helpers/UserContext";
-import { easeInOut, motion } from "framer-motion";
 import Loading from "./components/Loading";
 import { AlertContext } from "./helpers/AlertContext";
 import DemoCarousel from "./components/DemoCarousel";
-import { BsArrowRight, BsLock } from "react-icons/bs";
-import { duration } from "moment-timezone";
+import { motion } from "framer-motion";
 
 export default function Home() {
     let router = useRouter();
@@ -138,7 +135,7 @@ export default function Home() {
 
     return (
         <Layout>
-            <main className="h-screen bg-no-repeat bg- bg-center bg-gradient-to-b from-[#F7B5CD] to-[#00000063] overflow-hidden  ">
+            <main className="h-screen bg-gradient-to-b from-[#16ca43] to-[#00000018] overflow-hidden  ">
                 <div className="  flex justify-between place-items-center  w-[90%] mr-auto ml-auto   ">
                     <div className="w-max mt-2 flex flex-col justify-center  pt-2 ">
                         <div
@@ -175,8 +172,8 @@ export default function Home() {
                             <Image
                                 src={"/logo.png"}
                                 alt="logo"
-                                width={35}
-                                height={35}
+                                width={30}
+                                height={30}
                             />
                         </div>
                     </div>
@@ -186,10 +183,10 @@ export default function Home() {
                     <DemoCarousel />
                 </div>
 
-                <div className="h-[60%] mt-[1rem] rounded-t-[30px]  shadow-2xl shadow-black  bg-[#F8FCFF]">
+                <div className="h-[60%] mt-[1rem] rounded-t-[30px]  shadow-2xl shadow-black  bg-[#f8fcff]">
                     <div className=" py-3 rounded-t-[30px] flex flex-col justify-around  ">
-                        <div className="w-[70px] h-[5px] mr-auto ml-auto rounded-2xl bg-[#333333] "></div>
-                        <div className=" mt-3 h-8 w-full mr-auto px-4 ml-auto  ">
+                        <div className="w-[70px] h-[5px] mr-auto ml-auto rounded-2xl bg-[#2d7e0d] "></div>
+                        <div className=" mt-3 h-8 w-full mr-auto px-4 ml-auto hidden ">
                             <div
                                 onClick={() => showPopup(true)}
                                 style={{
@@ -198,7 +195,7 @@ export default function Home() {
                                 }}
                                 className=" py-2 w-full"
                             >
-                                <div className="flex items-center justify-between px-4">
+                                <div className="flex items-center justify-between px-4  ">
                                     <div className="flex gap-1 items-center">
                                         <FaLock />
                                         <p className="text-sm pl-2">
@@ -339,7 +336,7 @@ function MatchPopup({ match, onClose }) {
                 className=" h-[80%] pt-[2rem] pb-[6rem]  bg-slate-100 overflow-y-scroll rounded-t-[2rem] w-[98%]"
             >
                 <div className="flex  relative px-2  justify-center">
-                    <h4 className="border-2 border-solid border-[#333333]  min-w-[20%] rounded-full"></h4>
+                    <h4 className="border-2 border-solid border-[green]  min-w-[20%] rounded-full"></h4>
                     <p
                         onClick={onClose}
                         className="absolute left-2 text-sm font-bold mt-[-1rem] p-2"
@@ -481,7 +478,7 @@ function ScoreCards({
                     Odds percentage -<h2 className=" ml-1 text-green-400"></h2>
                     <h2 className="text-green-400"> {percent} </h2>
                 </span>
-                <span className="flex items-center justify-center py-2 px-2 bg-pink-300 text-white rounded-[7px] ">
+                <span className="flex items-center justify-center py-2 px-2 bg-[#2d7e0db9] text-white rounded-[7px] ">
                     Place stake
                 </span>
             </div>
@@ -529,7 +526,7 @@ function ScoreCards({
                     </span>
 
                     <div
-                        className="flex ring-2 px-1 ring-pink-300
+                        className="flex ring-2 px-1 ring-[#399415bb]
            mt-1 py-1 rounded-md items-center"
                     >
                         <div className="flex pl-1 space-x-1 max-w-[50%] min-w-[50%]  items-center h-[90%]">
@@ -564,7 +561,7 @@ function ScoreCards({
                     </div>
                 </div>
 
-                <div className="flex space-x-2">
+                <div className="flex space-x-2 pb-4 ">
                     <button
                         onClick={() => updateAmount(Balance)}
                         className="py-2 px-1 font-bold w-[30%] text-sm text-white rounded-md capitalize bg-gray-900"
@@ -574,12 +571,8 @@ function ScoreCards({
                     <button
                         onClick={() =>
                             placeBet(percent, Score_a, Score_b, betAmount)
-                        }
-                        disabled={disabled}
-                        style={{
-                            backgroundColor: disabled ? "#5A5A5A" : "rgb(249 168 212)",
-                        }}
-                        className="py-2 px-2 w-[70%] bg-pink-300 font-bold text-sm text-white rounded-md capitalize"
+                        }                       
+                        className="py-3 px-2 w-[70%] bg-ButtonGreen font-bold text-sm text-white rounded-md capitalize  "
                     >
                         confirm
                     </button>
@@ -615,7 +608,7 @@ function FixedDeposit({ userBalance, closePopup }) {
 
         if (!amount || !percent) return getAlert("opps", "choose some amount");
         if (amount < 500) return getAlert('opps', 'Minimum F.D. amount is 500.')
-        
+
         const response = await fetch("/api/fixedDeposit", {
             method: "POST",
             headers: {

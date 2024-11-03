@@ -219,7 +219,7 @@ function Page() {
                 {loading && <Loading />}
 
                 <Back page={"payment withdrawal"} />
-                <main className=" space-y-1  h-fit px-4 ">
+                <main className=" space-y-1  h-fit px-4 py-4 ">
                     {/* hero section */}
                     <div
                         style={{
@@ -432,7 +432,7 @@ function Page() {
                                             </span>
                                         </div>
                                     </div>
-                                    <div className="ring-[1.5px] ring-pink-300 py-2 mt-1 rounded-md">
+                                    <div className="ring-[1.5px] ring-BorderColor py-2 mt-1 rounded-md">
                                         <div className="flex capitalize font-semibold text-[0.65rem] space-x-2 ">
                                             <div className=" flex w-[50%] space-x-2 px-2">
                                                 <span
@@ -478,7 +478,7 @@ function Page() {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="ring-[1.5px] mt-3 ring-pink-300 py-2 rounded-md">
+                                    <div className="ring-[1.5px] mt-3 ring-BorderColor py-2 rounded-md">
                                         <div className="flex capitalize font-semibold text-[0.65rem] space-x-2 ">
                                             <div className=" flex w-[50%] space-x-2 px-2">
                                                 <span
@@ -620,7 +620,7 @@ function Page() {
                         <div className="px-2 py-1">
                             <button
                                 onClick={withdraw}
-                                className="w-full capitalize rounded-md mt-4 shadow-md bg-[#f7b5cd] text-white font-bold py-2 "
+                                className="w-full capitalize rounded-md mt-4 shadow-md bg-ButtonGreen text-white font-bold py-2 "
                             >
                                 transfer to bank
                             </button>

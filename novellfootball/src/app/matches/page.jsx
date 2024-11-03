@@ -100,12 +100,12 @@ function Page() {
                 placeholder="Search Matches"
               />
               <div className="absolute left-4 top-0 h-full flex justify-center items-center aspect-square ">
-                <Image
+                {/* <Image
                   src="/search.png"
                   alt="logo"
                   height={25}
                   width={25}
-                ></Image>
+                ></Image> */}
               </div>
             </div>
             {searchKey?.length > 3 && (

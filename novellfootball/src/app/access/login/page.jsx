@@ -61,18 +61,18 @@ const Login = () => {
 
     return (
         <>
-            <div className="flex text-white relative min-h-screen  flex-col justify-center px-6 pb-[8rem] lg:px-8">
+            <div className="flex text-[black] relative min-h-screen  flex-col justify-center px-6 pb-[8rem] bg-[#80808013]  lg:px-8">
                 <div className="absolute top-0 left-0 z-[-1]  h-full w-full">
-                    <Image fill alt="company logo" src={"/login_bg.jpg"} />
+                    {/* <Image fill alt="company logo" src={"/login_bg.jpg"} /> */}
                 </div>
                 <div className="sm:mx-auto pt-0 sm:w-full sm:max-w-sm">
-                    <Image
+                    {/* <Image
                         className="mx-auto"
-                        src={"/logo.png"}
+                        // src={"/logo.png"}
                         height={120}
                         width={130}
                         alt="parlour football"
-                    />
+                    /> */}
                     <h2 className=" text-center text-md font-bold leading-9 tracking-tight to-blue-500 uppercase">
                         Welcome back
                     </h2>
@@ -106,7 +106,7 @@ const Login = () => {
                                 <div className="flex items-center justify-between">
                                     <label
                                         htmlFor="password"
-                                        className="block text-sm font-bold leading-6 text-white"
+                                        className="block text-sm font-bold leading-6 text-black"
                                     >
                                         Password
                                     </label>
@@ -137,7 +137,7 @@ const Login = () => {
                         <div>
                             <button
                                 type="submit"
-                                className="flex w-full justify-center rounded-md bg-[#f7b5cd] px-3 py-[0.6rem] font-semibold leading-6 text-white shadow-sm"
+                                className="flex w-full justify-center rounded-md bg-ButtonGreen px-3 py-[0.6rem] font-semibold leading-6 text-white shadow-sm"
                             >
                                 Login
                             </button>

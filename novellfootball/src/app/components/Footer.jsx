@@ -104,7 +104,7 @@ function SecondFooter() {
               width={28}
               height={28}
             />
-            {home ? <p className="ml-2 text-white ">Home</p> : <p></p>}
+            {home ? <p className="ml-2 text-[#2d7e0d] ">Home</p> : <p></p>}
           </Link>
         </motion.div>
 
@@ -124,7 +124,7 @@ function SecondFooter() {
               width={28}
               height={28}
             />
-            {stake ? <p className="ml-2 text-white ">Stake</p> : <p></p>}
+            {stake ? <p className="ml-2 text-[#2d7e0d] ">Stake</p> : <p></p>}
           </Link>
         </motion.div>
 
@@ -145,7 +145,7 @@ function SecondFooter() {
               width={28}
               height={28}
             />
-            {match ? <p className="ml-2 text-white ">Match</p> : <p></p>}
+            {match ? <p className="ml-2 text-[#2d7e0d] ">Match</p> : <p></p>}
           </Link>
         </motion.div>
 
@@ -165,7 +165,7 @@ function SecondFooter() {
               width={28}
               height={28}
             />
-            {profile ? <p className="ml-2 text-white ">Profile</p> : <p></p>}
+            {profile ? <p className="ml-2 text-[#2d7e0d] ">Profile</p> : <p></p>}
           </Link>
         </motion.div>
       </div>

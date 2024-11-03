@@ -31,20 +31,34 @@ const scores = [
     "3-3",
     "4-4",
 ];
+
+// export async function GET(request) {
+//     let test = "not";
+//     let isScheduled = false;
+//     if (request?.nextUrl?.searchParams?.get("id") === "2002") {
+//         test = await scheduleMatches();
+//         startDailySchedule();
+//         isScheduled = cron.schedule("0 0 * * *", async () => {
+//             await scheduleMatches();
+//         });
+//         if (isScheduled) {
+//             console.warn("Scheduler satrted....")
+//         }
+//     }
+//     return NextResponse.json({ status: 200, msg: "done", data: test, scheduler: isScheduled });
+// }
+
 export async function GET(request) {
     let test = "not";
     let isScheduled = false;
     if (request?.nextUrl?.searchParams?.get("id") === "2002") {
         test = await scheduleMatches();
-        isScheduled = cron.schedule("0 0 * * *", async () => {
-            await scheduleMatches();
-        });
-        if(isScheduled){
-            console.warn("Scheduler satrted....")
-        }
+        startDailySchedule();
+        isScheduled = true;
     }
     return NextResponse.json({ status: 200, msg: "done", data: test, scheduler: isScheduled });
 }
+
 
 export async function scheduleMatches() {
     await connect();
@@ -72,8 +86,10 @@ export async function scheduleMatches() {
                 },
             }
         );
+
         if (res) {
             res = await res.json();
+
             if (!res?.response) return false;
             let data = [];
 
@@ -128,4 +144,20 @@ function getDate() {
     );
     date = date.toDate();
     return new Date(date);
+}
+
+
+function startDailySchedule() {
+    const now = new Date();
+    const next12pm = new Date();
+    next12pm.setHours(12, 0, 0, 0);
+    if (now > next12pm) {
+        next12pm.setDate(next12pm.getDate() + 1); // Set to next day if it's past 12 PM
+    }
+
+    const timeUntil12pm = next12pm - now;
+    setTimeout(() => {
+        scheduleMatches();
+        setInterval(scheduleMatches, 24 * 60 * 60 * 1000); // Schedule every 24 hours
+    }, timeUntil12pm);
 }

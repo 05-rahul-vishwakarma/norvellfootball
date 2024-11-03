@@ -29,21 +29,6 @@ const DemoCarousel = () => {
                 />
             </div>
 
-            <div>
-                <img
-                    src="carousel-4.png"
-                    alt="Slide 4"
-                    className="rounded-2xl"
-                />
-            </div>
-
-            <div>
-                <img
-                    src="carousel-5.png"
-                    alt="Slide 4"
-                    className="rounded-2xl"
-                />
-            </div>
         </Carousel>
     );
 };

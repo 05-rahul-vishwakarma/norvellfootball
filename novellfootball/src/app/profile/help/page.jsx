@@ -19,7 +19,7 @@ const Page = () => {
         <Layout>
             <section className=" bg-[#F8FCFF] w-full relative pb-40 h-[100dvh] overflow-y-auto">
                 <Back page={"get help"} />
-                <main className=" h-full space-y-1  px-4 ">
+                <main className=" h-full space-y-1  p-4 ">
                     <div className="h-[50%] relative w-full">
                         <Image src={"/get_help.jpg"} width={400} height={200} alt="get help" />
                     </div>
@@ -41,7 +41,7 @@ const Page = () => {
                             <div className="flex-[2] flex justify-end items-center">
                                 <Link
                                     href={"https://t.me/+iILsv7TgvY81OTBl"}
-                                    className="h-full rounded-xl bg-pink-300 text-white px-8 py-2"
+                                    className="h-full rounded-xl bg-ButtonGreen text-white px-8 py-2"
                                 >
                                     join
                                 </Link>
@@ -66,7 +66,7 @@ const Page = () => {
                                     href={
                                         "https://chat.whatsapp.com/BKJZtWGA84K4HsTHbCLQ5p"
                                     }
-                                    className="h-full rounded-xl bg-pink-300 text-white px-8 py-2"
+                                    className="h-full rounded-xl bg-ButtonGreen text-white px-8 py-2"
                                 >
                                     join
                                 </Link>

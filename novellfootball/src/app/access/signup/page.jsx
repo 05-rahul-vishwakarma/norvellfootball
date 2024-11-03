@@ -215,7 +215,7 @@ const Signup = () => {
                     getAlert(
                         "success",
                         res?.message ||
-                            "otp sent successfully and valid for 5 minutes."
+                        "otp sent successfully and valid for 5 minutes."
                     );
                     setPhoneDisabled(true);
                     updateGetVerif(true);
@@ -223,7 +223,7 @@ const Signup = () => {
                     getAlert(
                         "opps",
                         res?.message ||
-                            "something went wrong while creating user"
+                        "something went wrong while creating user"
                     );
                     setPhoneDisabled(false);
                 }
@@ -252,7 +252,7 @@ const Signup = () => {
                     getAlert(
                         "success",
                         res?.message ||
-                            "otp sent successfully and valid for 5 minutes."
+                        "otp sent successfully and valid for 5 minutes."
                     );
                     setEmailDisabled(true);
                     updateGetVerif(true);
@@ -260,7 +260,7 @@ const Signup = () => {
                     getAlert(
                         "opps",
                         res?.message ||
-                            "something went wrong while creating user"
+                        "something went wrong while creating user"
                     );
                     setEmailDisabled(false);
                 }
@@ -295,16 +295,16 @@ const Signup = () => {
     }
 
     return (
-        <div className="flex relative min-h-[100dvh] flex-col justify-center px-6 py-12 lg:px-8">
+        <div className="flex relative min-h-[100dvh] flex-col justify-center px-6 py-12 lg:px-8 bg-[#80808013] ">
             <div className="absolute top-0 left-0 z-[-1]  h-full w-full">
-                <Image
+                {/* <Image
                     fill
                     style={{ objectFit: "cover" }}
                     alt="background"
                     src={"/login_bg.jpg"}
-                />
+                /> */}
             </div>
-            <div className="mt-10 text-white sm:mx-auto sm:w-full sm:max-w-sm">
+            <div className="mt-10 text-black sm:mx-auto sm:w-full sm:max-w-sm">
                 <motion.form onSubmit={sendData} className="space-y-3">
                     <motion.div
                         initial="hidden"
@@ -315,7 +315,7 @@ const Signup = () => {
                         <motion.div variants={itemVariants}>
                             <label
                                 htmlFor="User"
-                                className="block text-sm font-bold leading-6 text-balance"
+                                className="block text-sm font-bold leading-6 text-balance "
                             >
                                 Username
                             </label>
@@ -339,13 +339,12 @@ const Signup = () => {
                                 <div className="absolute top-0 flex justify-center items-center left-0 h-full aspect-square px-1.5 py-1.5 "></div>
                                 <div className="absolute top-0 flex justify-center items-center right-0  h-full aspect-square px-1.5 py-1.5 ">
                                     {credentials.Phone &&
-                                    credentials.Phone.length >= 12 ? (
+                                        credentials.Phone.length >= 12 ? (
                                         <div
-                                            className={` py-[1px] px-[1px] bg-gradient-to-r ${
-                                                !isInternational &&
+                                            className={` py-[1px] px-[1px] bg-gradient-to-r ${!isInternational &&
                                                 "from-blue-500 to-black"
-                                            } z-[20] rounded-md flex  relative  items-center justify-center `}
-                                            // className={` py-[1px] px-[1px] bg-gradient-to-r z-[20] rounded-md flex items-center justify-center `}
+                                                } z-[20] rounded-md flex  relative  items-center justify-center `}
+                                        // className={` py-[1px] px-[1px] bg-gradient-to-r z-[20] rounded-md flex items-center justify-center `}
                                         >
                                             {isInternational ? (
                                                 <Image
@@ -417,6 +416,7 @@ const Signup = () => {
                             </div>
                         </motion.div>
                     </motion.div>
+
                     {isInternational && (
                         <motion.div variants={itemVariants}>
                             <label
@@ -436,7 +436,7 @@ const Signup = () => {
                                 </div>
                                 <div className="absolute top-0 flex justify-center items-center right-0  h-full aspect-square px-1.5 py-1.5 ">
                                     {credentials.Email &&
-                                    credentials.Email.length >= 3 ? (
+                                        credentials.Email.length >= 3 ? (
                                         <div className=" py-[1px] px-[1px] bg-gradient-to-r from-blue-500 to-black  rounded-md flex items-center justify-center">
                                             <button
                                                 onClick={getEmailOtp}
@@ -493,7 +493,7 @@ const Signup = () => {
                         <motion.div variants={itemVariants2}>
                             <label
                                 htmlFor="ConfirmPassword"
-                                className="block text-sm font-bold leading-6 text-balance"
+                                className="block text-sm font-bold leading-6 text-balance "
                             >
                                 Confirm Password
                             </label>
@@ -549,7 +549,7 @@ const Signup = () => {
                                 </span>
                             </label>
                             <label
-                                className="mt-px text-[0.6rem] font-medium text-slate-300 cursor-pointer select-none"
+                                className="mt-px text-[0.6rem] font-medium text-[#4e4c4c] cursor-pointer select-none"
                                 htmlFor="check"
                             >
                                 By creating an account, I hereby confirm that I
@@ -560,10 +560,11 @@ const Signup = () => {
                         <motion.div variants={itemVariants2}>
                             <button
                                 type="submit"
-                                className="flex my-6 w-full justify-center rounded-md bg-[#f7b5cd] px-3 py-[0.6rem] font-semibold leading-6 text-white capitalize shadow-sm "
+                                className="flex my-6 w-full justify-center rounded-md bg-ButtonGreen px-3 py-[0.6rem] font-semibold leading-6 text-white capitalize shadow-sm "
                             >
                                 create new account
                             </button>
+                            <p onClick={() => router.push('/access/login')} className="text-center text-sm " >If You Have An Account ? <span className="font-bold cursor-pointer text-[green] " >Login</span>  </p>
                         </motion.div>
                     </motion.div>
                 </motion.form>

@@ -21,6 +21,10 @@ module.exports = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      colors: {
+        ButtonGreen: '#008000d7', // Custom button color
+        BorderColor: '#abee75'
+      },
     },
   },
   plugins: [require("flowbite/plugin")],

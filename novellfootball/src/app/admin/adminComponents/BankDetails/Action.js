@@ -8,15 +8,18 @@ import { revalidatePath } from "next/cache";
 export async function editBank(prevState, formData) {
   try {
     await connect();
+
     let BankName = formData?.get("BankName") || "";
     let AccNumber = formData?.get("AccNumber") || "";
     let AccHolderName = formData?.get("AccHolderName") || "";
     let Ifsc = formData?.get("Ifsc") || "";
-    if (!BankName || !AccNumber || !AccHolderName || !Ifsc)
-      throw new Error("every field is required");
+
+    if (!BankName || !AccNumber || !AccHolderName || !Ifsc) {
+      throw new Error("Every field is required");
+    }
 
     let isUpdated = await ADMIN.findOneAndUpdate(
-      { _id: "6602ad529ec6624c93d770ce" },
+      { _id: "6602ad529ec6624c93d770ce" }, // Use the appropriate _id or filter
       {
         $set: {
           "BankDetails.BankName": BankName,
@@ -24,12 +27,19 @@ export async function editBank(prevState, formData) {
           "BankDetails.AccHolderName": AccHolderName,
           "BankDetails.Ifsc": Ifsc,
         },
+      },
+      {
+        upsert: true, // Creates a new document if no matching document is found
+        new: true,    // Returns the updated document
       }
     );
-    if (!isUpdated) throw new Error("something went wrong with the data");
+
+    if (!isUpdated) throw new Error("Something went wrong with the data");
+
     revalidatePath("/admin/betsettlement");
+
     return {
-      message: "updated details",
+      message: "Bank details updated successfully",
     };
   } catch (error) {
     if (

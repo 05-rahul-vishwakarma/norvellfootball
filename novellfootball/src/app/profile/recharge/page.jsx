@@ -46,7 +46,7 @@ function Page() {
     if (disabled == false) {
       if (!inputValue) {
         getAlert("opps", "please enter the deposit amount");
-      } else if (inputValue < 200  ){
+      } else if (inputValue < 200) {
         getAlert("opps", "Minimum deposit amount 200");
       } else {
         if (selectedOption === "option1") {
@@ -89,16 +89,17 @@ function Page() {
             <BackButton pageName="Recharge" />
           </div>
 
-          <div className=" w-[90%] h-[30%] mr-auto ml-auto mt-4  ">
-            <Image
-              src={"/recharge.jpg"}
-              alt="recharge"
-              width={100}
-              height={100}
-              unoptimized
-              className="w-full h-full "
-            />
+          <div className="w-[90%] h-[30%] mr-auto ml-auto mt-4">
+            <video
+              src="/deposit.webm"  // Replace with your video file path
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-cover"
+            ></video>
           </div>
+
           <div className="w-[90%]   mr-auto ml-auto my-3  ">
             <p className="text-[.7rem] ">
               Please Select Or Enter The Desired Amount{" "}
@@ -112,10 +113,10 @@ function Page() {
                 }
                 style={{
                   boxShadow: "0 2px 4px rgb(0,0,0,0.05)",
-                  backgroundColor: selectedDiv === 1 ? "#f7b5cd" : "white",
+                  backgroundColor: selectedDiv === 1 ? "#008000d7" : "white",
                   color: selectedDiv === 1 ? "white" : "black",
                 }}
-                className="h-[2.2rem] w-[23%] bg-[#f7b5cd] text-white text-center  grid place-items-center rounded-2xl "
+                className="h-[2.2rem] w-[23%] bg-ButtonGreen text-white text-center  grid place-items-center rounded-2xl "
                 id="div1"
               >
                 200
@@ -128,7 +129,7 @@ function Page() {
                 }
                 style={{
                   boxShadow: "0 2px 4px rgb(0,0,0,0.05)",
-                  backgroundColor: selectedDiv === 2 ? "#f7b5cd" : "white",
+                  backgroundColor: selectedDiv === 2 ? "#008000d7" : "white",
                   color: selectedDiv === 2 ? "white" : "black",
                 }}
                 className="h-[2.2rem] w-[23%] bg-[#ffffff] text-[#000000]  text-center grid place-items-center rounded-2xl "
@@ -144,7 +145,7 @@ function Page() {
                 }
                 style={{
                   boxShadow: "0 2px 4px rgb(0,0,0,0.05)",
-                  backgroundColor: selectedDiv === 3 ? "#f7b5cd" : "white",
+                  backgroundColor: selectedDiv === 3 ? "#008000d7" : "white",
                   color: selectedDiv === 3 ? "white" : "black",
                 }}
                 id="div3"
@@ -160,7 +161,7 @@ function Page() {
                 }
                 style={{
                   boxShadow: "0 2px 4px rgb(0,0,0,0.05)",
-                  backgroundColor: selectedDiv === 4 ? "#f7b5cd" : "white",
+                  backgroundColor: selectedDiv === 4 ? "#008000d7" : "white",
                   color: selectedDiv === 4 ? "white" : "black",
                 }}
                 className="h-[2.2rem] w-[23%] bg-[#ffffff] text-[#000000]   text-center grid place-items-center rounded-2xl "
@@ -174,7 +175,7 @@ function Page() {
               <h3 className="text-[.75rem] ">Enter Amount</h3>
               <div
                 style={{ boxShadow: "0 2px 5px rgb(0,0,0,.06) " }}
-                className="flex border-2 border-[#ff91b9] w-[98%] pl-2 mr-auto ml-auto place-items-center my-1 rounded-lg "
+                className="flex border-2 border-[#2d7e0d85] w-[98%] pl-2 mr-auto ml-auto place-items-center my-1 rounded-lg "
               >
                 <TbCoinRupeeFilled className="text-[1.5rem] text-[#333333] " />{" "}
                 <input
@@ -249,10 +250,10 @@ function Page() {
                 onClick={handleRedirect}
                 disabled={disabled}
                 style={{
-                  backgroundColor: disabled ? "#5A5A5A" : "#f7b5cd",
+                  // backgroundColor: disabled ? "#5A5A5A" : "#f7b5cd",
                   boxShadow: "0 0 5px 0 #c0cad9",
                 }}
-                className="bg-[#f7b5cd] text-center p-3 mt-[2rem] rounded-lg flex justify-center place-items-center text-[#fff] "
+                className="bg-ButtonGreen text-center p-3 mt-[2rem] rounded-lg flex justify-center place-items-center text-[#fff] "
               >
                 Recharge
               </div>

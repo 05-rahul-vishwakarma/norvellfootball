@@ -126,7 +126,7 @@ const AddBank = ({ closePopup, localEditable, usdtEditable , isUpdatingBank }) =
         className=" h-[80%] pt-6 pb-40  bg-slate-50 overflow-y-auto rounded-t-[2rem] w-[98%]"
       >
         <div className="flex  relative px-2  justify-center">
-          <h4 className="uppercase w-[20%] h-1 border-2 border-solid border-blue-500 rounded-full"></h4>
+          <h4 className="uppercase w-[20%] h-1 border-2 border-solid border-ButtonGreen rounded-full"></h4>
           <p
             className="absolute left-2 flex items-center capitalize text-sm font-bold -top-2 p-2"
             onClick={() => closePopup(false)}
@@ -176,7 +176,7 @@ const AddBank = ({ closePopup, localEditable, usdtEditable , isUpdatingBank }) =
                 }}
                 checked={isLocalBank}
                 value={"local"}
-                className="size-5"
+                className="size-5 text-ButtonGreen "
               />
             </div>
           </div>
@@ -236,7 +236,7 @@ const AddBank = ({ closePopup, localEditable, usdtEditable , isUpdatingBank }) =
         <div className="px-5 mt-8">
           <button
             onClick={sendNewBankData}
-            className=" rounded-md text-white font-bold tracking-wider capitalize w-full py-3 bg-pink-300"
+            className=" rounded-md text-white font-bold tracking-wider capitalize w-full py-3 bg-ButtonGreen "
           >
             save my bank details
           </button>

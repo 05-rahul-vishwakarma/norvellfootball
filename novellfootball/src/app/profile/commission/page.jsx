@@ -196,17 +196,17 @@ const Page = () => {
         <Layout>
             <section className=" bg-[#F8FCFF] w-full relative h-[100dvh]">
                 <Back page={"commission center"} />
-                <main className=" space-y-1  h-fit px-4 ">
+                <main className="p-4  ">
                     {/* hero section */}
                     <div
                         style={{
                             background: "url(/profileBg.jpg) center no-repeat",
                             backgroundSize: "cover",
                         }}
-                        className=" h-[65%] py-4 pb-7 ring-[0.2px] ring-gray-600 w-full relative 
+                        className=" py-4 pb-7 ring-[0.2px] ring-gray-600 w-full relative 
        rounded-[25px] "
                     >
-                        <div className="flex flex-col w-full mt-2 justify-center items-center py-3">
+                        <div className="flex flex-col w-full justify-center items-center py-3">
                             <span
                                 className="
                relative text-gray-500 font-bold rounded-full capitalize text-sm text-center "
@@ -233,14 +233,14 @@ const Page = () => {
                             // onClick={() => updateShairing((prev) => !prev)}
                             className="absolute flex justify-center items-center text-3xl text-white -bottom-6 rounded-full left-[50%] translate-x-[-50%] size-12 bg-[#333333]"
                         >
-                            <MdOutlineShare />
+                            <MdOutlineShare className="text-[#008000cb] " />
                         </div>
                         <div className="absolute flex items-center space-x-2 top-4 left-4 ">
                             <div
                                 onClick={() => updateInfoModel((prev) => !prev)}
                                 className="rounded-full flex justify-center items-center size-8 bg-red-500/80 text-white"
                             >
-                                <FaInfo />
+                                <FaInfo className="text-[#008000cb] "  />
                             </div>
                             {infoModel && (
                                 <motion.p
@@ -274,7 +274,7 @@ const Page = () => {
                             </p>
                             <div className="flex items-center py-2 justify-center ring-[#f7b5cd]  rounded-md ring-[1.7px]">
                                 <span className="w-[10%] flex justify-center items-center text-blue-500">
-                                    <FaLink />
+                                    <FaLink className="text-[#008000cb] "  />
                                 </span>
                                 <p className=" w-[80%] text-gray-600 truncate text-[0.6rem] px-1 rounded-md">
                                     {invitationLink}
@@ -293,7 +293,7 @@ const Page = () => {
                                     }}
                                     className="w-[10%] flex justify-center items-center text-blue-500"
                                 >
-                                    <MdOutlineContentCopy />
+                                    <MdOutlineContentCopy className="text-[#008000cb] "  />
                                 </span>
                             </div>
                             <p className="capitalize text-[0.65rem] font-bold mt-3">
@@ -301,11 +301,11 @@ const Page = () => {
                             </p>
                             <div className="flex items-center py-2 justify-center ring-[#f7b5cd]  rounded-md ring-[1.7px]">
                                 <span className="w-[10%] flex justify-center items-center text-blue-500">
-                                    <FaLink />
+                                    <FaLink className="text-[#008000cb] "  />
                                 </span>
                                 <p className=" w-[80%] capitalize text-gray-600 truncate text-[0.6rem] px-1 rounded-md">
                                     <span>invite code - </span>
-                                    <span className="text-blue-500">
+                                    <span className="text-[#008000cb] " >
                                         {userOtherData?.InvitationCode}
                                     </span>
                                 </p>
@@ -321,9 +321,9 @@ const Page = () => {
                                                 : "unable to copy the text please try to copy it manually"
                                         );
                                     }}
-                                    className="w-[10%] flex justify-center items-center text-blue-500"
+                                    className="w-[10%] flex justify-center items-centertext-[#008000cb] " 
                                 >
-                                    <MdOutlineContentCopy />
+                                    <MdOutlineContentCopy className="text-[#008000cb] "  />
                                 </span>
                             </div>
                         </div>
@@ -334,7 +334,7 @@ const Page = () => {
                         isShairing ? " h-[30%] mt-3 " : " h-[60%] mt-10 "
                     } pt-2  shadow-gray-900 rounded-t-[1.5rem]`}
                 >
-                    <div className="h-full overflow-y-scroll pb-40 px-4">
+                    <div className="overflow-y-scroll px-4">
                         {/* claim button */}
                         <div
                             onClick={() => getPopup("deposit")}
